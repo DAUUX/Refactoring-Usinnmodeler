@@ -1,0 +1,181 @@
+.conteiner {
+    height: 574px;
+    width: 951px;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .navBar {
+    height: 52px;
+    width: 951px;
+    background: #1082ec;
+  }
+  #logoUsinn {
+    position: absolute;
+    left: 839px;
+    top: 16px;
+    border-radius: 0px;
+  }
+  #returnIcon {
+    position: absolute;
+    width: 20px;
+    left: 20px;
+    top: 16px;
+  }
+  #usinnModeler {
+    position: absolute;
+    height: 176px;
+    width: 237px;
+    left: 357px;
+    top: 98px;
+  }
+  .login {
+    position: absolute;
+    height: 25px;
+    width: 115px;
+    left: calc(50% - 115px/2);
+    top: 295px;
+    border-radius: undefinedpx;    
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 29px;
+    letter-spacing: 0.375em;
+    text-align: left;
+    color: #1082ec;
+  }
+  .inputName {
+    position: absolute;
+    height: 20px;
+    width: 396px;
+    left: 278px;
+    top: 336px;
+    border-radius: 50px;
+    box-sizing: border-box;
+    border: 1px solid #1082ec;
+  }
+  .inputName::placeholder {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    font-size: 12px;
+    line-height: 14px;
+    font-style: normal;
+    color: #1082ec;
+    position: absolute;
+    left: 15px;
+  }
+  .inputEmail {
+    position: absolute;
+    height: 20px;
+    width: 396px;
+    left: 278px;
+    top: 374px;
+    border-radius: 50px;
+    box-sizing: border-box;
+    border: 1px solid #1082ec;
+  }
+  .inputEmail::placeholder {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    font-size: 12px;
+    line-height: 14px;
+    font-style: normal;
+    color: #1082ec;
+    position: absolute;
+    left: 15px;
+  }
+  .inputPassword {
+    position: absolute;
+    height: 20px;
+    width: 396px;
+    left: 278px;
+    top: 413px;
+    border-radius: 50px;
+    box-sizing: border-box;
+    border: 1px solid #1082ec;
+  }
+  .inputPassword::placeholder {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    font-size: 12px;
+    line-height: 14px;
+    font-style: normal;
+    color: #1082ec;
+    position: absolute;
+    left: 15px;
+  }
+  .inputCompany {
+    position: absolute;
+    height: 20px;
+    width: 183px;
+    left: 278px;
+    top: 451px;
+    border-radius: 50px;
+    box-sizing: border-box;
+    border: 1px solid #1082ec;
+  }
+  .inputCompany::placeholder {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    font-size: 12px;
+    line-height: 14px;
+    font-style: normal;
+    color: #1082ec;
+    position: absolute;
+    left: 15px;
+  }
+  .inputOffice {
+    position: absolute;
+    height: 20px;
+    width: 183px;
+    left: 491px;
+    top: 451px;
+    border-radius: 50px;
+    box-sizing: border-box;
+    border: 1px solid #1082ec;
+  }
+  .inputOffice::placeholder {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    font-size: 12px;
+    line-height: 14px;
+    font-style: normal;
+    color: #1082ec;
+    position: absolute;
+    left: 15px;
+  }
+  .buttonCancel {
+    position: absolute;
+    height: 23px;
+    width: 92px;
+    left: 384px;
+    top: 494px;
+    border-radius: 50px;  
+    border: 1px solid #adadad;
+    background: #adadad;
+    color: #FFFFFF;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    font-size: 12px;
+    line-height: 14px;
+    font-style: normal; 
+  }
+  .buttonConfirm {
+    position: absolute;
+    height: 23px;
+    width: 92px;
+    left: 487px;
+    top: 494px;
+    border-radius: 50px;
+    border: 1px solid #1082ec;
+    background: #1082ec;
+    color: #FFFFFF;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    font-size: 12px;
+    line-height: 14px;
+    font-style: normal;
+  }
+  
