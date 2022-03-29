@@ -1,39 +1,29 @@
-.conteiner {
-  height: 574px;
-  width: 951px;
-  position: relative;
-  margin-left: auto;
-  margin-right: auto;
+.conteinerRegister {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  align-items: center;
 }
-.navBar {
+.navBarRegister {
+  left: -7px;
+  top: -10px;
   height: 52px;
   width: 100%;
+  position: absolute;
   background: #1082ec;
 }
-#logoUsinn {
-  position: absolute;
-  left: 839px;
-  top: 16px;
-  border-radius: 0px;
-}
-#returnIcon {
-  position: absolute;
-  width: 20px;
-  left: 20px;
-  top: 16px;
-}
-#usinnModeler {
+#usinnModelerRegister {
   position: absolute;
   height: 176px;
   width: 237px;
-  left: 357px;
+  left: 560px;
   top: 98px;
 }
 .register {
   position: absolute;
   height: 15px;
   width: 197px;
-  left: 383px;
+  left: calc(50% - 197px / 2 + 6px);
   top: 282px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -49,7 +39,7 @@
   position: absolute;
   height: 20px;
   width: 396px;
-  left: 278px;
+  left: calc(50% - 396px / 2 + 0.5px);
   top: 336px;
   border-radius: 50px;
   box-sizing: border-box;
@@ -66,18 +56,18 @@
   position: absolute;
   left: 15px;
 }
-.inputEmail {
+.inputEmailRegister {
   position: absolute;
   height: 20px;
   width: 396px;
-  left: 278px;
+  left: calc(50% - 396px/2 + 0.5px);
   top: 374px;
   border-radius: 50px;
   box-sizing: border-box;
   border: 1px solid #1082ec;
   outline-color: red;
 }
-.inputEmail::placeholder {
+.inputEmailRegister::placeholder {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-size: 12px;
@@ -87,18 +77,18 @@
   position: absolute;
   left: 15px;
 }
-.inputPassword {
+.inputPasswordRegister {
   position: absolute;
   height: 20px;
   width: 183px;
-  left: 278px;
+  left: calc(50% - 183px/2 - 106px);  
   top: 413px;
   border-radius: 50px;
   box-sizing: border-box;
   border: 1px solid #1082ec;
   outline-color: red;
 }
-.inputPassword::placeholder {
+.inputPasswordRegister::placeholder {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-size: 12px;
@@ -112,7 +102,7 @@
   position: absolute;
   height: 20px;
   width: 183px;
-  left: 278px;
+  left: calc(50% - 183px/2 - 106px);
   top: 451px;
   border-radius: 50px;
   box-sizing: border-box;
@@ -133,7 +123,7 @@
   position: absolute;
   height: 20px;
   width: 183px;
-  left: 491px;
+  left: calc(50% - 183px/2 + 107px);
   top: 451px;
   border-radius: 50px;
   box-sizing: border-box;
@@ -150,32 +140,32 @@
   position: absolute;
   left: 15px;
 }
-.buttonCancel {
+.buttonCancelRegister {
   position: absolute;
   height: 23px;
   width: 92px;
-  left: 384px;
+  left: calc(50% - 92px/2 - 45.5px);
   top: 494px;
-  border-radius: 50px;  
+  border-radius: 50px;
   border: 1px solid #adadad;
   background: #adadad;
-  color: #FFFFFF;
+  color: #ffffff;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-size: 12px;
   line-height: 14px;
-  font-style: normal; 
+  font-style: normal;
 }
-.buttonConfirm {
+.buttonConfirmRegister {
   position: absolute;
   height: 23px;
   width: 92px;
-  left: 487px;
+  left: calc(50% - 92px/2 + 57.5px);
   top: 494px;
   border-radius: 50px;
   border: 1px solid #1082ec;
   background: #1082ec;
-  color: #FFFFFF;
+  color: #ffffff;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-size: 12px;
