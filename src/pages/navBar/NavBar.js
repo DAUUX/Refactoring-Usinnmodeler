@@ -1,4 +1,4 @@
-import "../navBar/NavBar.css";
+import "./NavBar.css";
 import logoUsinn from "../icons/logoUsinn.png";
 import returnIcon  from "../icons/returnIcon.svg";
 import { useHistory } from "react-router-dom";

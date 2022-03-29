@@ -1,5 +1,10 @@
 import "../home/Home.css";
+import { useHistory } from "react-router-dom";
 function Home() {
+const history = useHistory();
+const onNextButtonClick = () => {
+  history.replace("/modeler");
+};
   return (
     <div className="conteinerPrincipal">
       <head>
@@ -64,12 +69,12 @@ function Home() {
               diagramas USINN de forma rápida e simples.
             </p>
             <p class="lead">
-              <a
-                href="http://127.0.0.1:5500/modeler.html"
+              <button
                 class="btn btn-lg btn-secondary"
+                onClick={onNextButtonClick}
               >
                 Acesse a versão BETA
-              </a>
+              </button>
             </p>
           </main>
 
