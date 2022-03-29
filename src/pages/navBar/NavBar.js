@@ -1,8 +1,13 @@
 import "../navBar/NavBar.css";
 import logoUsinn from "../icons/logoUsinn.png";
 import returnIcon  from "../icons/returnIcon.svg";
+import { useHistory } from "react-router-dom";
 
 function NavBar() {
+const history = useHistory();
+const onReturnButtonClick = () => {
+  history.replace("/");
+};
   return (
     <div className="navBar">
       <img
@@ -18,6 +23,7 @@ function NavBar() {
         height="20"
         alt="icone de retorno do site USINN"
         id="returnIcon"
+        onClick={onReturnButtonClick}
       />
     </div>
   );
