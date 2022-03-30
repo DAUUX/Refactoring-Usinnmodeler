@@ -13,7 +13,7 @@ const onNextButtonClick = () => {
 };
   return (
     <div className="conteinerRegister">
-      <div className="navBarRegister">
+      <div className="navBar">
         <NavBar />
       </div>
       <div className="main">
@@ -27,8 +27,8 @@ const onNextButtonClick = () => {
         <span className="register">CADASTRO</span>
         <form>
             <input className="inputName" type="text" name="name" placeholder="Nome" />
-            <input className="inputEmailRegister" type="email" name="email" placeholder="Email" />
-            <input className="inputPasswordRegister" type="password" name="senha" placeholder="Senha" />
+            <input className="inputEmail" type="email" name="email" placeholder="Email" />
+            <input className="inputPassword" type="password" name="senha" placeholder="Senha" />
             <input className="inputCompany" type="text" name="Empresa" placeholder="EMPRESA" />
             <input className="inputOffice" type="text" name="Cargo" placeholder="CARGO" />
             <button className="buttonCancelRegister" onClick={onCancelButtonClick}>Cancelar</button>

@@ -1,7 +1,7 @@
 import "../login/Login.css";
 import usinnModeler from "../icons/usinnModeler.svg";
 import { useHistory } from "react-router-dom";
-import  NavBar from "../navBar/NavBar";
+import NavBar from "../navBar/NavBar";
 
 function Login() {
 const history = useHistory();

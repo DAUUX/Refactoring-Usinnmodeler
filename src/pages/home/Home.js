@@ -69,12 +69,12 @@ const onNextButtonClick = () => {
               diagramas USINN de forma rápida e simples.
             </p>
             <p class="lead">
-              <button
+            <a
+                href="http://127.0.0.1:5500/modeler.html"
                 class="btn btn-lg btn-secondary"
-                onClick={onNextButtonClick}
               >
                 Acesse a versão BETA
-              </button>
+              </a>
             </p>
           </main>
 
