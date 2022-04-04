@@ -1,31 +1,42 @@
-import "./NavBar.css";
-import logoUsinn from "../icons/logoUsinn.png";
-import returnIcon  from "../icons/returnIcon.svg";
-import { useHistory } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom"; 
+import "./NavBar.scss";
+import logoUsinn from "../icons/usinn-logo-min.png";
 
 function NavBar() {
-const history = useHistory();
-const onReturnButtonClick = () => {
-  history.replace("/");
-};
+  const history = useHistory();
+
+  const { pathname } = useLocation();
+	//Pega a primeira parte da url, para identificar o módulo atual
+	const path = pathname.split('/')[1];
+
   return (
-    <div className="navBar">
-      <img
-        src={logoUsinn}
-        width="91"
-        height="20"
-        alt="logo do site USINN"
-        id="logoUsinn"
-      />
-      <img
-        src={returnIcon}
-        width="91"
-        height="20"
-        alt="icone de retorno do site USINN"
-        id="returnIcon"
-        onClick={onReturnButtonClick}
-      />
-    </div>
+    <nav id="site-navbar" className="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div className="container">
+        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-toggler" aria-controls="navbar-toggler" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbar-toggler">
+          <a className="navbar-brand" href="#">
+            <img
+              className="my-3 my-lg-0"
+              src={logoUsinn}
+              alt="logo USINN"
+            />
+          </a>
+          <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li className="nav-item me-4">
+              <Link className={ path === 'tutorial' ? 'nav-link fw-bolder active' : 'nav-link fw-bolder' }> TUTORIAL </Link>
+            </li>
+            <li className="nav-item me-4">
+              <Link className={ path === 'cadastro' ? 'nav-link fw-bolder active' : 'nav-link fw-bolder' } to="/cadastro"> CADASTRO </Link>
+            </li>
+            <li className="nav-item">
+              <Link className={ path === 'login' ? 'nav-link fw-bolder active' : 'nav-link fw-bolder' } to="/login"> LOGIN </Link>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
   );
 }
 export default NavBar;

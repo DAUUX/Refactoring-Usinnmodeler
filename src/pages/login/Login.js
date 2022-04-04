@@ -1,15 +1,14 @@
 import "../login/Login.css";
 import usinnModeler from "../icons/usinnModeler.svg";
-import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import NavBar from "../navBar/NavBar";
 import { useState } from "react";
 import { Toast } from "../../components/Toast";
 import api from "../../services/api";
 
 function Login() {
-  const history = useHistory();
   
-  const [loading, setLoading]       = useState(false);
+  const [loading, setLoading]   = useState(false);
   const [email, setEmail]       = useState('');
   const [password, setPassword] = useState('');
 
@@ -42,52 +41,69 @@ function Login() {
     setLoading(false);
 
   }
-
-  const onCancelButtonClick = () => {
-    history.replace("/");
-  };
   
   return (
-    <div className="conteiner">
-      <div className="navBar">
-        <NavBar />
-      </div>
-      <div className="main">
-        <img
-          src={usinnModeler}
-          width="91"
-          height="20"
-          alt="logo do site USINN Modeler"
-          id="usinnModeler"
-        />
-        <span className="login">LOGIN</span>
-        <div className="conteinerDiv">
-          <form onSubmit={handleLogin}>
-            <input
-              disabled={loading}
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              className="inputLoginEmail"
-              type="email"
-              name="email"
-              placeholder="Email"
+    <main>
+      <NavBar />
+
+      <div className="container py-5">
+        <div className="row my-5">
+          <div className="col-12 d-flex justify-content-center">
+            <img
+              src={usinnModeler}
+              alt="logo USINN"
             />
-            <input
-              disabled={loading}
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              className="inputLoginPassword"
-              type="password"
-              name="password"
-              placeholder="Senha"
-            />
-            <button className="buttonLoginConfirm" type="submit">Confirmar</button>
-            <button className="buttonLoginCancel" onClick={onCancelButtonClick}>Cancelar</button>
-          </form>
+          </div>
         </div>
+
+        <div className="row mb-4">
+          <div className="col-12 text-center">
+            <p className="forms-title">LOGIN</p>
+          </div>
+        </div>
+
+        <div className="row justify-content-center">
+          <div className="col-12 col-lg-5">
+
+            <form className="row" onSubmit={handleLogin}>
+              <div className="col-12 mb-3">
+                <input
+                  autoFocus
+                  disabled={loading}
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  className="form-control"
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                />
+              </div>
+
+              <div className="col-12 mb-3">
+                <input
+                  disabled={loading}
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  className="form-control"
+                  type="password"
+                  name="password"
+                  placeholder="Senha"
+                />
+              </div>
+
+              <div className="col-12 text-center">
+                <Link className="btn btn-outline-primary me-3" type="button" to="/cadastro" >Cadastrar</Link>
+                <button className="btn btn-primary" type="submit">Confirmar</button>
+              </div>
+
+            </form>
+            
+          </div>
+        </div>
+
       </div>
-      <h1></h1>
-    </div>
+
+    </main>
   );
 }
 
