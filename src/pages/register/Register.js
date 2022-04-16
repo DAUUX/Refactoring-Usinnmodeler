@@ -1,9 +1,9 @@
 import "./Register.scss";
-import usinnModeler from "../icons/usinnModeler.svg";
+import usinnModeler from "../../assets/icons/usinnModeler.svg";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import { Toast } from '../../components/Toast'
-import NavBar from "../navBar/NavBar";
+import NavBar from "../../components/navBar/NavBar";
 import api from "../../services/api";
 
 function Register() {
@@ -49,9 +49,7 @@ function Register() {
   };
   
   return (
-    <main>
-      <NavBar />
-      
+    <main>      
       <div className="container py-5">
 
         <div className="row my-5">

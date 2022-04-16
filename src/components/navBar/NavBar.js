@@ -1,6 +1,6 @@
 import { Link, useLocation, useHistory } from "react-router-dom"; 
 import "./NavBar.scss";
-import logoUsinn from "../icons/usinn-logo-min.png";
+import logoUsinn from "../../assets/icons/usinn-logo-min.png";
 
 function NavBar() {
   const history = useHistory();

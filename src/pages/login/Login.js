@@ -1,7 +1,7 @@
 import "../login/Login.css";
-import usinnModeler from "../icons/usinnModeler.svg";
+import usinnModeler from "../../assets/icons/usinnModeler.svg";
 import { Link } from "react-router-dom";
-import NavBar from "../navBar/NavBar";
+import NavBar from "../../components/navBar/NavBar";
 import { useState } from "react";
 import { Toast } from "../../components/Toast";
 import api from "../../services/api";
@@ -44,8 +44,6 @@ function Login() {
   
   return (
     <main>
-      <NavBar />
-
       <div className="container py-5">
         <div className="row my-5">
           <div className="col-12 d-flex justify-content-center">
