@@ -1,0 +1,22 @@
+@import "variables";
+@import "~bootstrap/scss/bootstrap";
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+* {
+	margin: 0;
+	padding: 0;
+	outline: 0;
+	box-sizing: border-box;
+}
+
+body {
+	-webkit-font-smoothing: antialiased;
+}
+
+.forms-title {
+    font-size: 16px;
+	color: $primary;
+    line-height: 16px;
+    letter-spacing: 0.375em;
+}

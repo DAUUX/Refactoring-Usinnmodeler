@@ -1,0 +1,26 @@
+$min-contrast-ratio:   3;
+$enable-negative-margins: true;
+
+$primary: #1084EE;
+
+$font-family-base: 'Roboto';
+$font-size-base: .875rem;
+$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-bold: 500;
+$font-weight-bolder: 700;
+
+$input-padding-y: .25rem;
+$input-padding-x: .75rem;
+$input-border-radius: 50px;
+$input-color: $primary;
+$input-border-color: rgba($primary, .5);
+$input-focus-border-color: $primary;
+$input-focus-box-shadow: 0;
+$input-placeholder-color: rgba($primary, .5);
+
+$btn-padding-y:    .5rem;
+$btn-padding-x:    1.5rem;
+$btn-focus-box-shadow: 0;
+
+$btn-border-radius:    50px;

@@ -3,9 +3,11 @@ import { Route, Switch, BrowserRouter } from "react-router-dom";
 import Home from "./pages/home/Home";
 import Register from "./pages/register/Register";
 import Login from "./pages/login/Login";
+import NavBar from "./components/navBar/NavBar";
 const Routers = () => {
   return (
     <BrowserRouter>
+      <NavBar />
       <Switch>
         <Route path="/" exact component={Home} />
         <Route path="/cadastro" exact component={Register} />
