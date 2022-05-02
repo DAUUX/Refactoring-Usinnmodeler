@@ -2,15 +2,22 @@ import "../login/Login.css";
 import usinnModeler from "../../assets/icons/usinnModeler.svg";
 import { Link } from "react-router-dom";
 import NavBar from "../../components/navBar/NavBar";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Toast } from "../../components/Toast";
 import api from "../../services/api";
+import Spinner from "../../components/Spinner";
+import SimpleReactValidator from "simple-react-validator";
+import 'simple-react-validator/dist/locale/pt';
+
 
 function Login() {
   
   const [loading, setLoading]   = useState(false);
   const [email, setEmail]       = useState('');
   const [password, setPassword] = useState('');
+  const [, wasValidated]        = useState();
+
+  const validator = useRef(new SimpleReactValidator({locale: 'pt'}));
 
   async function handleLogin(e) {
 
@@ -19,23 +26,30 @@ function Login() {
     setLoading(true);
 
     const data = {email, password};
+    
+    if (validator.current.allValid()) {
 
-    try {
+      try {
 
-      const response = await api.post('signin', data);
+        const response = await api.post('signin', data);
+  
+        const {token, name, email} = response.data;
+  
+        api.defaults.headers.common['x-access-token'] = token;
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify({name, email}));
+  
+        Toast('success', 'Login realizado com sucesso!');
+  
+      } catch (error) {
+  
+        Toast('error', error);
+        
+      }
 
-      const {token, name, email} = response.data;
-
-      api.defaults.headers.common['x-access-token'] = token;
-      localStorage.setItem('token', token);
-			localStorage.setItem('user', JSON.stringify({name, email}));
-
-      Toast('success', 'Login realizado com sucesso!');
-
-    } catch (error) {
-
-      Toast('error', error);
-      
+    } else {
+      validator.current.showMessages(true);
+      wasValidated(1);
     }
 
     setLoading(false);
@@ -75,6 +89,7 @@ function Login() {
                   name="email"
                   placeholder="Email"
                 />
+                {validator.current.message("email", email, "required|min:3|max:100|email", { className: 'invalid-feedback d-block ms-2' })}
               </div>
 
               <div className="col-12 mb-3">
@@ -87,11 +102,14 @@ function Login() {
                   name="password"
                   placeholder="Senha"
                 />
+                {validator.current.message("senha", password, "required|min:8", { className: 'invalid-feedback d-block ms-2' })}
               </div>
 
               <div className="col-12 text-center">
                 <Link className="btn btn-outline-primary me-3" type="button" to="/cadastro" >Cadastrar</Link>
-                <button className="btn btn-primary" type="submit">Confirmar</button>
+                <button className="btn btn-primary" type="submit">
+                  <Spinner className="spinner-border spinner-border-sm me-2" isLoading={loading}  /> Confirmar
+                </button>
               </div>
 
             </form>

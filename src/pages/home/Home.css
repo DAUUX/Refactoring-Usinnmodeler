@@ -8,11 +8,11 @@
  }
 
 /* Links */
-a,
+/* a,
 a:focus,
 a:hover {
   color: #FFFFFF;
-}
+} */
 p{
     margin-top: 0;
     margin-bottom: 1rem;
