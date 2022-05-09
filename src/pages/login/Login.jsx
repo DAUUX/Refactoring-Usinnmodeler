@@ -1,7 +1,5 @@
-import "../login/Login.css";
 import usinnModeler from "../../assets/icons/usinnModeler.svg";
 import { Link } from "react-router-dom";
-import NavBar from "../../components/navBar/NavBar";
 import { useRef, useState } from "react";
 import { Toast } from "../../components/Toast";
 import api from "../../services/api";

@@ -24,7 +24,7 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <title> USINN Modeler </title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -39,5 +39,49 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script type="text/javascript">
+    	var mxBasePath = '%PUBLIC_URL%/vendor/mxgraph';
+    	var urlParams = (function(url) {
+    		var result = new Object();
+    		var params = window.location.search.slice(1).split('&');
+    		for (var i = 0; i < params.length; i++) {
+    			idx = params[i].indexOf('=');
+    			if (idx > 0) {
+    				result[params[i].substring(0, idx)] = params[i].substring(idx + 1);
+    			}
+    		}
+    		
+    		return result;
+    	})(window.location.href);
+    	
+    	var mxLanguage = urlParams['lang'];
+    </script>
+
+    <script type="text/javascript">
+    	function onInit(modeler) {
+    		init(modeler);
+    		insertValidations(modeler.graph);
+
+    		var shape = mxUtils.load('config/usinnStencils.xml').getDocumentElement().firstChild;
+    		
+    		while (shape != null) {
+    			if (shape.nodeType == mxConstants.NODETYPE_ELEMENT) {
+    				mxStencilRegistry.addStencil(shape.getAttribute('name'), new mxStencil(shape));
+    			}
+    			shape = shape.nextSibling;
+    		}
+    		var outln = new mxOutline(modeler.graph, document.getElementById('outlineContainer'));
+    	}
+
+    	window.onbeforeunload = function() { 
+    		return mxResources.get('changesLost'); 
+    	};
+
+    </script>
+
+    <script type="text/javascript" src="%PUBLIC_URL%/vendor/mxgraph/js/mxClient.js"></script>
+    <script type="text/javascript" src="%PUBLIC_URL%/js/app.js"></script>
+    <script type="text/javascript" src="%PUBLIC_URL%/js/usinnValidations.js"></script>
+    <script type="text/javascript" src="%PUBLIC_URL%/js/initModeler.js"></script>
   </body>
 </html>
