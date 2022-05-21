@@ -10,6 +10,10 @@ api.interceptors.response.use(function (response) {
     return response;
 }, function (error) {
 
+    if (error.response.status == 401) {
+        window.location.replace('/login');
+    }
+
     const errorsMsg = error.response.data.errors.reduce((acc, cur, index) => {
 
         let msg = acc + (index > 0 ? '<br>' : '') + cur.msg; 
