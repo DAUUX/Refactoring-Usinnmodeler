@@ -1,4 +1,3 @@
-import "./Register.scss";
 import usinnModeler from "../../assets/icons/usinnModeler.svg";
 import { useHistory } from "react-router-dom";
 import { useRef, useState } from "react";

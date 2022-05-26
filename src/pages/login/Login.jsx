@@ -1,7 +1,5 @@
-import "../login/Login.css";
 import usinnModeler from "../../assets/icons/usinnModeler.svg";
-import { Link } from "react-router-dom";
-import NavBar from "../../components/navBar/NavBar";
+import { Link, useHistory } from "react-router-dom";
 import { useRef, useState } from "react";
 import { Toast } from "../../components/Toast";
 import api from "../../services/api";
@@ -11,7 +9,7 @@ import 'simple-react-validator/dist/locale/pt';
 
 
 function Login() {
-  
+  const history = useHistory();
   const [loading, setLoading]   = useState(false);
   const [email, setEmail]       = useState('');
   const [password, setPassword] = useState('');
@@ -40,6 +38,8 @@ function Login() {
         localStorage.setItem('user', JSON.stringify({name, email}));
   
         Toast('success', 'Login realizado com sucesso!');
+
+        history.push('/modeler');
   
       } catch (error) {
   
