@@ -11,7 +11,7 @@ const Routers = () => {
     <BrowserRouter>
       <NavBar />
       <Switch>
-        <PrivateRoute path="/modeler" exact component={Modeler} />
+        <PrivateRoute path="/modeler/:id?/:slug?" component={Modeler} />
         <Route path="/" exact component={Home} />
         <Route path="/cadastro" exact component={Register} />
         <Route path="/login" exact component={Login} />

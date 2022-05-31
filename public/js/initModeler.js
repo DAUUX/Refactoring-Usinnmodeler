@@ -17,7 +17,7 @@ function init(editor){
 		
 		// Defines an icon for creating new connections in the connection handler.
 		// This will automatically disable the highlighting of the source vertex.
-		mxConnectionHandler.prototype.connectImage = new mxImage('images/connector.gif', 16, 16);
+		mxConnectionHandler.prototype.connectImage = new mxImage(window.location.origin+'/images/connector.gif', 16, 16);
 		
 		// Enables connections in the graph and disables
 		// reset of zoom and translate on root change
@@ -68,61 +68,92 @@ function init(editor){
 
 		// Defines a new action to switch between
 		// XML and graphical display
-		var textNode = document.getElementById('xml');
-		var graphNode = editor.graph.container;
-		var sourceInput = document.getElementById('source');
-		sourceInput.checked = false;
+		// var textNode = document.getElementById('xml');
+		// var graphNode = editor.graph.container;
+		// var sourceInput = document.getElementById('source');
+		// sourceInput.checked = false;
 
-		var funct = function(editor)
-		{
-			if (sourceInput.checked)
-			{
-				graphNode.style.display = 'none';
-				textNode.style.display = 'inline';
-				
-				var enc = new mxCodec();
-				var node = enc.encode(editor.graph.getModel());
-				
-				textNode.value = mxUtils.getPrettyXml(node);
-				textNode.originalValue = textNode.value;
-				textNode.focus();
-			}
-			else
-			{
-				graphNode.style.display = '';
-				
-				if (textNode.value != textNode.originalValue)
-				{
-					var doc = mxUtils.parseXml(textNode.value);
-					var dec = new mxCodec(doc);
-					dec.decode(doc.documentElement, editor.graph.getModel());
-				}
+		/**
+		 * Salva diagrama, pegando XML e emitindo um novo evento
+		 */
+		let saveFunction = function(editor) {
+			var enc = new mxCodec();
+			var node = enc.encode(editor.graph.getModel());
+			diagram = mxUtils.getPrettyXml(node);
 
-				textNode.originalValue = null;
-				
-				// Makes sure nothing is selected in IE
-				if (mxClient.IS_IE)
-				{
-					mxUtils.clearSelection();
-				}
-
-				textNode.style.display = 'none';
-
-				// Moves the focus back to the graph
-				editor.graph.container.focus();
-			}
+			const event = new CustomEvent('saveDiagram', { detail: diagram });
+			window.dispatchEvent(event);
 		};
+
+		/**
+		 * Adiciona ação de salvar ao editor, 
+		 * que será executada quando o botão correspondente for clicado
+		 */
+		editor.addAction('save', saveFunction);
+
+		/**
+		 * Escuta o evento de abrir o diagrama e decoda o XML dele
+		 */
+		window.addEventListener('openDiagram', (event) => {
+
+			var diagram = mxUtils.parseXml(event.detail);
+			var dec = new mxCodec(diagram);
+			dec.decode(diagram.documentElement, editor.graph.getModel());
+
+        });
+
+		// var funct = function(editor)
+		// {
+		// 	if (sourceInput.checked)
+		// 	{
+		// 		graphNode.style.display = 'none';
+		// 		textNode.style.display = 'inline';
+				
+		// 		var enc = new mxCodec();
+		// 		var node = enc.encode(editor.graph.getModel());
+				
+		// 		textNode.value = mxUtils.getPrettyXml(node);
+		// 		textNode.originalValue = textNode.value;
+		// 		textNode.focus();
+		// 	}
+		// 	else
+		// 	{
+		// 		graphNode.style.display = '';
+				
+		// 		if (textNode.value != textNode.originalValue)
+		// 		{
+		// 			var doc = mxUtils.parseXml(textNode.value);
+		// 			var dec = new mxCodec(doc);
+		// 			dec.decode(doc.documentElement, editor.graph.getModel());
+		// 		}
+
+		// 		textNode.originalValue = null;
+				
+		// 		// Makes sure nothing is selected in IE
+		// 		if (mxClient.IS_IE)
+		// 		{
+		// 			mxUtils.clearSelection();
+		// 		}
+
+		// 		textNode.style.display = 'none';
+
+		// 		// Moves the focus back to the graph
+		// 		editor.graph.container.focus();
+		// 	}
+		// };
 		
-		editor.addAction('switchView', funct);
+		// editor.addAction('switchView', funct);
+
 		
 		// Defines a new action to switch between
 		// XML and graphical display
-		mxEvent.addListener(sourceInput, 'click', function()
-		{
-			editor.execute('switchView');
-		});
+		// mxEvent.addListener(sourceInput, 'click', function()
+		// {
+		// 	editor.execute('switchView');
+		// });
 
 		// Create select actions in page
+		
 		var node = document.getElementById('mainActions');
 		var buttons = ['new', 'save','group', 'ungroup', 'cut', 'copy', 'paste', 'delete', 'undo', 'redo', 'print', 'show', 'zoomIn', 'zoomOut', 'fit'];
 		
@@ -245,12 +276,12 @@ function init(editor){
 				button.classList.add('btn-light');
 				button.classList.add('btn-sm');
 				button.classList.add('shadow-sm');
-				if(i == 0 || i == 1){
+				if(i == 0){
 					button.classList.add('disabled');
 				}
 
 				var icon = document.createElement("img");
-				icon.src="images/"+ icons[j][k] +".gif";
+				icon.src=window.location.origin+"/images/"+ icons[j][k] +".gif";
 
 				button.appendChild(icon);
 				mxUtils.write(button, "");
@@ -277,26 +308,26 @@ function init(editor){
 
 
 		// Create select actions in page
-		var node = document.getElementById('selectActions');
-		mxUtils.write(node, 'Select: ');
-		mxUtils.linkAction(node, 'All', editor, 'selectAll');
-		mxUtils.write(node, ', ');
-		mxUtils.linkAction(node, 'None', editor, 'selectNone');
-		mxUtils.write(node, ', ');
-		mxUtils.linkAction(node, 'Vertices', editor, 'selectVertices');
-		mxUtils.write(node, ', ');
-		mxUtils.linkAction(node, 'Edges', editor, 'selectEdges');
+		// var node = document.getElementById('selectActions');
+		// mxUtils.write(node, 'Select: ');
+		// mxUtils.linkAction(node, 'All', editor, 'selectAll');
+		// mxUtils.write(node, ', ');
+		// mxUtils.linkAction(node, 'None', editor, 'selectNone');
+		// mxUtils.write(node, ', ');
+		// mxUtils.linkAction(node, 'Vertices', editor, 'selectVertices');
+		// mxUtils.write(node, ', ');
+		// mxUtils.linkAction(node, 'Edges', editor, 'selectEdges');
 
 		// Create select actions in page
-		var node = document.getElementById('zoomActions');
-		mxUtils.write(node, 'Zoom: ');
-		mxUtils.linkAction(node, 'In', editor, 'zoomIn');
-		mxUtils.write(node, ', ');
-		mxUtils.linkAction(node, 'Out', editor, 'zoomOut');
-		mxUtils.write(node, ', ');
-		mxUtils.linkAction(node, 'Actual', editor, 'actualSize');
-		mxUtils.write(node, ', ');
-		mxUtils.linkAction(node, 'Fit', editor, 'fit');
+		// var node = document.getElementById('zoomActions');
+		// mxUtils.write(node, 'Zoom: ');
+		// mxUtils.linkAction(node, 'In', editor, 'zoomIn');
+		// mxUtils.write(node, ', ');
+		// mxUtils.linkAction(node, 'Out', editor, 'zoomOut');
+		// mxUtils.write(node, ', ');
+		// mxUtils.linkAction(node, 'Actual', editor, 'actualSize');
+		// mxUtils.write(node, ', ');
+		// mxUtils.linkAction(node, 'Fit', editor, 'fit');
 
 		var listener = function(sender, evt)
 		{

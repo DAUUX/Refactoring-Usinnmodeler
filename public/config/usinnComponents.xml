@@ -1,5 +1,5 @@
 <mxEditor defaultGroup="group" defaultEdge="navigationEdge">
-	<include name="config/editor-commons.xml"/>
+	<include name="/config/editor-commons.xml"/>
 	<add as="onInit"><![CDATA[
 		function ()
 		{
@@ -456,7 +456,7 @@
 
 		<br/>
 
-		<add as="Navegação" mode="navigationEdge" icon="images/block_end.gif">
+		<add as="Navegação" mode="navigationEdge" icon="/images/block_end.gif">
 		<![CDATA[
 			function (editor)
 			{
@@ -469,7 +469,7 @@
 		]]>
 		</add>
 
-		<add as="Transição do Usuário" mode="userTransitionEdge" icon="images/block_start.gif">
+		<add as="Transição do Usuário" mode="userTransitionEdge" icon="/images/block_start.gif">
 		<![CDATA[
 			function (editor)
 			{
@@ -483,7 +483,7 @@
 		]]>
 		</add>
 
-		<add as="Feedback do Sucesso" mode="systemFeedbackEdge" icon="images/feedbackSucesso.gif">
+		<add as="Feedback do Sucesso" mode="systemFeedbackEdge" icon="/images/feedbackSucesso.gif">
 		<![CDATA[
 			function (editor)
 			{
@@ -502,7 +502,7 @@
 		]]>
 		</add>
 
-		<add as="Feedback de Insucesso" mode="systemFeedbackEdge" icon="images/feedbackInsucesso.gif">
+		<add as="Feedback de Insucesso" mode="systemFeedbackEdge" icon="/images/feedbackInsucesso.gif">
 		<![CDATA[
 			function (editor)
 			{
@@ -521,7 +521,7 @@
 		]]>
 		</add>
 
-		<add as="Transição de Cancelamento" mode="cancellationTransitionEdge" icon="images/cancelamento.gif">
+		<add as="Transição de Cancelamento" mode="cancellationTransitionEdge" icon="/images/cancelamento.gif">
 		<![CDATA[
 			function (editor)
 			{
@@ -540,7 +540,7 @@
 		]]>
 		</add>
 
-		<add as="Query de Dados" mode="queryDataEdge" icon="images/query.gif">
+		<add as="Query de Dados" mode="queryDataEdge" icon="/images/query.gif">
 		<![CDATA[
 			function (editor)
 			{
@@ -561,44 +561,44 @@
 		<br/>
 		<hr/>
 		<!--
-		<add as="Text" template="text" icon="images/text.gif"/>
-		<add as="Container" template="container" icon="images/swimlane.gif"/>
-		<add as="Rectangle" template="rectangle" icon="images/rectangle.gif"/>
-		<add as="Rounded" template="rounded" icon="images/rounded.gif"/>
+		<add as="Text" template="text" icon="/images/text.gif"/>
+		<add as="Container" template="container" icon="/images/swimlane.gif"/>
+		<add as="Rectangle" template="rectangle" icon="/images/rectangle.gif"/>
+		<add as="Rounded" template="rounded" icon="/images/rounded.gif"/>
 		
 		
-		<add as="Rhombus" template="shape" style="rhombus" icon="images/rhombus.gif"/>
-		<add as="Triangle" template="actor" style="triangle" icon="images/triangle.gif"/>
-		<add as="Hexagon" template="cloud" style="hexagon" icon="images/hexagon.gif"/>
-		<add as="Actor" template="actor" style="actor" icon="images/actor.gif"/>
-		<add as="Cylinder" template="shape" style="cylinder" icon="images/cylinder.gif"/>
-		<add as="Cloud" template="cloud" style="cloud" icon="images/cloud.gif"/>
-		<add as="Line" template="hline" style="hline" icon="images/hline.gif"/>
-		<add as="Image" template="image" icon="images/image.gif"/>
+		<add as="Rhombus" template="shape" style="rhombus" icon="/images/rhombus.gif"/>
+		<add as="Triangle" template="actor" style="triangle" icon="/images/triangle.gif"/>
+		<add as="Hexagon" template="cloud" style="hexagon" icon="/images/hexagon.gif"/>
+		<add as="Actor" template="actor" style="actor" icon="/images/actor.gif"/>
+		<add as="Cylinder" template="shape" style="cylinder" icon="/images/cylinder.gif"/>
+		<add as="Cloud" template="cloud" style="cloud" icon="/images/cloud.gif"/>
+		<add as="Line" template="hline" style="hline" icon="/images/hline.gif"/>
+		<add as="Image" template="image" icon="/images/image.gif"/>
 	-->
 
-		<add as="Unidade de Apresentação" template="presentationUnit" icon="images/objetivoDoUsuario.GIF"/>
-		<add as="Ponto de Abertura" template="openingPoint" icon="images/pontoDeAbertura.GIF"/>
-		<add as="Ponto de Encerramento" template="closurePoint" icon="images/pontoDeFechamento.GIF"/>
+		<add as="Unidade de Apresentação" template="presentationUnit" icon="/images/objetivoDoUsuario.GIF"/>
+		<add as="Ponto de Abertura" template="openingPoint" icon="/images/pontoDeAbertura.GIF"/>
+		<add as="Ponto de Encerramento" template="closurePoint" icon="/images/pontoDeFechamento.GIF"/>
 
 		<hr/>
 
 		
-		<add as="Processo do Sistema" template="systemProcess" icon="images/processoDoSistema.GIF"/>
+		<add as="Processo do Sistema" template="systemProcess" icon="/images/processoDoSistema.GIF"/>
 		<br/>
-		<add as="Ação do Usuário" template="userAction" icon="images/acaoDoUsuario.GIF"/>
+		<add as="Ação do Usuário" template="userAction" icon="/images/acaoDoUsuario.GIF"/>
 		
 		
 		<hr/>
-		<add as="Unidade de Apresentação" template="alwaysAccessiblePresentationUnit" icon="images/unidadeApresentacaoSA.GIF"/>
+		<add as="Unidade de Apresentação" template="alwaysAccessiblePresentationUnit" icon="/images/unidadeApresentacaoSA.GIF"/>
 		<br/>
-		<add as="Ação do Usuário Obrigatória" template="requiredUserAction" icon="images/acaoDoUsuarioObrigatoria.GIF"/>
+		<add as="Ação do Usuário Obrigatória" template="requiredUserAction" icon="/images/acaoDoUsuarioObrigatoria.GIF"/>
 		<br/>
-		<add as="Conteúdo de Alerta" template="notificationAlertOrConfirmation" icon="images/AlertaDeNotificacao.GIF"/>
+		<add as="Conteúdo de Alerta" template="notificationAlertOrConfirmation" icon="/images/AlertaDeNotificacao.GIF"/>
 		<br/>
-		<add as="Indicador de Progresso" template="progressIndicator" icon="images/indicadorDeProgresso.GIF"/>
+		<add as="Indicador de Progresso" template="progressIndicator" icon="/images/indicadorDeProgresso.GIF"/>
 		<br/>
-		<add as="Coleção de Dados" template="dataCollection" icon="images/colecaoDados3.GIF"/>
+		<add as="Coleção de Dados" template="dataCollection" icon="/images/colecaoDados3.GIF"/>
 
 
 
