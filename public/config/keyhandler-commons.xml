@@ -11,6 +11,7 @@
 		<add as="40" action="selectChild"/>
 		<add as="39" action="selectNext"/>
 		<add as="46" action="delete"/>
+		<add as="83" control="1" action="save"/>
 		<add as="65" control="1" action="selectAll"/>
 		<add as="90" control="1" action="undo"/>
 		<add as="89" control="1" action="redo"/>
