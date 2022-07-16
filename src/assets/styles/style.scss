@@ -50,11 +50,6 @@ body {
   background-color: white;
 }
 #title_section1 {
-  position: absolute;
-  width: 476px;
-  height: 42px;
-  left: 450px;
-  top: 182px;
   font-family: "Roboto";
   font-style: normal;
   font-weight: 100;
@@ -63,11 +58,6 @@ body {
   color: #ffffff;
 }
 #text_section1 {
-  position: absolute;
-  width: 385px;
-  height: 69px;
-  left: 484px;
-  top: 255px;
   font-family: "Roboto";
   font-style: normal;
   font-weight: 400;
@@ -77,41 +67,42 @@ body {
 
   color: #ffffff;
 }
-#btn_modeler {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 16px 22px;
-  gap: 10px;
-  width: 199px;
-  height: 55px;
-  border-radius: 48px;
 
-  /* Inside auto layout */
+#img_diagrama {
+  position: relative;
+  height: 290px;
+  width: 569px;
+  left: 10px;
+  top: 69px;
+  border-radius: 2px;
 
-  flex: none;
-  order: 1;
-  flex-grow: 0;
 }
-#text_btn {
+
+#title_section2 {
   font-family: "Roboto";
   font-style: normal;
-  font-weight: 500;
-  font-size: 19px;
-  line-height: 23px;
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  align-items: center;
-  padding: 1px 0;
+  font-weight: 100;
+  font-size: 36px;
+  line-height: 72px;  
+  color: #1082EC;
+
+}
+
+.container-section2{
   position: relative;
-  margin-top: -15px;
-  padding-top: 30px;
-  padding-bottom: -5px;
+  height: 290px;
+  width: 569px;
+  left: 10px;
+  top: 110px;
+  border-radius: 2px;
+}
 
-  /* AZUL USINN */
-
-  color: #1082ec;
+#btn_modeler{
+  border-radius: 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 8px;
+  gap: 10px;
 
 }
