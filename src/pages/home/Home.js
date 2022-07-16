@@ -1,8 +1,8 @@
-import Spinner from "../../components/Spinner";
-import { useHistory } from "react-router-dom"; // import do hook
+import { useHistory } from 'react-router-dom'; // import do hook
 
 function Home() {
   const history = useHistory(); //chamado do hook
+
 
   const goToLogin = () => {
     history.push("/modeler/:id?/:slug?"); //uso do hook para ir para a página
