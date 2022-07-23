@@ -50,11 +50,6 @@ body {
   background-color: white;
 }
 #title_section1 {
-  position: absolute;
-  width: 476px;
-  height: 42px;
-  left: 450px;
-  top: 182px;
   font-family: "Roboto";
   font-style: normal;
   font-weight: 100;
@@ -63,11 +58,6 @@ body {
   color: #ffffff;
 }
 #text_section1 {
-  position: absolute;
-  width: 385px;
-  height: 69px;
-  left: 484px;
-  top: 255px;
   font-family: "Roboto";
   font-style: normal;
   font-weight: 400;
@@ -76,4 +66,43 @@ body {
   text-align: center;
 
   color: #ffffff;
+}
+
+#img_diagrama {
+  position: relative;
+  height: 290px;
+  width: 569px;
+  left: 10px;
+  top: 69px;
+  border-radius: 2px;
+
+}
+
+#title_section2 {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 100;
+  font-size: 36px;
+  line-height: 72px;  
+  color: #1082EC;
+
+}
+
+.container-section2{
+  position: relative;
+  height: 290px;
+  width: 569px;
+  left: 10px;
+  top: 110px;
+  border-radius: 2px;
+}
+
+#btn_modeler{
+  border-radius: 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 8px;
+  gap: 10px;
+
 }
