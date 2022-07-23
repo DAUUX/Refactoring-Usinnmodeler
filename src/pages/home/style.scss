@@ -1,0 +1,126 @@
+
+.bloco {
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+  #section1 {
+    background-color: #1082ec;
+    text-align: center;
+  }
+  #section2 {
+    background-color: rgba(228, 226, 226, 0.751);
+    width: 100%;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+  #section3 {
+    background-color: white;
+  }
+  #title_section1 {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 100%;
+    font-size: 36px;
+    line-height: 72px;
+    color: #ffffff;
+  }
+  #text_section1 {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 400%;
+    font-size: 20px;
+    line-height: 23px;
+  
+    color: #ffffff;
+  }
+  #container_section2 {
+    position: absolute;
+    top: 120%;
+  
+  }
+  #title_section2 {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 100%;
+    font-size: 36px;
+    line-height: 72px;
+    color: #1082ec;
+  }
+  
+  #btn_modeler {
+    border-radius: 8px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 8px;
+    gap: 10px;
+  }
+  #title2_section1 {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 100;
+    font-size: 36px;
+    line-height: 72px;
+    color: #ffffff;
+    display: none;
+  }
+  
+  .container_interation {
+    padding: 24px;
+    gap: 24px;
+    width: 348px;
+    height: 136px;
+    background: #ffffff;
+    border-radius: 16px;
+    display: flex;
+  
+  }
+  .container_navigation {
+    padding: 24px;
+    gap: 24px;
+    width: 348px;
+    height: 136px;
+    background: #ffffff;
+    border-radius: 16px;
+    display: flex;
+  
+  }
+  .container_usability {
+    padding: 24px;
+    gap: 24px;
+    width: 348px;
+    height: 136px;
+    background: #ffffff;
+    border-radius: 16px;
+    display: flex;
+  
+  }
+  #img_usabilidade {
+    width: 72px;
+  }
+  #img_interacao {
+    width: 72px;
+  }
+  #img_navegacao {
+    width: 72px;
+  }
+  #img_document {
+    height: 24px;
+    width: 18px;
+    left: 0;
+  }
+  #container-main {
+     position: absolute;
+     width: 100%;
+     left: 0; 
+  }
+  #texto_final {
+    position: absolute;
+    top:170px;
+  }
+  
