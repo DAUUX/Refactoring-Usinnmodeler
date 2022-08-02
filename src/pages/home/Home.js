@@ -48,7 +48,6 @@ function Home() {
                 </label>
               </figcaption>
             </figure>
-
             <button
               className="btn btn-light btn-outline-primary"
               type="submit"
@@ -167,7 +166,6 @@ function Home() {
             </div>
           </div>
         </section>
-
         <section className="bloco" id="section3"></section>
       </section>
     </main>
