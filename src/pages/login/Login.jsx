@@ -31,11 +31,11 @@ function Login() {
 
         const response = await api.post('signin', data);
   
-        const {token, name, email} = response.data;
+        const {token, id, name, email} = response.data;
   
         api.defaults.headers.common['x-access-token'] = token;
         localStorage.setItem('token', token);
-        localStorage.setItem('user', JSON.stringify({name, email}));
+        localStorage.setItem('user', JSON.stringify({id, name, email}));
   
         Toast('success', 'Login realizado com sucesso!');
 
