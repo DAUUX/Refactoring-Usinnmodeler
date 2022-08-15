@@ -66,13 +66,6 @@ function init(editor){
 		    }
 	    });
 
-		// Defines a new action to switch between
-		// XML and graphical display
-		// var textNode = document.getElementById('xml');
-		// var graphNode = editor.graph.container;
-		// var sourceInput = document.getElementById('source');
-		// sourceInput.checked = false;
-
 		/**
 		 * Salva diagrama, pegando XML e emitindo um novo evento
 		 */
@@ -102,59 +95,8 @@ function init(editor){
 
         });
 
-		// var funct = function(editor)
-		// {
-		// 	if (sourceInput.checked)
-		// 	{
-		// 		graphNode.style.display = 'none';
-		// 		textNode.style.display = 'inline';
-				
-		// 		var enc = new mxCodec();
-		// 		var node = enc.encode(editor.graph.getModel());
-				
-		// 		textNode.value = mxUtils.getPrettyXml(node);
-		// 		textNode.originalValue = textNode.value;
-		// 		textNode.focus();
-		// 	}
-		// 	else
-		// 	{
-		// 		graphNode.style.display = '';
-				
-		// 		if (textNode.value != textNode.originalValue)
-		// 		{
-		// 			var doc = mxUtils.parseXml(textNode.value);
-		// 			var dec = new mxCodec(doc);
-		// 			dec.decode(doc.documentElement, editor.graph.getModel());
-		// 		}
-
-		// 		textNode.originalValue = null;
-				
-		// 		// Makes sure nothing is selected in IE
-		// 		if (mxClient.IS_IE)
-		// 		{
-		// 			mxUtils.clearSelection();
-		// 		}
-
-		// 		textNode.style.display = 'none';
-
-		// 		// Moves the focus back to the graph
-		// 		editor.graph.container.focus();
-		// 	}
-		// };
-		
-		// editor.addAction('switchView', funct);
-
-		
-		// Defines a new action to switch between
-		// XML and graphical display
-		// mxEvent.addListener(sourceInput, 'click', function()
-		// {
-		// 	editor.execute('switchView');
-		// });
-
-		// Create select actions in page
-		
-		var node = document.getElementById('mainActions');
+		// Create select actions in page		
+		var node = document.getElementById('actions-menu');
 		var buttons = ['new', 'save','group', 'ungroup', 'cut', 'copy', 'paste', 'delete', 'undo', 'redo', 'print', 'show', 'zoomIn', 'zoomOut', 'fit'];
 		
 		// Only adds image and SVG export if backend is available
@@ -270,7 +212,7 @@ function init(editor){
 			group.classList.add('me-2');
 
 			for(k = 0; k < icons[j].length;k++){
-				var button = document.createElement('a');
+				var button = document.createElement('button');
 				button.id = buttons[i];
 				button.classList.add('btn');
 				button.classList.add('btn-light');

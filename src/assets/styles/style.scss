@@ -1,5 +1,6 @@
 @import "variables";
 @import "~bootstrap/scss/bootstrap";
+@import "~bootstrap-icons/font/bootstrap-icons";
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
@@ -28,4 +29,9 @@ body {
 	color: $primary;
     line-height: 16px;
     letter-spacing: 0.375em;
+}
+
+.bi {
+	width: 1em;
+	height: 1em;
 }
