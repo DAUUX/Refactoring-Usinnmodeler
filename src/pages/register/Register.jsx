@@ -82,7 +82,7 @@ function Register() {
                 
                 <div className="col-12 mb-3">
                   <input autoFocus className="form-control" disabled={loading} type="text" name="name" placeholder="Nome" value={name} onChange={e => setName(e.target.value)}/>
-                  {validator.current.message("nome", name, "required|min:3|max:100", { className: 'invalid-feedback d-block ms-2' })}
+                  {validator.current.message("nome", name, ["required",{min:3}, {max:100},{regex:/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/}], { className: 'invalid-feedback d-block ms-2' })}
                 </div>
 
                 <div className="col-12 mb-3">
