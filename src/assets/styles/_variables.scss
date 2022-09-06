@@ -1,7 +1,15 @@
 $min-contrast-ratio:   3;
 $enable-negative-margins: true;
 
-$primary: #1084EE;
+$gray-100: #F5F5F5; //branco-neve
+$gray-300: #D9D9D9; //cinza claro
+$gray-600: #959595; //cinza médio
+$gray-900: #535353; //cinza escuro
+
+$primary: #1082EC;
+$secondary: #535353;
+
+$body-bg: $gray-100;
 
 $font-family-base: 'Roboto';
 $font-size-base: .875rem;
@@ -11,16 +19,21 @@ $font-weight-bold: 500;
 $font-weight-bolder: 700;
 
 $input-padding-y: .25rem;
-$input-padding-x: .75rem;
-$input-border-radius: 50px;
-$input-color: $primary;
-$input-border-color: rgba($primary, .5);
-$input-focus-border-color: $primary;
+$input-padding-x: 0;
+$input-border-radius: 0;
+$input-border-width: 2px;
+$input-color: $gray-900;
+$input-border-color: $gray-300;
+$input-focus-border-color: $gray-600;
 $input-focus-box-shadow: 0;
-$input-placeholder-color: rgba($primary, .5);
+$input-placeholder-color: $gray-600;
 
-$btn-padding-y:    .5rem;
-$btn-padding-x:    1.5rem;
+$btn-font-size       : 1rem;
+$btn-padding-y       : 8px;
+$btn-padding-x       : 2.5rem;
+$btn-padding-y-lg    : 12px;
+$btn-padding-x-lg    : 2.5rem;
+$btn-border-radius   : 8px;
+$btn-border-radius-lg: 8px;
 $btn-focus-box-shadow: 0;
-
-$btn-border-radius:    50px;
+$btn-font-weight     : 500;
