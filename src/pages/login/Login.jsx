@@ -60,7 +60,7 @@ function Login() {
 	}
 	
 	return (
-		<main className="h-100 d-flex align-items-center">
+		<main className="flex-fill d-flex align-items-center">
 
 			<div className="container">
 
@@ -82,7 +82,7 @@ function Login() {
 									disabled={loading}
 									value={email}
 									onChange={e => {setEmail(e.target.value); setIsDirty({...isDirty, email: true}) }}
-									onFocus={() => validator.current.showMessageFor('email')}
+									onFocus={() => { if (isDirty.email) validator.current.showMessageFor('email')}}
 									className={`form-control ${!validator.current.fieldValid('email') && isDirty.email ? 'is-invalid' : '' }`}
 									type="email"
 									name="email"
@@ -96,7 +96,7 @@ function Login() {
 									disabled={loading}
 									value={password}
 									onChange={e => {setPassword(e.target.value); setIsDirty({...isDirty, password: true}) }}
-									onFocus={() => validator.current.showMessageFor('senha')}
+									onFocus={() => { if (isDirty.password) validator.current.showMessageFor('senha')}}
 									className={`form-control ${!validator.current.fieldValid('senha') && isDirty.password ? 'is-invalid' : '' }`}
 									type="password"
 									name="password"

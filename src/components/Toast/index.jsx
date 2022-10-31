@@ -7,23 +7,31 @@ export function Toast(status, text) {
     const MySwal = withReactContent(Swal)
 
     let bgColors = {
-        'success': '#1bc47d',
-        'error': '#ff5757',
-        'warning': '#ffed7a'
+        'success': '#4ECB7112',
+        'error': '#EA5B5B0D'
+    }
+
+    let colors = {
+        'success': '#4ECB71',
+        'error': '#EA5B5B'
     }
     
     MySwal.fire({
+        icon: status,
+        showCloseButton: true,
         toast: true,
         html: text,
-        color: '#fff',
+        color: colors[status],
         background: bgColors[status],
         position: 'top',
         showConfirmButton: false,
-        timer: 3000,
+        timer: 0,
         timerProgressBar: true,
         customClass: {
+            container: 'toast-container',
             popup: 'toast-popup',
-            htmlContainer: 'toast-content'
+            htmlContainer: 'toast-content',
+            closeButton: 'toast-close',
         },
         didOpen: (toast) => {
             toast.addEventListener('mouseenter', Swal.stopTimer)

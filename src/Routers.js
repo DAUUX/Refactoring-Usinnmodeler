@@ -10,7 +10,7 @@ import PrivateRoute from "./components/PrivateRoute";
 const Routers = () => {
   return (
     <BrowserRouter>
-      <NavBar />
+      {/* <NavBar /> */}
       <Switch>
         <PrivateRoute path="/modeler/:id?/:slug?" component={Modeler} />
         <ShareRoute path="/shared/:token" component={ShareRoute} />

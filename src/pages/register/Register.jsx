@@ -8,11 +8,13 @@ import { Toast } from '../../components/Toast';
 import api from "../../services/api";
 import InputMask from 'react-input-mask';
 import moment from "moment";
+import "./style.scss";
+import { roleOptions, genderOptions } from '../../Consts';
 
 function Register() {
 	
 	const history = useHistory();
-	const validator = useRef(new SimpleReactValidator({locale: 'pt'}));
+	const validator = useRef(new SimpleReactValidator({locale: 'pt', messages: {accepted: 'O campo é inválido.'}}));
 
 	const [loading, setLoading]   = useState(false);
 	const [name, setName]         = useState('');
@@ -22,6 +24,7 @@ function Register() {
 	const [password, setPassword] = useState('');
 	const [company, setCompany]   = useState('');
 	const [role, setRole]         = useState('');
+	const [accept, setAccept]     = useState(false);
 	const [, wasValidated]        = useState();
 
 	const [isDirty, setIsDirty] = useState({name: false, email: false, birthday: false, gender: false, password: false, company: false, role: false});
@@ -31,9 +34,10 @@ function Register() {
 		e.preventDefault();
 
 		setLoading(true);
-		const data = {name, email, password, company, role};
+		const data = {name, email, birthday: moment(birthday, 'DD/MM/YYYY', true).format('YYYY-MM-DD'), gender, password, company, role, accept};
+		console.log(data);
 
-		if (validator.current.allValid()) {
+		if (validator.current.allValid() && accept) {
 		
 			try {
 				
@@ -58,13 +62,10 @@ function Register() {
 		setLoading(false);
 
 	}
-
-	const onCancelButtonClick = () => {
-		history.replace("/");
-	};
 	
 	return (
-		<main className="h-100 d-flex align-items-center">      
+		<main id="register-page" className="flex-fill d-flex align-items-center">  
+		    
 			<div className="container py-5">
 
 				<div className="row pb-3">
@@ -74,7 +75,7 @@ function Register() {
 					</div>
 				</div>
 
-				<div className="row justify-content-center mt-5">
+				<div id="content" className="row position-relative justify-content-center mt-5">
 					
 					<div className="col-12 col-md-8 col-lg-4">
 
@@ -85,7 +86,7 @@ function Register() {
 										autoFocus 
 										disabled={loading} 
 										onChange={e => {setName(e.target.value); setIsDirty({...isDirty, name: true}) }}
-										onFocus={() => validator.current.showMessageFor('nome')}
+										onFocus={() => {if (isDirty.name) validator.current.showMessageFor('nome')}}
 										className={`form-control ${!validator.current.fieldValid('nome') && isDirty.name ? 'is-invalid' : '' }`}
 										type="text" 
 										name="name" 
@@ -99,7 +100,7 @@ function Register() {
 									<input 
 										disabled={loading} 
 										onChange={e => {setEmail(e.target.value); setIsDirty({...isDirty, email: true}) }}
-										onFocus={() => validator.current.showMessageFor('email')}
+										onFocus={() => {if (isDirty.email) validator.current.showMessageFor('email')}}
 										className={`form-control ${!validator.current.fieldValid('email') && isDirty.email ? 'is-invalid' : '' }`}
 										type="email" 
 										name="email" 
@@ -113,7 +114,7 @@ function Register() {
 									<input 
 										disabled={loading} 
 										onChange={e => {setPassword(e.target.value); setIsDirty({...isDirty, password: true}) }}
-										onFocus={() => validator.current.showMessageFor('senha')}
+										onFocus={() => {if (isDirty.password) validator.current.showMessageFor('senha')}}
 										className={`form-control ${!validator.current.fieldValid('senha') && isDirty.password ? 'is-invalid' : '' }`}
 										type="password" 
 										name="password" 
@@ -127,7 +128,7 @@ function Register() {
 									<InputMask 
 										disabled={loading} 
 										onChange={e => {setBirthday(e.target.value); setIsDirty({...isDirty, birthday: true}) }}
-										onFocus={() => validator.current.showMessageFor('data de nascimento')}
+										onFocus={() => {if (isDirty.birthday) validator.current.showMessageFor('data de nascimento')}}
 										className={`form-control ${!validator.current.fieldValid('data de nascimento') && isDirty.birthday ? 'is-invalid' : '' }`}
 										type="text" 
 										name="birthday" 
@@ -135,46 +136,54 @@ function Register() {
 										placeholder="Data de nascimento" 
 										value={birthday} 
 									/>
-									{validator.current.message("data de nascimento", moment(birthday, "DD/MM/YYYY"), "required|date", { className: 'invalid-feedback d-block' })}
+									{validator.current.message("data de nascimento", moment(birthday, "DD/MM/YYYY", true).isValid(), "required|accepted", { className: 'invalid-feedback d-block' })}
 								</div>
 
 								<div className="col-12 col-lg-6 mb-3">
 									<select 
+										required
 										disabled={loading} 
 										onChange={e => {setGender(e.target.value); setIsDirty({...isDirty, gender: true}) }}
-										onFocus={() => validator.current.showMessageFor('gênero')}
+										onFocus={() => {if (isDirty.gender) validator.current.showMessageFor('gênero')}}
 										className={`form-select ${!validator.current.fieldValid('gênero') && isDirty.gender ? 'is-invalid' : '' }`} 
 										name="gender" 
 										placeholder="Gênero" 
 										value={gender}
 									>
-										<option selected > Gênero </option>
-										<option value="1"> Feminino </option>
-										<option value="2"> Masculino </option>
-										<option value="3"> Prefiro não informar </option>
+										<option value="" disabled selected hidden> Gênero </option>
+
+										{ genderOptions.map((item, index) => 
+											<option value={index+1} key={index} > {item} </option>
+										)}
+
 									</select>
 									{validator.current.message("gênero", gender, "required|integer", { className: 'invalid-feedback d-block' })}
 								</div>
 
-								<div className="col-12 col-lg-6 mb-3">
-									<input 
-										disabled={loading} 
-										onChange={e => {setRole(e.target.value); setIsDirty({...isDirty, role: true}) }}
-										onFocus={() => validator.current.showMessageFor('perfil')}
-										className={`form-control ${!validator.current.fieldValid('perfil') && isDirty.role ? 'is-invalid' : '' }`}
-										type="text" 
-										name="role" 
-										placeholder="Perfil" 
-										value={role} 
-									/>
-									{validator.current.message("perfil", role, "max:100", { className: 'invalid-feedback d-block' })}
+								<div className="col-12 col-lg-6 py-lg-3 mb-3 last-fields">
+									<select
+										required
+										disabled={loading}
+										onChange={e => { setRole(e.target.value); setIsDirty({ ...isDirty, role: true }) }}
+										onFocus={() => {if (isDirty.role) validator.current.showMessageFor('perfil')}}
+										className={`form-select ${!validator.current.fieldValid('perfil') && isDirty.role ? 'is-invalid' : ''}`}
+										name="role"
+										placeholder="Perfil"
+										value={role}
+									>
+										<option value="" disabled selected hidden> Perfil </option>
+										{ roleOptions.map((item, index) => 
+											<option value={index+1} key={index} > {item} </option>
+										)}
+									</select>
+									{validator.current.message("perfil", role, "integer", { className: 'invalid-feedback d-block' })}
 								</div>
 
-								<div className="col-12 col-lg-6 mb-3">
+								<div className="col-12 col-lg-6 py-lg-3 mb-3 last-fields">
 									<input 
 										disabled={loading} 
 										onChange={e => {setCompany(e.target.value); setIsDirty({...isDirty, company: true}) }}
-										onFocus={() => validator.current.showMessageFor('organização')}
+										onFocus={() => {if (isDirty.company) validator.current.showMessageFor('organização')}}
 										className={`form-control ${!validator.current.fieldValid('organização') && isDirty.company ? 'is-invalid' : '' }`}
 										type="text" 
 										name="company" 
@@ -184,6 +193,26 @@ function Register() {
 									{validator.current.message("organização", company, "max:100", { className: 'invalid-feedback d-block' })}
 								</div>
 
+								<div className="col-12 d-flex justify-content-center py-4">
+									<div className="form-check">
+
+										<input 
+											required
+											onChange={e => setAccept(!accept)}
+											name="accept" 
+											className="form-check-input" 
+											type="checkbox" 
+											checked={accept}
+											id="acceptCheckbox"
+										/>
+
+										<label className="form-check-label text-muted" htmlFor="acceptCheckbox"> 
+											Li e aceito os <a className="text-reset text-decoration-none fw-bold" href="#"> termos de uso </a> 
+										</label>
+
+									</div>
+								</div>
+
 								<div className="col-12 d-grid gap-2 mt-2">
 									<button className="btn btn-primary btn-lg" type="submit">
 										<Spinner className="spinner-border spinner-border-sm me-2" isLoading={loading}  /> CRIAR CONTA
@@ -191,11 +220,12 @@ function Register() {
 								</div>
 
 								<div className="col-12 text-center mt-4">
-									<p>Já possui uma conta? <Link className="text-decoration-none text-primary" to="/login" >Entre</Link></p>
+									<Link className="text-decoration-none text-muted fw-bold" to="/login" > <i className="bi bi-arrow-left"></i> Voltar para login</Link>
 								</div>
 
 						</form>
 					</div>
+
 				</div>
 
 			</div>
