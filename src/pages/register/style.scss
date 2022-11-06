@@ -3,25 +3,24 @@
     #content{
 
         @media (min-width: 992px) {
-            .last-fields {
+            
+            #gray-area {
+                position: relative;
+                width: 110% !important;
+                max-width: none;
+                margin-left: 50%;
+                transform: translate(-50%,0);
+                padding: 0 8%;
+                height: 70px;
+                border-radius: 10rem;
+                background-color: #d9d9dd;
+
                 .form-control, .form-select {
                     border-color: #959595;
                     &:focus {
                         border-color: darken(#959595, 15%);
                     }
                 }
-            }
-    
-            &::before {
-                position: absolute;
-                left: 32%;
-                right: 32%;
-                bottom: 41%;
-                height: 70px;
-                z-index: -1;
-                border-radius: 10rem;
-                background-color: #d9d9dd;
-                content: '';
             }
         }
     

@@ -1,6 +1,6 @@
 import usinnModeler from "../../assets/icons/usinn-logo-horiz.png";
 import { Link, useHistory } from "react-router-dom";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Toast } from "../../components/Toast";
 import api from "../../services/api";
 import Spinner from "../../components/Spinner";
@@ -16,7 +16,6 @@ function Login() {
 	const [, wasValidated]        = useState();
 
 	const [isDirty, setIsDirty] = useState({email: false, password: false})
-
 	const validator = useRef(new SimpleReactValidator({locale: 'pt'}));
 
 	async function handleLogin(e) {
@@ -81,8 +80,8 @@ function Login() {
 									autoFocus
 									disabled={loading}
 									value={email}
-									onChange={e => {setEmail(e.target.value); setIsDirty({...isDirty, email: true}) }}
-									onFocus={() => { if (isDirty.email) validator.current.showMessageFor('email')}}
+									onChange={e => {setEmail(e.target.value)}}
+									onInput={() => {setIsDirty({...isDirty, email: true}); validator.current.showMessageFor('email')}}
 									className={`form-control ${!validator.current.fieldValid('email') && isDirty.email ? 'is-invalid' : '' }`}
 									type="email"
 									name="email"
@@ -95,15 +94,15 @@ function Login() {
 								<input
 									disabled={loading}
 									value={password}
-									onChange={e => {setPassword(e.target.value); setIsDirty({...isDirty, password: true}) }}
-									onFocus={() => { if (isDirty.password) validator.current.showMessageFor('senha')}}
+									onChange={e => {setPassword(e.target.value)}}
+									onInput={() => {setIsDirty({...isDirty, password: true}); validator.current.showMessageFor('senha')}}
 									className={`form-control ${!validator.current.fieldValid('senha') && isDirty.password ? 'is-invalid' : '' }`}
 									type="password"
 									name="password"
 									placeholder="Senha"
 								/>
 								{validator.current.message("senha", password, "required|min:8", { className: 'invalid-feedback d-block' })}
-
+								
 								<a className="text-decoration-none ms-auto mt-2" href="#">Esqueceu sua senha?</a>
 							</div>
 

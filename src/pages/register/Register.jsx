@@ -12,10 +12,9 @@ import "./style.scss";
 import { roleOptions, genderOptions } from '../../Consts';
 
 function Register() {
-	
 	const history = useHistory();
 	const validator = useRef(new SimpleReactValidator({locale: 'pt', messages: {accepted: 'O campo é inválido.'}}));
-
+	
 	const [loading, setLoading]   = useState(false);
 	const [name, setName]         = useState('');
 	const [email, setEmail]       = useState('');
@@ -35,7 +34,6 @@ function Register() {
 
 		setLoading(true);
 		const data = {name, email, birthday: moment(birthday, 'DD/MM/YYYY', true).format('YYYY-MM-DD'), gender, password, company, role, accept};
-		console.log(data);
 
 		if (validator.current.allValid() && accept) {
 		
@@ -85,8 +83,8 @@ function Register() {
 									<input 
 										autoFocus 
 										disabled={loading} 
-										onChange={e => {setName(e.target.value); setIsDirty({...isDirty, name: true}) }}
-										onFocus={() => {if (isDirty.name) validator.current.showMessageFor('nome')}}
+										onChange={e => {setName(e.target.value)}}
+										onInput={() =>{setIsDirty({...isDirty, name: true}); validator.current.showMessageFor('nome')}}
 										className={`form-control ${!validator.current.fieldValid('nome') && isDirty.name ? 'is-invalid' : '' }`}
 										type="text" 
 										name="name" 
@@ -99,8 +97,8 @@ function Register() {
 								<div className="col-12 mb-3">
 									<input 
 										disabled={loading} 
-										onChange={e => {setEmail(e.target.value); setIsDirty({...isDirty, email: true}) }}
-										onFocus={() => {if (isDirty.email) validator.current.showMessageFor('email')}}
+										onChange={e => {setEmail(e.target.value)}}
+										onInput={() => {setIsDirty({...isDirty, email: true}); validator.current.showMessageFor('email')}}
 										className={`form-control ${!validator.current.fieldValid('email') && isDirty.email ? 'is-invalid' : '' }`}
 										type="email" 
 										name="email" 
@@ -113,8 +111,8 @@ function Register() {
 								<div className="col-12 mb-3">
 									<input 
 										disabled={loading} 
-										onChange={e => {setPassword(e.target.value); setIsDirty({...isDirty, password: true}) }}
-										onFocus={() => {if (isDirty.password) validator.current.showMessageFor('senha')}}
+										onChange={e => {setPassword(e.target.value)}}
+										onInput={() => {setIsDirty({...isDirty, password: true}); validator.current.showMessageFor('senha')}}
 										className={`form-control ${!validator.current.fieldValid('senha') && isDirty.password ? 'is-invalid' : '' }`}
 										type="password" 
 										name="password" 
@@ -127,8 +125,8 @@ function Register() {
 								<div className="col-12 col-lg-6 mb-3">
 									<InputMask 
 										disabled={loading} 
-										onChange={e => {setBirthday(e.target.value); setIsDirty({...isDirty, birthday: true}) }}
-										onFocus={() => {if (isDirty.birthday) validator.current.showMessageFor('data de nascimento')}}
+										onChange={e => {setBirthday(e.target.value)}}
+										onInput={() => {setIsDirty({...isDirty, birthday: true}); validator.current.showMessageFor('data de nascimento')}}
 										className={`form-control ${!validator.current.fieldValid('data de nascimento') && isDirty.birthday ? 'is-invalid' : '' }`}
 										type="text" 
 										name="birthday" 
@@ -143,8 +141,7 @@ function Register() {
 									<select 
 										required
 										disabled={loading} 
-										onChange={e => {setGender(e.target.value); setIsDirty({...isDirty, gender: true}) }}
-										onFocus={() => {if (isDirty.gender) validator.current.showMessageFor('gênero')}}
+										onChange={e => {setGender(e.target.value); setIsDirty({...isDirty, gender: true}); validator.current.showMessageFor('gênero')}}
 										className={`form-select ${!validator.current.fieldValid('gênero') && isDirty.gender ? 'is-invalid' : '' }`} 
 										name="gender" 
 										placeholder="Gênero" 
@@ -160,40 +157,43 @@ function Register() {
 									{validator.current.message("gênero", gender, "required|integer", { className: 'invalid-feedback d-block' })}
 								</div>
 
-								<div className="col-12 col-lg-6 py-lg-3 mb-3 last-fields">
-									<select
-										required
-										disabled={loading}
-										onChange={e => { setRole(e.target.value); setIsDirty({ ...isDirty, role: true }) }}
-										onFocus={() => {if (isDirty.role) validator.current.showMessageFor('perfil')}}
-										className={`form-select ${!validator.current.fieldValid('perfil') && isDirty.role ? 'is-invalid' : ''}`}
-										name="role"
-										placeholder="Perfil"
-										value={role}
-									>
-										<option value="" disabled selected hidden> Perfil </option>
-										{ roleOptions.map((item, index) => 
-											<option value={index+1} key={index} > {item} </option>
-										)}
-									</select>
-									{validator.current.message("perfil", role, "integer", { className: 'invalid-feedback d-block' })}
+								<div id="gray-area" className="my-lg-2">
+									<div className="row h-100 align-items-center">
+										<div className="col-12 col-lg-6 mb-3">
+											<select
+												required
+												disabled={loading}
+												onChange={e => { setRole(e.target.value); setIsDirty({ ...isDirty, role: true }); validator.current.showMessageFor('perfil')}}
+												className={`form-select ${!validator.current.fieldValid('perfil') && isDirty.role ? 'is-invalid' : ''}`}
+												name="role"
+												placeholder="Perfil"
+												value={role}
+											>
+												<option value="" disabled selected hidden> Perfil </option>
+												{ roleOptions.map((item, index) => 
+													<option value={index+1} key={index} > {item} </option>
+												)}
+											</select>
+											{validator.current.message("perfil", role, "integer", { className: 'invalid-feedback d-block' })}
+										</div>
+
+										<div className="col-12 col-lg-6 mb-3">
+											<input 
+												disabled={loading} 
+												onChange={e => {setCompany(e.target.value)}}
+												onInput={() => {setIsDirty({ ...isDirty, role: true }); validator.current.showMessageFor('organização')}}
+												className={`form-control ${!validator.current.fieldValid('organização') && isDirty.company ? 'is-invalid' : '' }`}
+												type="text" 
+												name="company" 
+												placeholder="Organização" 
+												value={company} 
+											/>
+											{validator.current.message("organização", company, "max:100", { className: 'invalid-feedback d-block' })}
+										</div>
+									</div>
 								</div>
 
-								<div className="col-12 col-lg-6 py-lg-3 mb-3 last-fields">
-									<input 
-										disabled={loading} 
-										onChange={e => {setCompany(e.target.value); setIsDirty({...isDirty, company: true}) }}
-										onFocus={() => {if (isDirty.company) validator.current.showMessageFor('organização')}}
-										className={`form-control ${!validator.current.fieldValid('organização') && isDirty.company ? 'is-invalid' : '' }`}
-										type="text" 
-										name="company" 
-										placeholder="Organização" 
-										value={company} 
-									/>
-									{validator.current.message("organização", company, "max:100", { className: 'invalid-feedback d-block' })}
-								</div>
-
-								<div className="col-12 d-flex justify-content-center py-4">
+								<div className="col-12 d-flex justify-content-center py-3">
 									<div className="form-check">
 
 										<input 
