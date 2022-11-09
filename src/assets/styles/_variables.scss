@@ -8,6 +8,8 @@ $gray-900: #535353; //cinza escuro
 
 $primary: #1082EC;
 $secondary: #535353;
+$danger: #EA5B5B;
+$success: #4ECB71;
 
 $body-bg: $gray-100;
 
@@ -18,6 +20,7 @@ $font-weight-normal: 400;
 $font-weight-bold: 500;
 $font-weight-bolder: 700;
 
+$input-bg: transparent;
 $input-padding-y: .25rem;
 $input-padding-x: 0;
 $input-border-radius: 0;
@@ -27,6 +30,12 @@ $input-border-color: $gray-300;
 $input-focus-border-color: $gray-600;
 $input-focus-box-shadow: 0;
 $input-placeholder-color: $gray-600;
+
+$form-select-border-radius: 0;
+$form-select-focus-box-shadow: 0;
+
+$form-check-input-border: 2px solid $gray-300;
+$form-check-input-border-radius:  0;
 
 $btn-font-size       : 1rem;
 $btn-padding-y       : 8px;

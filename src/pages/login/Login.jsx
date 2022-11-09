@@ -1,6 +1,6 @@
 import usinnModeler from "../../assets/icons/usinn-logo-horiz.png";
 import { Link, useHistory } from "react-router-dom";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Toast } from "../../components/Toast";
 import api from "../../services/api";
 import Spinner from "../../components/Spinner";
@@ -15,6 +15,7 @@ function Login() {
 	const [password, setPassword] = useState('');
 	const [, wasValidated]        = useState();
 
+	const [isDirty, setIsDirty] = useState({email: false, password: false})
 	const validator = useRef(new SimpleReactValidator({locale: 'pt'}));
 
 	async function handleLogin(e) {
@@ -49,6 +50,7 @@ function Login() {
 
 		} else {
 			validator.current.showMessages(true);
+			setIsDirty({email: true, password: true});
 			wasValidated(1);
 		}
 
@@ -57,7 +59,7 @@ function Login() {
 	}
 	
 	return (
-		<main className="h-100 d-flex align-items-center">
+		<main className="flex-fill d-flex align-items-center">
 
 			<div className="container">
 
@@ -72,32 +74,36 @@ function Login() {
 
 					<div className="col-12 col-md-8 col-lg-4">
 
-						<form className="row justify-content-center" onSubmit={handleLogin}>
+						<form className={`row justify-content-center`} onSubmit={handleLogin}>
 							<div className="col-12 mb-3">
 								<input
 									autoFocus
 									disabled={loading}
 									value={email}
-									onChange={e => setEmail(e.target.value)}
-									className="form-control"
+									onChange={e => {setEmail(e.target.value)}}
+									onInput={() => {setIsDirty({...isDirty, email: true}); validator.current.showMessageFor('email')}}
+									className={`form-control ${!validator.current.fieldValid('email') && isDirty.email ? 'is-invalid' : '' }`}
 									type="email"
 									name="email"
-									placeholder="Email"
+									placeholder="E-mail"
 								/>
 								{validator.current.message("email", email, "required|min:3|max:100|email", { className: 'invalid-feedback d-block' })}
 							</div>
 
-							<div className="col-12 mb-3">
+							<div className="col-12 mb-3 d-flex flex-column">
 								<input
 									disabled={loading}
 									value={password}
-									onChange={e => setPassword(e.target.value)}
-									className="form-control"
+									onChange={e => {setPassword(e.target.value)}}
+									onInput={() => {setIsDirty({...isDirty, password: true}); validator.current.showMessageFor('senha')}}
+									className={`form-control ${!validator.current.fieldValid('senha') && isDirty.password ? 'is-invalid' : '' }`}
 									type="password"
 									name="password"
 									placeholder="Senha"
 								/>
 								{validator.current.message("senha", password, "required|min:8", { className: 'invalid-feedback d-block' })}
+								
+								<a className="text-decoration-none ms-auto mt-2" href="#">Esqueceu sua senha?</a>
 							</div>
 
 							<div className="col-12 d-grid gap-2 mt-2">
@@ -106,12 +112,8 @@ function Login() {
 								</button>
 							</div>
 
-							<div className="col-12 text-center mt-3">
-								<p>Esqueceu sua senha? <a className="text-decoration-none text-muted" href="#">Clique aqui</a></p>
-							</div>
-
 							<div className="col-12 text-center mt-5">
-								<Link className="btn btn-secondary me-3" type="button" to="/cadastro" >Criar conta</Link>
+								<p> Não tem conta ainda? <Link className="fw-bold text-decoration-none" to="/cadastro">Registre-se</Link> </p>
 							</div>
 
 						</form>

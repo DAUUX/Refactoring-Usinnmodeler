@@ -24,10 +24,18 @@ body {
 	-webkit-font-smoothing: antialiased;
 }
 
-.form-control {
+.form-control, .form-select {
 	border-top: 0;
 	border-left: 0;
 	border-right: 0;
+
+	&.is-invalid {
+		box-shadow: none !important;
+	}
+}
+
+.form-select:invalid {
+	color: $gray-600 !important;
 }
 
 .forms-title {
