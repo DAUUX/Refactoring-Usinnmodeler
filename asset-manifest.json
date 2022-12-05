@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "https://dauux.github.io/Refactoring-Usinnmodeler/static/css/main.a105256c.css",
+    "main.js": "https://dauux.github.io/Refactoring-Usinnmodeler/static/js/main.e7de0077.js",
+    "static/media/bootstrap-icons.woff?": "https://dauux.github.io/Refactoring-Usinnmodeler/static/media/bootstrap-icons.e559bf06bc84fd9525e6.woff",
+    "static/media/bootstrap-icons.woff2?": "https://dauux.github.io/Refactoring-Usinnmodeler/static/media/bootstrap-icons.ea98e12d2d58747f9fc5.woff2",
+    "static/media/usinn-logo-horiz.png": "https://dauux.github.io/Refactoring-Usinnmodeler/static/media/usinn-logo-horiz.f30931e2860025fb14d6.png",
+    "index.html": "https://dauux.github.io/Refactoring-Usinnmodeler/index.html",
+    "main.a105256c.css.map": "https://dauux.github.io/Refactoring-Usinnmodeler/static/css/main.a105256c.css.map",
+    "main.e7de0077.js.map": "https://dauux.github.io/Refactoring-Usinnmodeler/static/js/main.e7de0077.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a105256c.css",
+    "static/js/main.e7de0077.js"
+  ]
+}
