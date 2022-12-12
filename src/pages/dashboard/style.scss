@@ -1,0 +1,30 @@
+#dashboard {
+
+    .btn-menu {
+        height: 40px;
+        width: 40px;
+        padding: 0;
+        transition: all 0.5s;
+        z-index: 99;
+    }
+
+    @media (max-width: 991.98px) { 
+
+        &.menu-open {
+            &::after {
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.2);
+                content: '';
+                
+            }
+    
+            .btn-menu {
+                transform: translate3d(15rem, 0, 0);
+            }
+        }
+    }
+}
