@@ -1,4 +1,4 @@
-function init(editor){
+function init(editor, rootPath){
 		// Desabilitar rotação dos componentes
 		mxVertexHandler.prototype.rotationEnabled = false;
 
@@ -17,7 +17,7 @@ function init(editor){
 		
 		// Defines an icon for creating new connections in the connection handler.
 		// This will automatically disable the highlighting of the source vertex.
-		mxConnectionHandler.prototype.connectImage = new mxImage(window.location.origin+'/images/connector.gif', 16, 16);
+		mxConnectionHandler.prototype.connectImage = new mxImage(rootPath+'/images/connector.gif', 16, 16);
 		
 		// Enables connections in the graph and disables
 		// reset of zoom and translate on root change
@@ -223,7 +223,7 @@ function init(editor){
 				}
 
 				var icon = document.createElement("img");
-				icon.src=window.location.origin+"/images/"+ icons[j][k] +".gif";
+				icon.src=rootPath+"/images/"+ icons[j][k] +".gif";
 
 				button.appendChild(icon);
 				mxUtils.write(button, "");

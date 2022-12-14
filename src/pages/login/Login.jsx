@@ -40,7 +40,7 @@ function Login() {
 	
 				Toast('success', 'Login realizado com sucesso!');
 
-				history.push('/modeler');
+				history.push('/dashboard');
 	
 			} catch (error) {
 	

@@ -87,7 +87,7 @@
 
     <script type="text/javascript">
     	function onInit(modeler) {
-    		init(modeler);
+    		init(modeler, '%PUBLIC_URL%');
     		insertValidations(modeler.graph);
 
     		var shape = mxUtils.load('%PUBLIC_URL%/config/usinnStencils.xml').getDocumentElement().firstChild;
