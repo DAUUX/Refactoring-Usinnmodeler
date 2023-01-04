@@ -10,12 +10,13 @@ import { slugify } from "../../Helpers";
 
 function Modeler(props) {
 
-    const [diagram, setDiagram] = useState('');
-    const [name, setName]       = useState('');
-    const [owner, setOwner]     = useState(false);
-    const [created, setCreated] = useState(false);
-    const [modalId]             = useState('newDiagramModal');
-    const [shareModalId]        = useState('ShareDiagramModal');
+    const [diagram, setDiagram]       = useState('');
+    const [diagramSVG, setDiagramSVG] = useState('');
+    const [name, setName]             = useState('');
+    const [owner, setOwner]           = useState(false);
+    const [created, setCreated]       = useState(false);
+    const [modalId]                   = useState('newDiagramModal');
+    const [shareModalId]              = useState('ShareDiagramModal');
 
     const history = useHistory();
 
@@ -56,7 +57,7 @@ function Modeler(props) {
         
         try {
             
-            const data = {name, diagram_data: diagram};
+            const data = {name, diagram_data: diagram, diagram_svg: diagramSVG};
             
             await api.put(`diagrams/${props.match.params.id}`, data);
             Toast('success', 'Diagrama salvo com sucesso!');
@@ -72,7 +73,8 @@ function Modeler(props) {
         createDiagramEditor();
 
         const saveDiagram = (event) => {
-            setDiagram(event.detail);
+            setDiagram(event.detail.xml);
+            setDiagramSVG(event.detail.svg);
         }
 
         window.addEventListener('saveDiagram', saveDiagram);
@@ -84,14 +86,14 @@ function Modeler(props) {
     },[props.match.params.id])
     
     useEffect(()=>{
-        if (diagram) {
+        if (diagram && diagramSVG) {
             if (!props.match.params.id) {
                 new Modal(`#${modalId}`).show();
             } else {
                 updateDiagram();
             }
         }
-    }, [diagram])
+    }, [diagram, diagramSVG])
 
     return (
         <main className="container-fluid px-0 flex-fill d-flex flex-column">
@@ -122,7 +124,7 @@ function Modeler(props) {
                 </div>
             </section>
 
-            <NewDiagramModal id={modalId} diagram={diagram} />
+            <NewDiagramModal id={modalId} diagram={diagram} diagramSVG={diagramSVG}/>
             <ShareDiagramModal id={shareModalId} diagram_id={props.match.params.id} />
 
         </main>
