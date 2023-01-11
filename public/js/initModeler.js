@@ -149,7 +149,7 @@ function init(editor, rootPath){
 		
 		// Only adds image and SVG export if backend is available
 		// NOTE: The old image export in mxEditor is not used, the urlImage is used for the new export.
-		if (editor.urlImage == null)
+		if (editor.urlImage != null)
 		{
 			// Client-side code for image export
 			var exportImage = function(editor)
@@ -241,7 +241,7 @@ function init(editor, rootPath){
 			    var xml = encodeURIComponent(mxUtils.getXml(root));
 				console.log(xml);
 				
-				// new mxXmlRequest(editor.urlEcho, 'filename=' + name + '&format=svg' + '&xml=' + xml).simulate(document, "_blank");
+				new mxXmlRequest(editor.urlEcho, 'filename=' + name + '&format=svg' + '&xml=' + xml).simulate(document, "_blank");
 			};
 			
 			editor.addAction('exportSvg', exportSvg);
@@ -251,7 +251,7 @@ function init(editor, rootPath){
 		};
 		
 		// ['group', 'ungroup', 'cut', 'copy', 'paste', 'delete', 'undo', 'redo', 'print', 'show']
-		var icons = [['new'],['save'],['group', 'ungroup'], ['cut', 'copy', 'paste'], ['delete'], ['undo', 'redo'], ['print', 'image'], ['zoomin', 'zoomout', 'fit'], ['print', 'image']];
+		var icons = [['new'],['save'],['group', 'ungroup'], ['cut', 'copy', 'paste'], ['delete'], ['undo', 'redo'], ['print', 'image'], ['zoomin', 'zoomout', 'fit']];
 
 
 		var i = 0;
