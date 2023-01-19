@@ -66,6 +66,52 @@ function init(editor, rootPath){
 		    }
 	    });
 
+		let getDiagramSVG = function(graph) {
+			var scale = graph.view.scale;
+			var bounds = graph.getGraphBounds();
+
+			// Prepares SVG document that holds the output
+			var svgDoc = mxUtils.createXmlDocument();
+			var root = (svgDoc.createElementNS != null) ?
+				svgDoc.createElementNS(mxConstants.NS_SVG, 'svg') : svgDoc.createElement('svg');
+			
+			if (root.style != null)
+			{
+				root.style.backgroundColor = '#FFFFFF';
+			}
+			else
+			{
+				root.setAttribute('style', 'background-color:#FFFFFF');
+			}
+			
+			if (svgDoc.createElementNS == null)
+			{
+				root.setAttribute('xmlns', mxConstants.NS_SVG);
+			}
+			
+			root.setAttribute('width', Math.ceil(bounds.width * scale + 2) + 'px');
+			root.setAttribute('height', Math.ceil(bounds.height * scale + 2) + 'px');
+			root.setAttribute('xmlns:xlink', mxConstants.NS_XLINK);
+			root.setAttribute('version', '1.1');
+			
+			// Adds group for anti-aliasing via transform
+			var group = (svgDoc.createElementNS != null) ?
+					svgDoc.createElementNS(mxConstants.NS_SVG, 'g') : svgDoc.createElement('g');
+			group.setAttribute('transform', 'translate(0.5,0.5)');
+			root.appendChild(group);
+			svgDoc.appendChild(root);
+
+			// Renders graph. Offset will be multiplied with state's scale when painting state.
+			var svgCanvas = new mxSvgCanvas2D(group);
+			svgCanvas.translate(Math.floor(1 / scale - bounds.x), Math.floor(1 / scale - bounds.y));
+			svgCanvas.scale(scale);
+			
+			var imgExport = new mxImageExport();
+			imgExport.drawState(graph.getView().getState(graph.model.root), svgCanvas);
+
+			return mxUtils.getXml(root);
+		}
+
 		/**
 		 * Salva diagrama, pegando XML e emitindo um novo evento
 		 */
@@ -74,7 +120,9 @@ function init(editor, rootPath){
 			var node = enc.encode(editor.graph.getModel());
 			diagram = mxUtils.getPrettyXml(node);
 
-			const event = new CustomEvent('saveDiagram', { detail: diagram });
+			let diagramSVG = getDiagramSVG(editor.graph);
+
+			const event = new CustomEvent('saveDiagram', { detail: {xml: diagram, svg: diagramSVG} });
 			window.dispatchEvent(event);
 		};
 
@@ -191,6 +239,7 @@ function init(editor, rootPath){
 
 				var name = 'export.svg';
 			    var xml = encodeURIComponent(mxUtils.getXml(root));
+				console.log(xml);
 				
 				new mxXmlRequest(editor.urlEcho, 'filename=' + name + '&format=svg' + '&xml=' + xml).simulate(document, "_blank");
 			};

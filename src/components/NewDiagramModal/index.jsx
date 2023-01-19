@@ -27,7 +27,7 @@ function NewDiagramModal(props) {
         e.preventDefault();
 
         setLoading(true);
-        const data = {name, diagram_data: props.diagram};
+        const data = {name, diagram_data: props.diagram, diagram_svg: props.diagramSVG};
 
         if (validator.current.allValid()) {
         
