@@ -144,7 +144,7 @@ function init(editor, rootPath){
         });
 
 		// Create select actions in page		
-		var node = document.getElementById('actions-menu');
+		var node = document.getElementById('actionsMenu');
 		var buttons = ['new', 'save','group', 'ungroup', 'cut', 'copy', 'paste', 'delete', 'undo', 'redo', 'print', 'show', 'zoomIn', 'zoomOut', 'fit'];
 		
 		// Only adds image and SVG export if backend is available
@@ -266,13 +266,12 @@ function init(editor, rootPath){
 				button.classList.add('btn');
 				button.classList.add('btn-light');
 				button.classList.add('btn-sm');
-				button.classList.add('shadow-sm');
 				if(i == 0){
 					button.classList.add('disabled');
 				}
 
 				var icon = document.createElement("img");
-				icon.src=rootPath+"/images/"+ icons[j][k] +".gif";
+				icon.src=rootPath+"/images/icons/"+ icons[j][k] +".png";
 
 				button.appendChild(icon);
 				mxUtils.write(button, "");

@@ -7,6 +7,7 @@ import api from "../../services/api";
 import { Toast } from "../../components/Toast";
 import ShareDiagramModal from "../../components/ShareDiagramModal";
 import { slugify } from "../../Helpers";
+import logo from "../../assets/icons/logo-min-blue.png";
 
 function Modeler(props) {
 
@@ -96,23 +97,38 @@ function Modeler(props) {
     }, [diagram, diagramSVG])
 
     return (
-        <main className="container-fluid px-0 flex-fill d-flex flex-column">
+        <main id="modelerPage" className="container-fluid px-0 flex-fill d-flex flex-column bg-white">
 
-            <div id="actions-menu" className="d-flex shadow-sm py-3 px-5">
+            <nav id="modelerNavbar" className="navbar navbar-expand-lg">
+                <div className="container-fluid px-5">
+                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#modelerNavbarToggle" aria-controls="modelerNavbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
+                    <form className="d-flex me-auto" role="search">
+						<img src={logo} className="me-4" alt="logo USINN" />
+                        <input value={name} className="form-control py-0 px-2" type="text" id="nameInput" />
+                    </form>
+                    <div className="collapse navbar-collapse" id="modelerNavbarToggle">
+                        <a className="navbar-brand ms-auto" href="#">Hidden brand</a>
+                    </div>
+                </div>
+            </nav>
+
+            <div id="actionsMenu" className="d-flex bg-light py-2 px-5">
                 {/* mxGraph actions added here */}
                 {props.match.params.id && owner &&
                     <button data-bs-toggle="modal" data-bs-target={`#${shareModalId}`} className="btn btn-light btn-sm shadow-sm order-last"> <i className="bi bi-share-fill"></i> </button>
                 }
             </div>
 
-            <section role="main" className="row flex-fill g-0">
+            <section role="main" className="row flex-fill position-relative overflow-hidden g-0">
                 {/* Menu lateral */}
-                <div className="col-2">
+                <div id="modelerToolbar" className="position-absolute pb-4 bg-light ms-3 mt-3">
                     <center> <div id="toolbar" className="px-3" ></div> </center>
                 </div>
 
                 {/* Editor */}
-                <div id="graph" className="col-10 bg-white">
+                <div id="graph" className="col-12 bg-white">
                     <center id="splash"> <img src="/images/loading.gif"/> </center>
                 </div>
 
