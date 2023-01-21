@@ -2,8 +2,14 @@ import './style.scss'
 import usinnModeler from "../../assets/icons/logo-usinn-white.png";
 
 import { Link, useRouteMatch, useLocation } from "react-router-dom";
+import { Toast } from '../Toast';
+import api from '../../services/api';
+import { slugify } from '../../Helpers';
+import { useHistory } from "react-router-dom";
 
-function DashboardMenu({menuOpen}) {
+function DashboardMenu({menuOpen, onCreateDiagram}) {
+
+    const history   = useHistory();
 
     const menuItems = [
         {
@@ -22,6 +28,32 @@ function DashboardMenu({menuOpen}) {
 
     let { pathname } = useLocation()
 
+    async function createNewDiagram(e) {
+
+        e.preventDefault();
+
+        onCreateDiagram(true);
+        const data = {name: 'Novo diagrama', diagram_data: '', diagram_svg: ''};
+
+        try {
+        
+            const res = await api.post('diagrams', data);
+            Toast('success', 'Diagrama salvo com sucesso!');
+
+            const {id, name} = res.data;
+
+            history.push(`/modeler/${id}/${slugify(name)}`);
+        
+        } catch (error) {
+        
+            Toast('error', error);
+        
+        }
+
+        onCreateDiagram(false);
+
+    } 
+
     return (
         <aside id="dashboard-menu" className={`bg-primary d-flex flex-column pt-5 align-items-center ${menuOpen ? 'open' : ''}`}>
 
@@ -31,7 +63,7 @@ function DashboardMenu({menuOpen}) {
             </div>
 
             <div className="w-100 px-3 mb-3">
-                <Link id="btn-new" className="btn btn-lg w-100 btn-light text-primary mt-4" to="/modeler"> <i className="bi bi-plus-lg me-2"></i> NOVO </Link>
+                <button id="btn-new" onClick={createNewDiagram} className="btn btn-lg w-100 btn-light text-primary mt-4"> <i className="bi bi-plus-lg me-2"></i> NOVO </button>
             </div>
 
             <ul className="nav flex-column w-100">

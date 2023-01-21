@@ -1,6 +1,6 @@
 import "./style.scss";
 import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import NewDiagramModal from "../../components/NewDiagramModal";
 import { Modal } from "bootstrap";
 import api from "../../services/api";
@@ -8,6 +8,7 @@ import { Toast } from "../../components/Toast";
 import ShareDiagramModal from "../../components/ShareDiagramModal";
 import { slugify } from "../../Helpers";
 import logo from "../../assets/icons/logo-min-blue.png";
+import { debounce } from "lodash";
 
 function Modeler(props) {
 
@@ -54,13 +55,19 @@ function Modeler(props) {
         }
     }
 
-    async function updateDiagram() {
+    async function updateDiagram(e = null) {
+
+        if (e)
+            e.preventDefault();
         
         try {
             
             const data = {name, diagram_data: diagram, diagram_svg: diagramSVG};
             
-            await api.put(`diagrams/${props.match.params.id}`, data);
+            const response = await api.put(`diagrams/${props.match.params.id}`, data);
+
+            window.history.replaceState(null, name, `${slugify(response.data.name)}`);
+
             Toast('success', 'Diagrama salvo com sucesso!');
         
         } catch (error) {
@@ -88,11 +95,7 @@ function Modeler(props) {
     
     useEffect(()=>{
         if (diagram && diagramSVG) {
-            if (!props.match.params.id) {
-                new Modal(`#${modalId}`).show();
-            } else {
-                updateDiagram();
-            }
+            updateDiagram();
         }
     }, [diagram, diagramSVG])
 
@@ -104,9 +107,9 @@ function Modeler(props) {
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#modelerNavbarToggle" aria-controls="modelerNavbarToggle" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
-                    <form className="d-flex me-auto" role="search">
-						<img src={logo} className="me-4" alt="logo USINN" />
-                        <input value={name} className="form-control py-0 px-2" type="text" id="nameInput" />
+                    <form onSubmit={updateDiagram} className="d-flex me-auto" role="search">
+						<Link to="/dashboard"> <img src={logo} className="me-4" alt="logo USINN" /> </Link>
+                        <input value={name} onChange={(e) => {setName(e.target.value)}} className="form-control py-0 px-2" type="text" id="nameInput" />
                     </form>
                     <div className="collapse navbar-collapse" id="modelerNavbarToggle">
                         <a className="navbar-brand ms-auto" href="#">Hidden brand</a>
@@ -117,7 +120,7 @@ function Modeler(props) {
             <div id="actionsMenu" className="d-flex bg-light py-2 px-5">
                 {/* mxGraph actions added here */}
                 {props.match.params.id && owner &&
-                    <button data-bs-toggle="modal" data-bs-target={`#${shareModalId}`} className="btn btn-light btn-sm shadow-sm order-last"> <i className="bi bi-share-fill"></i> </button>
+                    <button data-bs-toggle="modal" data-bs-target={`#${shareModalId}`} className="btn btn-light btn-sm order-last"> <i className="bi bi-share-fill"></i> </button>
                 }
             </div>
 
@@ -140,7 +143,7 @@ function Modeler(props) {
                 </div>
             </section>
 
-            <NewDiagramModal id={modalId} diagram={diagram} diagramSVG={diagramSVG}/>
+            {/* <NewDiagramModal id={modalId} diagram={diagram} diagramSVG={diagramSVG}/> */}
             <ShareDiagramModal id={shareModalId} diagram_id={props.match.params.id} />
 
         </main>
