@@ -1,12 +1,17 @@
 import './style.scss';
 
 function DiagramCard({name, lastModified, thumbnail}) {
+    function elapsedTime (date) {
+        let now = new Date();
+        let difference = now - new Date(date);
+        return Math.round(difference /(1000 * 60 * 60 * 24));
+    }
     return (
         <a href="#" className="card text-reset text-decoration-none" id="diagram-card">
             <div className="card-header d-flex">
                 <div>
-                    <span className="fw-bold">Featured</span><br />
-                    <span>Modificado há dois dias</span>
+                    <span className="fw-bold">{name}</span><br />
+                    <span>Modificado {elapsedTime(lastModified) >0 ? `há ${elapsedTime(lastModified)} dias` : "hoje"}</span>
                 </div>
 
                 <div className="dropdown ms-auto">
