@@ -38,7 +38,6 @@ function DashboardMenu({menuOpen, onCreateDiagram}) {
         try {
         
             const res = await api.post('diagrams', data);
-            Toast('success', 'Diagrama salvo com sucesso!');
 
             const {id, name} = res.data;
 

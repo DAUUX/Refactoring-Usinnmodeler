@@ -252,7 +252,7 @@ function init(editor, rootPath){
 		
 		// ['group', 'ungroup', 'cut', 'copy', 'paste', 'delete', 'undo', 'redo', 'print', 'show']
 		var icons = [['new'],['save'],['group', 'ungroup'], ['cut', 'copy', 'paste'], ['delete'], ['undo', 'redo'], ['print', 'image'], ['zoomin', 'zoomout', 'fit']];
-
+		var descriptions = ['Novo', 'Salvar', 'Agrupar', 'Desagrupar', 'Cortar', 'Copiar', 'Colar', 'Excluir', 'Desfazer', 'Refazer', 'Print', 'Imagem', 'Aumentar zoom', 'Reduzir zoom', 'Ajustar à tela'];
 
 		var i = 0;
 		for(var j = 0; j < icons.length;j++){
@@ -266,6 +266,7 @@ function init(editor, rootPath){
 				button.classList.add('btn');
 				button.classList.add('btn-light');
 				button.classList.add('btn-sm');
+				button.title = descriptions[i]
 				if(i == 0){
 					button.classList.add('disabled');
 				}

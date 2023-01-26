@@ -3,9 +3,11 @@ import DiagramCard from "../../../components/DiagramCard";
 import Spinner from "../../../components/Spinner";
 import { Toast } from "../../../components/Toast";
 import api from "../../../services/api";
+
 function SharedDocuments() {
     let [diagrams, setDiagrams] = useState([]);
     let [loading, setLoading] = useState(true);
+
     async function getDiagrams() {
         setLoading(true);
         try{
@@ -19,8 +21,7 @@ function SharedDocuments() {
 
     useEffect(()=>{
        getDiagrams();
-    },[])
-    
+    },[])    
     
     return (
         <div className="container-fluid px-4">            
@@ -28,7 +29,7 @@ function SharedDocuments() {
                 
                 {
                     loading && (
-                        <div className="col-12 d-flex justify-content-center">
+                        <div className="col-12 d-flex mt-5 justify-content-center">
                             <Spinner className="spinner-border me-2" isLoading={loading}  />
                         </div>
                     )
@@ -38,19 +39,17 @@ function SharedDocuments() {
                     diagrams.length >0 && !loading &&(
                         diagrams.map((diagram)=>{
                             return (
-                            <div className="col-12 col-md-4 col-lg-3">
+                            <div key={diagram.id} className="col-12 col-md-4 col-lg-3">
                                 <DiagramCard name={diagram.name} lastModified={diagram.updatedAt}/>                        
                             </div>
                             )
                         })
                     )
-
-                    
                 }
 
                 {
                     diagrams.length ==0 && !loading &&(
-                        <h4>Ainda não há diagramas compartilhados</h4>
+                        <h4 className="text-center mt-5">Ainda não há diagramas compartilhados</h4>
                     )
                 }
                
