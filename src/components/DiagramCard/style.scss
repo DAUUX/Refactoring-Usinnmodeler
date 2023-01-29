@@ -11,6 +11,13 @@
         }
     }
 
+    .card-body {
+        img {
+            height: 180px;
+            object-fit: contain;
+        }
+    }
+
     .dropdown .dropdown-toggle::after {
         display: none;
     }

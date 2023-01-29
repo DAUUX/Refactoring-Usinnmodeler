@@ -3,16 +3,18 @@ import { useState } from "react";
 import { Route, Switch, useRouteMatch, Link } from "react-router-dom";
 import DashboardMenu from "../../components/DashboardMenu";
 import Documents from "./documents/Documents";
+import Spinner from "../../components/Spinner";
 
 function Dashboard() {
     let match = useRouteMatch();
 
-    const [menuOpen, setMenuOpen] = useState(false);
+    const [menuOpen, setMenuOpen]             = useState(false);
+    const [loadingOverlay, setLoadingOverlay] = useState(false);
 
     return (
         <main id="dashboard" className={`flex-fill d-flex align-items-center ${menuOpen ? 'menu-open' : ''}`}>
             
-            <DashboardMenu menuOpen={menuOpen} />
+            <DashboardMenu menuOpen={menuOpen} onCreateDiagram={(value) => setLoadingOverlay(value) } />
         
             <Switch>
                 <Route path={`${match.path}/documentos`}>
@@ -22,6 +24,10 @@ function Dashboard() {
                     <h3>Início</h3>
                 </Route>
             </Switch>
+
+            <div id="loadingOverlay" className={`${loadingOverlay ? 'open':''}`}>
+                <Spinner className="spinner-border spinner-border text-light" isLoading={loadingOverlay}  />
+            </div>
 
             <button 
                 onClick={()=> setMenuOpen(!menuOpen)}

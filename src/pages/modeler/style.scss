@@ -1,27 +1,55 @@
-#actionsMenu {
-    position: relative;
-    z-index: 2;
+#modelerPage { 
+
+    #modelerNavbar {
+    
+        background-color: #d9d9d9;
+    
+        #nameInput {
+            border: 0;
+            font-size: 20px;
+            font-weight: 600;
+            &:hover, &:focus {
+                border: 2px solid rgba(0,0,0,.2);
+            }
+        }
+    }
+
+    #modelerToolbar {
+        width: 15rem;
+        border-radius: 20px;
+        max-height: 95%;
+        overflow-y: scroll;
+        z-index: 2;
+    }
+
+    #actionsMenu {
+        .btn:hover {
+            background-color: #e4e4e4;
+        }
+    }   
+
+    #graph {
+        background: url('../../../public/images/grid.gif');
+        overflow: hidden;
+    }
+    
+    #zoomActions {
+        width:100%;
+        padding-left:54px;
+        padding-top:4px;
+    }
+    
+    #outlineContainer {
+        position:absolute;
+        overflow:hidden;
+        bottom:20px;
+        right:20px;
+        width:200px;
+        height:140px;
+        background:white;
+        border-style:solid;
+        border-color:black;
+    }
 }
 
-#graph {
-    background: url('../../../public/images/grid.gif');
-    overflow: hidden;
-}
 
-#zoomActions {
-    width:100%;
-    padding-left:54px;
-    padding-top:4px;
-}
-
-#outlineContainer {
-    position:absolute;
-    overflow:hidden;
-    bottom:20px;
-    right:20px;
-    width:200px;
-    height:140px;
-    background:white;
-    border-style:solid;
-    border-color:black;
-}

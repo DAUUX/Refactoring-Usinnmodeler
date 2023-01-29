@@ -1,0 +1,24 @@
+#documentsPage {
+    #documentsNav {
+        .nav-item {
+            a {
+                font-size: 16px;
+            }
+            &.active {
+
+                a {
+                    font-weight: bold;
+                }
+                
+                &::after {
+                    content: '';
+                    height: 5px;
+                    width: 100%;
+                    background-color: #535353;
+                    display: block;
+                    border-radius: 4px 4px 0px 0px;
+                }
+            }
+        }
+    }
+}
