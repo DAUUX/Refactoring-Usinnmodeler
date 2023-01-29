@@ -2,14 +2,14 @@ import { Link } from 'react-router-dom';
 import { slugify } from '../../Helpers';
 import './style.scss';
 
-function DiagramCard({id, name, lastModified, thumbnail}) {
+function DiagramCard({id, name, lastModified, thumbnail, onShareDiagram, onRemoveDiagram, onRenameDiagram}) {
 
     function elapsedTime (date) {
         let now = new Date();
         let difference = now - new Date(date);
         return Math.round(difference /(1000 * 60 * 60 * 24));
     }
-
+    
     return (
         <Link to={`/modeler/${id}/${slugify(name)}`} className="card text-reset text-decoration-none" id="diagram-card">
             <div className="card-header d-flex">
@@ -24,15 +24,15 @@ function DiagramCard({id, name, lastModified, thumbnail}) {
                     </button>
 
                     <ul className="dropdown-menu">
-                        <li><button className="dropdown-item" href="#"> <i className="bi bi-pencil"></i> Renomear</button></li>
-                        <li><button className="dropdown-item" href="#"> <i className="bi bi-share-fill"></i> Compartilhar</button></li>
-                        <li><button className="dropdown-item" href="#"> <i className="bi bi-trash3-fill"></i> Excluir</button></li>
+                        <li><button className="dropdown-item" onClick={(e)=> {e.stopPropagation(); e.preventDefault(); onRenameDiagram(id)}}> <i className="bi bi-pencil"></i> Renomear</button></li>
+                        <li><button className="dropdown-item" onClick={(e)=> {e.stopPropagation(); e.preventDefault(); onShareDiagram(id)}}> <i className="bi bi-share-fill"></i> Compartilhar</button></li>
+                        <li><button className="dropdown-item" onClick={(e)=> {e.stopPropagation(); e.preventDefault(); onRemoveDiagram(id)}}> <i className="bi bi-trash3-fill"></i> Excluir</button></li>
                     </ul>
 
                 </div>
 
             </div>
-            <div className="card-body p-0">
+            <div className="card-body p-3">
                 <img className='w-100' src={`${process.env.REACT_APP_API_URL}${thumbnail}`} alt="Thumbnail do diagrama" />
             </div>
         </Link>

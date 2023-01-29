@@ -34,7 +34,7 @@ body {
 	}
 }
 
-.form-select:invalid {
+.form-select:invalid, .form-control:disabled {
 	color: $gray-600 !important;
 }
 
