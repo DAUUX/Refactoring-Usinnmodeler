@@ -96,7 +96,7 @@ function ShareDiagramModal(props) {
 
     return (
         <div className="modal fade" id={props.id} tabIndex="-1" aria-labelledby="ShareDiagramModalLabel" aria-hidden="true">
-            <div className="modal-dialog modal-lg">
+            <div className="modal-dialog modal-lg modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title" id="ShareDiagramModalLabel">Compartilhar diagrama</h5>

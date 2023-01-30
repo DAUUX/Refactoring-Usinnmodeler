@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { slugify } from '../../Helpers';
 import './style.scss';
 
-function DiagramCard({id, name, lastModified, thumbnail, onShareDiagram, onRemoveDiagram, onRenameDiagram}) {
+function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram, onRemoveDiagram, onRenameDiagram}) {
 
     function elapsedTime (date) {
         let now = new Date();
@@ -24,9 +24,21 @@ function DiagramCard({id, name, lastModified, thumbnail, onShareDiagram, onRemov
                     </button>
 
                     <ul className="dropdown-menu">
-                        <li><button className="dropdown-item" onClick={(e)=> {e.stopPropagation(); e.preventDefault(); onRenameDiagram(id)}}> <i className="bi bi-pencil"></i> Renomear</button></li>
-                        <li><button className="dropdown-item" onClick={(e)=> {e.stopPropagation(); e.preventDefault(); onShareDiagram(id)}}> <i className="bi bi-share-fill"></i> Compartilhar</button></li>
-                        <li><button className="dropdown-item" onClick={(e)=> {e.stopPropagation(); e.preventDefault(); onRemoveDiagram(id)}}> <i className="bi bi-trash3-fill"></i> Excluir</button></li>
+                        <li>
+                            <button className="dropdown-item" onClick={(e)=> {e.stopPropagation(); e.preventDefault(); onRenameDiagram(id)}}> <i className="bi bi-pencil"></i> Renomear</button>
+                        </li>
+
+                        {
+                            userId == JSON.parse(localStorage.getItem('user')).id && (
+                                <li>
+                                    <button className="dropdown-item" onClick={(e)=> {e.stopPropagation(); e.preventDefault(); onShareDiagram(id)}}> <i className="bi bi-share-fill"></i> Compartilhar</button>
+                                </li>
+                            )
+                        }
+                       
+                        <li>
+                            <button className="dropdown-item" onClick={(e)=> {e.stopPropagation(); e.preventDefault(); onRemoveDiagram(id)}}> <i className="bi bi-trash3-fill"></i> Excluir</button>
+                        </li>
                     </ul>
 
                 </div>

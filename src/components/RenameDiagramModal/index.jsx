@@ -5,7 +5,7 @@ import 'simple-react-validator/dist/locale/pt';
 import { Toast } from "../Toast";
 import api from "../../services/api";
 import Spinner from "../Spinner";
-import { slugify } from "../../Helpers";
+import { Modal } from "bootstrap";
 
 function Rename({id, diagram_id, onDiagramRenamed}) {
 
@@ -35,6 +35,8 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
             
                 await api.put(`diagrams/rename/${diagram_id}`, data);
                 Toast('success', 'Diagrama renomeado com sucesso!');
+                
+                document.getElementById('closeModal').click();
 
                 onDiagramRenamed()
             
@@ -55,7 +57,7 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
 
     return (
         <div className="modal fade" id={id} tabIndex="-1" aria-labelledby="newDiagramModalLabel" aria-hidden="true">
-            <div className="modal-dialog">
+            <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title" id="newDiagramModalLabel">Renomear diagrama</h5>
@@ -68,7 +70,7 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
                         </div>
                         <div className="modal-footer">
                             {/* <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button> */}
-                            <button className="btn btn-primary" disabled={loading} type="submit" data-bs-dismiss="modal">
+                            <button className="btn btn-primary" disabled={loading}>
                                 <Spinner className="spinner-border spinner-border-sm me-2" isLoading={loading}  /> Salvar
                             </button>
                         </div>

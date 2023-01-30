@@ -33,7 +33,7 @@ function RemoveDiagramModal({id, diagram_id, onDiagramRemoved}) {
             <div className="modal-dialog modal-md modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-body text-center px-4 pb-4">
-                        <i class="bi bi-exclamation-triangle-fill mb-5 mt-3" style={{'font-size': '60px'}}></i>
+                        <i className="bi bi-exclamation-triangle-fill mb-5 mt-3" style={{'fontSize': '60px'}}></i>
                         <h4 className="mb-5">Seu diagrama será excluído e você não terá mais acesso a ele!</h4>
                         <button className="btn btn-secondary me-3" disabled={loading} type="button" data-bs-dismiss="modal">Cancelar</button>
                         <button className="btn btn-primary" disabled={loading} onClick={removeDiagram} type="button" data-bs-dismiss="modal">Confirmar</button>
