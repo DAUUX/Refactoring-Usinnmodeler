@@ -1,0 +1,67 @@
+
+.bloco {
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+
+  #section2, #section3, #section4, #section5, #section6, #section7, #section51 {
+    background-color: rgba(228, 226, 226, 0.751);
+  }
+
+  #section1{
+    padding: 150px 0px;
+  }
+  
+  #btn_modeler {
+    border-radius: 8px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 8px;
+    gap: 10px;
+  }
+ 
+
+ //-------------------------------------------------------------------------------------------------------
+
+  #CirculoDeFundo{
+    background:url("../../assets/icons/circle.svg") no-repeat;
+    min-width:100%;
+    min-height:100%;
+    width: 271px;
+    height: 271px;
+  }
+
+  #BarraDeFundo{
+    background:url("../../assets/icons/linhaSection3.svg") no-repeat;
+    background-position: right;
+  }
+
+
+ .CheckList {
+    list-style-image: url("../../assets/icons/verificado.svg");
+    
+    
+  }
+
+//-----------------------------------------------------------------------------------------------
+
+ .membro{
+  max-width: 80%;
+  max-height: 80%;
+  border-radius: 100%;
+  margin: 10%;
+ }
+
+ .wrapper{
+  display: flex;
+  overflow-x: auto;
+ 
+}
+.wrapper .item{
+  text-align: center;
+  margin: 1%;
+}
