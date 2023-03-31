@@ -36,7 +36,7 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
                 await api.put(`diagrams/rename/${diagram_id}`, data);
                 Toast('success', 'Diagrama renomeado com sucesso!');
                 
-                document.getElementById('closeModal').click();
+                document.getElementById(id).click();
 
                 onDiagramRenamed()
             
@@ -56,7 +56,7 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
     }
 
     return (
-        <div className="modal fade" id={id} tabIndex="-1" aria-labelledby="newDiagramModalLabel" aria-hidden="true">
+        <div className="modal" id={id} tabIndex="-1" aria-labelledby="newDiagramModalLabel" aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header">
