@@ -96,7 +96,7 @@ function ShareDiagramModal(props) {
 
     return (
         <div className="modal fade" id={props.id} tabIndex="-1" aria-labelledby="ShareDiagramModalLabel" aria-hidden="true">
-            <div className="modal-dialog modal-lg">
+            <div className="modal-dialog modal-lg modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title" id="ShareDiagramModalLabel">Compartilhar diagrama</h5>
@@ -105,8 +105,8 @@ function ShareDiagramModal(props) {
                     <div className="modal-body">
                         <label className="mb-1">Link</label>
                         <div className="input-group mb-3">
-                            <input type="text" id="link" className="form-control" disabled value={!loading ? link : 'Carregando...'} />
-                            <button disabled={loading} className="btn btn-outline-primary" type="button" onClick={copy}> <i className={`bi bi-${!copied? 'clipboard' : 'check'}`} ></i> </button>
+                            <input type="text" id="link" className="form-control px-2" disabled value={!loading ? link : 'Carregando...'} />
+                            <button title="Copiar link" disabled={loading} className="btn btn-outline-primary" type="button" onClick={copy}> <i className={`bi bi-${!copied? 'clipboard' : 'check'}`} ></i> </button>
                         </div>
                     </div>
                     <div className="modal-footer">

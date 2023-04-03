@@ -3,10 +3,17 @@ import DiagramCard from "../../../components/DiagramCard";
 import Spinner from "../../../components/Spinner";
 import { Toast } from "../../../components/Toast";
 import api from "../../../services/api";
+import { Modal } from "bootstrap";
+import ShareDiagramModal from "../../../components/ShareDiagramModal";
+import RemoveDiagramModal from "../../../components/RemoveDiagramModal";
+import RenameDiagramModal from "../../../components/RenameDiagramModal";
+
 function MyDocuments() {
 
     let [diagrams, setDiagrams] = useState([]);
     let [loading, setLoading] = useState(true);
+
+    const [selectedId, setSelectedId] = useState(null);
     
     async function getDiagrams() {
         setLoading(true);
@@ -22,7 +29,27 @@ function MyDocuments() {
     useEffect(()=>{
        getDiagrams();
     },[])
-    
+
+    function callShareDiagramModal(id) {
+        setSelectedId(id)
+
+        const modal = new Modal('#ShareDiagramModal')          
+        modal.show();
+    }
+
+    function callRemoveDiagramModal(id) {
+        setSelectedId(id)
+
+        const modal = new Modal('#RemoveDiagramModal')          
+        modal.show();
+    }
+
+    function callRenameDiagramModal(id) {
+        setSelectedId(id)
+
+        const modal = new Modal('#RenameDiagramModal')          
+        modal.show();
+    }
     
     return (
         <div className="container-fluid px-4">            
@@ -40,14 +67,12 @@ function MyDocuments() {
                     diagrams.length >0 && !loading &&(
                         diagrams.map((diagram)=>{
                             return (
-                                <div key={diagram.id} className="col-12 col-md-4 col-lg-3">
-                                    <DiagramCard id={diagram.id} name={diagram.name} lastModified={diagram.updatedAt} thumbnail={diagram.diagram_svg}/>                        
+                                <div key={diagram.id} className="col-12 col-md-4 col-lg-3 mb-3">
+                                    <DiagramCard id={diagram.id} name={diagram.name} lastModified={diagram.updatedAt} userId={diagram.user_id} thumbnail={diagram.diagram_svg} onShareDiagram={(id) => callShareDiagramModal(id)} onRemoveDiagram={(id)=> callRemoveDiagramModal(id)} onRenameDiagram={(id)=> callRenameDiagramModal(id)} />                        
                                 </div>
                             )
                         })
-                    )
-
-                    
+                    )                    
                 }
 
                 {
@@ -57,6 +82,11 @@ function MyDocuments() {
                 }
                
             </div>
+
+            <ShareDiagramModal id="ShareDiagramModal" diagram_id={selectedId} />
+            <RemoveDiagramModal id="RemoveDiagramModal" diagram_id={selectedId} onDiagramRemoved={() => getDiagrams()} />
+            <RenameDiagramModal id="RenameDiagramModal" diagram_id={selectedId} onDiagramRenamed={() => getDiagrams()} />
+
         </div>
     )
 

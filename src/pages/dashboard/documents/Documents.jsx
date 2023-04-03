@@ -5,6 +5,7 @@ import SharedDocuments from "./SharedDocuments";
 import './style.scss'
 
 function Documents() {
+
     let match = useRouteMatch();
 
     let { pathname } = useLocation();

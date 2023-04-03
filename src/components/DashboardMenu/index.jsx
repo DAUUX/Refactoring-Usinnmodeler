@@ -53,6 +53,7 @@ function DashboardMenu({menuOpen, onCreateDiagram}) {
 
     } 
 
+
     return (
         <aside id="dashboard-menu" className={`bg-primary d-flex flex-column pt-5 align-items-center ${menuOpen ? 'open' : ''}`}>
 
@@ -69,7 +70,7 @@ function DashboardMenu({menuOpen, onCreateDiagram}) {
                 {
                     menuItems.map(item=>{
                         return  (
-                            <li className={`nav-item ${pathname == match.url+item.path ? 'active' : ''}`} key={item.name}>
+                            <li className={`nav-item ${(pathname.split("/")[2] ? "/"+pathname.split("/")[2] : '') == item.path ? 'active' : ''}`} key={item.name}>
                                 <Link to={`${match.url}${item.path}`} className="text-white d-block fs-5 text-decoration-none px-4 py-4"> 
                                     <i className={`bi ${item.icon} me-2`}></i>  {item.name} 
                                 </Link>
