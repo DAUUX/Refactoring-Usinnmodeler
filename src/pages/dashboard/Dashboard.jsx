@@ -11,6 +11,8 @@ function Dashboard() {
     const [menuOpen, setMenuOpen]             = useState(false);
     const [loadingOverlay, setLoadingOverlay] = useState(false);
 
+    const username = JSON.parse(localStorage.getItem("user"))['name']
+
     return (
         <main id="dashboard" className={`flex-fill d-flex align-items-center ${menuOpen ? 'menu-open' : ''}`}>
             
@@ -21,7 +23,9 @@ function Dashboard() {
                     <Documents/>
                 </Route>
                 <Route path={match.path}>
-                    <h3>Início</h3>
+                    <div className="h-100 w-100 text-center pt-5">
+                        <h3>Seja bem-vindo, {username}!</h3>
+                    </div>
                 </Route>
             </Switch>
 

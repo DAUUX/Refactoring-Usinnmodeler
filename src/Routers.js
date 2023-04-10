@@ -9,7 +9,8 @@ import PrivateRoute from "./components/PrivateRoute";
 import Dashboard from "./pages/dashboard/Dashboard";
 const Routers = () => {
   return (
-    <BrowserRouter basename={process.env.REACT_APP_BASE_ROUTE}>
+    // forceRefresh para tentar corrigir problema onde o salvamento e atalhos do modeler não funcionam
+    <BrowserRouter forceRefresh={true} basename={process.env.REACT_APP_BASE_ROUTE}>
       <Switch>
         <PrivateRoute path="/modeler/:id?/:slug?" component={Modeler} />
         <PrivateRoute path="/dashboard" component={Dashboard} />
@@ -17,6 +18,7 @@ const Routers = () => {
         <Route path="/" exact component={Home} />
         <Route path="/cadastro" exact component={Register} />
         <Route path="/login" exact component={Login} />
+        <Route path="*" component={Home} />
       </Switch>
     </BrowserRouter>
   );

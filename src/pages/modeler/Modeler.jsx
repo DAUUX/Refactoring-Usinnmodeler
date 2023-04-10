@@ -84,6 +84,8 @@ function Modeler(props) {
             window.history.replaceState(null, name, `/modeler/${props.match.params.id}/${slugify(response.data.name)}`);
 
             Toast('success', 'Diagrama salvo com sucesso!');
+
+            document.getElementById('nameInput').blur()
         
         } catch (error) {
         
@@ -122,7 +124,7 @@ function Modeler(props) {
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#modelerNavbarToggle" aria-controls="modelerNavbarToggle" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
-                    <form className="d-flex me-auto" role="search">
+                    <form onSubmit={rename} className="d-flex me-auto" role="search">
 						<Link to="/dashboard"> <img src={logo} className="me-4" alt="logo USINN" /> </Link>
                         <input value={name} onChange={(e) => {setName(e.target.value)}} onBlur={rename} className="form-control py-0 px-2" type="text" id="nameInput" />
                     </form>
