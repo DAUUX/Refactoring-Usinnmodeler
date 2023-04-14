@@ -1,36 +1,31 @@
 import usinnModeler from "../../assets/icons/usinn-logo-horiz.png";
 import { Link, useHistory } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
 import { Toast } from "../../components/Toast";
 import api from "../../services/api";
 import Spinner from "../../components/Spinner";
-import SimpleReactValidator from "simple-react-validator";
-import 'simple-react-validator/dist/locale/pt';
-
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 function Login() {
 	const history = useHistory();
-	const [loading, setLoading]   = useState(false);
-	const [email, setEmail]       = useState('');
-	const [password, setPassword] = useState('');
-	const [, wasValidated]        = useState();
 
-	const [isDirty, setIsDirty] = useState({email: false, password: false})
-	const validator = useRef(new SimpleReactValidator({locale: 'pt'}));
+	const formik = useFormik({
 
-	async function handleLogin(e) {
-
-		e.preventDefault();
-
-		setLoading(true);
-
-		const data = {email, password};
-		
-		if (validator.current.allValid()) {
-
+		initialValues: {
+ 			email: '',
+			password: ''
+		},
+   
+		validationSchema: Yup.object({
+			email: Yup.string().email('Endereço de e-mail inválido').required('E-mail é obrigatório'),
+			password: Yup.string().min(8, 'Senha deve ter no mínimo 8 caracteres').required('Senha é obrigatória'),
+		}),
+   
+		onSubmit: async values => {
+   
 			try {
 
-				const response = await api.post('signin', data);
+				const response = await api.post('signin', values);
 	
 				const {token, id, name, email} = response.data;
 	
@@ -47,16 +42,10 @@ function Login() {
 				Toast('error', error);
 				
 			}
-
-		} else {
-			validator.current.showMessages(true);
-			setIsDirty({email: true, password: true});
-			wasValidated(1);
-		}
-
-		setLoading(false);
-
-	}
+   
+		},
+   
+	});
 	
 	return (
 		<main className="flex-fill d-flex align-items-center">
@@ -74,41 +63,41 @@ function Login() {
 
 					<div className="col-12 col-md-8 col-lg-4">
 
-						<form className={`row justify-content-center`} onSubmit={handleLogin}>
+						<form className={`row justify-content-center`} onSubmit={formik.handleSubmit}>
 							<div className="col-12 mb-3">
 								<input
 									autoFocus
-									disabled={loading}
-									value={email}
-									onChange={e => {setEmail(e.target.value)}}
-									onInput={() => {setIsDirty({...isDirty, email: true}); validator.current.showMessageFor('email')}}
-									className={`form-control ${!validator.current.fieldValid('email') && isDirty.email ? 'is-invalid' : '' }`}
+									disabled={formik.isSubmitting}
+									onChange={formik.handleChange}
+									onInput={(e) => formik.setFieldTouched(e.target.name, true, false)}
+									value={formik.values.email}
+									className={`form-control ${formik.touched.email && formik.errors.email ? 'is-invalid' : '' }`}
 									type="email"
 									name="email"
-									placeholder="E-mail"
+									placeholder="E-mail*"
 								/>
-								{validator.current.message("email", email, "required|min:3|max:100|email", { className: 'invalid-feedback d-block' })}
+								{formik.touched.email && formik.errors.email ? (<div className="invalid-feedback d-block"> {formik.errors.email}</div>) : null}
 							</div>
 
 							<div className="col-12 mb-3 d-flex flex-column">
 								<input
-									disabled={loading}
-									value={password}
-									onChange={e => {setPassword(e.target.value)}}
-									onInput={() => {setIsDirty({...isDirty, password: true}); validator.current.showMessageFor('senha')}}
-									className={`form-control ${!validator.current.fieldValid('senha') && isDirty.password ? 'is-invalid' : '' }`}
+									disabled={formik.isSubmitting}
+									onChange={formik.handleChange}
+									onInput={(e) => formik.setFieldTouched(e.target.name, true, false)}
+									value={formik.values.password}
+									className={`form-control ${formik.touched.password && formik.errors.password ? 'is-invalid' : '' }`}
 									type="password"
 									name="password"
-									placeholder="Senha"
+									placeholder="Senha*"
 								/>
-								{validator.current.message("senha", password, "required|min:8", { className: 'invalid-feedback d-block' })}
+								{formik.touched.password && formik.errors.password ? (<div className="invalid-feedback d-block"> {formik.errors.password}</div>) : null}
 								
 								<a className="text-decoration-none ms-auto mt-2" href="#">Esqueceu sua senha?</a>
 							</div>
 
 							<div className="col-12 d-grid gap-2 mt-2">
 								<button className="btn btn-primary btn-lg" type="submit">
-									<Spinner className="spinner-border spinner-border-sm me-2" isLoading={loading}  /> ACESSAR
+									<Spinner className="spinner-border spinner-border-sm me-2" isLoading={formik.isSubmitting}  /> ACESSAR
 								</button>
 							</div>
 
