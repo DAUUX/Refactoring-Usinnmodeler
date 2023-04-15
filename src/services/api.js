@@ -14,15 +14,22 @@ api.interceptors.response.use(function (response) {
         window.location.replace('/login');
     }
 
-    const errorsMsg = error.response.data.errors.reduce((acc, cur, index) => {
+    if (error.response.data.errors) {
 
-        let msg = acc + (index > 0 ? '<br>' : '') + cur.msg; 
+        const errorsMsg = error.response.data.errors.reduce((acc, cur, index) => {
+    
+            let msg = acc + (index > 0 ? '<br>' : '') + cur.msg; 
+    
+            return msg
+    
+        }, '');
+    
+        return Promise.reject(errorsMsg);
 
-        return msg
+    }
 
-    }, '');
+    return Promise.reject('Um problema inesperado ocorreu. Caso o problema persista, entre em contato com os administradores do sistema.');
 
-    return Promise.reject(errorsMsg);
 });
 
 export default api;

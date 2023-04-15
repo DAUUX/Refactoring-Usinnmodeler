@@ -1,39 +1,36 @@
-import { useEffect, useRef, useState } from "react";
-import { useHistory } from "react-router-dom";
-import SimpleReactValidator from "simple-react-validator";
-import 'simple-react-validator/dist/locale/pt';
+import { useEffect } from "react";
 import { Toast } from "../Toast";
 import api from "../../services/api";
 import Spinner from "../Spinner";
-import { Modal } from "bootstrap";
+import { useFormik } from "formik";
+import * as Yup from 'yup';
 
 function Rename({id, diagram_id, onDiagramRenamed}) {
 
-    const history   = useHistory();
-    const validator = useRef(new SimpleReactValidator({locale: 'pt'}));
-
-    const [loading, setLoading]   = useState(false);
-    const [name, setName]         = useState('');
-    const [, wasValidated]        = useState();
-
     useEffect(()=>{
         document.getElementById(id).addEventListener('show.bs.modal', event => {
-            setName('')
+            formik.resetForm()
         });
     },[])
 
-    async function handleSave(e) {
+    const formik = useFormik({
 
-        e.preventDefault();
-
-        setLoading(true);
-        const data = {name};
-
-        if (validator.current.allValid()) {
-        
+		initialValues: {
+			name: '',
+		},
+   
+		validationSchema: Yup.object({
+			name: Yup.string()
+				.min(3, 'O nome deve ter no mínimo 3 caracteres')
+				.max(255, 'O nome deve ter no máximo 100 caracteres')
+				.required('Nome é obrigatório')
+		}),
+   
+		onSubmit: async values => {
+   
             try {
             
-                await api.put(`diagrams/rename/${diagram_id}`, data);
+                await api.put(`diagrams/rename/${diagram_id}`, values);
                 Toast('success', 'Diagrama renomeado com sucesso!');
                 
                 document.getElementById(id).click();
@@ -45,33 +42,37 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
                 Toast('error', error);
             
             }
-        
-        } else {
-            validator.current.showMessages(true);
-            wasValidated(1);
-        }
-
-        setLoading(false);
-
-    }
-
+   
+		},
+   
+	});
+	
     return (
-        <div className="modal" id={id} tabIndex="-1" aria-labelledby="newDiagramModalLabel" aria-hidden="true">
+        <div className="modal" id={id} tabIndex="-1" aria-labelledby="RenameDiagramModalLabel" aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title" id="newDiagramModalLabel">Renomear diagrama</h5>
+                        <h5 className="modal-title" id="RenameDiagramModalLabel">Renomear diagrama</h5>
                         <button id="closeModal" type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form noValidate="" onSubmit={handleSave}>
+                    <form noValidate="" onSubmit={formik.handleSubmit}>
                         <div className="modal-body">
-                            <input autoFocus className="form-control" disabled={loading} type="text" name="name" placeholder="Novo nome" value={name} onChange={e => setName(e.target.value)}/>
-                            {validator.current.message("nome", name, "required|min:3|max:255", { className: 'invalid-feedback d-block ms-2' })}
+                            <input 
+                                autoFocus 
+                                disabled={formik.isSubmitting}
+								onChange={formik.handleChange}
+								onInput={(e) => formik.setFieldTouched(e.target.name, true, false)}
+								value={formik.values.name} 
+                                className="form-control" 
+                                type="text" 
+                                name="name" 
+                                placeholder="Novo nome"/>
+
+                            {formik.touched.name && formik.errors.name ? (<div className="invalid-feedback d-block"> {formik.errors.name}</div>) : null}
                         </div>
                         <div className="modal-footer">
-                            {/* <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button> */}
-                            <button className="btn btn-primary" disabled={loading}>
-                                <Spinner className="spinner-border spinner-border-sm me-2" isLoading={loading}  /> Salvar
+                            <button type="submit" className="btn btn-primary" disabled={formik.isSubmitting}>
+                                <Spinner className="spinner-border spinner-border-sm me-2" isLoading={formik.isSubmitting}  /> Salvar
                             </button>
                         </div>
                     </form>

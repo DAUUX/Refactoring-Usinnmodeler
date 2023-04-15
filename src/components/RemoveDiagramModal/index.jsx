@@ -1,6 +1,4 @@
-import { useEffect, useRef, useState } from "react";
-import { useHistory } from "react-router-dom";
-import 'simple-react-validator/dist/locale/pt';
+import { useState } from "react";
 import { Toast } from "../Toast";
 import api from "../../services/api";
 

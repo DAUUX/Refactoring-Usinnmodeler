@@ -15,7 +15,7 @@
                 border-radius: 10rem;
                 background-color: #d9d9dd;
 
-                .form-control, .form-select {
+                .form-control:not(.is-invalid), .form-select:not(.is-invalid) {
                     border-color: #959595;
                     &:focus {
                         border-color: darken(#959595, 15%);
