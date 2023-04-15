@@ -1,8 +1,5 @@
 import usinnModeler from "../../assets/icons/usinn-logo-horiz.png";
 import { Link, useHistory } from "react-router-dom";
-import { useRef, useState } from "react";
-import SimpleReactValidator from 'simple-react-validator';
-import 'simple-react-validator/dist/locale/pt';
 import Spinner from "../../components/Spinner";
 import { Toast } from '../../components/Toast';
 import api from "../../services/api";
@@ -10,36 +7,49 @@ import InputMask from 'react-input-mask';
 import moment from "moment";
 import "./style.scss";
 import { roleOptions, genderOptions } from '../../Consts';
+import { useFormik } from "formik";
+import * as Yup from 'yup';
 
 function Register() {
 	const history = useHistory();
-	const validator = useRef(new SimpleReactValidator({locale: 'pt', messages: {accepted: 'O campo é inválido.'}}));
-	
-	const [loading, setLoading]   = useState(false);
-	const [name, setName]         = useState('');
-	const [email, setEmail]       = useState('');
-	const [birthday, setBirthday] = useState('');
-	const [gender, setGender]     = useState('');
-	const [password, setPassword] = useState('');
-	const [company, setCompany]   = useState('');
-	const [role, setRole]         = useState('');
-	const [accept, setAccept]     = useState(false);
-	const [, wasValidated]        = useState();
 
-	const [isDirty, setIsDirty] = useState({name: false, email: false, birthday: false, gender: false, password: false, company: false, role: false});
+	const formik = useFormik({
 
-	async function handleRegister(e) {
-
-		e.preventDefault();
-
-		setLoading(true);
-		const data = {name, email, birthday: moment(birthday, 'DD/MM/YYYY', true).format('YYYY-MM-DD'), gender, password, company, role, accept};
-
-		if (validator.current.allValid() && accept) {
-		
+		initialValues: {
+			name: '',
+ 			email: '',
+			birthday: '',
+			gender: '',
+			password: '',
+			company: '',
+			role: '',
+			accept: false
+		},
+   
+		validationSchema: Yup.object({
+			name: Yup.string()
+				.matches(/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/, {message: 'O nome só deve conter caracteres'})
+				.min(3, 'O nome deve ter no mínimo 3 caracteres')
+				.max(100, 'O nome deve ter no máximo 100 caracteres')
+				.required('Nome é obrigatório'),
+			email: Yup.string().email('Endereço de e-mail inválido').max(100, 'O email deve ter no máximo 100 caracteres').required('E-mail é obrigatório'),
+			password: Yup.string().min(8, 'Senha deve ter no mínimo 8 caracteres').required('Senha é obrigatória'),
+			birthday: Yup.date()
+				.transform((value, currentValue) => { return moment(currentValue, 'DD/MM/YYYY', true).toDate() })
+				.typeError('Data é inválida')
+				.max(new Date(), 'Data de nascimento inválida')
+				.required('Data de nascimento é obrigatória'),
+			gender: Yup.number().integer('Valor é inválido').min(1, 'Valor é inválido').max(3, 'Valor é inválido').required('Gênero é obrigatório'),
+			role: Yup.number().integer('Valor é inválido'),
+			company: Yup.string().max(100, 'A organização deve ter no máximo 100 caracteres'),
+			accept: Yup.boolean().oneOf([true], 'É necessário aceitar os termos')
+		}),
+   
+		onSubmit: async values => {
+   
 			try {
 				
-				await api.post('signup', data);
+				await api.post('signup', {...values, birthday: moment(values.birthday, 'DD/MM/YYYY', true).format('YYYY-MM-DD')});
 				
 				Toast('success', 'Cadastro realizado com sucesso!');
 				
@@ -50,16 +60,10 @@ function Register() {
 				Toast('error', error);
 				
 			}
-		
-		} else {
-			validator.current.showMessages(true);
-			setIsDirty({name: true, email: true, password: true, company: true, role: true});
-			wasValidated(1);
-		}
-
-		setLoading(false);
-
-	}
+   
+		},
+   
+	});
 	
 	return (
 		<main id="register-page" className="flex-fill d-flex align-items-center">  
@@ -77,118 +81,116 @@ function Register() {
 					
 					<div className="col-12 col-md-8 col-lg-4">
 
-						<form className="row" noValidate="" onSubmit={handleRegister}>
+						<form className="row" noValidate="" onSubmit={formik.handleSubmit}>
 								
 								<div className="col-12 mb-3">
 									<input 
 										autoFocus 
-										disabled={loading} 
-										onChange={e => {setName(e.target.value)}}
-										onInput={() =>{setIsDirty({...isDirty, name: true}); validator.current.showMessageFor('nome')}}
-										className={`form-control ${!validator.current.fieldValid('nome') && isDirty.name ? 'is-invalid' : '' }`}
+										disabled={formik.isSubmitting}
+										onChange={formik.handleChange}
+										onInput={(e) => formik.setFieldTouched(e.target.name, true, false)}
+										value={formik.values.name}
+										className={`form-control ${formik.touched.name && formik.errors.name ? 'is-invalid' : '' }`}
 										type="text" 
 										name="name" 
-										placeholder="Nome completo" 
-										value={name}
+										placeholder="Nome completo*"
 									/>
-									{validator.current.message("nome", name, ["required",{min:3}, {max:100},{regex:/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/}], { className: 'invalid-feedback d-block' })}
+									{formik.touched.name && formik.errors.name ? (<div className="invalid-feedback d-block"> {formik.errors.name}</div>) : null}
 								</div>
 
 								<div className="col-12 mb-3">
 									<input 
-										disabled={loading} 
-										onChange={e => {setEmail(e.target.value)}}
-										onInput={() => {setIsDirty({...isDirty, email: true}); validator.current.showMessageFor('email')}}
-										className={`form-control ${!validator.current.fieldValid('email') && isDirty.email ? 'is-invalid' : '' }`}
+										disabled={formik.isSubmitting}
+										onChange={formik.handleChange}
+										onInput={(e) => formik.setFieldTouched(e.target.name, true, false)}
+										value={formik.values.email}
+										className={`form-control ${formik.touched.email && formik.errors.email ? 'is-invalid' : '' }`}
 										type="email" 
 										name="email" 
-										placeholder="E-mail" 
-										value={email}
+										placeholder="E-mail*"
 									/>
-									{validator.current.message("email", email, "required|min:3|max:100|email", { className: 'invalid-feedback d-block' })}
+									{formik.touched.email && formik.errors.email ? (<div className="invalid-feedback d-block"> {formik.errors.email}</div>) : null}
 								</div>
 
 								<div className="col-12 mb-3">
 									<input 
-										disabled={loading} 
-										onChange={e => {setPassword(e.target.value)}}
-										onInput={() => {setIsDirty({...isDirty, password: true}); validator.current.showMessageFor('senha')}}
-										className={`form-control ${!validator.current.fieldValid('senha') && isDirty.password ? 'is-invalid' : '' }`}
+										disabled={formik.isSubmitting}
+										onChange={formik.handleChange}
+										onInput={(e) => formik.setFieldTouched(e.target.name, true, false)}
+										value={formik.values.password}
+										className={`form-control ${formik.touched.password && formik.errors.password ? 'is-invalid' : '' }`}
 										type="password" 
 										name="password" 
-										placeholder="Senha" 
-										value={password} 
+										placeholder="Senha*"
 									/>
-									{validator.current.message("senha", password, "required|min:8", { className: 'invalid-feedback d-block' })}
+									{formik.touched.password && formik.errors.password ? (<div className="invalid-feedback d-block"> {formik.errors.password}</div>) : null}
 								</div>
 
 								<div className="col-12 col-lg-6 mb-3">
 									<InputMask 
-										disabled={loading} 
-										onChange={e => {setBirthday(e.target.value)}}
-										onInput={() => {setIsDirty({...isDirty, birthday: true}); validator.current.showMessageFor('data de nascimento')}}
-										className={`form-control ${!validator.current.fieldValid('data de nascimento') && isDirty.birthday ? 'is-invalid' : '' }`}
+										disabled={formik.isSubmitting}
+										onChange={formik.handleChange}
+										onInput={(e) => formik.setFieldTouched(e.target.name, true, false)}
+										value={formik.values.birthday}
+										className={`form-control ${formik.touched.birthday && formik.errors.birthday ? 'is-invalid' : '' }`}
 										type="text" 
 										name="birthday" 
       									mask='99/99/9999'
-										placeholder="Data de nascimento" 
-										value={birthday} 
+										placeholder="Data de nascimento*" 
 									/>
-									{validator.current.message("data de nascimento", moment(birthday, "DD/MM/YYYY", true).isValid(), "required|accepted", { className: 'invalid-feedback d-block' })}
+									{formik.touched.birthday && formik.errors.birthday ? (<div className="invalid-feedback d-block"> {formik.errors.birthday}</div>) : null}
 								</div>
 
 								<div className="col-12 col-lg-6 mb-3">
 									<select 
-										required
-										disabled={loading} 
-										onChange={e => {setGender(e.target.value); setIsDirty({...isDirty, gender: true}); validator.current.showMessageFor('gênero')}}
-										className={`form-select ${!validator.current.fieldValid('gênero') && isDirty.gender ? 'is-invalid' : '' }`} 
+										disabled={formik.isSubmitting}
+										onChange={(e) => {formik.handleChange(e); formik.setFieldTouched(e.target.name, true, false)}}
+										value={formik.values.gender}
+										className={`form-select ${formik.touched.gender && formik.errors.gender ? 'is-invalid' : '' }${formik.values.gender == '' ? ' is-empty': ''}`} 
 										name="gender" 
-										placeholder="Gênero" 
-										value={gender}
+										placeholder="Gênero*"
 									>
-										<option value="" disabled selected hidden> Gênero </option>
+										<option value="" disabled hidden> Gênero* </option>
 
 										{ genderOptions.map((item, index) => 
 											<option value={index+1} key={index} > {item} </option>
 										)}
 
 									</select>
-									{validator.current.message("gênero", gender, "required|integer", { className: 'invalid-feedback d-block' })}
+									{formik.touched.gender && formik.errors.gender ? (<div className="invalid-feedback d-block"> {formik.errors.gender}</div>) : null}
 								</div>
 
 								<div id="gray-area" className="my-lg-2">
 									<div className="row h-100 align-items-center">
 										<div className="col-12 col-lg-6 mb-3">
 											<select
-												required
-												disabled={loading}
-												onChange={e => { setRole(e.target.value); setIsDirty({ ...isDirty, role: true }); validator.current.showMessageFor('perfil')}}
-												className={`form-select ${!validator.current.fieldValid('perfil') && isDirty.role ? 'is-invalid' : ''}`}
+												disabled={formik.isSubmitting}
+												onChange={(e) => {formik.handleChange(e); formik.setFieldTouched(e.target.name, true, false)}}
+												value={formik.values.role}
+												className={`form-select ${formik.touched.role && formik.errors.role ? 'is-invalid' : ''}${formik.values.role == '' ? ' is-empty': ''}`}
 												name="role"
 												placeholder="Perfil"
-												value={role}
 											>
-												<option value="" disabled selected hidden> Perfil </option>
+												<option value="" disabled hidden> Perfil </option>
 												{ roleOptions.map((item, index) => 
 													<option value={index+1} key={index} > {item} </option>
 												)}
 											</select>
-											{validator.current.message("perfil", role, "integer", { className: 'invalid-feedback d-block' })}
+											{formik.touched.role && formik.errors.role ? (<div className="invalid-feedback d-block"> {formik.errors.role}</div>) : null}
 										</div>
 
 										<div className="col-12 col-lg-6 mb-3">
 											<input 
-												disabled={loading} 
-												onChange={e => {setCompany(e.target.value)}}
-												onInput={() => {setIsDirty({ ...isDirty, role: true }); validator.current.showMessageFor('organização')}}
-												className={`form-control ${!validator.current.fieldValid('organização') && isDirty.company ? 'is-invalid' : '' }`}
+												disabled={formik.isSubmitting}
+												onChange={formik.handleChange}
+												onInput={(e) => formik.setFieldTouched(e.target.name, true, false)}
+												value={formik.values.company}
+												className={`form-control ${formik.touched.company && formik.errors.company ? 'is-invalid' : '' }`}
 												type="text" 
-												name="company" 
-												placeholder="Organização" 
-												value={company} 
+												name="company"
+												placeholder="Organização"
 											/>
-											{validator.current.message("organização", company, "max:100", { className: 'invalid-feedback d-block' })}
+											{formik.touched.company && formik.errors.company ? (<div className="invalid-feedback d-block"> {formik.errors.company}</div>) : null}
 										</div>
 									</div>
 								</div>
@@ -197,12 +199,13 @@ function Register() {
 									<div className="form-check">
 
 										<input 
-											required
-											onChange={e => setAccept(!accept)}
+											disabled={formik.isSubmitting}
+											onChange={(e) => {formik.handleChange(e); formik.setFieldTouched(e.target.name, true, false)}}
+											value={formik.values.accept}
 											name="accept" 
 											className="form-check-input" 
 											type="checkbox" 
-											checked={accept}
+											checked={formik.values.accept}
 											id="acceptCheckbox"
 										/>
 
@@ -210,12 +213,13 @@ function Register() {
 											Li e aceito os <a className="text-reset text-decoration-none fw-bold" href="#"> termos de uso </a> 
 										</label>
 
+										{formik.touched.accept && formik.errors.accept ? (<div className="invalid-feedback ms-n3 d-block"> {formik.errors.accept}</div>) : null}
 									</div>
 								</div>
 
 								<div className="col-12 d-grid gap-2 mt-2">
 									<button className="btn btn-primary btn-lg" type="submit">
-										<Spinner className="spinner-border spinner-border-sm me-2" isLoading={loading}  /> CRIAR CONTA
+										<Spinner className="spinner-border spinner-border-sm me-2" isLoading={formik.isSubmitting}  /> CRIAR CONTA
 									</button>
 								</div>
 
