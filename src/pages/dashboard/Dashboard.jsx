@@ -24,7 +24,7 @@ function Dashboard() {
                 </Route>
                 <Route path={match.path}>
                     <div className="h-100 w-100 text-center pt-5">
-                        <h3>Seja bem-vindo, {username}!</h3>
+                        <h3>Seja bem-vindo(a), {username}!</h3>
                     </div>
                 </Route>
             </Switch>
