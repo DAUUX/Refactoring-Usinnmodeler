@@ -210,7 +210,7 @@ function Register() {
 										/>
 
 										<label className="form-check-label text-muted" htmlFor="acceptCheckbox"> 
-											Li e aceito os <a className="text-reset text-decoration-none fw-bold" href="#"> termos de uso </a> 
+											Li e aceito os <Link className="text-reset text-decoration-none fw-bold" target="_blank" to="/privacidade"> termos de uso </Link> 
 										</label>
 
 										{formik.touched.accept && formik.errors.accept ? (<div className="invalid-feedback ms-n3 d-block"> {formik.errors.accept}</div>) : null}
