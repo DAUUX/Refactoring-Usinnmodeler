@@ -1,0 +1,80 @@
+
+  .bloco {
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+
+  #SobreUSINN, #Caracteristicas, #Adote, #Tutorial, #NossoTime, #Membros, #Patrocinadores {
+    background-color: rgba(228, 226, 226, 0.751);
+  }
+
+  #Titulo{
+    padding: 150px 0px;
+  }
+
+  #textTitle{
+    font-family: Roboto;
+    font-size: 61px;
+    font-weight: 100;
+    line-height: 72px;
+    letter-spacing: 0em;
+    text-align: center;
+
+  }
+
+  .text30px{
+    font-size: 30px;
+  }
+
+  .text20px{
+    font-size: 20px;
+  }
+
+  .text16px{
+    font-size: 16px;
+  }
+
+  .text12px{
+    font-size: 12.5px;
+  }
+  
+ //-------------------------------------------------------------------------------------------------------
+
+  #CirculoDeFundo{
+    background:url("../../assets/icons/circle.svg") no-repeat;
+    min-width:100%;
+    min-height:100%;
+    width: 271px;
+    height: 271px;
+  }
+
+  #BarraDeFundo{
+    background:url("../../assets/icons/linhaSection3.svg") no-repeat;
+    background-position: right;
+  }
+
+
+ .CheckList {
+    list-style-image: url("../../assets/icons/verificado.svg");
+    
+    
+  }
+
+//-----------------------------------------------------------------------------------------------
+
+#backgroundMembers{
+  background:url("../../assets/icons/linhaAzul.svg") no-repeat;
+  background-position: center;
+  background-size: 100%;
+}
+
+ .member{
+  width: 164px;
+  height: 164px;
+  border-radius: 100%;
+  margin: 62px auto 20px auto;
+  object-fit: cover;
+ }
