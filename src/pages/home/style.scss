@@ -1,5 +1,5 @@
 
-.bloco {
+  .bloco {
     width: 100vw;
     height: 100vh;
     justify-content: center;
@@ -7,24 +7,40 @@
     display: flex;
   }
 
-  #section2, #section3, #section4, #section5, #section6, #section7, #section51 {
+  #SobreUSINN, #Caracteristicas, #Adote, #Tutorial, #NossoTime, #Membros, #Patrocinadores {
     background-color: rgba(228, 226, 226, 0.751);
   }
 
-  #section1{
+  #Titulo{
     padding: 150px 0px;
   }
-  
-  #btn_modeler {
-    border-radius: 8px;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    padding: 8px;
-    gap: 10px;
-  }
- 
 
+  #textTitle{
+    font-family: Roboto;
+    font-size: 61px;
+    font-weight: 100;
+    line-height: 72px;
+    letter-spacing: 0em;
+    text-align: center;
+
+  }
+
+  .text30px{
+    font-size: 30px;
+  }
+
+  .text20px{
+    font-size: 20px;
+  }
+
+  .text16px{
+    font-size: 16px;
+  }
+
+  .text12px{
+    font-size: 12.5px;
+  }
+  
  //-------------------------------------------------------------------------------------------------------
 
   #CirculoDeFundo{
@@ -49,19 +65,16 @@
 
 //-----------------------------------------------------------------------------------------------
 
- .membro{
-  max-width: 80%;
-  max-height: 80%;
-  border-radius: 100%;
-  margin: 10%;
- }
+#backgroundMembers{
+  background:url("../../assets/icons/linhaAzul.svg") no-repeat;
+  background-position: center;
+  background-size: 100%;
+}
 
- .wrapper{
-  display: flex;
-  overflow-x: auto;
- 
-}
-.wrapper .item{
-  text-align: center;
-  margin: 1%;
-}
+ .member{
+  width: 164px;
+  height: 164px;
+  border-radius: 100%;
+  margin: 62px auto 20px auto;
+  object-fit: cover;
+ }
