@@ -43,7 +43,7 @@
 			<add as="italic" action="italic" icon="/images/italic.gif" if="cell"/>
 		</add>
 		<separator/>
-		<add as="properties" action="showProperties" icon="/images/properties.gif"/>
+		<!-- <add as="properties" action="showProperties" icon="/images/properties.gif"/> -->
 		<separator/>
 		<!--<add as="openHref" action="openHref" icon="/images/link.gif"/>-->
 	</mxDefaultPopupMenu>

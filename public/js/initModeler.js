@@ -36,21 +36,6 @@ function init(editor, rootPath){
 		editor.graph.panningHandler.useRightButtonForPanning = true;
 		editor.graph.panningHandler.useLeftButtonForPanning = false;
 		editor.graph.panningHandler.ignoreCell = false;
-
-
-		// Updates the title if the root changes
-		var title = document.getElementById('title');
-		
-		if (title != null)
-		{
-			var f = function(sender)
-			{
-				title.innerHTML = 'mxDraw - ' + sender.getTitle();
-			};
-			
-			editor.addListener(mxEvent.ROOT, f);
-			f(editor);
-		}
 		
 	    // Changes the zoom on mouseWheel events
 	    mxEvent.addMouseWheelListener(function (evt, up)
