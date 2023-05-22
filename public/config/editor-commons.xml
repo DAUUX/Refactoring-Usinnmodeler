@@ -1,6 +1,6 @@
 <mxEditor>
 	<ui>
-		<resource basename="resources/app"/>
+		<resource basename="/resources/app"/>
 	</ui>
 	<mxDefaultPopupMenu as="popupHandler">
 		<add as="cut" action="cut" icon="/images/cut.gif"/>
@@ -43,7 +43,7 @@
 			<add as="italic" action="italic" icon="/images/italic.gif" if="cell"/>
 		</add>
 		<separator/>
-		<add as="properties" action="showProperties" icon="/images/properties.gif"/>
+		<!-- <add as="properties" action="showProperties" icon="/images/properties.gif"/> -->
 		<separator/>
 		<!--<add as="openHref" action="openHref" icon="/images/link.gif"/>-->
 	</mxDefaultPopupMenu>

@@ -57,18 +57,18 @@
 				editor.graph.timerAutoScroll = true;
 				
 				// Updates the window title after opening new files
-				var title = document.title;
-				var funct = function(sender)
-				{
-					document.title = title + ' - ' + sender.getTitle();
-				};
+				// var title = document.title;
+				// var funct = function(sender)
+				// {
+				// 	document.title = title + ' - ' + sender.getTitle();
+				// };
 				
-				editor.addListener(mxEvent.OPEN, funct);
+				// editor.addListener(mxEvent.OPEN, funct);
 				
 				// Prints the current root in the window title if the
 				// current root of the graph changes (drilling).
-				editor.addListener(mxEvent.ROOT, funct);
-				funct(editor);
+				// editor.addListener(mxEvent.ROOT, funct);
+				// funct(editor);
 				
 				// Displays version in statusbar
 				editor.setStatus('mxGraph '+mxClient.VERSION);

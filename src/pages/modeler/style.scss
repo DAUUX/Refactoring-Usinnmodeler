@@ -30,7 +30,7 @@
 
     #graph {
         background: url('../../../public/images/grid.gif');
-        overflow: hidden;
+        overflow: scroll;
     }
     
     #zoomActions {
@@ -40,7 +40,7 @@
     }
     
     #outlineContainer {
-        position:absolute;
+        position:fixed;
         overflow:hidden;
         bottom:20px;
         right:20px;

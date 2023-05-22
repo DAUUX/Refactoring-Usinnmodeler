@@ -117,7 +117,7 @@ function Modeler(props) {
     }, [diagram, diagramSVG])
 
     return (
-        <main id="modelerPage" className="container-fluid px-0 flex-fill d-flex flex-column bg-white">
+        <main id="modelerPage" className="container-fluid px-0 flex-fill d-flex flex-column bg-white h-100">
 
             <nav id="modelerNavbar" className="navbar navbar-expand-lg">
                 <div className="container-fluid px-5">
@@ -148,7 +148,7 @@ function Modeler(props) {
                 </div>
 
                 {/* Editor */}
-                <div id="graph" className="col-12 bg-white">
+                <div id="graph" className="col-12 bg-white h-100">
                     <center id="splash"> <img src="/images/loading.gif"/> </center>
                 </div>
 
