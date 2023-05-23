@@ -60,7 +60,7 @@ useEffect(()=>{
     <main>
       <section className="bg-primary">
         <div className="container">
-          <nav className="navbar navbar-expand-lg navbar-light bg-primary">
+          <nav className="navbar navbar-expand-lg navbar-light bg-primary text16px">
               <button className="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
               </button>
@@ -83,10 +83,10 @@ useEffect(()=>{
                   </li>
                 </ul>
                 <div className="d-flex " >
-                  <Link className="navbar-brand text-white pe-3" to="/cadastro">
+                  <Link className="text-decoration-none text-white pe-3 py-1" to="/cadastro">
                       Cadastro
                   </Link>
-                  <Link className="navbar-brand bg-white text-primary rounded-pill px-4" to="/login">
+                  <Link className="text-decoration-none bg-white text-primary rounded-pill py-1 px-4" to="/login">
                     Login
                   </Link>
                 </div>
@@ -347,119 +347,119 @@ useEffect(()=>{
                 }}
               }}>
 
-              <SplideSlide className="pb-3 d-flex flex-column">
+              <SplideSlide className="py-5 d-flex flex-column">
                   <img className="member" src={Alex} />
                   <div className="text-center">
                     <div className="text20px"><b>Alex Alan dos Santos</b></div>
                     <div className="text16px">Requisitos e Design</div>
                   </div>
               </SplideSlide>
-              <SplideSlide className="pb-3 d-flex flex-column">
+              <SplideSlide className="py-5 d-flex flex-column">
                   <img className="member" src={Ana_Marcia} />
                   <div className="text-center">
                     <div className="text20px"><b>Ana Márcia de Lima</b></div>
                     <div className="text16px">Requisitos e Design</div>
                   </div>
               </SplideSlide>
-              <SplideSlide className="pb-3 d-flex flex-column">
+              <SplideSlide className="py-5 d-flex flex-column">
                   <img className="member" src={Anna_Beatriz} />
                   <div className="text-center">
                     <div className="text20px"><b>Anna Beatriz Marques</b></div>
                     <div className="text16px">Orientadora</div>
                   </div>
               </SplideSlide>
-              <SplideSlide className="pb-3 d-flex flex-column">
+              <SplideSlide className="py-5 d-flex flex-column">
                   <img className="member" src={Caio} />
                   <div className="text-center">
                     <div className="text20px"><b>Caio Finotti</b></div>
                     <div className="text16px">Desenvolvimento</div>
                   </div>
               </SplideSlide>
-              <SplideSlide className="pb-3 d-flex flex-column">
+              <SplideSlide className="py-5 d-flex flex-column">
                   <img className="member" src={Clara} />
                   <div className="text-center">
                     <div className="text20px"><b>Clara Fonseca</b></div>
                     <div className="text16px">Teste</div>
                   </div>
               </SplideSlide>
-              <SplideSlide className="pb-3 d-flex flex-column">
+              <SplideSlide className="py-5 d-flex flex-column">
                   <img className="member" src={Dhioleno} />
                   <div className="text-center">
                     <div className="text20px"><b>Dhioleno da Silva</b></div>
                     <div className="text16px">Requisito e Desenvolvimento</div>
                   </div>
               </SplideSlide>
-              <SplideSlide className="pb-3 d-flex flex-column">
+              <SplideSlide className="py-5 d-flex flex-column">
                   <img className="member" src={Wilkinis} />
                   <div className="text-center">
                     <div className="text20px"><b>Francisco Wilkinis de Sousa</b></div>
                     <div className="text16px">Teste</div>
                   </div>
               </SplideSlide>
-              <SplideSlide className="pb-3 d-flex flex-column">
+              <SplideSlide className="py-5 d-flex flex-column">
                   <img className="member" src={Glauber} />
                   <div className="text-center">
                     <div className="text20px"><b>Glauber Marreiro</b></div>
                     <div className="text16px">Desenvolvimento</div>
                   </div>
               </SplideSlide>
-              <SplideSlide className="pb-3 d-flex flex-column">
+              <SplideSlide className="py-5 d-flex flex-column">
                   <img className="member" src={Hanna} />
                   <div className="text-center">
                     <div className="text20px"><b>Hanna Ranielly Ramos</b></div>
                     <div className="text16px"> Requisitos </div>
                   </div>
               </SplideSlide>
-              <SplideSlide className="pb-3 d-flex flex-column">
+              <SplideSlide className="py-5 d-flex flex-column">
                   <img className="member" src={Larissa_Santos} />
                   <div className="text-center">
                     <div className="text20px"><b>Larissa Saraiva</b></div>
                     <div className="text16px">Teste</div>
                   </div>
               </SplideSlide>
-              <SplideSlide className="pb-3 d-flex flex-column">
+              <SplideSlide className="py-5 d-flex flex-column">
                   <img className="member" src={Mateus_Andrade} />
                   <div className="text-center">
                     <div className="text20px"><b>Mateus Eugênio Andrade</b></div>
                     <div className="text16px">Desenvolvimento</div>
                   </div>
               </SplideSlide>
-              <SplideSlide className="pb-3 d-flex flex-column">
+              <SplideSlide className="py-5 d-flex flex-column">
                   <img className="member" src={Milene} />
                   <div className="text-center">
                     <div className="text20px"><b>Milene Cavalcante</b></div>
                     <div className="text16px">Requisitos e Design</div>
                   </div>
               </SplideSlide>
-              <SplideSlide className="pb-3 d-flex flex-column">
+              <SplideSlide className="py-5 d-flex flex-column">
                   <img className="member" src={Moisés_Oliveira} />
                   <div className="text-center">
                     <div className="text20px"><b>Moisés Costa</b></div>
                     <div className="text16px">Teste</div>
                   </div>
               </SplideSlide>
-              <SplideSlide className="pb-3 d-flex flex-column">
+              <SplideSlide className="py-5 d-flex flex-column">
                   <img className="member" src={Natalia} />
                   <div className="text-center">
                     <div className="text20px"><b>Natália Lidia Coelho</b></div>
                     <div className="text16px">Desenvolvimento</div>
                   </div>
               </SplideSlide>
-              <SplideSlide className="pb-3 d-flex flex-column">
+              <SplideSlide className="py-5 d-flex flex-column">
                   <img className="member" src={Thiago} />
                   <div className="text-center">
                     <div className="text20px"><b>Thiago Torres</b></div>
                     <div className="text16px">Requisitos e Desenvolvimento</div>
                   </div>
               </SplideSlide>
-              <SplideSlide className="pb-3 d-flex flex-column">
+              <SplideSlide className="py-5 d-flex flex-column">
                   <img className="member" src={Vandeilson} />
                   <div className="text-center">
                     <div className="text20px"><b>Vandeilson Nogueira</b></div>
                     <div className="text16px">Teste</div>
                   </div>
               </SplideSlide>
-              <SplideSlide className="pb-3 d-flex flex-column">
+              <SplideSlide className="py-5 d-flex flex-column">
                   <img className="member" src={Victor} />
                   <div className="text-center">
                     <div className="text20px"><b>Victor Cesar Feitosa</b></div>
@@ -471,10 +471,10 @@ useEffect(()=>{
         </section>
 
       <section id="Patrocinadores">
-        <div className="container pb-5">
+        <div className="container py-5">
           <div className="row pb-4">
-            <div className="d-flex justify-content-center text-white p-4">
-              <span className="bg-primary text-center pt-2 ps-3 pe-3 rounded-pill"><h2>PARCEIROS</h2></span>
+            <div className="d-flex justify-content-center text-white p-4 pb-5">
+              <span className="bg-primary text-center pt-2 ps-3 pe-3 rounded-pill"><h2>Parceiros</h2></span>
             </div>
             <div>
               <div className="row justify-content-center">
@@ -505,7 +505,7 @@ useEffect(()=>{
               <div className="pt-5">
                 <div className="p-4">
                   USINN foi criado por <b>Anna Beatriz</b> ❤️ e continua seus estudos <br/>
-                  como projeto de extensão na UFC - Campus de Russas.
+                  como projeto de pesquisa e desenvolvimento tecnológico na UFC - Campus de Russas.
                 </div>
                 <div >
                   <img className="ps-4 pe-2" src={Logotipo} />
