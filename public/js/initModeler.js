@@ -128,116 +128,33 @@ function init(editor, rootPath){
 
         });
 
+		/**
+		 * Escuta o evento para gerar diagrama
+		 */
+		window.addEventListener('generateDiagramSVG', (event) => {
+
+			const svg = getDiagramSVG(editor.graph);
+			const sendSVG = new CustomEvent('sendDiagramSVG', { detail: {svg} });
+			window.dispatchEvent(sendSVG);
+
+        });
+
+		window.addEventListener('openDiagramSVG', (event) => {
+			editor.execute("show");
+        });
+
+		window.addEventListener('openDiagramPDF', (event) => {
+			editor.execute("print");
+        });
+
+
 		// Create select actions in page		
 		var node = document.getElementById('actionsMenu');
-		var buttons = ['new', 'save','group', 'ungroup', 'cut', 'copy', 'paste', 'delete', 'undo', 'redo', 'print', 'show', 'zoomIn', 'zoomOut', 'fit'];
-		
-		// Only adds image and SVG export if backend is available
-		// NOTE: The old image export in mxEditor is not used, the urlImage is used for the new export.
-		if (editor.urlImage != null)
-		{
-			// Client-side code for image export
-			var exportImage = function(editor)
-			{
-				var graph = editor.graph;
-				var scale = graph.view.scale;
-				var bounds = graph.getGraphBounds();
-				
-	        	// New image export
-				var xmlDoc = mxUtils.createXmlDocument();
-				var root = xmlDoc.createElement('output');
-				xmlDoc.appendChild(root);
-				
-			    // Renders graph. Offset will be multiplied with state's scale when painting state.
-				var xmlCanvas = new mxXmlCanvas2D(root);
-				xmlCanvas.translate(Math.floor(1 / scale - bounds.x), Math.floor(1 / scale - bounds.y));
-				xmlCanvas.scale(scale);
-				
-				var imgExport = new mxImageExport();
-			    imgExport.drawState(graph.getView().getState(graph.model.root), xmlCanvas);
-			    
-				// Puts request data together
-				var w = Math.ceil(bounds.width * scale + 2);
-				var h = Math.ceil(bounds.height * scale + 2);
-				var xml = mxUtils.getXml(root);
-				
-				// Requests image if request is valid
-				if (w > 0 && h > 0)
-				{
-					var name = 'export.png';
-					var format = 'png';
-					var bg = '&bg=#FFFFFF';
-					
-					new mxXmlRequest(editor.urlImage, 'filename=' + name + '&format=' + format +
-	        			bg + '&w=' + w + '&h=' + h + '&xml=' + encodeURIComponent(xml)).
-	        			simulate(document, '_blank');
-				}
-			};
-			
-			editor.addAction('exportImage', exportImage);
-			
-			// Client-side code for SVG export
-			var exportSvg = function(editor)
-			{
-				var graph = editor.graph;
-				var scale = graph.view.scale;
-				var bounds = graph.getGraphBounds();
-
-			    // Prepares SVG document that holds the output
-			    var svgDoc = mxUtils.createXmlDocument();
-			    var root = (svgDoc.createElementNS != null) ?
-			    	svgDoc.createElementNS(mxConstants.NS_SVG, 'svg') : svgDoc.createElement('svg');
-			    
-				if (root.style != null)
-				{
-					root.style.backgroundColor = '#FFFFFF';
-				}
-				else
-				{
-					root.setAttribute('style', 'background-color:#FFFFFF');
-				}
-			    
-			    if (svgDoc.createElementNS == null)
-			    {
-			    	root.setAttribute('xmlns', mxConstants.NS_SVG);
-			    }
-			    
-			    root.setAttribute('width', Math.ceil(bounds.width * scale + 2) + 'px');
-			    root.setAttribute('height', Math.ceil(bounds.height * scale + 2) + 'px');
-			    root.setAttribute('xmlns:xlink', mxConstants.NS_XLINK);
-			    root.setAttribute('version', '1.1');
-			    
-			    // Adds group for anti-aliasing via transform
-			    var group = (svgDoc.createElementNS != null) ?
-				    	svgDoc.createElementNS(mxConstants.NS_SVG, 'g') : svgDoc.createElement('g');
-				group.setAttribute('transform', 'translate(0.5,0.5)');
-				root.appendChild(group);
-			    svgDoc.appendChild(root);
-
-			    // Renders graph. Offset will be multiplied with state's scale when painting state.
-			    var svgCanvas = new mxSvgCanvas2D(group);
-			    svgCanvas.translate(Math.floor(1 / scale - bounds.x), Math.floor(1 / scale - bounds.y));
-			    svgCanvas.scale(scale);
-			    
-			    var imgExport = new mxImageExport();
-			    imgExport.drawState(graph.getView().getState(graph.model.root), svgCanvas);
-
-				var name = 'export.svg';
-			    var xml = encodeURIComponent(mxUtils.getXml(root));
-				console.log(xml);
-				
-				new mxXmlRequest(editor.urlEcho, 'filename=' + name + '&format=svg' + '&xml=' + xml).simulate(document, "_blank");
-			};
-			
-			editor.addAction('exportSvg', exportSvg);
-			
-			buttons.push('exportImage');
-			buttons.push('exportSvg');
-		};
+		var buttons = ['new', 'save','group', 'ungroup', 'cut', 'copy', 'paste', 'delete', 'undo', 'redo', 'zoomIn', 'zoomOut', 'fit'];
 		
 		// ['group', 'ungroup', 'cut', 'copy', 'paste', 'delete', 'undo', 'redo', 'print', 'show']
-		var icons = [['new'],['save'],['group', 'ungroup'], ['cut', 'copy', 'paste'], ['delete'], ['undo', 'redo'], ['print', 'image'], ['zoomin', 'zoomout', 'fit']];
-		var descriptions = ['Novo', 'Salvar', 'Agrupar', 'Desagrupar', 'Cortar', 'Copiar', 'Colar', 'Excluir', 'Desfazer', 'Refazer', 'Print', 'Imagem', 'Aumentar zoom', 'Reduzir zoom', 'Ajustar à tela'];
+		var icons = [['new'],['save'],['group', 'ungroup'], ['cut', 'copy', 'paste'], ['delete'], ['undo', 'redo'], ['zoomin', 'zoomout', 'fit']];
+		var descriptions = ['Novo', 'Salvar', 'Agrupar', 'Desagrupar', 'Cortar', 'Copiar', 'Colar', 'Excluir', 'Desfazer', 'Refazer', 'Aumentar zoom', 'Reduzir zoom', 'Ajustar à tela'];
 
 		var i = 0;
 		for(var j = 0; j < icons.length;j++){

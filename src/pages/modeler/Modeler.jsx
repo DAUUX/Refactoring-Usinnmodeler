@@ -7,9 +7,11 @@ import ShareDiagramModal from "../../components/ShareDiagramModal";
 import { slugify } from "../../Helpers";
 import logo from "../../assets/icons/logo-min-blue.png";
 import UserProfile from "../../components/UserProfile";
+import ExportDiagramModal from "../../components/ExportDiagramModal";
+import Spinner from "../../components/Spinner";
 
 function Modeler(props) {
-
+    const [loadingOverlay, setLoadingOverlay] = useState(false);
     const [diagram, setDiagram]       = useState('');
     const [diagramSVG, setDiagramSVG] = useState('');
     const [name, setName]             = useState('');
@@ -118,6 +120,7 @@ function Modeler(props) {
 
     return (
         <main id="modelerPage" className="container-fluid px-0 flex-fill d-flex flex-column bg-white h-100">
+            
 
             <nav id="modelerNavbar" className="navbar navbar-expand-lg">
                 <div className="container-fluid px-5">
@@ -136,10 +139,16 @@ function Modeler(props) {
 
             <div id="actionsMenu" className="d-flex bg-light py-2 px-5">
                 {/* mxGraph actions added here */}
+                <button data-bs-toggle="modal" data-bs-target={`#exportModalId`} className="btn btn-light btn-sm order-last" title="Exportar"> 
+                    <i className="bi bi-box-arrow-up-right fs-5"></i>
+                </button>
                 {props.match.params.id && owner &&
-                    <button data-bs-toggle="modal" data-bs-target={`#${shareModalId}`} className="btn btn-light btn-sm order-last"> <i className="bi bi-share-fill"></i> </button>
+                    <button data-bs-toggle="modal" data-bs-target={`#${shareModalId}`} className="btn btn-light btn-sm order-last" title="Compartilhar"> 
+                        <i className="bi bi-share-fill fs-5"></i> 
+                    </button>
                 }
             </div>
+
 
             <section role="main" className="row flex-fill position-relative overflow-hidden g-0">
                 {/* Menu lateral */}
@@ -161,6 +170,13 @@ function Modeler(props) {
             </section>
 
             <ShareDiagramModal id={shareModalId} diagram_id={props.match.params.id} />
+
+            
+            <ExportDiagramModal id={"exportModalId"} onExportDiagram={(value)=>{setLoadingOverlay(value)}}/>
+
+            <div id="loadingOverlay" className={`${loadingOverlay ? 'open':''}`}>
+                <Spinner className="spinner-border spinner-border text-light" isLoading={loadingOverlay}  />
+            </div>
 
         </main>
     )
