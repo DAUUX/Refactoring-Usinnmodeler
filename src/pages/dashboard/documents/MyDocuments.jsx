@@ -7,6 +7,7 @@ import { Modal } from "bootstrap";
 import ShareDiagramModal from "../../../components/ShareDiagramModal";
 import RemoveDiagramModal from "../../../components/RemoveDiagramModal";
 import RenameDiagramModal from "../../../components/RenameDiagramModal";
+import FavoriteDiagram from "../../../components/FavoriteDiagram";
 
 function MyDocuments() {
 
@@ -68,7 +69,18 @@ function MyDocuments() {
                         diagrams.map((diagram)=>{
                             return (
                                 <div key={diagram.id} className="col-12 col-md-4 col-lg-3 mb-3">
-                                    <DiagramCard id={diagram.id} name={diagram.name} lastModified={diagram.updatedAt} userId={diagram.user_id} thumbnail={diagram.diagram_svg} onShareDiagram={(id) => callShareDiagramModal(id)} onRemoveDiagram={(id)=> callRemoveDiagramModal(id)} onRenameDiagram={(id)=> callRenameDiagramModal(id)} />                        
+                                    <DiagramCard 
+                                        id={diagram.id} 
+                                        name={diagram.name} 
+                                        lastModified={diagram.updatedAt} 
+                                        userId={diagram.user_id} 
+                                        thumbnail={diagram.diagram_svg} 
+                                        onShareDiagram={(id) => callShareDiagramModal(id)} 
+                                        onRemoveDiagram={(id)=> callRemoveDiagramModal(id)} 
+                                        onRenameDiagram={(id)=> callRenameDiagramModal(id)} 
+                                        favorited={diagram.favorite} 
+                                        onDiagramFavorited={()=>{}}
+                                    />                                                          
                                 </div>
                             )
                         })

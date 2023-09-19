@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
 import { slugify } from '../../Helpers';
 import './style.scss';
+import FavoriteDiagram from "../../components/FavoriteDiagram";
 
-function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram, onRemoveDiagram, onRenameDiagram}) {
+function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram, onRemoveDiagram, onRenameDiagram, favorited, onDiagramFavorited}) {
 
     function elapsedTime (date) {
         let now = new Date();
@@ -18,11 +19,15 @@ function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram,
                     <span>Modificado {elapsedTime(lastModified) > 0 ? `há ${elapsedTime(lastModified)} dias` : "hoje"}</span>
                 </div>
 
-                <div className="dropdown ms-auto">
+                <div className="dropdown ms-auto">  
+                    <FavoriteDiagram diagram_id={id} favorited={favorited} onFavoritedClick={()=>{
+                        onDiagramFavorited()
+                    }}/>                            
+                    
                     <button className="btn px-2 pe-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i className="bi bi-three-dots-vertical"></i>
                     </button>
-
+                        
                     <ul className="dropdown-menu">
                         <li>
                             <button className="dropdown-item" onClick={(e)=> {e.stopPropagation(); e.preventDefault(); onRenameDiagram(id)}}> <i className="bi bi-pencil"></i> Renomear</button>
@@ -35,7 +40,7 @@ function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram,
                                 </li>
                             )
                         }
-                       
+
                         <li>
                             <button className="dropdown-item" onClick={(e)=> {e.stopPropagation(); e.preventDefault(); onRemoveDiagram(id)}}> <i className="bi bi-trash3-fill"></i> Excluir</button>
                         </li>
