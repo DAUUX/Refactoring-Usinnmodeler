@@ -7,8 +7,9 @@ import { Modal } from "bootstrap";
 import ShareDiagramModal from "../../../components/ShareDiagramModal";
 import RemoveDiagramModal from "../../../components/RemoveDiagramModal";
 import RenameDiagramModal from "../../../components/RenameDiagramModal";
+import FavoriteDiagram from "../../../components/FavoriteDiagram";
 
-function SharedDocuments() {
+function FavoritedDocuments() {
 
     let [diagrams, setDiagrams] = useState([]);
     let [loading, setLoading] = useState(true);
@@ -18,7 +19,7 @@ function SharedDocuments() {
     async function getDiagrams() {
         setLoading(true);
         try{
-            const res = await api.get(`diagrams/shared`);
+            const res = await api.get(`diagrams/favorited`);
             setDiagrams(res.data.diagrams);
         } catch(error){
             Toast('error', error);
@@ -72,25 +73,23 @@ function SharedDocuments() {
                                         id={diagram.id} 
                                         name={diagram.name} 
                                         lastModified={diagram.updatedAt} 
-                                        userId={diagram.user_id}  
+                                        userId={diagram.user_id} 
                                         thumbnail={diagram.diagram_svg} 
                                         onShareDiagram={(id) => callShareDiagramModal(id)} 
                                         onRemoveDiagram={(id)=> callRemoveDiagramModal(id)} 
                                         onRenameDiagram={(id)=> callRenameDiagramModal(id)} 
-                                        favorited={diagram.favorite}
-                                        onDiagramFavorited={()=>{}}
-                                    />                        
+                                        favorited={diagram.favorite} 
+                                        onDiagramFavorited={()=>{getDiagrams()}}
+                                    />                                                          
                                 </div>
                             )
                         })
-                    )
-
-                    
+                    )                    
                 }
 
                 {
                     diagrams.length ==0 && !loading &&(
-                        <h4 className="text-center mt-5">Ainda não há diagramas</h4>
+                        <h4 className="text-center mt-5">Ainda não há diagramas favoritados</h4>
                     )
                 }
                
@@ -106,4 +105,4 @@ function SharedDocuments() {
 
 }
 
-export default SharedDocuments
+export default FavoritedDocuments

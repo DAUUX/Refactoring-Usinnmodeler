@@ -2,6 +2,7 @@ import { Route, Switch, useRouteMatch, Link, useLocation } from "react-router-do
 import UserProfile from "../../../components/UserProfile";
 import MyDocuments  from "./MyDocuments";
 import SharedDocuments from "./SharedDocuments";
+import FavoritedDocuments from "./FavoritedDocuments";
 import './style.scss'
 
 function Documents() {
@@ -28,6 +29,11 @@ function Documents() {
                             Meus documentos
                         </Link> 
                     </li>
+                    <li className={`nav-item ${pathname == match.url+'/favoritos' ? 'active' : ''}`}>
+                        <Link to={`${match.url}/favoritos`} className="text-dark d-block text-decoration-none pb-2 px-2">
+                            Favoritos
+                        </Link> 
+                    </li>
                     <li className={`nav-item ${pathname == match.url+'/compartilhados' ? 'active' : ''}`}>
                         <Link to={`${match.url}/compartilhados`} className="text-dark d-block text-decoration-none pb-2 px-2">
                             Compartilhados comigo
@@ -39,6 +45,9 @@ function Documents() {
             <Switch>
                 <Route path={`${match.path}/compartilhados`}>
                     <SharedDocuments/>
+                </Route>
+                <Route path={`${match.path}/favoritos`}>
+                    <FavoritedDocuments/>
                 </Route>
                 <Route path={match.path}>
                     <MyDocuments/>
