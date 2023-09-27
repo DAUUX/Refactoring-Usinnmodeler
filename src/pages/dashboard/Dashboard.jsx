@@ -4,6 +4,7 @@ import { Route, Switch, useRouteMatch, Link } from "react-router-dom";
 import DashboardMenu from "../../components/DashboardMenu";
 import Documents from "./documents/Documents";
 import Spinner from "../../components/Spinner";
+import UpdateProfile from "../updateProfile/UpdateProfile";
 
 function Dashboard() {
     let match = useRouteMatch();
@@ -22,10 +23,8 @@ function Dashboard() {
                 <Route path={`${match.path}/documentos`}>
                     <Documents/>
                 </Route>
-                <Route path={match.path}>
-                    <div className="h-100 w-100 text-center pt-5">
-                        <h3>Seja bem-vindo(a), {username}!</h3>
-                    </div>
+                <Route path={`${match.path}/atualizarperfil`}>
+                    <UpdateProfile/>
                 </Route>
             </Switch>
 

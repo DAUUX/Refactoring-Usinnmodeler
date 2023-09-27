@@ -8,6 +8,8 @@ import ShareRoute from "./components/ShareRoute";
 import PrivateRoute from "./components/PrivateRoute";
 import Dashboard from "./pages/dashboard/Dashboard";
 import PrivacyTerms from "./pages/privacyTerms/PrivacyTerms";
+import UserProfile from "./components/UserProfile";
+import UpdateProfile from "./pages/updateProfile/UpdateProfile";
 import AlterPassword from "./pages/alter_password/AlterPassword";
 import RequestChange from "./pages/alter_password/RequestChange";
 const Routers = () => {
@@ -25,6 +27,7 @@ const Routers = () => {
         <Route path="/redefinir-senha/:token" exact component={AlterPassword} />
         <Route path="/request-change" exact component={RequestChange} />
         <Route path="*" component={Home} />
+        <Route path="/atualizar" component={UpdateProfile}/>
       </Switch>
     </BrowserRouter>
   );
