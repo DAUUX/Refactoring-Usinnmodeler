@@ -8,6 +8,8 @@ import ShareRoute from "./components/ShareRoute";
 import PrivateRoute from "./components/PrivateRoute";
 import Dashboard from "./pages/dashboard/Dashboard";
 import PrivacyTerms from "./pages/privacyTerms/PrivacyTerms";
+import AlterPassword from "./pages/alter_password/AlterPassword";
+import RequestChange from "./pages/alter_password/RequestChange";
 const Routers = () => {
   return (
     // forceRefresh para tentar corrigir problema onde o salvamento e atalhos do modeler não funcionam
@@ -20,6 +22,8 @@ const Routers = () => {
         <Route path="/cadastro" exact component={Register} />
         <Route path="/login" exact component={Login} />
         <Route path="/privacidade" component={PrivacyTerms} />
+        <Route path="/redefinir-senha/:token" exact component={AlterPassword} />
+        <Route path="/request-change" exact component={RequestChange} />
         <Route path="*" component={Home} />
       </Switch>
     </BrowserRouter>
