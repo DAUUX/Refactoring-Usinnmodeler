@@ -92,7 +92,7 @@ function Login() {
 								/>
 								{formik.touched.password && formik.errors.password ? (<div className="invalid-feedback d-block"> {formik.errors.password}</div>) : null}
 								
-								<a className="text-decoration-none ms-auto mt-2" href="#">Esqueceu sua senha?</a>
+								<Link className="text-decoration-none mt-2 ms-auto" to="/request-change">Esqueceu sua senha?</Link> 
 							</div>
 
 							<div className="col-12 d-grid gap-2 mt-2">
@@ -103,6 +103,7 @@ function Login() {
 
 							<div className="col-12 text-center mt-5">
 								<p> Não tem conta ainda? <Link className="fw-bold text-decoration-none" to="/cadastro">Registre-se</Link> </p>
+
 							</div>
 
 						</form>
