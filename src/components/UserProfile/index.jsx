@@ -38,13 +38,10 @@ function UserProfile() {
         modal.show();
     }
 
-    function logout(e) {
-        e.preventDefault();
-        
+    function logout() {
         localStorage.removeItem('user');
         localStorage.removeItem('token');
-
-        history.push(`/login`);
+        history.push(`/`);
     }
 
     useEffect(()=>{
@@ -62,9 +59,9 @@ function UserProfile() {
                 </button>
 
                 <ul className="dropdown-menu dropdown-menu-lg-end" aria-labelledby="dropdownMenuButton">
-                    <li><a className="dropdown-item disabled" href="#"> Atualizar Perfil </a></li>
-                    <li><a className="dropdown-item" href="#" onClick={callRemoveLoginModal}> Excluir Perfil </a></li>
-                    <li><a className="dropdown-item" href="#" onClick={logout}> Sair </a> </li>
+                    <li><button className="dropdown-item disabled"> Atualizar Perfil </button></li>
+                    <li><button className="dropdown-item" onClick={callRemoveLoginModal}> Excluir Perfil </button></li>
+                    <li><button className="dropdown-item" onClick={logout}> Sair </button> </li>
                 </ul>
             </div>
 
