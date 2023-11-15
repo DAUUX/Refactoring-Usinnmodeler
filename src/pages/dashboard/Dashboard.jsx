@@ -5,6 +5,7 @@ import DashboardMenu from "../../components/DashboardMenu";
 import Documents from "./documents/Documents";
 import Spinner from "../../components/Spinner";
 import UpdateProfile from "../updateProfile/UpdateProfile";
+import ChangePassword from "../change_password/ChangePassword";
 
 function Dashboard() {
     let match = useRouteMatch();
@@ -25,6 +26,9 @@ function Dashboard() {
                 </Route>
                 <Route path={`${match.path}/atualizarperfil`}>
                     <UpdateProfile/>
+                </Route>
+                <Route path={`${match.path}/atualizarsenha`}>
+                    <ChangePassword/>
                 </Route>
             </Switch>
 

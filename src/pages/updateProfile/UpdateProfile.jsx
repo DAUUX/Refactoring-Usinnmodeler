@@ -29,7 +29,6 @@ function UpdateProfile() {
  			email: '',
 			birthday: '',
 			gender: '',
-			password: '',
 			company: '',
 			role: ''
 		},
@@ -53,7 +52,6 @@ function UpdateProfile() {
 		}),
    
 		onSubmit: async values => {
-            console.log('hello');
 			try {	
 
 				const response = await api.put('user', {...values, birthday: moment(values.birthday, 'DD/MM/YYYY', true).format('YYYY-MM-DD'),avatar: imgAvatar+1});
@@ -147,20 +145,6 @@ function UpdateProfile() {
                                     placeholder="E-mail*"
                                 />
                                 {formik.touched.email && formik.errors.email ? (<div className="invalid-feedback d-block"> {formik.errors.email}</div>) : null}
-                            </div>
-
-                            <div className="col-12 mb-3">
-                                <input 
-                                    disabled={formik.isSubmitting}
-                                    onChange={formik.handleChange}
-                                    onInput={(e) => formik.setFieldTouched(e.target.name, true, false)}
-                                    value={formik.values.password}
-                                    className={`form-control ${formik.touched.password && formik.errors.password ? 'is-invalid' : '' }`}
-                                    type="password" 
-                                    name="password" 
-                                    placeholder="Senha*"
-                                />
-                                {formik.touched.password && formik.errors.password ? (<div className="invalid-feedback d-block"> {formik.errors.password}</div>) : null}
                             </div>
 
                             <div className="col-12 col-lg-6 mb-3">

@@ -13,7 +13,6 @@ function UserProfile() {
     const [user, setUser] = useState({name: ''});
     const history   = useHistory();
 
-
     async function getUserData() {
 
         setUser(JSON.parse(localStorage.getItem('user')))
@@ -47,6 +46,24 @@ function UserProfile() {
         modal.show();
     }
 
+    function callConfirmRemoveLoginModal() {
+        const modal = new Modal('#ConfirmRemoveLoginModal')          
+        modal.show();
+    }
+    function callRemoveLoginModal() {
+        const modal = new Modal('#RemoveLoginModal')          
+        modal.show();
+    }
+
+    function callConfirmRemoveLoginModal() {
+        const modal = new Modal('#ConfirmRemoveLoginModal')          
+        modal.show();
+    }
+    function callRemoveLoginModal() {
+        const modal = new Modal('#RemoveLoginModal')          
+        modal.show();
+    }
+
     function logout() {
         localStorage.removeItem('user');
         localStorage.removeItem('token');
@@ -58,7 +75,6 @@ function UserProfile() {
      },[])
     
     return (
-        <>
             <div className="dropdown d-flex">
 
                 <div id="profileImg" className="text-uppercase"> <img className="mb-4 img-fluid"src={avatarOptions[user.avatar-1]}></img> </div>
@@ -67,16 +83,12 @@ function UserProfile() {
                     <b> {user.name} </b>
                 </button>
 
-                <ul className="dropdown-menu dropdown-menu-lg-end" aria-labelledby="dropdownMenuButton">
-                    <li><Link className="dropdown-item" to="/dashboard/atualizarperfil"> Atualizar Perfil </Link></li>
-                    <li><a className="dropdown-item" href="#" onClick={callRemoveLoginModal}> Excluir Perfil </a></li>
-                    <li><a className="dropdown-item" href="#" onClick={logout}> Sair </a> </li>
-                </ul>
-            </div>
-
-            <RemoveLoginModal id={"RemoveLoginModal"} onConfirmLoginRemoved={()=>{callConfirmRemoveLoginModal()}}/>
-            <ConfirmRemoveLoginModal id={"ConfirmRemoveLoginModal"}/>
-        </>
+            <ul className="dropdown-menu dropdown-menu-lg-end" aria-labelledby="dropdownMenuButton">
+                <li><Link className="dropdown-item" to="/dashboard/atualizarperfil"> Atualizar Perfil </Link></li>
+                <li><Link className="dropdown-item" to="/dashboard/atualizarsenha"> Redefinir Senha </Link></li>
+                <li><a className="dropdown-item" href="" onClick={logout}> Sair </a> </li>
+            </ul>
+        </div>
     )
     
 }
