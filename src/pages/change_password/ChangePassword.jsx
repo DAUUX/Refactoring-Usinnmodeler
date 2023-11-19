@@ -1,14 +1,12 @@
 import "./style.scss"
 import { useState,useEffect } from "react";
-import { Route, Switch, useRouteMatch, Link } from "react-router-dom";
+import { useRouteMatch, Link } from "react-router-dom";
 import Spinner from "../../components/Spinner";
 import UserProfile from "../../components/UserProfile";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import api from "../../services/api";
-import InputMask from 'react-input-mask';
 import { Toast } from '../../components/Toast';
-import moment from "moment";
 
 function ChangePassword() {
 
@@ -112,7 +110,7 @@ function ChangePassword() {
                                     disabled={formik.isSubmitting}
                                     onChange={formik.handleChange}
                                     onInput={(e) => formik.setFieldTouched(e.target.name, true, false)}
-                                    value={formik.values.password}
+                                    value={formik.values.confirmPassword}
                                     className={`form-control ${formik.touched.password && formik.errors.password ? 'is-invalid' : '' }`}
                                     type="password" 
                                     name="confirmPassword" 
