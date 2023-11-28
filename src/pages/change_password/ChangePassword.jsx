@@ -7,6 +7,9 @@ import { useFormik } from "formik";
 import * as Yup from 'yup';
 import api from "../../services/api";
 import { Toast } from '../../components/Toast';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faKey } from '@fortawesome/free-solid-svg-icons';
+
 
 function ChangePassword() {
 
@@ -34,7 +37,7 @@ function ChangePassword() {
 		onSubmit: async values => {
 			try {	
 
-				const response = await api.put('user');
+				const response = await api.put('user/change-password', values);
 			
 
 				Toast('success', 'Os dados foram atualizados com sucesso!');
@@ -49,25 +52,6 @@ function ChangePassword() {
 		},
    
 	});
-
-    async function getUser() {
-        setLoadingOverlay(true);
-        try{
-            const res = await api.get(`user`);
-            const { password,confirmPassword } = res.data;
-            formik.setFieldValue('password',password);
-            formik.setFieldValue('password',confirmPassword);
-        } catch(error){
-            Toast('error', error);
-        }
-        setLoadingOverlay(false);
-    }
-
-    useEffect(()=>{
-        getUser();
-     },[]) 
-
-    
 
 
     return (
@@ -85,11 +69,15 @@ function ChangePassword() {
 
             <div className="container">
             
-                <div id="content" className="row justify-content-between position-relative mt-5 mx-3">
+                <div id="content" className="row justify-content-center position-relative mt-5 mx-3">
 					
-					<div className="order-2 order-md-1 col-12 col-md-6 col-lg-4">
+					<div className="col-12 col-md-6 col-lg-5 mt-5">
 
 						<form className="row" noValidate="" onSubmit={formik.handleSubmit}>
+                            
+                            <div className="text-center mb-3">
+                                <FontAwesomeIcon icon={faKey} size="3x" color="#007BFF" />
+                            </div>
         
                             <div className="col-12 mb-3">
                                 <input 
@@ -111,24 +99,24 @@ function ChangePassword() {
                                     onChange={formik.handleChange}
                                     onInput={(e) => formik.setFieldTouched(e.target.name, true, false)}
                                     value={formik.values.confirmPassword}
-                                    className={`form-control ${formik.touched.password && formik.errors.password ? 'is-invalid' : '' }`}
+                                    className={`form-control ${formik.touched.confirmPassword && formik.errors.confirmPassword ? 'is-invalid' : '' }`}
                                     type="password" 
                                     name="confirmPassword" 
                                     placeholder="Confirmar Senha*"
                                 />
-                                {formik.touched.password && formik.errors.password ? (<div className="invalid-feedback d-block"> {formik.errors.password}</div>) : null}
+                                {formik.touched.confirmPassword && formik.errors.confirmPassword ? (<div className="invalid-feedback d-block"> {formik.errors.confirmPassword}</div>) : null}
                             </div>
 
 
                             <div className="d-flex justify-content-between">
                                 
                                 <div className="text-center mt-2">
-                                    <Link className="text-decoration-none btn text-primary fw-bold" to="/dashboard" >Cancelar</Link>
+                                    <Link className="text-decoration-none btn text-primary fw-bold px-3" to="/dashboard" >Cancelar</Link>
                                 </div>
                                 
                                 <div className="mt-2">
                                     <button className="btn btn-primary" type="submit">
-                                        <Spinner className="spinner-border spinner-border-sm me-2" isLoading={formik.isSubmitting}  /> Confirmar
+                                        <Spinner className="spinner-border spinner-border-sm me-2 px-3" isLoading={formik.isSubmitting}  /> Confirmar
                                     </button>
                                 </div>
                             </div>                    
