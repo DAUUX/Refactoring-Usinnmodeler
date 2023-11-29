@@ -55,6 +55,8 @@ function Modeler(props) {
 
     async function updateDiagram() {
 
+        setLoadingOverlay(true);
+
         try {
             
             const data = {name, diagram_data: diagram, diagram_svg: diagramSVG};
@@ -70,6 +72,8 @@ function Modeler(props) {
             Toast('error', error);
         
         }
+
+        setLoadingOverlay(false);
     }
 
     async function rename(e = null) {
