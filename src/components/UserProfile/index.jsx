@@ -86,8 +86,8 @@ function UserProfile() {
             <ul className="dropdown-menu dropdown-menu-lg-end" aria-labelledby="dropdownMenuButton">
                 <li><Link className="dropdown-item" to="/dashboard/atualizarperfil"> Atualizar Perfil </Link></li>
                 <li><Link className="dropdown-item" to="/dashboard/atualizarsenha"> Redefinir Senha </Link></li>
-                <li><a className="dropdown-item" href="#" onClick={callRemoveLoginModal}> Excluir Perfil </a></li>
-                <li><a className="dropdown-item" href="#" onClick={logout}> Sair </a> </li>
+                <li><button className="dropdown-item" onClick={callRemoveLoginModal}> Excluir Perfil </button></li>
+                <li><button className="dropdown-item" onClick={logout}> Sair </button> </li>
             </ul>
 
             <RemoveLoginModal id={"RemoveLoginModal"} onConfirmLoginRemoved={()=>{callConfirmRemoveLoginModal()}}/>
