@@ -40,7 +40,6 @@ function UpdateProfile() {
 				.max(100, 'O nome deve ter no máximo 100 caracteres')
 				.required('Nome é obrigatório'),
 			email: Yup.string().email('Endereço de e-mail inválido').max(100, 'O email deve ter no máximo 100 caracteres').required('E-mail é obrigatório'),
-			password: Yup.string().min(8, 'Senha deve ter no mínimo 8 caracteres').required('Senha é obrigatória'),
 			birthday: Yup.date()
 				.transform((value, currentValue) => { return moment(currentValue, 'DD/MM/YYYY', true).toDate() })
 				.typeError('Data é inválida')
@@ -77,7 +76,6 @@ function UpdateProfile() {
             const { name, email, password, birthday, gender, company, role, avatar } = res.data;
             formik.setFieldValue('name',name);
             formik.setFieldValue('email',email);
-            formik.setFieldValue('password',password);
             formik.setFieldValue('birthday', moment(birthday, 'YYYY-MM-DD').format('DD/MM/YYYY'));
             formik.setFieldValue('gender',gender);
             formik.setFieldValue('company',company);
@@ -220,13 +218,14 @@ function UpdateProfile() {
                                 
                                 <div className="text-center mt-2">
                                     <Link className="text-decoration-none btn text-primary fw-bold" to="/dashboard" >Cancelar</Link>
-                                </div>
+                                    </div>
                                 
                                 <div className="mt-2">
                                     <button className="btn btn-primary" type="submit">
                                         <Spinner className="spinner-border spinner-border-sm me-2" isLoading={formik.isSubmitting}  /> Confirmar
                                     </button>
                                 </div>
+    
                             </div>                    
                             
 						</form>
