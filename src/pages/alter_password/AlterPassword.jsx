@@ -1,3 +1,4 @@
+import "./style.scss"
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Toast } from "../../components/Toast";
@@ -53,7 +54,7 @@ function AlterPassword(props) {
             </div>
             <h2>Defina a <strong>nova senha</strong></h2>
             <p className="text-muted text-center mb-4">
-              Sua nova senha deve ser diferente das usadas anteriormente.
+              Sua nova senha deve ser diferente da usada anteriormente.
             </p>
             <div>
               <form className={`row justify-content-center`} onSubmit={formik.handleSubmit}>
@@ -61,7 +62,7 @@ function AlterPassword(props) {
                   <input
                     autoFocus
                     onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}  // Esta linha garante que o campo seja marcado como "tocado" para mostrar os erros ao usuário
+                    onBlur={formik.handleBlur}  
                     value={formik.values.novaSenha}
                     className={`form-control ${formik.touched.novaSenha && formik.errors.novaSenha ? 'is-invalid' : ''}`}
                     type="password"
@@ -69,7 +70,7 @@ function AlterPassword(props) {
                     name="novaSenha"
                   />
                   {formik.touched.novaSenha && formik.errors.novaSenha ? (
-                    <div className="invalid-feedback d-block">{formik.errors.novaSenha}</div>
+                    <div className="invalid-feedback d-block text-left">{formik.errors.novaSenha}</div>
                   ) : null}
                 </div>
                 <div className="col-12 mb-3">
@@ -83,7 +84,7 @@ function AlterPassword(props) {
                     name="confirmarSenha"
                   />
                   {formik.touched.confirmarSenha && formik.errors.confirmarSenha ? (
-                    <div className="invalid-feedback d-block">{formik.errors.confirmarSenha}</div>
+                    <div className="invalid-feedback d-block text-left">{formik.errors.confirmarSenha}</div>
                   ) : null}
                 </div>
                 <div className="col-12 d-grid gap-2 mt-2">
