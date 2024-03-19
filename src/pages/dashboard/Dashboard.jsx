@@ -31,7 +31,7 @@ function Dashboard() {
                 <Route path={`${match.path}/atualizarsenha`}>
                     <ChangePassword/>
                 </Route>
-                <Route path={`${match.path}/`}>
+                <Route path={`${match.path}`}>
                     <Inicio/>
                 </Route>
             </Switch>

@@ -14,7 +14,7 @@ function DashboardMenu({menuOpen, onCreateDiagram}) {
     const menuItems = [
         {
             name: 'Início',
-            path: '/',
+            path: '',
             icon: 'bi-house'
         },
         {
