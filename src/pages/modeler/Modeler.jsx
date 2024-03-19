@@ -156,7 +156,7 @@ function Modeler(props) {
 
             <section role="main" className="row flex-fill position-relative overflow-hidden g-0">
                 {/* Menu lateral */}
-                <div id="modelerToolbar" className="position-absolute pb-4 bg-light ms-3 mt-3">
+                <div id="modelerToolbar" className="position-absolute pb-5 bg-light ms-3 mt-3">
                     <center> <div id="toolbar" className="px-3" ></div> </center>
                 </div>
 
