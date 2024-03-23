@@ -153,6 +153,7 @@ var mxDefaultToolbarCodec = mxCodecRegistry.register(function()
 							var toggle = node.getAttribute('toggle') != '0';
 							var text = mxUtils.getTextContent(node);
 							var elt = null;
+							var section = node.getAttribute('section');
 
 							if (action != null)
 							{
@@ -161,7 +162,7 @@ var mxDefaultToolbarCodec = mxCodecRegistry.register(function()
 							else if (mode != null)
 							{
 								var funct = (mxDefaultToolbarCodec.allowEval) ? mxUtils.eval(text) : null;
-								elt = into.addMode(as, icon, mode, pressedIcon, funct);
+								elt = into.addMode(as, icon, mode, pressedIcon, funct, section);
 							}
 							else if (template != null || (text != null && text.length > 0))
 							{
@@ -181,7 +182,7 @@ var mxDefaultToolbarCodec = mxCodecRegistry.register(function()
 									insertFunction = mxUtils.eval(text);
 								}
 								
-								elt = into.addPrototype(as, icon, cell, pressedIcon, insertFunction, toggle);
+								elt = into.addPrototype(as, icon, cell, pressedIcon, insertFunction, toggle, section);
 							}
 							else
 							{
