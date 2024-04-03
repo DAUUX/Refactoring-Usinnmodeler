@@ -9,6 +9,7 @@ import logo from "../../assets/icons/logo-min-blue.png";
 import UserProfile from "../../components/UserProfile";
 import ExportDiagramModal from "../../components/ExportDiagramModal";
 import Spinner from "../../components/Spinner";
+import ConfirmarSaida from "./ConfirmarSaida";
 
 function Modeler(props) {
     const [loadingOverlay, setLoadingOverlay] = useState(false);
@@ -122,8 +123,15 @@ function Modeler(props) {
         }
     }, [diagram, diagramSVG])
 
+
+
+    
+
     return (
         <main id="modelerPage" className="container-fluid px-0 flex-fill d-flex flex-column bg-white h-100">
+            <nav>
+            <ConfirmarSaida/>
+            </nav>
             
 
             <nav id="modelerNavbar" className="navbar navbar-expand-lg">
