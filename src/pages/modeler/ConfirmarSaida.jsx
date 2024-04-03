@@ -6,12 +6,6 @@ const ConfirmarSaida = () => {
     const history = useHistory();
 
     useEffect(() => {
-        const handleBeforeUnload = (event) => {
-            // Se o modal estiver aberto, não exibe a mensagem de confirmação ao sair da págin
-                event.preventDefault();
-                event.returnValue = ''; // Retorna uma string vazia para desativar a mensagem de confirmação
-        };
-
         const confirmExit = () => {
             setShowModal(true);
             return false; // Retorna falso para permitir que a página seja desbloqueada quando o modal for exibido
@@ -19,18 +13,27 @@ const ConfirmarSaida = () => {
         const unblock = history.block(confirmExit);
         return () => {
             unblock();
+ 
         };
-        
-        window.addEventListener('beforeunload', handleBeforeUnload);
-
     }, [history]);
 
     const handleLeavePage = () => {
+        //gastei um tempão tentando chamar a function salvar porem não é tão simples assim, por isso que fiz essa gamb
+        const saveButton = document.getElementById('save'); //pega o botão save
+        saveButton.click(); //clica nela
+
         setShowModal(false);
         const baseUrl = window.location.origin; // Obtém a URL base do site
         const targetUrl = `${baseUrl}/dashboard/documentos`; // Concatena a parte variável da URL
         window.location.href = targetUrl; // Redireciona o usuário para a URL construída
     };
+
+    const LeavePage = () =>{
+        setShowModal(false);
+        const baseUrl = window.location.origin; // Obtém a URL base do site
+        const targetUrl = `${baseUrl}/dashboard/documentos`; // Concatena a parte variável da URL
+        window.location.href = targetUrl; // Redireciona o usuário para a URL construída
+    }
 
     const modalStyle = {
         position: 'fixed',
@@ -50,8 +53,8 @@ const ConfirmarSaida = () => {
                 <div style={modalStyle}>
                     <p>Tem certeza que deseja sair sem salvar?</p>
                     <div>
-                        <button onClick={handleLeavePage}>Sim</button>
-                        <button onClick={() => setShowModal(false)}>Cancelar</button>
+                        <button onClick={() => handleLeavePage()}>Sair e Salvar</button>
+                        <button onClick={() => LeavePage()}>Sair</button>
                     </div>
                 </div>
             )}

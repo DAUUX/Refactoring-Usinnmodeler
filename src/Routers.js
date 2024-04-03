@@ -12,6 +12,8 @@ import UserProfile from "./components/UserProfile";
 import UpdateProfile from "./pages/updateProfile/UpdateProfile";
 import AlterPassword from "./pages/alter_password/AlterPassword";
 import RequestChange from "./pages/alter_password/RequestChange";
+import ExitConfirmation from "./components/ExitConfirmation";
+
 const Routers = () => {
   return (
     // forceRefresh para tentar corrigir problema onde o salvamento e atalhos do modeler não funcionam

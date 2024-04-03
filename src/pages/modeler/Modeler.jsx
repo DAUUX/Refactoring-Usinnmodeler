@@ -103,7 +103,6 @@ function Modeler(props) {
 
     useEffect(()=>{
         createDiagramEditor();
-
         const saveDiagram = (event) => {
             setDiagram(event.detail.xml);
             setDiagramSVG(event.detail.svg);
@@ -129,10 +128,7 @@ function Modeler(props) {
 
     return (
         <main id="modelerPage" className="container-fluid px-0 flex-fill d-flex flex-column bg-white h-100">
-            <nav>
             <ConfirmarSaida/>
-            </nav>
-            
 
             <nav id="modelerNavbar" className="navbar navbar-expand-lg">
                 <div className="container-fluid px-5">
