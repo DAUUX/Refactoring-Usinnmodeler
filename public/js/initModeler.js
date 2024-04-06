@@ -150,9 +150,13 @@ function init(editor, rootPath){
 
 		// Create select actions in page		
 		var node = document.getElementById('actionsMenu');
+		// var buttons = ['new', 'save','group', 'ungroup', 'cut', 'copy', 'paste', 'delete', 'undo', 'redo', 'zoomIn', 'zoomOut', 'fit'];
 		var buttons = ['save','undo', 'redo','group', 'ungroup', 'delete', 'cut', 'copy', 'paste', 'fit', 'zoomIn', 'zoomOut'];
 		
+		// ['group', 'ungroup', 'cut', 'copy', 'paste', 'delete', 'undo', 'redo', 'print', 'show']
+		// var icons = [['new'],['save'],['group', 'ungroup'], ['cut', 'copy', 'paste'], ['delete'], ['undo', 'redo'], ['zoomin', 'zoomout', 'fit']];
 		var icons = [['save'], ['undo', 'redo'], ['group', 'ungroup'], ['delete', 'cut', 'copy', 'paste'], ['fit', 'zoomin', 'zoomout']];
+		// var descriptions = ['Novo', 'Salvar', 'Agrupar', 'Desagrupar', 'Cortar', 'Copiar', 'Colar', 'Excluir', 'Desfazer', 'Refazer', 'Aumentar zoom', 'Reduzir zoom', 'Ajustar à tela'];
 		var descriptions = ['Salvar', 'Desfazer', 'Refazer', 'Agrupar', 'Desagrupar', 'Excluir', 'Cortar', 'Copiar', 'Colar', 'Ajustar à tela', 'Aumentar zoom', 'Reduzir zoom'];
 
 		var i = 0;
