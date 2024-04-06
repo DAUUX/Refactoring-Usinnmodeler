@@ -11,6 +11,11 @@
         }
     }
 
+    .card-header {
+        max-width: 280px;
+        min-width: 280px;
+    }
+
     .card-header > div:first-child{
         text-overflow: ellipsis;
         white-space: nowrap;
