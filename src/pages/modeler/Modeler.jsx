@@ -9,7 +9,7 @@ import logo from "../../assets/icons/logo-min-blue.png";
 import UserProfile from "../../components/UserProfile";
 import ExportDiagramModal from "../../components/ExportDiagramModal";
 import Spinner from "../../components/Spinner";
-import ConfirmarSaida from "./ConfirmarSaida";
+import ConfirmExitModal from "../../components/ConfirmExitModal";
 
 function Modeler(props) {
     const [loadingOverlay, setLoadingOverlay] = useState(false);
@@ -128,8 +128,7 @@ function Modeler(props) {
 
     return (
         <main id="modelerPage" className="container-fluid px-0 flex-fill d-flex flex-column bg-white h-100">
-            <ConfirmarSaida/>
-
+            <ConfirmExitModal/>
             <nav id="modelerNavbar" className="navbar navbar-expand-lg">
                 <div className="container-fluid px-5">
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#modelerNavbarToggle" aria-controls="modelerNavbarToggle" aria-expanded="false" aria-label="Toggle navigation">

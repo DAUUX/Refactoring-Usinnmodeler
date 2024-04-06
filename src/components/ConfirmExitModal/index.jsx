@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import VectorImage from "./Vector.png"; // Importe a imagem corretamente
+import VectorImage from "../../assets/icons/Vector.png"
 
-const ConfirmarSaida = () => {
+const ConfirmExitModal = () => {
   const [showModal, setShowModal] = useState(false);
   const history = useHistory();
 
@@ -135,4 +135,4 @@ const ConfirmarSaida = () => {
   );
 };
 
-export default ConfirmarSaida;
+export default ConfirmExitModal;
