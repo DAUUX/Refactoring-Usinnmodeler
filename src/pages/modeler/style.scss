@@ -31,9 +31,7 @@
 
     #modelerToolbar {
         width: 15rem;
-        border-radius: 20px;
         max-height: 95%;
-        overflow-y: scroll;
         z-index: 2;
     }
 
@@ -64,6 +62,10 @@
         background:white;
         border-style:solid;
         border-color:black;
+    }
+
+    .Hidden {
+        display: none;
     }
 }
 

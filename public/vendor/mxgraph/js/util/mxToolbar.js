@@ -24,6 +24,64 @@
 function mxToolbar(container)
 {
 	this.container = container;
+	// Button section titles
+	var title = ['Elementos de Navegação', 'Elementos de Interação', 'Elementos de Usabilidade'];
+
+	// Creation of section
+	for (let index = 1; index < 4; index++) {
+
+		// Creation of each section element
+		let section = document.createElement('div');
+		let span = document.createElement('span');
+		let nameSection = document.createTextNode(title[index - 1]);
+		let div1 = document.createElement('div');
+		let div2 = document.createElement('div');
+		let button = document.createElement('button');
+		let iconButton = document.createElement('img');
+		
+		// Adding the attributes of each element
+		section.classList.add('Section');
+		section.classList.add('border-bottom');
+		section.classList.add('border-end');
+		section.classList.add('p-3');
+		section.id = "Section" + index;
+
+		span.classList.add('text-primary');
+
+		div1.classList.add('ExpandButtons');
+		div1.classList.add('d-flex');
+		div1.classList.add('justify-content-between');
+
+		div2.classList.add('Buttons');
+		div2.classList.add('Hidden');
+
+		button.classList.add('border-0');
+		button.classList.add('ps-2');
+		button.classList.add("bg-white");
+
+		iconButton.src = "../../../images/icons/arrow-down.png";
+
+		// Adding the "click" event on the button
+		button.addEventListener('click', (e) => {
+			e.preventDefault();
+			button.parentNode.nextSibling.classList.toggle('Hidden');
+			if(button.parentNode.nextSibling.classList.contains('Hidden')) {
+				button.children[0].src = "../../../images/icons/arrow-down.png";
+			}
+			else {
+				button.children[0].src = "../../../images/icons/arrow-up.png";
+			};
+		});
+
+		// Assembling the section's HTML structure
+		span.appendChild(nameSection);
+		button.appendChild(iconButton);
+		div1.appendChild(span);
+		div1.appendChild(button);
+		section.appendChild(div1);
+		section.appendChild(div2);
+		container.appendChild(section);
+	}
 };
 
 /**
@@ -291,8 +349,9 @@ mxToolbar.prototype.addOption = function(combo, title, value)
  * be selected at a time. The currently selected item is the default item
  * after a reset of the toolbar.
  */
-mxToolbar.prototype.addSwitchMode = function(title, icon, funct, pressedIcon, style)
+mxToolbar.prototype.addSwitchMode = function(sec, title, icon, funct, pressedIcon, style)
 {
+
 	var img = document.createElement('img');
 	img.initialClassName = style || 'mxToolbarMode';
 	img.className = img.initialClassName;
@@ -341,7 +400,7 @@ mxToolbar.prototype.addSwitchMode = function(title, icon, funct, pressedIcon, st
 		funct();
 	}));
 	
-	this.container.appendChild(img);
+	this.container.children[sec - 1].children[1].appendChild(img);
 	
 	if (this.defaultMode == null)
 	{
@@ -366,7 +425,7 @@ mxToolbar.prototype.addSwitchMode = function(title, icon, funct, pressedIcon, st
  * The function argument uses the following signature: funct(evt, cell) where
  * evt is the native mouse event and cell is the cell under the mouse.
  */
-mxToolbar.prototype.addMode = function(title, icon, funct, pressedIcon, style, toggle)
+mxToolbar.prototype.addMode = function(title, icon, funct, pressedIcon, style, toggle, sec)
 {
 	toggle = (toggle != null) ? toggle : true;
 	var img = document.createElement((icon != null) ? 'img' : 'button');
@@ -403,7 +462,7 @@ mxToolbar.prototype.addMode = function(title, icon, funct, pressedIcon, style, t
 		}
 	}
 
-	this.container.appendChild(img);					
+	this.container.children[sec - 1].children[1].appendChild(img);
 
 	return img;
 };
