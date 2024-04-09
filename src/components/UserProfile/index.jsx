@@ -8,7 +8,7 @@ import { Modal } from "bootstrap";
 import ConfirmRemoveLoginModal from "../ConfirmRemoveLoginModal";
 import RemoveLoginModal from "../RemoveLoginModal";
 
-function UserProfile() {
+function UserProfile(props) {
 
     const [user, setUser] = useState({name: ''});
     const history   = useHistory();
@@ -79,9 +79,15 @@ function UserProfile() {
 
                 <div id="profileImg" className="text-uppercase"> <img className="mb-4 img-fluid"src={avatarOptions[user.avatar-1]}></img> </div>
                 
-                <button className="btn px-2 pe-0 dropdown-toggle" id="dropdownMenuButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">  
-                    <b> {user.name} </b>
-                </button>
+                {props.textColor === "white" ? 
+                    <button className="btn px-2 pe-0 dropdown-toggle text-white" id="dropdownMenuButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">  
+                        <b> {user.name} </b> 
+                    </button>
+                : 
+                    <button className="btn px-2 pe-0 dropdown-toggle" id="dropdownMenuButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">  
+                        <b> {user.name} </b> 
+                    </button>
+                }
 
             <ul className="dropdown-menu dropdown-menu-lg-end" aria-labelledby="dropdownMenuButton">
                 <li><Link className="dropdown-item" to="/dashboard/atualizarperfil"> Atualizar Perfil </Link></li>

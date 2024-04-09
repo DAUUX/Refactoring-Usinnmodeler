@@ -5,7 +5,7 @@ import api from "../../services/api";
 import { Toast } from "../../components/Toast";
 import ShareDiagramModal from "../../components/ShareDiagramModal";
 import { slugify } from "../../Helpers";
-import logo from "../../assets/icons/logo-min-blue.png";
+import logo from "../../assets/icons/usinn-logo-min.png";
 import UserProfile from "../../components/UserProfile";
 import ExportDiagramModal from "../../components/ExportDiagramModal";
 import Spinner from "../../components/Spinner";
@@ -19,8 +19,16 @@ function Modeler(props) {
     const [owner, setOwner]           = useState(false);
     const [created, setCreated]       = useState(false);
     const [shareModalId]              = useState('ShareDiagramModal');
+    const [oculteManipulationIcons, setOculteManipulationIcons] = useState(false);
 
     const history = useHistory();
+
+    async function validPermissionForEdit() {        
+        let user_id = JSON.parse(localStorage.getItem('user')).id;
+        const diagram = await api.get(`/collaboration/${props.match.params.id}/${user_id}`);
+        const collaboratorPermission = diagram.data.permission;
+        collaboratorPermission == 1 ? setOculteManipulationIcons(true) : setOculteManipulationIcons(false);
+    }
 
     async function createDiagramEditor() {
 
@@ -33,15 +41,16 @@ function Modeler(props) {
             return;
 
         try {
-
             const res = await api.get(`diagrams/${props.match.params.id}`);
             
             const {diagram_data, name, user_id} = res.data;
-            setName(name);
+            setName(name);            
 
             window.history.replaceState(null, name, `/modeler/${props.match.params.id}/${slugify(name)}`);  
 
             setOwner(user_id == JSON.parse(localStorage.getItem('user')).id ? true : false);
+            
+            validPermissionForEdit();
 
             const event = new CustomEvent('openDiagram', { detail: diagram_data });
             window.dispatchEvent(event);
@@ -103,6 +112,7 @@ function Modeler(props) {
 
     useEffect(()=>{
         createDiagramEditor();
+
         const saveDiagram = (event) => {
             setDiagram(event.detail.xml);
             setDiagramSVG(event.detail.svg);
@@ -122,45 +132,49 @@ function Modeler(props) {
         }
     }, [diagram, diagramSVG])
 
-
-
-    
-
     return (
         <main id="modelerPage" className="container-fluid px-0 flex-fill d-flex flex-column bg-white h-100">
             <ConfirmExitModal/>
-            <nav id="modelerNavbar" className="navbar navbar-expand-lg">
+
+            <nav id="modelerNavbar" className="navbar navbar-expand-lg bg-primary ">
                 <div className="container-fluid px-5">
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#modelerNavbarToggle" aria-controls="modelerNavbarToggle" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
-                    <form onSubmit={rename} className="d-flex me-auto" role="search">
+                    <form onSubmit={rename} className="d-flex me-auto" role="search" >
 						<Link to="/dashboard"> <img src={logo} className="me-4" alt="logo USINN" /> </Link>
-                        <input value={name} onChange={(e) => {setName(e.target.value)}} onBlur={rename} className="form-control py-0 px-2" type="text" id="nameInput" />
+                        <input value={name} onChange={(e) => {setName(e.target.value)}} onBlur={rename} className="form-control py-0 px-2 text-white" type="text" id="nameInput" />
                     </form>
                     <div className="collapse navbar-collapse justify-content-end" id="modelerNavbarToggle">
-                        <UserProfile/>
+                        <span>
+                            {props.match.params.id && owner &&
+                                <button data-bs-toggle="modal" data-bs-target={`#${shareModalId}`} className="btn btn-light btn-sm order-last text-primary me-4" title="Compartilhar"> 
+                                    Compartilhar <i className="bi bi-share-fill fs-7"></i> 
+                                </button>
+                            }
+                        </span>
+                        
+                        <span>
+                            <UserProfile textColor = "white"/>
+                        </span>
                     </div>
                 </div>
             </nav>
 
-            <div id="actionsMenu" className="d-flex bg-light py-2 px-5">
-                {/* mxGraph actions added here */}
-                <button data-bs-toggle="modal" data-bs-target={`#exportModalId`} className="btn btn-light btn-sm order-last" title="Exportar"> 
-                    <i className="bi bi-box-arrow-up-right fs-5"></i>
-                </button>
-                {props.match.params.id && owner &&
-                    <button data-bs-toggle="modal" data-bs-target={`#${shareModalId}`} className="btn btn-light btn-sm order-last" title="Compartilhar"> 
-                        <i className="bi bi-share-fill fs-5"></i> 
-                    </button>
-                }
-            </div>
+           <div hidden={oculteManipulationIcons}>
+                <div id="actionsMenu" className="d-flex bg-light py-2 px-5" >
+                    {/* mxGraph actions added here */ }
+                    <button data-bs-toggle="modal" data-bs-target={`#exportModalId`} className="btn btn-light btn-sm order-last" title="Exportar" > 
+                        <i className="bi bi-box-arrow-up-right fs-5 pe-4 "></i>
+                        <span className="h6 text-secondary">Exportar diagrama</span>
+                    </button>                             
+                </div>
+            </div> 
 
-
-            <section role="main" className="row flex-fill position-relative overflow-hidden g-0">
+            <section role="main" className="row flex-fill position-relative overflow-hidden g-0" >
                 {/* Menu lateral */}
-                <div id="modelerToolbar" className="position-absolute pb-4 bg-light ms-3 mt-3">
-                    <center> <div id="toolbar" className="px-3" ></div> </center>
+                <div id="modelerToolbar" className="position-absolute bg-white" hidden={oculteManipulationIcons}>
+                    <center> <div id="toolbar" ></div> </center>
                 </div>
 
                 {/* Editor */}

@@ -28,13 +28,13 @@
     }
   }
 
-  #modelerToolbar {
-    width: 15rem;
-    border-radius: 20px;
-    max-height: 95%;
-    overflow-y: scroll;
-    z-index: 2;
-  }
+
+    #modelerToolbar {
+        width: 15rem;
+        max-height: 95%;
+        z-index: 2;
+    }
+
 
   #actionsMenu {
     .btn:hover {
@@ -42,28 +42,33 @@
     }
   }
 
-  #graph {
-    background: url("../../../public/images/grid.gif");
-    overflow: scroll;
-  }
+    #graph {
+        background: url('../../../public/images/grid.gif');
+        overflow: scroll;
+    }
+    
+    #zoomActions {
+        width:100%;
+        padding-left:54px;
+        padding-top:4px;
+    }
+    
+    #outlineContainer {
+        position:fixed;
+        overflow:hidden;
+        bottom:20px;
+        right:20px;
+        width:200px;
+        height:140px;
+        background:white;
+        border-style:solid;
+        border-color:black;
+    }
 
-  #zoomActions {
-    width: 100%;
-    padding-left: 54px;
-    padding-top: 4px;
-  }
+    .Hidden {
+        display: none;
+    }
 
-  #outlineContainer {
-    position: fixed;
-    overflow: hidden;
-    bottom: 20px;
-    right: 20px;
-    width: 200px;
-    height: 140px;
-    background: white;
-    border-style: solid;
-    border-color: black;
-  }
 }
 
 
