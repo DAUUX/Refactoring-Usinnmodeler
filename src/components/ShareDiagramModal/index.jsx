@@ -69,6 +69,7 @@ function ShareDiagramModal(props) {
             editor: editorLink
         }
         try {            
+            console.log(usersInvited)
             await api.post(`share/${props.diagram_id}/inviteLink`, {link, usersInvited});  
             
             Toast('success', 'Diagrama compartilhado com sucesso!');
