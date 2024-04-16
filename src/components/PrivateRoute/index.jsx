@@ -2,9 +2,10 @@ import { Redirect, Route, useLocation } from "react-router-dom";
 
 const PrivateRoute = (props) => {
     const location = useLocation();
-    const authLogin = !!localStorage.getItem('token');
+    const authToken = !!localStorage.getItem('token');
+    const authUser = !!localStorage.getItem('user');
   
-    return authLogin ? (
+    return authToken && authUser ? (
         <Route {...props} />
     ) : (
         <Redirect
