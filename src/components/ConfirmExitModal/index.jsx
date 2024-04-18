@@ -6,35 +6,73 @@ import "./style.scss";
 const ConfirmExitModal = () => {
   const [showModal, setShowModal] = useState(false);
   const history = useHistory();
+  const [redirect, setRedirect] = useState("standard");
 
   useEffect(() => {
-    const confirmExit = () => {
-      setShowModal(true);
-      return false; // Retorna falso para permitir que a página seja desbloqueada quando o modal for exibido
+    const confirmExit = (nextLocation) => {
+      //Se o usuário sair para "/"
+      if (nextLocation.pathname === "/") { //Redireciona para a home, o usuário quer sair
+        setRedirect("/")
+        setShowModal(true);
+        return false; // Retorna falso para bloquear a navegação
+      }else{
+        setRedirect("standard")
+        //Qualquer saída
+        setShowModal(true);
+        return false;
+      }
     };
+
+
     const unblock = history.block(confirmExit);
     return () => {
       unblock();
     };
   }, [history]);
 
-  const handleLeavePage = () => {
-    setShowModal(false);
-    const baseUrl = window.location.origin; // Obtém a URL base do site
-    const targetUrl = `${baseUrl}/dashboard`; // Concatena a parte variável da URL
-    window.location.href = targetUrl; // Redireciona o usuário para a URL construída
+
+  const logoutLeavePage = () => {
+    if(redirect === "/"){ //Estava indo para /
+      const saveButton = document.getElementById("save"); //pega o botão save
+      saveButton.click(); //clica nela
+      setShowModal(false);
+      localStorage.removeItem("user")
+      localStorage.removeItem("token")
+      const baseUrl = window.location.origin; // Obtém a URL base do site
+      const targetUrl = `${baseUrl}/`; // Concatena a parte variável da URL
+      window.location.href = targetUrl; // Redireciona o usuário para a URL construída
+    }else{ //saída padrão
+      const saveButton = document.getElementById("save"); //pega o botão save
+      saveButton.click(); //clica nela
+      setShowModal(false);
+      const baseUrl = window.location.origin; // Obtém a URL base do site
+      const targetUrl = `${baseUrl}/dashboard`; // Concatena a parte variável da URL
+      window.location.href = targetUrl; // Redireciona o usuário para a URL construída
+    }
   };
 
   const LeavePage = () => {
-    setShowModal(false);
-    const baseUrl = window.location.origin; // Obtém a URL base do site
-    const targetUrl = `${baseUrl}/dashboard`; // Concatena a parte variável da URL
-    window.location.href = targetUrl; // Redireciona o usuário para a URL construída
+    if(redirect === "/"){ //Estava indo para /
+      setShowModal(false);
+      localStorage.removeItem("user")
+      localStorage.removeItem("token")
+      const baseUrl = window.location.origin; // Obtém a URL base do site
+      const targetUrl = `${baseUrl}/dashboard`; // Concatena a parte variável da URL
+      window.location.href = targetUrl; // Redireciona o usuário para a URL construída
+    }else{ //Saida padrão
+      setShowModal(false);
+      const baseUrl = window.location.origin; // Obtém a URL base do site
+      const targetUrl = `${baseUrl}/dashboard`; // Concatena a parte variável da URL
+      window.location.href = targetUrl; // Redireciona o usuário para a URL construída
+    }
   };
 
   const closeModal = () => {
     setShowModal(false);
   };
+
+  // Substituir o comportamento padrão do navegador
+  window.onbeforeunload = () => {};
 
   return (
     <>
@@ -54,7 +92,7 @@ const ConfirmExitModal = () => {
               <button className="button leave-button" onClick={LeavePage}>
                 Não
               </button>
-              <button className="button save-button" onClick={handleLeavePage}>
+              <button className="button save-button" onClick={logoutLeavePage}>
                 Sim
               </button>
             </div>

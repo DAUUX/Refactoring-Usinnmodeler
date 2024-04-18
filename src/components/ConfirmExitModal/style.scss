@@ -76,6 +76,10 @@
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 9998;
   }
+
+  body {
+    overflow: hidden; /* Impede a rolagem vertical e horizontal */
+  }
   
 @media (max-width: 600px) {
     .button-container  {
@@ -84,37 +88,20 @@
 
   }
 
-  @media (max-width: 320px) {
-    .confirm-exit-modal{
-        transform: scale(0.4);
-        top: 0%;
-        left: -80px;
-        max-width: 50%;
-    }
-  }
-
-  @media (max-width: 400px) {
-    .confirm-exit-modal{
-        transform: scale(0.9);
-        top: 10%;
-        left: 2%;
-        max-width: 50%;
-    }
-  }
   @media (max-width: 450px) {
     .confirm-exit-modal{
-        transform: scale(0.9);
+        transform: scale(1);
         top: 10%;
         left: 5%;
-        max-width: 50%;
+        max-width: 80%;
     }
   }
   @media (max-width: 280px) {
     .confirm-exit-modal{
-        transform: scale(0.5);
+        transform: scale(0.9);
         top: 0%;
-        left: -110px;
-        max-width: 50%;
+        left: 10px;
+        max-width: 90%;
     }
   }
 

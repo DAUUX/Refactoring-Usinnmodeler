@@ -64,10 +64,17 @@ function UserProfile(props) {
         modal.show();
     }
 
+
+
     function logout() {
+        history.push(`/`);
+        if(window.location.pathname.includes("/modeler")){ //Verifica se está na tela dos modelers 
+            
+        }else{
         localStorage.removeItem('user');
         localStorage.removeItem('token');
-        history.push(`/`);
+        }
+        
     }
 
     useEffect(()=>{
