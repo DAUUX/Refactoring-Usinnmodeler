@@ -16,7 +16,7 @@ const ConfirmExitModal = () => {
         setShowModal(true);
         return false; // Retorna falso para bloquear a navegação
       }else{
-        setRedirect("standard")
+        setRedirect(nextLocation.pathname)
         //Qualquer saída
         setShowModal(true);
         return false;
@@ -46,7 +46,7 @@ const ConfirmExitModal = () => {
       saveButton.click(); //clica nela
       setShowModal(false);
       const baseUrl = window.location.origin; // Obtém a URL base do site
-      const targetUrl = `${baseUrl}/dashboard`; // Concatena a parte variável da URL
+      const targetUrl = `${baseUrl}${redirect}`; // Concatena a parte variável da URL
       window.location.href = targetUrl; // Redireciona o usuário para a URL construída
     }
   };
@@ -57,12 +57,12 @@ const ConfirmExitModal = () => {
       localStorage.removeItem("user")
       localStorage.removeItem("token")
       const baseUrl = window.location.origin; // Obtém a URL base do site
-      const targetUrl = `${baseUrl}/dashboard`; // Concatena a parte variável da URL
+      const targetUrl = `${baseUrl}/`; // Concatena a parte variável da URL
       window.location.href = targetUrl; // Redireciona o usuário para a URL construída
     }else{ //Saida padrão
       setShowModal(false);
       const baseUrl = window.location.origin; // Obtém a URL base do site
-      const targetUrl = `${baseUrl}/dashboard`; // Concatena a parte variável da URL
+      const targetUrl = `${baseUrl}${redirect}`; // Concatena a parte variável da URL
       window.location.href = targetUrl; // Redireciona o usuário para a URL construída
     }
   };
