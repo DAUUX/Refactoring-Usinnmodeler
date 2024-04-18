@@ -104,4 +104,3 @@ const ConfirmExitModal = () => {
 };
 
 export default ConfirmExitModal;
-

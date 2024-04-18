@@ -46,26 +46,6 @@ function UserProfile(props) {
         modal.show();
     }
 
-    function callConfirmRemoveLoginModal() {
-        const modal = new Modal('#ConfirmRemoveLoginModal')          
-        modal.show();
-    }
-    function callRemoveLoginModal() {
-        const modal = new Modal('#RemoveLoginModal')          
-        modal.show();
-    }
-
-    function callConfirmRemoveLoginModal() {
-        const modal = new Modal('#ConfirmRemoveLoginModal')          
-        modal.show();
-    }
-    function callRemoveLoginModal() {
-        const modal = new Modal('#RemoveLoginModal')          
-        modal.show();
-    }
-
-
-
     function logout() {
         history.push(`/`);
         if(window.location.pathname.includes("/modeler")){ //Verifica se está na tela dos modelers 
@@ -83,8 +63,7 @@ function UserProfile(props) {
     
     return (
             <div className="dropdown d-flex">
-
-                <div id="profileImg" className="text-uppercase"> <img className="mb-4 img-fluid"src={avatarOptions[user.avatar-1]}></img> </div>
+                <div id="profileImg" className="text-uppercase"> <img className="mb-4 img-fluid"src={avatarOptions[user.avatar-1]} alt="Avatar do usuário"></img> </div>
                 
                 {props.textColor === "white" ? 
                     <button className="btn px-2 pe-0 dropdown-toggle text-white" id="dropdownMenuButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">  
