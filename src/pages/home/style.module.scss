@@ -49,7 +49,7 @@
 
 //ficar visivel quando está navegando com o tab
 :is(.btn, button, .underline):focus:not(:hover) {
-  outline: 5px black solid !important;
+  outline: 2px black solid !important;
 }
 
 //ver melhor onde o mouse está nos links
