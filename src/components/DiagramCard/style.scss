@@ -11,12 +11,28 @@
         }
     }
 
+
+    .card-header > div:first-child{
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
     .card-body {
         max-height: 220px;
         min-height: 220px;
+        
+        overflow: hidden;
+        position: relative;
+
         img {
             height: 100%;
             object-fit: contain;
+
+            max-width: 100%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
     }
 

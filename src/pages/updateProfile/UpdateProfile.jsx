@@ -39,7 +39,7 @@ function UpdateProfile() {
 				.min(3, 'O nome deve ter no mínimo 3 caracteres')
 				.max(100, 'O nome deve ter no máximo 100 caracteres')
 				.required('Nome é obrigatório'),
-			email: Yup.string().email('Endereço de e-mail inválido').max(100, 'O email deve ter no máximo 100 caracteres').required('E-mail é obrigatório'),
+			email: Yup.string().email('Endereço de e-mail inválido').max(255, 'O email deve ter no máximo 255 caracteres').required('E-mail é obrigatório'),
 			birthday: Yup.date()
 				.transform((value, currentValue) => { return moment(currentValue, 'DD/MM/YYYY', true).toDate() })
 				.typeError('Data é inválida')
