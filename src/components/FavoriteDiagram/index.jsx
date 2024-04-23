@@ -13,7 +13,6 @@ function FavoriteDiagram ({favorited, diagram_id, onFavoritedClick}){
         e.stopPropagation();
         e.preventDefault();
         setLoading(true);
-        onFavoritedClick();
         try {
             if(!favorite){
                 const res = await api.post(`favorite/${diagram_id}`);
@@ -27,7 +26,9 @@ function FavoriteDiagram ({favorited, diagram_id, onFavoritedClick}){
 
                 setFavorite(!favorite);
 
-            }                   
+            }            
+            
+            onFavoritedClick();       
         } catch (error) {
             Toast('error', error);        
             
