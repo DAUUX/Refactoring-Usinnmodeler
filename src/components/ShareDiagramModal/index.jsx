@@ -65,7 +65,7 @@ function ShareDiagramModal(props) {
     async function inviteLink() {        
         let usersInvited = users.filter(item => item.email.trim() !== '');
         if(usersInvited.length <= 0){
-            return Toast('error', "Preencha o campo email")
+            return Toast('error', "Preencha o campo email", "errorCircle")
         }
         setLoading(true);
         const link = {
@@ -75,13 +75,13 @@ function ShareDiagramModal(props) {
         try {            
             await api.post(`share/${props.diagram_id}/inviteLink`, {link, usersInvited});  
             
-            Toast('success', 'Diagrama compartilhado com sucesso!');
+            Toast('success', 'Diagrama compartilhado com sucesso!', "share");
             setUsers([]);
             setQuantidades([]);
             setWasInvited(!wasInvited);
         } catch (error) {
         
-            Toast('error', error);        
+            Toast('error', error, "aviso");        
         }
                 
         setLoading(false);
@@ -104,7 +104,7 @@ function ShareDiagramModal(props) {
         
         } catch (error) {
         
-            Toast('error', error);
+            Toast('error', error, "errorCircle");
         
         }
 
@@ -116,7 +116,7 @@ function ShareDiagramModal(props) {
             const res = await api.get(`/collaboration/${props.diagram_id}/getAllCollaborationWithName`);
             setCollaborators(res.data.usersInviteds); 
         } catch(error) {
-            Toast('error', error);
+            Toast('error', error, "errorCircle");
         }
     }
 
@@ -129,7 +129,7 @@ function ShareDiagramModal(props) {
                 await  api.put(`/collaboration/${props.diagram_id}/${user_id}`, {updation});
             }         
         } catch(error) {
-            Toast('error', error);
+            Toast('error', error, "errorCircle");
         }
     }
 
@@ -145,7 +145,7 @@ function ShareDiagramModal(props) {
             
         } catch (error) {
             
-            Toast('error', error);
+            Toast('error', error, "errorCircle");
             
         }
 

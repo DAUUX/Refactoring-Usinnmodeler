@@ -2,7 +2,7 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import './style.css'
 
-export function Toast(status, text) {
+export function Toast(status, text, icons) {
 
     const MySwal = withReactContent(Swal)
 
@@ -17,7 +17,7 @@ export function Toast(status, text) {
     }
     
     MySwal.fire({
-        icon: status,
+        iconHtml: `<span class="${icons}"></span>`,
         showCloseButton: true,
         toast: true,
         html: text,
@@ -25,9 +25,10 @@ export function Toast(status, text) {
         background: bgColors[status],
         position: 'top',
         showConfirmButton: false,
-        timer: 0,
+        timer: 2500,
         timerProgressBar: true,
         customClass: {
+            icon: 'no-border',
             container: 'toast-container',
             popup: 'toast-popup',
             htmlContainer: 'toast-content',

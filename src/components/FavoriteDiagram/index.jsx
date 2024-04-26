@@ -16,13 +16,13 @@ function FavoriteDiagram ({favorited, diagram_id, onFavoritedClick}){
         try {
             if(!favorite){
                 const res = await api.post(`favorite/${diagram_id}`);
-                Toast("success", "Diagrama favoritado com sucesso!");
+                Toast("success", "Diagrama adicionado aos meus favoritos", "checkCircle");
 
                 setFavorite(!favorite);
 
             } else{
                 const res = await api.delete(`/favorite/${diagram_id}`);
-                Toast("success","Diagrama desfavoritado com sucesso!");
+                Toast("success","Diagrama removido dos meus favoritos", "checkCircle");
 
                 setFavorite(!favorite);
 
@@ -30,7 +30,7 @@ function FavoriteDiagram ({favorited, diagram_id, onFavoritedClick}){
             
             onFavoritedClick();       
         } catch (error) {
-            Toast('error', error);        
+            Toast('error', error, "errorCircle");        
             
         }      
         setLoading(false);  

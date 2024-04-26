@@ -30,7 +30,7 @@ function UserProfile(props) {
 
 
         } catch (error) {
-            Toast('error', error);
+            Toast('error', error, "errorCircle");
             localStorage.removeItem('user');
             localStorage.removeItem('token');
         }

@@ -33,3 +33,87 @@
     background: #959595;
     color: #fff;
 }
+
+.delete {
+    width: 40px;
+    height: 40px;
+    background-image: url('../../assets/icons/pop-up/delete.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.aviso {
+    width: 40px;
+    height: 40px;
+    background-image: url('../../assets/icons/pop-up/aviso.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.checkCircle {
+    width: 40px;
+    height: 40px;
+    background-image: url('../../assets/icons/pop-up/CheckCircle.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.dataBase {
+    width: 40px;
+    height: 40px;
+    background-image: url('../../assets/icons/pop-up/database-icon.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.email {
+    width: 40px;
+    height: 40px;
+    background-image: url('../../assets/icons/pop-up/email.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.errorWifi {
+    width: 40px;
+    height: 40px;
+    background-image: url('../../assets/icons/pop-up/error-wifi-icon.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.errorCircle {
+    width: 40px;
+    height: 40px;
+    background-image: url('../../assets/icons/pop-up/ErrorCircle.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.share {
+    width: 40px;
+    height: 40px;
+    background-image: url('../../assets/icons/pop-up/share.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.user {
+    width: 40px;
+    height: 40px;
+    background-image: url('../../assets/icons/pop-up/user.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.key {
+    width: 40px;
+    height: 40px;
+    background-image: url('../../assets/icons/pop-up/key.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.no-border{
+    border: 0;
+}

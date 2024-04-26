@@ -40,12 +40,12 @@ function ChangePassword() {
 				const response = await api.put('user/change-password', values);
 			
 
-				Toast('success', 'Os dados foram atualizados com sucesso!');
+				Toast('success', 'Os dados foram atualizados com sucesso!', "key");
 				
 				
 			} catch (error) {
 				
-				Toast('error', error);
+				Toast('error', error, "aviso");
 				
 			}
    
