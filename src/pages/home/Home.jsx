@@ -12,8 +12,14 @@ import Logotipo from "../../assets/icons/logotipo.svg";
 
 import Slides from "./Slides";
 import BasicCard from "./BasicCard";
+import { useEffect } from "react";
 
 export default function Home() {
+
+  useEffect(() => {
+    document.title = 'Home / USINN Modeler';
+  },[]);
+
   return (
     <>
       <header className="position-absolute w-100">
@@ -115,17 +121,17 @@ export default function Home() {
               EXPERIÊNCIA COMPLETA <br /> & <br /> MODELAGEM 3 EM 1
             </h1>
 
-            <h2 className="my-4 text-center">
+            <p className="my-4 text-center h2">
               Modele a interação e a navegação de sistemas interativos <br />
               com foco na usabilidade.
-            </h2>
+            </p>
 
             <Link
               to="/login"
               className={`${styles.btn} btn btn-light text-black rounded-pill`}
               aria-label="ir para página de login do usinn"
             >
-              USINN MODELER
+              COMECE A MODELAR
             </Link>
           </div>
         </section>
@@ -138,11 +144,11 @@ export default function Home() {
 
             <div className="text-center text-md-start px-1 py-5 p-sm-5 col-auto col-lg-6">
               <h1 id="region2" className="text-primary pb-2 h2 fw-bolder">
-                USINN
+                Sobre o USINN
               </h1>
 
               <p className="fw-lighter h5 pb-2">
-                <em>USability-oriented INteraction and Navigation Model</em>
+                <em lang="en">USability-oriented INteraction and Navigation Model</em>
               </p>
 
               <p className="fs-5 m-0">
@@ -181,7 +187,7 @@ export default function Home() {
           <div id="Caracteristicas" className="d-flex justify-content-center pb-5">
             <img src={Document} alt="" />
             <p id="region3" className="text-primary pt-3 ps-2 fw-bolder d-inline">
-              Confira a tese que iniciou o USINN
+              Confira a tese que iniciou o <abbr title="USability-oriented INteraction and Navigation Model">USINN</abbr>
             </p>
           </div>
 
@@ -270,7 +276,7 @@ export default function Home() {
               Conheça nosso TIME
             </h1>
             <p className="fs-5">
-              Somos alunos e professora da UFC - Campus de Russas.
+              Somos alunos e professora da <abbr title="Universidade Federal do Ceará">UFC</abbr> - Campus de Russas.
             </p>
           </div>
 
@@ -292,13 +298,13 @@ export default function Home() {
           <div className="row justify-content-center py-5">
             <img
               src={Funcap}
-              alt="Patrocionadora FUNCAP"
+              alt="Patrocionadora FUNCAP - Fundação Cearense de Apoio ao Desenvolvimento Científico e Tecnológico"
               className="col-sm-auto col-md-3 p-5 p-sm-5 p-md-0 p-lg-4 mx-5"
             />
 
             <img
               src={LogoUFC}
-              alt="Patrocionadora UFC"
+              alt="Patrocionadora UFC - Universidade Federal do Ceará"
               className="col-sm-auto col-md-3 p-5 p-sm-5 p-md-0 p-lg-4 mx-5"
             />
           </div>
@@ -320,7 +326,7 @@ export default function Home() {
             </span>
           </div>
 
-          <p>
+          <p lang="en">
             USability-oriented INteraction and Navigation Model USINN © 2022
           </p>
         </div>

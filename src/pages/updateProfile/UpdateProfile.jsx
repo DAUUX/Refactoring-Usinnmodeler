@@ -13,6 +13,10 @@ import moment from "moment";
 
 function UpdateProfile() {
 
+    useEffect(() => {
+        document.title = 'Editar Perfil / USINN Modeler';
+    },[]);
+
     let match = useRouteMatch();
 
     const [menuOpen, setMenuOpen]             = useState(false);

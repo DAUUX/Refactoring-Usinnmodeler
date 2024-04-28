@@ -5,8 +5,13 @@ import api from "../../services/api";
 import Spinner from "../../components/Spinner";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useEffect } from "react";
 
 export default function Login() {
+
+	useEffect(() => {
+    document.title = 'Login / USINN Modeler';
+  },[]);
 
 	const history = useHistory();
 
@@ -47,7 +52,7 @@ export default function Login() {
 	});
 	
 	return (
-		<main className="flex-fill d-flex align-items-center">
+		<main className="flex-fill d-flex align-items-center" aria-label="formulário de login">
 			<div className="container">
 
 				<div className="py-3 d-flex justify-content-center align-items-center" aria-hidden="true">
@@ -69,7 +74,7 @@ export default function Login() {
 							name="email"
 							placeholder="E-mail*"
 						/>
-						{formik.touched.email && formik.errors.email ? (<p className="invalid-feedback m-0 p-0 pt-1"> {formik.errors.email}</p>) : null}
+						{formik.touched.email && formik.errors.email ? (<strong className="invalid-feedback m-0 p-0 pt-1"> {formik.errors.email}</strong>) : null}
 					</div>
 
 					<div className="mb-3 p-0">
@@ -83,7 +88,7 @@ export default function Login() {
 							name="password"
 							placeholder="Senha*"
 						/>
-						{formik.touched.password && formik.errors.password ? (<p className="invalid-feedback m-0 p-0 pt-1"> {formik.errors.password}</p>) : null}
+						{formik.touched.password && formik.errors.password ? (<strong className="invalid-feedback m-0 p-0 pt-1"> {formik.errors.password}</strong>) : null}
 						
 						<Link className="mt-2 text-decoration-none float-end" to="/request-change">Esqueceu sua senha?</Link>
 					</div> 

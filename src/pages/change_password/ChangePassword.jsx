@@ -13,6 +13,10 @@ import { faKey } from '@fortawesome/free-solid-svg-icons';
 
 function ChangePassword() {
 
+    useEffect(() => {
+        document.title = 'Atualizar Senha / USINN Modeler';
+    },[]);
+
     let match = useRouteMatch();
 
     const [menuOpen, setMenuOpen]             = useState(false);

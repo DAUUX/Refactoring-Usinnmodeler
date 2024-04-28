@@ -9,8 +9,13 @@ import "./style.scss";
 import { roleOptions, genderOptions } from '../../Consts';
 import { useFormik } from "formik";
 import * as Yup from 'yup';
+import { useEffect } from "react";
 
 export default function Register() {
+
+	useEffect(() => {
+    document.title = 'Cadastrar / USINN Modeler';
+  },[]);
 	
 	const history = useHistory();
 
@@ -65,7 +70,7 @@ export default function Register() {
 	});
 	
 	return (
-		<main id="register-page" className="flex-fill d-flex align-items-center">    
+		<main id="register-page" className="flex-fill d-flex align-items-center" aria-label="formulário de cadastro">    
 			<div className="container py-5 py-sm-0">
 
 				<div className="pb-3 d-flex justify-content-center align-items-center" aria-hidden="true">
@@ -129,8 +134,8 @@ export default function Register() {
 										className={`form-control ${formik.touched.birthday && formik.errors.birthday ? 'is-invalid' : '' }`}
 										type="text" 
 										name="birthday" 
-      									mask='99/99/9999'
-										placeholder="Data de nascimento*" 
+      							mask='99/99/9999'
+										placeholder="Data de nascimento*"
 									/>
 									{formik.touched.birthday && formik.errors.birthday ? (<strong className="invalid-feedback d-block"> {formik.errors.birthday}</strong>) : null}
 								</div>
@@ -143,7 +148,7 @@ export default function Register() {
 										className={`form-select ${formik.touched.gender && formik.errors.gender ? 'is-invalid' : '' }${formik.values.gender === '' ? ' is-empty': ''}`} 
 										name="gender" 
 										placeholder="Gênero*"
-										aria-label="Seu Gênero"
+										title="seu gênero"
 									>
 										<option value="" disabled hidden> Gênero* </option>
 
@@ -165,7 +170,7 @@ export default function Register() {
 												className={`form-select ${formik.touched.role && formik.errors.role ? 'is-invalid' : ''}${formik.values.role === '' ? ' is-empty': ''}`}
 												name="role"
 												placeholder="Perfil"
-												aria-label="Seu Perfil"
+												title="seu perfil"
 											>
 												<option value="" disabled hidden> Perfil </option>
 												{ roleOptions.map((item, index) => 

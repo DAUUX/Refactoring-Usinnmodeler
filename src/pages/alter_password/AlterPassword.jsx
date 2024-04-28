@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Toast } from "../../components/Toast";
 import api from "../../services/api";
@@ -10,6 +10,10 @@ import * as Yup from "yup";
 import usinnModeler from "../../assets/icons/usinn-logo-horiz.png";
 
 export default function AlterPassword(props) {
+
+  useEffect(() => {
+    document.title = 'Alterar Senha / USINN Modeler';
+  },[]);
 
   const history = useHistory();
 
@@ -38,33 +42,21 @@ export default function AlterPassword(props) {
   });
 
   return (
-    <main className="flex-fill d-flex align-items-center">
-      <div className="container col-12 col-md-8 col-lg-4 ">
+    <main className="d-flex flex-fill flex-column align-items-center py-2 py-sm-5" aria-labelledby="region">
+      <div className="d-flex justify-content-center">
+        <img src={usinnModeler} alt="" />
+      </div>
 
-        <img
-          src={usinnModeler}
-          alt="logo USINN"
-          style={{
-            width: "100px",
-            height: "auto",
-            marginTop: "20px",
-            position: "fixed",
-            top: "0",
-            left: "50%",
-            transform: "translateX(-50%)",
-          }}
-        />
-            
+      <div className="h-100 d-flex flex-column justify-content-center col-12 col-md-8 col-lg-4">      
         <div className="text-center">
-          <FontAwesomeIcon className="pb-5" icon={faKey} size="3x" color="#007BFF" />
-          <h1 className="h2 fw-bold">Defina a nova senha</h1>
+          <FontAwesomeIcon className="pb-2 pb-sm-5" icon={faKey} size="3x" color="#007BFF" />
+          <h1 id="region" className="h2 fw-bold">Defina a nova senha</h1>
           <p className="mb-4">
             Sua nova senha deve ser diferente das usadas anteriormente.
           </p>
         </div>
 
-        <form className={`row justify-content-center`} onSubmit={formik.handleSubmit}>
-
+        <form className={`row m-0 justify-content-center`} onSubmit={formik.handleSubmit}>
           <div className="col-12 mb-3">
             <input
               autoFocus

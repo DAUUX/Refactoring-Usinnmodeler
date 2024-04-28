@@ -11,6 +11,11 @@ import ExportDiagramModal from "../../components/ExportDiagramModal";
 import Spinner from "../../components/Spinner";
 
 function Modeler(props) {
+
+    useEffect(() => {
+        document.title = 'Diagrama / USINN Modeler';
+    },[]);
+
     const [loadingOverlay, setLoadingOverlay] = useState(false);
     const [diagram, setDiagram]       = useState('');
     const [diagramSVG, setDiagramSVG] = useState('');
