@@ -121,7 +121,7 @@ function ChangePassword() {
                                 </div>
                                 
                                 <div className="mt-2">
-                                    <button className="btn btn-primary">
+                                    <button className="btn btn-primary" type="submit">
                                         Confirmar
                                     </button>
                                 </div>
