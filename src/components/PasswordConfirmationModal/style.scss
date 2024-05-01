@@ -1,6 +1,13 @@
 // style.scss
 
+.modal-open {
+  overflow: hidden;
+}
+
+
 .confirm-exit-modal {
+   overflow: hidden;
+
     position: fixed;
     top: 50%;
     left: 50%;
@@ -22,6 +29,7 @@
     align-items: center;
 
     min-height: 20vh;
+
 
     .tamanho{
       margin-top: -10px;
@@ -64,17 +72,8 @@
       border: none;
       outline: none;
       width: 200px;
-    }
-  
-    .leave-button {
-      background-color: #f0f0f0;
-      color: #000000;
-    }
-  
-    .save-button {
-      background-color: #007bff;
-      color: #ffffff;
-    }
+    }  
+    
   }
   
   .overlay {
@@ -87,27 +86,9 @@
     z-index: 999;
   }
 
-  body {
-    overflow: hidden; /* Impede a rolagem vertical e horizontal */
-  }
   
-@media (max-width: 600px) {
-    .confirm-exit-modal{
-      top: 40%;
-    }
-    .button-container  {
-        transform: scale(0.8);
-    }
+  @media (max-width: 600px) {.confirm-exit-modal{top: 40%;}   .button-container  {transform: scale(0.8);}}
 
-  }
+  @media (max-width: 450px) {.button  {max-width: 150px;}}
 
-  @media (max-width: 450px) {
-    .button  {
-      max-width: 150px;
-  }
-  }
-  @media (max-width: 280px) {
-    .button  {
-      max-width: 150px;
-  }
-  }
+  @media (max-width: 280px) {.button  {max-width: 150px;}}

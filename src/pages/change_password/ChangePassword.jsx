@@ -147,6 +147,7 @@ function ChangePassword() {
                     handleConfirmPasswordChange={handleConfirmPasswordChange} // Passa a função para confirmar a alteração de senha para o modal
                 />
             )}
+            
         </main>
     )
 
