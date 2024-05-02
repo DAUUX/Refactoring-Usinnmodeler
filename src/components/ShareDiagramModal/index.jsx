@@ -15,15 +15,19 @@ function ShareDiagramModal(props) {
     const [users, setUsers]             = useState([]); 
     const [quantidades, setQuantidades] = useState([]);
     const [collaborators, setCollaborators] = useState([]);
-    const [wasInvited, setWasInvited]       = useState(false);
+    const [wasInvited, setWasInvited]       = useState(false);    
 
     const adicionarComponente = () => {
         setQuantidades(prevQuantidades => [...prevQuantidades, 1]);        
     };    
 
     const addUser = (id, email, permission) => {    
-        if (users.some(user => user.id === id)) {
-            users[id] = {id, email, permission};
+        const existingUser = users.find(user => user.id === id);
+        if (existingUser) {
+            const updatedUsers = users.map(user =>
+                user.id === id ? { ...user, email, permission } : user
+            );
+        setUsers(updatedUsers);
         } else{
             if(email !=  null && email !== ''){
                 setUsers(prevUsers => [...prevUsers, {id: id, email: email, permission: permission }]);
@@ -58,8 +62,8 @@ function ShareDiagramModal(props) {
         
     },[open]); 
 
-    async function inviteLink() {
-        const usersInvited = users.filter(item => item.email.trim() !== '');
+    async function inviteLink() {        
+        let usersInvited = users.filter(item => item.email.trim() !== '');
         if(usersInvited.length <= 0){
             return Toast('error', "Preencha o campo email")
         }
