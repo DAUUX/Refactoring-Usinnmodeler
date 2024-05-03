@@ -17,13 +17,13 @@ function RemoveLoginModal({email, password, onLoginRemoved}) {
             await api.delete(`email/${setEmail}`);
             await api.delete(`password/${setPassword}`)
 
-            Toast('success', "Perfil removido com sucesso!");
+            Toast('success', "Perfil removido com sucesso!", "checkCircle");
 
             onLoginRemoved();
         
         } catch (error) {
         
-            Toast('error', error);
+            Toast('error', error, "errorCircle");
         
         }
 

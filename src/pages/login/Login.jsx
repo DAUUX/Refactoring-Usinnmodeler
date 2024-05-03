@@ -33,13 +33,13 @@ function Login() {
 				localStorage.setItem('token', token);
 				localStorage.setItem('user', JSON.stringify({id, name, email}));
 	
-				Toast('success', 'Login realizado com sucesso!');
+				Toast('success', 'Login realizado com sucesso!', "checkCircle");
 
 				history.push('/dashboard');
 	
 			} catch (error) {
 	
-				Toast('error', error);
+				Toast('error', error, "errorCircle");
 				
 			}
    

@@ -45,12 +45,12 @@ function ExportDiagramModal({id, onExportDiagram}) {
 
             window.open(blobUrl, '_blank');
 
-            Toast('success', 'Diagrama exportado com sucesso!');
+            Toast('success', 'Diagrama exportado com sucesso!', "checkCircle");
 
         
         } catch (error) {
         
-            Toast('error', error);
+            Toast('error', error, "errorCircle");
         
         }
         onExportDiagram(false);

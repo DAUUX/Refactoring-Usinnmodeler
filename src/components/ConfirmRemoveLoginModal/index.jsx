@@ -14,12 +14,12 @@ function ConfirmRemoveLoginModal({id}) {
         try {
         
             await api.delete('user');
-            Toast('success', "Perfil removido com sucesso!");
+            Toast('success', "Perfil removido com sucesso!", "checkCircle");
             history.push(`/login`);
         
         } catch (error) {
         
-            Toast('error', error);
+            Toast('error', error, "errorCircle");
         
         }
 

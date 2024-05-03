@@ -31,7 +31,7 @@ function RequestChange() {
       setEnviadoComSucesso(true)
       // history.push('/sucesso'); // Você pode ou não redirecionar para outra página, dependendo de como deseja implementar isso.
     } catch (error) {
-      Toast('error', error); // Tratamento de erro
+      Toast('error', error, "errorCircle"); // Tratamento de erro
     }
     setLoading(false)
   };

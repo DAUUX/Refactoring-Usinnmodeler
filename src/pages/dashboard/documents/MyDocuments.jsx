@@ -22,7 +22,7 @@ function MyDocuments() {
             const res = await api.get(`diagrams`);
             setDiagrams(res.data.diagrams);
         } catch(error){
-            Toast('error', error);
+            Toast('error', error, "errorCircle");
         }
         setLoading(false);
     }

@@ -20,7 +20,7 @@ const ShareRoute = (props) => {
         
         } catch (error) {
         
-            Toast('error', error);
+            Toast('error', error, "errorCircle");
         
         }
 

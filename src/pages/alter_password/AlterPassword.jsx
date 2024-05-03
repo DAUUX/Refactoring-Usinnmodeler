@@ -32,10 +32,10 @@ function AlterPassword(props) {
         let token = props.match.params.token;
         await api.post('reset-password', { token, password: values.novaSenha });
         history.push('/sucesso');
-        Toast('success', 'Senha alterada com sucesso!');
+        Toast('success', 'Senha alterada com sucesso!', "key");
       } catch (error) {
         console.error(error);
-        Toast('error', error);
+        Toast('error', error, "aviso");
       }
     },
   });

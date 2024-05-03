@@ -115,7 +115,6 @@ mxDefaultToolbar.prototype.init = function(container)
 				this.editor.insertFunction = mxUtils.bind(this, function()
 				{
 					funct.apply(this, arguments);
-					this.toolbar.resetMode();
 				});
 			}
 			else
@@ -123,15 +122,6 @@ mxDefaultToolbar.prototype.init = function(container)
 				this.editor.insertFunction = null;
 			}
 		}));
-		
-		// Resets the selected tool after a doubleclick or escape keystroke
-		this.resetHandler = mxUtils.bind(this, function()
-		{
-			if (this.toolbar != null)
-			{
-				this.toolbar.resetMode(true);
-			}
-		});
 
 		this.editor.graph.addListener(mxEvent.DOUBLE_CLICK, this.resetHandler);
 		this.editor.addListener(mxEvent.ESCAPE, this.resetHandler);
@@ -330,7 +320,6 @@ mxDefaultToolbar.prototype.addPrototype = function(title, icon, ptype, pressed, 
 			this.drop(factory(), evt, cell);
 		}
 		
-		this.toolbar.resetMode();
 		mxEvent.consume(evt);
 	});
 	

@@ -13,13 +13,13 @@ function RemoveDiagramModal({id, diagram_id, onDiagramRemoved}) {
         
             await api.delete(`diagrams/${diagram_id}`);
 
-            Toast('success', "Diagrama removido com sucesso!");
+            Toast('success', "O Diagrama foi excluído com sucesso", "delete");
 
             onDiagramRemoved();
         
         } catch (error) {
         
-            Toast('error', error);
+            Toast('error', error, "aviso");
         
         }
 

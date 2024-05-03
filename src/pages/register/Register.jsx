@@ -51,13 +51,13 @@ function Register() {
 				
 				await api.post('signup', {...values, birthday: moment(values.birthday, 'DD/MM/YYYY', true).format('YYYY-MM-DD')});
 				
-				Toast('success', 'Cadastro realizado com sucesso!');
+				Toast('success', 'Cadastro realizado com sucesso!', "checkCircle");
 				
 				history.push('/login');
 				
 			} catch (error) {
 				
-				Toast('error', error);
+				Toast('error', error, "errorCircle");
 				
 			}
    

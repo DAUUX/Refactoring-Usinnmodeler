@@ -56,12 +56,12 @@ function UpdateProfile() {
 				const response = await api.put('user', {...values, birthday: moment(values.birthday, 'DD/MM/YYYY', true).format('YYYY-MM-DD'),avatar: imgAvatar+1});
 			
 
-				Toast('success', 'Os dados foram atualizados com sucesso!');
+				Toast('success', 'Os dados foram atualizados com sucesso!', "user");
 				
 				
 			} catch (error) {
 				
-				Toast('error', error);
+				Toast('error', error, "aviso");
 				
 			}
    
@@ -82,7 +82,7 @@ function UpdateProfile() {
             formik.setFieldValue('role',role);
             setImgAvatar(avatar-1);
         } catch(error){
-            Toast('error', error);
+            Toast('error', error, "errorCircle");
         }
         setLoadingOverlay(false);
     }

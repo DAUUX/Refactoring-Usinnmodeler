@@ -22,7 +22,7 @@ function FavoritedDocuments() {
             const res = await api.get(`diagrams/favorited`);
             setDiagrams(res.data.diagrams);
         } catch(error){
-            Toast('error', error);
+            Toast('error', error, "aviso");
         }
         setLoading(false);
     }

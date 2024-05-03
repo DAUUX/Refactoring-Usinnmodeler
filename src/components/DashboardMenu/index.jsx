@@ -45,7 +45,7 @@ function DashboardMenu({menuOpen, onCreateDiagram}) {
         
         } catch (error) {
         
-            Toast('error', error);
+            Toast('error', error, "errorCircle");
         
         }
 

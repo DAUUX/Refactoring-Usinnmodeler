@@ -21,7 +21,7 @@ function SharedDocuments() {
             const res = await api.get(`diagrams/shared`);
             setDiagrams(res.data.diagrams);
         } catch(error){
-            Toast('error', error);
+            Toast('error', error, "aviso");
         }
         setLoading(false);
     }
