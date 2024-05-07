@@ -1,4 +1,15 @@
-#img-perfil{
-    width: 30px;
-    height: 30px;
+@import "../../assets/styles/variables";
+
+#modal-compartilhar {
+  button {
+    transition: 150ms linear;
+    &:hover {
+      background-color: $primary;
+      color: white !important;
+    }
+  }
+}
+#img-perfil {
+  width: 30px;
+  height: 30px;
 }
