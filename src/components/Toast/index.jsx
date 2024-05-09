@@ -7,13 +7,13 @@ export function Toast(status, text, icons) {
     const MySwal = withReactContent(Swal)
 
     let bgColors = {
-        'success': '#4ECB7112',
-        'error': '#EA5B5B0D'
+        'success': '#007D32',
+        'error': '#AA1010'
     }
 
     let colors = {
-        'success': '#4ECB71',
-        'error': '#EA5B5B'
+        'success': '#FFFFFF',
+        'error': '#FFFFFF'
     }
     
     MySwal.fire({
