@@ -1,0 +1,30 @@
+.col-12.mb-3 {
+    position: relative;
+  
+    input {
+      width: 100%;
+      padding: 10px;
+  
+      &.is-invalid {
+        border-color: red;
+      }
+    }
+  
+    .invalid-feedback {
+      position: absolute;
+      top: 100%;
+      left: 5;
+      width: 100%;
+      font-size: 0.8rem;
+      color: red;
+      margin-top: 4px;
+  
+      &.d-block {
+        display: block;
+      }
+  
+      &.text-left {
+        text-align: left !important;
+      }
+    }
+  }
