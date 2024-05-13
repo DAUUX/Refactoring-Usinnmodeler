@@ -50,7 +50,12 @@ function ExportDiagramModal({id, onExportDiagram}) {
         
         } catch (error) {
         
-            Toast('error', error, "errorCircle");
+            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+                Toast('error', "Falha na conexão ao servidor", "errorServer");
+            }
+            else{
+                Toast('error', error, "errorCircle");
+            }
         
         }
         onExportDiagram(false);
@@ -75,6 +80,7 @@ function ExportDiagramModal({id, onExportDiagram}) {
                 break;
             default:
                 const getSVG = (event) => {
+                    console.log(event.detail.svg);
                     getDiagramImg(value, event.detail.svg);        
                 }
                 window.addEventListener('sendDiagramSVG', getSVG , { once: true });

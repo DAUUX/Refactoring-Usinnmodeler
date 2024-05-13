@@ -34,6 +34,10 @@
     color: #fff;
 }
 
+.toast-progressbar {
+    background-color: #fff;
+}
+
 .delete {
     width: 40px;
     height: 40px;
@@ -112,6 +116,15 @@
     background-image: url('../../assets/icons/pop-up/key.svg');
     background-repeat: no-repeat;
     background-position: center;
+}
+
+.errorServer {
+    width: 60px;
+    height: 40px;
+    background-image: url('../../assets/icons/pop-up/database-icon.svg'), url('../../assets/icons/pop-up/error-wifi-icon.svg');
+    background-size: auto;
+    background-repeat: no-repeat;
+    background-position: center left, center right;
 }
 
 .no-border{

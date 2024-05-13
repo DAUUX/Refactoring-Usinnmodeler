@@ -61,7 +61,12 @@ function UpdateProfile() {
 				
 			} catch (error) {
 				
-				Toast('error', error, "aviso");
+				if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+                    Toast('error', "Falha na conexão ao servidor", "errorServer");
+                }
+                else{
+                    Toast('error', error, "aviso");
+                }
 				
 			}
    
@@ -82,7 +87,12 @@ function UpdateProfile() {
             formik.setFieldValue('role',role);
             setImgAvatar(avatar-1);
         } catch(error){
-            Toast('error', error, "errorCircle");
+            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+                Toast('error', "Falha na conexão ao servidor", "errorServer");
+            }
+            else{
+                Toast('error', error, "errorCircle");
+            }
         }
         setLoadingOverlay(false);
     }

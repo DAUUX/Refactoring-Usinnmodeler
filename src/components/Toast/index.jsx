@@ -33,6 +33,7 @@ export function Toast(status, text, icons) {
             popup: 'toast-popup',
             htmlContainer: 'toast-content',
             closeButton: 'toast-close',
+            timerProgressBar: 'toast-progressbar',
         },
         didOpen: (toast) => {
             toast.addEventListener('mouseenter', Swal.stopTimer)
