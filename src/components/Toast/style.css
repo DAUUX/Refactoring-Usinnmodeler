@@ -19,12 +19,11 @@
 
 .toast-close {
     position: absolute;
-    top: -8px;
-    right: 0;
-    background: gray;
-    border-radius: 50%;
-    font-size: 15px !important;
+    top: 8px;
+    right: 8px;
+    font-size: 25px !important;
     font-weight: bolder;
+    color: #fff;
     width: 20px !important;
     height: 20px !important;
 }
