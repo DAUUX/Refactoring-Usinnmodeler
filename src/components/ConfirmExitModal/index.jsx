@@ -10,19 +10,16 @@ const ConfirmExitModal = () => {
 
   useEffect(() => {
     const confirmExit = (nextLocation) => {
-      //Se o usuário sair para "/"
-      if (nextLocation.pathname === "/") { //Redireciona para a home, o usuário quer sair
-        setRedirect("/")
+      if (nextLocation.pathname === "/") {
+        setRedirect("/");
         setShowModal(true);
-        return false; // Retorna falso para bloquear a navegação
-      }else{
-        setRedirect(nextLocation.pathname)
-        //Qualquer saída
+        return false;
+      } else {
+        setRedirect(nextLocation.pathname);
         setShowModal(true);
         return false;
       }
     };
-
 
     const unblock = history.block(confirmExit);
     return () => {
@@ -30,48 +27,30 @@ const ConfirmExitModal = () => {
     };
   }, [history]);
 
-
   const logoutLeavePage = () => {
-    if(redirect === "/"){ //Estava indo para /
-      const saveButton = document.getElementById("save"); //pega o botão save
-      saveButton.click(); //clica nela
-      setShowModal(false);
-      localStorage.removeItem("user")
-      localStorage.removeItem("token")
-      const baseUrl = window.location.origin; // Obtém a URL base do site
-      const targetUrl = `${baseUrl}/`; // Concatena a parte variável da URL
-      window.location.href = targetUrl; // Redireciona o usuário para a URL construída
-    }else{ //saída padrão
-      const saveButton = document.getElementById("save"); //pega o botão save
-      saveButton.click(); //clica nela
-      setShowModal(false);
-      const baseUrl = window.location.origin; // Obtém a URL base do site
-      const targetUrl = `${baseUrl}${redirect}`; // Concatena a parte variável da URL
-      window.location.href = targetUrl; // Redireciona o usuário para a URL construída
-    }
+    const saveButton = document.getElementById("save");
+    saveButton.click();
+    setShowModal(false);
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    const baseUrl = window.location.origin;
+    const targetUrl = redirect === "/" ? `${baseUrl}/` : `${baseUrl}${redirect}`;
+    window.location.href = targetUrl;
   };
 
   const LeavePage = () => {
-    if(redirect === "/"){ //Estava indo para /
-      setShowModal(false);
-      localStorage.removeItem("user")
-      localStorage.removeItem("token")
-      const baseUrl = window.location.origin; // Obtém a URL base do site
-      const targetUrl = `${baseUrl}/`; // Concatena a parte variável da URL
-      window.location.href = targetUrl; // Redireciona o usuário para a URL construída
-    }else{ //Saida padrão
-      setShowModal(false);
-      const baseUrl = window.location.origin; // Obtém a URL base do site
-      const targetUrl = `${baseUrl}${redirect}`; // Concatena a parte variável da URL
-      window.location.href = targetUrl; // Redireciona o usuário para a URL construída
-    }
+    setShowModal(false);
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    const baseUrl = window.location.origin;
+    const targetUrl = redirect === "/" ? `${baseUrl}/` : `${baseUrl}${redirect}`;
+    window.location.href = targetUrl;
   };
 
   const closeModal = () => {
     setShowModal(false);
   };
 
-  // Substituir o comportamento padrão do navegador
   window.onbeforeunload = () => {};
 
   return (
@@ -81,10 +60,10 @@ const ConfirmExitModal = () => {
           <div className="overlay"></div>
           <div className="confirm-exit-modal">
             <div className="close-button" onClick={closeModal}>
-              <i className="bi bi-x-lg"></i>
+              <i className="bi bi-x-lg" style={{marginBottom: '1vw'}}></i> {/* Adicionei estilo inline para ajustar a margem inferior do ícone */}
             </div>
             <img src={VectorImage} alt="Imagem do Modal" className="image" />
-            <p className="message">
+            <p className="message" style={{marginTop: '1vw'}}> {/* Adicionei estilo inline para ajustar a margem superior do texto */}
               Você tem alterações não salvas.<br /> Deseja salvar antes de
               sair?
             </p>
@@ -103,4 +82,4 @@ const ConfirmExitModal = () => {
   );
 };
 
-export default ConfirmExitModal;
+export default ConfirmExitModal; 
