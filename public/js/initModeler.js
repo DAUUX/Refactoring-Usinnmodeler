@@ -106,6 +106,7 @@ function init(editor, rootPath){
 			diagram = mxUtils.getPrettyXml(node);
 
 			let diagramSVG = getDiagramSVG(editor.graph);
+			console.log("svg-save " + diagramSVG)
 
 			const event = new CustomEvent('saveDiagram', { detail: {xml: diagram, svg: diagramSVG} });
 			window.dispatchEvent(event);

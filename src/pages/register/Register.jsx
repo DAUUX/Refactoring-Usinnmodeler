@@ -61,7 +61,7 @@ function Register() {
 					Toast('error', "Falha na conexão ao servidor", "errorServer");
 				}
 				else{
-					Toast('error', error, "errorCircle");
+					Toast('error', error, "aviso");
 				}
 				
 			}

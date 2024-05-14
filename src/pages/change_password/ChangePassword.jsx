@@ -63,7 +63,7 @@ function ChangePassword() {
                 Toast('error', "Falha na conexão ao servidor", "errorServer");
             }
             else{
-                Toast('error', error, "errorCircle");
+                Toast('error', error, "aviso");
             }
         } finally {
             setLoadingOverlay(false); // Fecha a tela de carregamento

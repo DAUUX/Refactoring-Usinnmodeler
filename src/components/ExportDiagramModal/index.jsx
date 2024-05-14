@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import api from "../../services/api";
 import { Toast } from "../Toast";
 
-
 function ExportDiagramModal({id, onExportDiagram}) {
     const formatOptions = ["png", "jpeg", "webp","svg", "pdf"];
     const [format, setFormat]   = useState();
@@ -14,10 +13,12 @@ function ExportDiagramModal({id, onExportDiagram}) {
     },[])
     async function getDiagramImg(format, svg) {
         onExportDiagram(true);
+        // console.log("-------------------------------------------\n" + svg)
 
         try {
 
             const data = {format, svg};            
+            // console.log("---------------------------------\nsvg-front  " + svg)
             const response = await api.post(`diagrams/export`, data);
             let imgBuffer = response.data.img;
             let imgFormat = response.data.format;
@@ -80,7 +81,9 @@ function ExportDiagramModal({id, onExportDiagram}) {
                 break;
             default:
                 const getSVG = (event) => {
-                    console.log(event.detail.svg);
+                    console.log("event");
+                    console.log(event);
+                    console.log("event-detail-svg     " + event.detail.svg);
                     getDiagramImg(value, event.detail.svg);        
                 }
                 window.addEventListener('sendDiagramSVG', getSVG , { once: true });
