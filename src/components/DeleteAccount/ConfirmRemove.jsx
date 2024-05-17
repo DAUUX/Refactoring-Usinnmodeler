@@ -22,7 +22,12 @@ function RemoveLoginModal({email, onLoginRemoved}) {
         
         } catch (error) {
         
-            Toast('error', error, "errorCircle");
+            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+                Toast('error', "Falha na conexão ao servidor", "errorServer");
+            }
+            else{
+                Toast('error', error, "errorCircle");
+            }
         
         }
 

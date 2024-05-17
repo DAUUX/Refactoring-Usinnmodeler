@@ -19,12 +19,11 @@
 
 .toast-close {
     position: absolute;
-    top: -8px;
-    right: 0;
-    background: gray;
-    border-radius: 50%;
-    font-size: 15px !important;
+    top: 8px;
+    right: 8px;
+    font-size: 25px !important;
     font-weight: bolder;
+    color: #fff;
     width: 20px !important;
     height: 20px !important;
 }
@@ -32,6 +31,10 @@
 .toast-close:hover {
     background: #959595;
     color: #fff;
+}
+
+.toast-progressbar {
+    background-color: #fff;
 }
 
 .delete {
@@ -110,6 +113,14 @@
     width: 40px;
     height: 40px;
     background-image: url('../../assets/icons/pop-up/key.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.errorServer {
+    width: 40px;
+    height: 40px;
+    background-image: url('../../assets/icons/pop-up/error-wifi-icon.svg');
     background-repeat: no-repeat;
     background-position: center;
 }

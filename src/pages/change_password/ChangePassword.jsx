@@ -56,10 +56,15 @@ function ChangePassword() {
         try {
             setLoadingOverlay(true);
             const response = await api.put('user/change-password', passwordValues); // Envio da solicitação com os valores do formulario de senha
-            Toast('success', 'Os dados foram atualizados com sucesso!');
+            Toast('success', 'Os dados foram atualizados com sucesso!', "key");
             logoutUser()
         } catch (error) {
-            Toast('error', error);
+            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+                Toast('error', "Falha na conexão ao servidor", "errorServer");
+            }
+            else{
+                Toast('error', error, "aviso");
+            }
         } finally {
             setLoadingOverlay(false); // Fecha a tela de carregamento
             setPasswordValues(null); // Limpa os valores para seguranca
