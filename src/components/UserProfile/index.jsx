@@ -42,23 +42,6 @@ function UserProfile(props) {
         
     }
 
-    function callConfirmRemoveLoginModal() {
-        const modal = new Modal('#ConfirmRemoveLoginModal')          
-        modal.show();
-    }
-    function callRemoveLoginModal() {
-        const modal = new Modal('#RemoveLoginModal')          
-        modal.show();
-    }
-
-    function callConfirmRemoveLoginModal() {
-        const modal = new Modal('#ConfirmRemoveLoginModal')          
-        modal.show();
-    }
-    function callRemoveLoginModal() {
-        const modal = new Modal('#RemoveLoginModal')          
-        modal.show();
-    }
 
     function callConfirmRemoveLoginModal() {
         const modal = new Modal('#ConfirmRemoveLoginModal')          
