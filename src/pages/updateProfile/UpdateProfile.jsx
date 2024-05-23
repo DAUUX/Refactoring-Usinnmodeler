@@ -105,7 +105,7 @@ function UpdateProfile() {
 
 
     return (
-        <main id="update" className={`flex-fill h-100`}>
+        <main id="update" className={`flex-fill h-100 pb-5`}>
             
             
             <nav className="navbar navbar-expand-lg bg-white p-3 justify-content-between w-100">
@@ -117,13 +117,13 @@ function UpdateProfile() {
                         </div>
             </nav>
 
-            <div className="container">
+            <div className="container px-0 px-sm-0">
             
                 <div id="content" className="row justify-content-between position-relative mt-5 mx-3">
 					
 					<div className="order-2 order-md-1 col-12 col-md-6 col-lg-4">
 
-						<form className="row" noValidate="" onSubmit={formik.handleSubmit}>
+						<form className="row px-0 px-sm-3" noValidate="" onSubmit={formik.handleSubmit}>
         
 								
                             <div className="col-12 mb-3">
@@ -224,14 +224,14 @@ function UpdateProfile() {
                                 </div>
                             </div>
 
-                            <div className="d-flex justify-content-between">
+                            <div className="d-flex justify-content-between px-0">
                                 
                                 <div className="text-center mt-2">
-                                    <Link className="text-decoration-none btn text-primary fw-bold" to="/dashboard" >Cancelar</Link>
-                                    </div>
+                                    <Link className="text-decoration-none btn text-primary fw-bold px-4 px-sm-5" to="/dashboard" >Cancelar</Link>
+                                </div>
                                 
                                 <div className="mt-2">
-                                    <button className="btn btn-primary" type="submit">
+                                    <button className="btn btn-primary px-4 px-sm-5" type="submit">
                                         <Spinner className="spinner-border spinner-border-sm me-2" isLoading={formik.isSubmitting}  /> Confirmar
                                     </button>
                                 </div>
@@ -241,7 +241,7 @@ function UpdateProfile() {
 						</form>
 					</div>
                     
-                    <div className="order-1 order-md-2 col-12 col-md-6 col-lg-8 px-5 d-flex justify-content-center pb-4">
+                    <div className="order-1 order-md-2 col-12 col-md-6 col-lg-8 px-0 px-sm-5 d-flex justify-content-center pb-4">
                     
                         <div className="d-flex flex-column align-items-center">
                             <img className="mb-4 img-fluid"src={avatarOptions[imgAvatar]}></img>

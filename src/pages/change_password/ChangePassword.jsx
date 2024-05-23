@@ -86,7 +86,7 @@ function ChangePassword() {
                         </div>
             </nav>
 
-            <div className="container">
+            <div className="container px-0">
             
                 <div id="content" className="row justify-content-center position-relative mt-5 mx-3">
 					
