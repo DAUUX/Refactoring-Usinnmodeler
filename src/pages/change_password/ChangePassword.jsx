@@ -1,6 +1,6 @@
 import "./style.scss"
 import { useState,useEffect } from "react";
-import { useRouteMatch, Link } from "react-router-dom";
+import { useRouteMatch, useHistory, Redirect, Link } from "react-router-dom";
 import Spinner from "../../components/Spinner";
 import UserProfile from "../../components/UserProfile";
 import { useFormik } from "formik";
@@ -10,6 +10,7 @@ import { Toast } from '../../components/Toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faKey } from '@fortawesome/free-solid-svg-icons';
 
+import PasswordConfirmation from "../../components/PasswordConfirmationModal";
 
 function ChangePassword() {
 
@@ -18,9 +19,11 @@ function ChangePassword() {
     },[]);
 
     let match = useRouteMatch();
+    const history = useHistory();
 
-    const [menuOpen, setMenuOpen]             = useState(false);
     const [loadingOverlay, setLoadingOverlay] = useState(false);
+    const [confirmSaveModal, setConfirmPassModal] = useState(false);
+    const [passwordValues, setPasswordValues] = useState(null);
 
     const username = JSON.parse(localStorage.getItem("user"))['name']
 
@@ -38,31 +41,47 @@ function ChangePassword() {
             .required('Confirmação de senha é obrigatória'),
 		}),
    
-		onSubmit: async values => {
-			try {	
-
-				const response = await api.put('user/change-password', values);
-			
-
-				Toast('success', 'Os dados foram atualizados com sucesso!');
-				
-				
-			} catch (error) {
-				
-				Toast('error', error);
-				
-			}
-   
-		},
-   
+        onSubmit: async values => {
+            // Define os valores do formulario(senha) e inicia o modal
+            setPasswordValues(values);
+            setConfirmPassModal(true);
+        },
 	});
 
+    function logoutUser(){
+        // Saí do WebApp
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        history.push('/login');
+    }
+
+    const handleConfirmPasswordChange = async () => { //faz o envio ao backEnd
+        //Antes o envio ao backEnd ficava no formik.handleSubmit
+        try {
+            setLoadingOverlay(true);
+            const response = await api.put('user/change-password', passwordValues); // Envio da solicitação com os valores do formulario de senha
+            Toast('success', 'Os dados foram atualizados com sucesso!', "key");
+            logoutUser()
+        } catch (error) {
+            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+                Toast('error', "Falha na conexão ao servidor", "errorServer");
+            }
+            else{
+                Toast('error', error, "aviso");
+            }
+        } finally {
+            setLoadingOverlay(false); // Fecha a tela de carregamento
+            setPasswordValues(null); // Limpa os valores para seguranca
+            setConfirmPassModal(false); // Fecha o modal após a conclusão da solicitação
+        }
+
+    };
 
     return (
         <main id="changePassword" className={`flex-fill h-100`}>
             
             
-            <nav className="navbar navbar-expand-lg bg-white p-3 justify-content-between w-100">
+            <nav className="navbar navbar-expand-lg bg-white p-3 justify-content-between w-100">{/* Perfil user */}
                         <div className="container-fluid">
                             <div className="mb-0 h4">
                                 <b>Atualizar Senha</b>
@@ -71,13 +90,13 @@ function ChangePassword() {
                         </div>
             </nav>
 
-            <div className="container">
+            <div className="container px-0">
             
                 <div id="content" className="row justify-content-center position-relative mt-5 mx-3">
 					
 					<div className="col-12 col-md-6 col-lg-5 mt-5">
 
-						<form className="row" noValidate="" onSubmit={formik.handleSubmit}>
+						<form className="row" noValidate="" onSubmit={formik.handleSubmit}>{/* O formik.handleSubmit chama o modal */}
                             
                             <div className="text-center mb-3">
                                 <FontAwesomeIcon icon={faKey} size="3x" color="#007BFF" />
@@ -120,7 +139,7 @@ function ChangePassword() {
                                 
                                 <div className="mt-2">
                                     <button className="btn btn-primary" type="submit">
-                                        <Spinner className="spinner-border spinner-border-sm me-2 px-3" isLoading={formik.isSubmitting}  /> Confirmar
+                                        Confirmar
                                     </button>
                                 </div>
                             </div>                    
@@ -135,15 +154,20 @@ function ChangePassword() {
 
             </div>
         
-            <div id="loadingOverlay" className={`${loadingOverlay ? 'open':''}`}>
+            <div id="loadingOverlay" className={`${loadingOverlay ? 'open':''}`} style={{zIndex: '9',    position: "fixed",top: "50%",left: "50%",transform: "translate(-50%, -50%)",}}> {/* Tela de carregamento */}
                 <Spinner className="spinner-border spinner-border text-light" isLoading={loadingOverlay}  />
             </div>        
 
+            {confirmSaveModal && (//Modal
+                <PasswordConfirmation 
+                    setConfirmPassModal={setConfirmPassModal} 
+                    handleConfirmPasswordChange={handleConfirmPasswordChange} // Passa a função para confirmar a alteração de senha para o modal
+                />
+            )}
             
         </main>
     )
 
 }
-
 
 export default ChangePassword;

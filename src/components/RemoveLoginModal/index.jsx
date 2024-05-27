@@ -25,12 +25,17 @@ function RemoveLoginModal({id, onConfirmLoginRemoved}) {
 			try {
 
                 await api.post('user/check-password', values);
-				Toast('success', 'Senha confirmada!');
+				Toast('success', 'Senha confirmada!', "checkCircle");
                 onConfirmLoginRemoved();
 
 			} catch (error) {
 	
-				Toast('error', error);
+				if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+                    Toast('error', "Falha na conexão ao servidor", "errorServer");
+                }
+                else{
+                    Toast('error', error, "errorCircle");
+                }
 				
 			}
             formik.resetForm();

@@ -458,7 +458,6 @@ mxToolbar.prototype.addMode = function(title, icon, funct, pressedIcon, style, t
 		{
 			this.defaultMode = img;
 			this.defaultFunction = funct;
-			this.selectMode(img, funct);
 		}
 	}
 

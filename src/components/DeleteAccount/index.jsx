@@ -17,13 +17,18 @@ function RemoveLoginModal({email, password, onLoginRemoved}) {
             await api.delete(`email/${setEmail}`);
             await api.delete(`password/${setPassword}`)
 
-            Toast('success', "Perfil removido com sucesso!");
+            Toast('success', "Perfil removido com sucesso!", "checkCircle");
 
             onLoginRemoved();
         
         } catch (error) {
         
-            Toast('error', error);
+            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+                Toast('error', "Falha na conexão ao servidor", "errorServer");
+            }
+            else{
+                Toast('error', error, "errorCircle");
+            }
         
         }
 

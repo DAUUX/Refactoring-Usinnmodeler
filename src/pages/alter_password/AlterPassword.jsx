@@ -31,12 +31,16 @@ export default function AlterPassword(props) {
     onSubmit: async (values) => {
       try {
         let token = props.match.params.token;
-        await api.post("reset-password", { token, password: values.novaSenha });
-        history.push("/sucesso");
-        Toast("success", "Senha alterada com sucesso!");
+        await api.post('reset-password', { token, password: values.novaSenha });
+        history.push('/sucesso');
+        Toast('success', 'Senha alterada com sucesso!', "key");
       } catch (error) {
-        console.error(error);
-        Toast("error", error);
+        if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+          Toast('error', "Falha na conexão ao servidor", "errorServer");
+        }
+        else{
+            Toast('error', error, "aviso");
+        }
       }
     },
   });

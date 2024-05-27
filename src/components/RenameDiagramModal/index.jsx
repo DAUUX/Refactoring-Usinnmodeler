@@ -31,7 +31,7 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
             try {
             
                 await api.put(`diagrams/rename/${diagram_id}`, values);
-                Toast('success', 'Diagrama renomeado com sucesso!');
+                Toast('success', 'Diagrama renomeado com sucesso!', "checkCircle");
                 
                 document.getElementById(id).click();
 
@@ -39,7 +39,12 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
             
             } catch (error) {
             
-                Toast('error', error);
+                if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+                    Toast('error', "Falha na conexão ao servidor", "errorServer");
+                }
+                else{
+                    Toast('error', error, "errorCircle");
+                }
             
             }
    

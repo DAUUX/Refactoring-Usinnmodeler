@@ -61,7 +61,12 @@ function Modeler(props) {
 
         } catch (error) {
 
-            Toast('error', error);
+            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+                Toast('error', "Falha na conexão ao servidor", "errorServer");
+            }
+            else{
+                Toast('error', error, "errorCircle");
+            }
             history.push('/modeler');
             
         }
@@ -79,11 +84,16 @@ function Modeler(props) {
 
             window.history.replaceState(null, name, `/modeler/${props.match.params.id}/${slugify(response.data.name)}`);
 
-            Toast('success', 'Diagrama salvo com sucesso!');
+            Toast('success', 'Diagrama salvo com sucesso!', "checkCircle");
         
         } catch (error) {
         
-            Toast('error', error);
+            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+                Toast('error', "Falha na conexão ao servidor", "errorServer");
+            }
+            else{
+                Toast('error', error, "errorCircle");
+            }
         
         }
 
@@ -103,13 +113,18 @@ function Modeler(props) {
 
             window.history.replaceState(null, name, `/modeler/${props.match.params.id}/${slugify(response.data.name)}`);
 
-            Toast('success', 'Diagrama salvo com sucesso!');
+            Toast('success', 'Diagrama salvo com sucesso!', "checkCircle");
 
             document.getElementById('nameInput').blur()
         
         } catch (error) {
         
-            Toast('error', error);
+            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+                Toast('error', "Falha na conexão ao servidor", "errorServer");
+            }
+            else{
+                Toast('error', error, "errorCircle");
+            }
         
         }
     }

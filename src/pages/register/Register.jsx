@@ -57,13 +57,18 @@ export default function Register() {
 				
 				await api.post('signup', {...values, birthday: moment(values.birthday, 'DD/MM/YYYY', true).format('YYYY-MM-DD')});
 				
-				Toast('success', 'Cadastro realizado com sucesso!');
+				Toast('success', 'Cadastro realizado com sucesso!', "checkCircle");
 				
 				history.push('/login');
 				
 			} catch (error) {
 				
-				Toast('error', error);
+				if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+					Toast('error', "Falha na conexão ao servidor", "errorServer");
+				}
+				else{
+					Toast('error', error, "aviso");
+				}
 				
 			}
 		},

@@ -13,23 +13,29 @@ function FavoriteDiagram ({favorited, diagram_id, onFavoritedClick}){
         e.stopPropagation();
         e.preventDefault();
         setLoading(true);
-        onFavoritedClick();
         try {
             if(!favorite){
                 const res = await api.post(`favorite/${diagram_id}`);
-                Toast("success", "Diagrama favoritado com sucesso!");
+                Toast("success", "Diagrama adicionado aos meus favoritos", "checkCircle");
 
                 setFavorite(!favorite);
 
             } else{
                 const res = await api.delete(`/favorite/${diagram_id}`);
-                Toast("success","Diagrama desfavoritado com sucesso!");
+                Toast("success","Diagrama removido dos meus favoritos", "checkCircle");
 
                 setFavorite(!favorite);
 
-            }                   
+            }            
+            
+            onFavoritedClick();       
         } catch (error) {
-            Toast('error', error);        
+            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+                Toast('error', "Falha na conexão ao servidor", "errorServer");
+            }
+            else{
+                Toast('error', error, "errorCircle");
+            }       
             
         }      
         setLoading(false);  
