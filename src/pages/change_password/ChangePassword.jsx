@@ -1,6 +1,6 @@
 import "./style.scss"
 import { useState,useEffect } from "react";
-import { useRouteMatch, Redirect, Link } from "react-router-dom";
+import { useRouteMatch, useHistory, Redirect, Link } from "react-router-dom";
 import Spinner from "../../components/Spinner";
 import UserProfile from "../../components/UserProfile";
 import { useFormik } from "formik";
@@ -15,6 +15,7 @@ import PasswordConfirmation from "../../components/PasswordConfirmationModal";
 function ChangePassword() {
 
     let match = useRouteMatch();
+    const history = useHistory();
 
     const [loadingOverlay, setLoadingOverlay] = useState(false);
     const [confirmSaveModal, setConfirmPassModal] = useState(false);
@@ -43,15 +44,27 @@ function ChangePassword() {
         },
 	});
 
+    function logoutUser(){
+        // Saí do WebApp
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        history.push('/login');
+    }
 
     const handleConfirmPasswordChange = async () => { //faz o envio ao backEnd
         //Antes o envio ao backEnd ficava no formik.handleSubmit
         try {
             setLoadingOverlay(true);
             const response = await api.put('user/change-password', passwordValues); // Envio da solicitação com os valores do formulario de senha
-            Toast('success', 'Os dados foram atualizados com sucesso!');
+            Toast('success', 'Os dados foram atualizados com sucesso!', "key");
+            logoutUser()
         } catch (error) {
-            Toast('error', error);
+            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+                Toast('error', "Falha na conexão ao servidor", "errorServer");
+            }
+            else{
+                Toast('error', error, "aviso");
+            }
         } finally {
             setLoadingOverlay(false); // Fecha a tela de carregamento
             setPasswordValues(null); // Limpa os valores para seguranca
@@ -73,7 +86,7 @@ function ChangePassword() {
                         </div>
             </nav>
 
-            <div className="container">
+            <div className="container px-0">
             
                 <div id="content" className="row justify-content-center position-relative mt-5 mx-3">
 					

@@ -14,10 +14,12 @@ function ExportDiagramModal({id, onExportDiagram, diagramSVG}) {
     },[])
     async function getDiagramImg(format, svg) {
         onExportDiagram(true);
+        // console.log("-------------------------------------------\n" + svg)
 
         try {
 
             const data = {format, svg};            
+            // console.log("---------------------------------\nsvg-front  " + svg)
             const response = await api.post(`diagrams/export`, data);
             let imgBuffer = response.data.img;
             let imgFormat = response.data.format;
@@ -50,7 +52,12 @@ function ExportDiagramModal({id, onExportDiagram, diagramSVG}) {
         
         } catch (error) {
         
-            Toast('error', error, "errorCircle");
+            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+                Toast('error', "Falha na conexão ao servidor", "errorServer");
+            }
+            else{
+                Toast('error', error, "errorCircle");
+            }
         
         }
         onExportDiagram(false);

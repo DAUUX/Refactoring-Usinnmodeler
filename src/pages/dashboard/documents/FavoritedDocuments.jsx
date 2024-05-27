@@ -22,7 +22,12 @@ function FavoritedDocuments() {
             const res = await api.get(`diagrams/favorited`);
             setDiagrams(res.data.diagrams);
         } catch(error){
-            Toast('error', error, "aviso");
+            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+                Toast('error', "Falha na conexão ao servidor", "errorServer");
+            }
+            else{
+                Toast('error', error, "aviso");
+            }
         }
         setLoading(false);
     }

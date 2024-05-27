@@ -13,13 +13,20 @@ function ShareDiagramModal(props) {
     const [open, setOpen]               = useState(false);
     const [copied, setCopied]           = useState(false);
     const [users, setUsers]             = useState([]); 
-    const [quantidades, setQuantidades] = useState([]);
+    const [componentes, setComponentes] = useState([0]);
     const [collaborators, setCollaborators] = useState([]);
     const [wasInvited, setWasInvited]       = useState(false);    
+    const [compID, setCompID] = useState(1)
 
     const adicionarComponente = () => {
-        setQuantidades(prevQuantidades => [...prevQuantidades, 1]);        
-    };    
+        setComponentes([...componentes, compID]);        
+        setCompID(compID + 1) 
+    };
+
+    const removerComponente = (id) => {
+        setComponentes(componentes.filter((removeID) => removeID !== id));
+        setUsers(prevUsers => prevUsers.filter(user => user.id !== id));
+    };
 
     const addUser = (id, email, permission) => {    
         const existingUser = users.find(user => user.id === id);
@@ -44,7 +51,7 @@ function ShareDiagramModal(props) {
         document.getElementById(props.id).addEventListener('hidden.bs.modal', event => {
             setOpen(false);
             setUsers([]);
-            setQuantidades([]);
+            setComponentes([0]);
         });
         
     },[]);
@@ -77,11 +84,16 @@ function ShareDiagramModal(props) {
             
             Toast('success', 'Diagrama compartilhado com sucesso!', "share");
             setUsers([]);
-            setQuantidades([]);
+            setComponentes([0]);
             setWasInvited(!wasInvited);
         } catch (error) {
         
-            Toast('error', error, "aviso");        
+            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+                Toast('error', "Falha na conexão ao servidor", "errorServer");
+            }
+            else{
+                Toast('error', error, "aviso");
+            }       
         }
                 
         setLoading(false);
@@ -104,7 +116,12 @@ function ShareDiagramModal(props) {
         
         } catch (error) {
         
-            Toast('error', error, "errorCircle");
+            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+                Toast('error', "Falha na conexão ao servidor", "errorServer");
+            }
+            else{
+                Toast('error', error, "errorCircle");
+            }
         
         }
 
@@ -116,7 +133,12 @@ function ShareDiagramModal(props) {
             const res = await api.get(`/collaboration/${props.diagram_id}/getAllCollaborationWithName`);
             setCollaborators(res.data.usersInviteds); 
         } catch(error) {
-            Toast('error', error, "errorCircle");
+            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+                Toast('error', "Falha na conexão ao servidor", "errorServer");
+            }
+            else{
+                Toast('error', error, "errorCircle");
+            }
         }
     }
 
@@ -129,7 +151,12 @@ function ShareDiagramModal(props) {
                 await  api.put(`/collaboration/${props.diagram_id}/${user_id}`, {updation});
             }         
         } catch(error) {
-            Toast('error', error, "errorCircle");
+            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+                Toast('error', "Falha na conexão ao servidor", "errorServer");
+            }
+            else{
+                Toast('error', error, "errorCircle");
+            }
         }
     }
 
@@ -145,7 +172,12 @@ function ShareDiagramModal(props) {
             
         } catch (error) {
             
-            Toast('error', error, "errorCircle");
+            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+                Toast('error', "Falha na conexão ao servidor", "errorServer");
+            }
+            else{
+                Toast('error', error, "errorCircle");
+            }
             
         }
 
@@ -174,23 +206,20 @@ function ShareDiagramModal(props) {
     }
 
     return (
-        <div className="modal fade" id={props.id} tabIndex="-1" aria-labelledby="ShareDiagramModalLabel" aria-hidden="true">
+        <div className="modal fade" id={props.id} tabIndex="-1" aria-labelledby="ShareDiagramModalLabel">
             <div className="modal-dialog modal-lg modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header">
                         <h4 className="modal-title" id="ShareDiagramModalLabel">Compartilhar diagrama</h4>
                         <button id="closeModal" type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div className="modal-body">
+                    <div className="modal-body p-2 p-sm-4" id="modal-compartilhar">
                         <input type="hidden" id="link" className="form-control px-2" disabled value={!loading ? readerLink : 'Carregando...'} />    
-                        <span>
-                            {<AddUsersToInvite addUser={addUser} id={0} wasInvited={wasInvited} />}
-                            {quantidades.map((_, index) => (
-                                <span key={index}>
-                                    <AddUsersToInvite addUser={addUser} id={quantidades.length} />
-                                </span>
-                            ))}
-                        </span>
+                        
+                        {componentes.map((id) => (
+                            <AddUsersToInvite key={id} addUser={addUser} id={id} visibleButton={componentes.length > 1} onDelete={removerComponente} wasInvited={wasInvited}/> 
+                        ))}
+                        
                         <div className="text-end">
                             <button title="Adicionar E-mail" disabled={loading} className="btn text-primary border border-primary py-2 px-3" type="button" onClick={adicionarComponente}> + </button>  
                         </div>
@@ -224,8 +253,8 @@ function ShareDiagramModal(props) {
                         </div>}
                     </div>
                     <div className="modal-footer d-flex justify-content-between">
-                        <button title="Copiar link" disabled={loading} className="btn text-primary" type="button" onClick={copy}> {!copied? 'Copiar link' : 'Copiado'}  </button>
-                        <button title="Enviar" disabled={loading} className="btn bg-primary text-white" type="button" onClick={inviteLink}> Enviar </button>                       
+                        <button title="Copiar link" disabled={loading} className="btn text-primary px-4 px-sm-5" type="button" onClick={copy}> {!copied? 'Copiar link' : 'Copiado'}  </button>
+                        <button title="Enviar" disabled={loading} className="btn bg-primary text-white px-4 px-sm-5" type="button" onClick={inviteLink}> Enviar </button>                       
                     </div>
                 </div>
             </div>
