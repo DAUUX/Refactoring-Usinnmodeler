@@ -41,7 +41,7 @@ function Register() {
 				.required('Data de nascimento é obrigatória'),
 			gender: Yup.number().integer('Valor é inválido').min(1, 'Valor é inválido').max(3, 'Valor é inválido').required('Gênero é obrigatório'),
 			role: Yup.number().integer('Valor é inválido'),
-			company: Yup.string().max(100, 'A organização deve ter no máximo 100 caracteres'),
+			company: Yup.string().max(100, 'A organização deve ter no máximo 100 caracteres').required('A organização é obrigatório'),
 			accept: Yup.boolean().oneOf([true], 'É necessário aceitar os termos')
 		}),
    
@@ -193,11 +193,11 @@ function Register() {
 												className={`form-control ${formik.touched.company && formik.errors.company ? 'is-invalid' : '' }`}
 												type="text" 
 												name="company"
-												placeholder="Organização"
+												placeholder="Organização*"
 											/>
-											{formik.touched.company && formik.errors.company ? (<div className="invalid-feedback d-block"> {formik.errors.company}</div>) : null}
 										</div>
 									</div>
+									{formik.touched.company && formik.errors.company ? (<div className="invalid-feedback d-block text-center"> {formik.errors.company}</div>) : null}
 								</div>
 
 								<div className="col-12 d-flex justify-content-center py-3">
