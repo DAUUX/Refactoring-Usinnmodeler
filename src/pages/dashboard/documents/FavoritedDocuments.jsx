@@ -12,7 +12,7 @@ import FavoriteDiagram from "../../../components/FavoriteDiagram";
 function FavoritedDocuments() {
 
     useEffect(() => {
-        document.title = 'Documentos Favoritados / USINN Modeler';
+        document.title = 'Meus favoritos - USINN Modeler';
       },[]);
 
     let [diagrams, setDiagrams] = useState([]);

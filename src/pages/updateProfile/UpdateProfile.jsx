@@ -14,7 +14,7 @@ import moment from "moment";
 function UpdateProfile() {
 
     useEffect(() => {
-        document.title = 'Editar Perfil / USINN Modeler';
+        document.title = 'Editar Perfil - USINN Modeler';
     },[]);
 
     let match = useRouteMatch();
@@ -231,7 +231,7 @@ function UpdateProfile() {
                             <div className="d-flex justify-content-between px-0">
                                 
                                 <div className="text-center mt-2">
-                                    <Link className="text-decoration-none btn text-primary fw-bold px-4 px-sm-5" to="/dashboard" >Cancelar</Link>
+                                    <Link className="text-decoration-none btn text-primary fw-bold px-4 px-sm-5 border-dark" to="/dashboard" >Cancelar</Link>
                                 </div>
                                 
                                 <div className="mt-2">

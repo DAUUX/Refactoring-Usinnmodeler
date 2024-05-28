@@ -8,11 +8,12 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 import usinnModeler from "../../assets/icons/usinn-logo-horiz.png";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 export default function AlterPassword(props) {
 
   useEffect(() => {
-    document.title = 'Alterar Senha / USINN Modeler';
+    document.title = 'Alterar Senha - USINN Modeler';
   },[]);
 
   const history = useHistory();
@@ -46,14 +47,14 @@ export default function AlterPassword(props) {
   });
 
   return (
-    <main className="d-flex flex-fill flex-column align-items-center py-2 py-sm-5" aria-labelledby="region">
-      <div className="d-flex justify-content-center">
+    <main className="d-flex flex-fill flex-column align-items-center pb-2 pb-sm-5" aria-labelledby="region">
+      <div className="w-100 d-flex justify-content-center bg-white py-2 py-sm-3">
         <img src={usinnModeler} alt="" />
       </div>
 
-      <div className="h-100 d-flex flex-column justify-content-center col-12 col-md-8 col-lg-4">      
+      <div className="h-75 d-flex flex-column justify-content-center mt-5 col-12 col-md-8 col-lg-4">      
         <div className="text-center">
-          <FontAwesomeIcon className="pb-2 pb-sm-5" icon={faKey} size="3x" color="#007BFF" />
+          <FontAwesomeIcon icon={faKey} className="mb-2 mb-sm-5 p-3 bg-white rounded-circle" size="3x" color="#007BFF" />
           <h1 id="region" className="h2 fw-bold">Defina a nova senha</h1>
           <p className="mb-4">
             Sua nova senha deve ser diferente das usadas anteriormente.
@@ -95,6 +96,9 @@ export default function AlterPassword(props) {
           </div>
           
         </form>
+        <div className="col-12 text-center pt-5">
+          <Link className="text-reset text-decoration-none fw-bold h5" to="/login" > <i className="bi bi-arrow-left"></i> Voltar para login</Link>
+        </div>
       </div>
     </main>
   );

@@ -5,24 +5,33 @@ import Interation from "../../assets/icons/interacao.svg";
 import Navigation from "../../assets/icons/navegacao.svg";
 import USability from "../../assets/icons/usabilidade.svg";
 import Document from "../../assets/icons/Document.svg";
-import NomeUsinn from "../../assets/icons/nomeUsinn.svg";
+import NomeUsinn from "../../assets/icons/Logo_USINN_Positiva.png";
 import Funcap from "../../assets/icons/funcap.svg";
 import LogoUFC from "../../assets/icons/logoUFC.svg";
 import Logotipo from "../../assets/icons/logotipo.svg";
 
 import Slides from "./Slides";
 import BasicCard from "./BasicCard";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
 
+  const [title, setTitle] = useState(' EXPERIÊNCIA COMPLETA')
+  const [hambOpen, setHmabOpen] = useState(false)
+
   useEffect(() => {
-    document.title = 'Home / USINN Modeler';
-  },[]);
+    document.title = 'Home - USINN Modeler';
+  
+    const intervalId = setInterval(() => {
+      setTitle(prevTitle => prevTitle === 'EXPERIÊNCIA COMPLETA' ? 'MODELAGEM 3 EM 1' : 'EXPERIÊNCIA COMPLETA');
+    }, 3000);
+  
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <>
-      <header className="position-absolute w-100">
+      <header className={`position-absolute w-100 ${hambOpen && 'border-bottom border-white'}`}>
         <nav className="navbar navbar-expand-lg navbar-light bg-primary py-1 px-3 px-lg-5">
           <button
             className="navbar-toggler bg-light my-2"
@@ -30,9 +39,10 @@ export default function Home() {
             data-bs-toggle="collapse"
             data-bs-target="#navbarTogglerDemo01"
             aria-controls="navbarTogglerDemo01"
-            aria-expanded="false"
+            aria-expanded={hambOpen}
             aria-haspopup="true"
             aria-label="Toggle navigation"
+            onClick={() => setHmabOpen(!hambOpen)}
           >
             <span className="navbar-toggler-icon"></span>
           </button>
@@ -48,44 +58,44 @@ export default function Home() {
 
             <ul role="menu" className="navbar-nav me-auto mb-2 mb-lg-0 fs-5 d-flex">
               <li className="nav-item" role="none">
-                <Link
-                  to="#SobreUSINN"
+                <a
+                  href="#SobreUSINN"
                   className={`${styles.underline} nav-link text-white`}
                   aria-label="ir para seção, saiba mais sobre o usinn"
                   role="menuitem"
                 >
                   Sobre o USINN
-                </Link>
+                </a>
               </li>
               <li className="nav-item" role="none">
-                <Link
-                  to="#Adote"
+                <a
+                  href="#Adote"
                   className={`${styles.underline} nav-link text-white`}
                   aria-label="ir para seção por que adotar o usinn"
                   role="menuitem"
                 >
                   Por que adotar
-                </Link>
+                </a>
               </li>
               <li className="nav-item" role="none">
-                <Link
-                  to="#Tutorial"
+                <a
+                  href="#Tutorial"
                   className={`${styles.underline} nav-link text-white`}
                   aria-label="ir para seção tutorial"
                   role="menuitem"
                 >
                   Tutorial
-                </Link>
+                </a>
               </li>
               <li className="nav-item" role="none">
-                <Link
-                  to="#NossoTime"
+                <a
+                  href="#NossoTime"
                   className={`${styles.underline} nav-link text-white`}
                   aria-label="ir para seção conheça o nosso time"
                   role="menuitem"
                 >
                   Nosso time
-                </Link>
+                </a>
               </li>
             </ul>
             <ul className="fs-5 p-0 m-0 d-flex align-items-center list-inline" role="menu">
@@ -115,10 +125,9 @@ export default function Home() {
       </header>
 
       <main>
-        <section className="bg-primary" aria-labelledby="region1">
-          <div className="text-white d-flex flex-column justify-content-center align-items-center vh-100">
+        <section className="bg-primary text-white d-flex flex-column justify-content-center align-items-center vh-100" aria-labelledby="region1">
             <h1 id="region1" className="text-center">
-              EXPERIÊNCIA COMPLETA <br /> & <br /> MODELAGEM 3 EM 1
+              {title}
             </h1>
 
             <p className="my-4 text-center h2">
@@ -133,7 +142,6 @@ export default function Home() {
             >
               COMECE A MODELAR
             </Link>
-          </div>
         </section>
 
         <section id="SobreUSINN" aria-labelledby="region2">
@@ -247,19 +255,18 @@ export default function Home() {
         <section
           id="Tutorial"
           aria-labelledby="region4"
-          className="bg-primary text-white d-flex flex-column flex-sm-row px-1 py-5 p-sm-4 p-lg-5"
+          className="bg-primary text-white d-flex flex-column flex-sm-row p-2 py-3 px-sm-0 py-sm-5"
         >
-          <div className="p-sm-2 p-lg-5 ps-2 pb-5">
-            <h1 id="region4" className="mb-2 mb-sm-5">
+          <div className="col-sm-5 col-lg-4 align-content-center pb-3 pb-sm-0 px-5">
+            <h1 id="region4" className="text-center">
               TUTORIAL
             </h1>
-            <img src={NomeUsinn} alt="" className="d-block" />
-            <span className="h2 fs-1" aria-hidden="true">
-              Modeler
-            </span>
+            <div className="w-auto px-5 px-sm-0 py-3 p-sm-3 pb-sm-0 text-center">
+              <img src={NomeUsinn} alt="" className="w-100" style={{maxWidth: "200px"}} />
+            </div> 
           </div>
 
-          <div className="ratio ratio-21x9">
+          <div className="ratio ratio-21x9 me-sm-5">
             <iframe
               allowFullScreen
               title="Tutorial USINN"

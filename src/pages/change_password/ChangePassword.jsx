@@ -15,7 +15,7 @@ import PasswordConfirmation from "../../components/PasswordConfirmationModal";
 function ChangePassword() {
 
     useEffect(() => {
-        document.title = 'Atualizar Senha / USINN Modeler';
+        document.title = 'Atualizar Senha - USINN Modeler';
     },[]);
 
     let match = useRouteMatch();
@@ -134,16 +134,15 @@ function ChangePassword() {
                             <div className="d-flex justify-content-between">
                                 
                                 <div className="text-center mt-2">
-                                    <Link className="text-decoration-none btn text-primary fw-bold px-3" to="/dashboard" >Cancelar</Link>
+                                    <Link className="text-decoration-none btn text-primary fw-bold px-4 px-sm-5 border-dark" to="/dashboard" >Cancelar</Link>
                                 </div>
                                 
                                 <div className="mt-2">
-                                    <button className="btn btn-primary" type="submit">
+                                    <button className="btn btn-primary px-4 px-sm-5" type="submit">
                                         Confirmar
                                     </button>
                                 </div>
                             </div>                    
-                            
 						</form>
 					</div>
                     

@@ -31,13 +31,21 @@ export default function Slides() {
         perMove: 5,
         perPage: 5,
         breakpoints: {
-          576: {
+          700: {
             perPage: 1,
             perMove: 1,
           },
-          992: {
+          950:{
+            perPage: 2,
+            perMove: 2,
+          },
+          1100:{
             perPage: 3,
             perMove: 3,
+          },
+          1350: {
+            perPage: 4,
+            perMove: 4,
           },
         },
       }}

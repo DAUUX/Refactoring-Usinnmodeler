@@ -12,7 +12,7 @@ import usinnModeler from "../../assets/icons/usinn-logo-horiz.png";
 export default function RequestChange() {
 
   useEffect(() => {
-    document.title = 'Recuperar Senha / USINN Modeler';
+    document.title = 'Recuperar Senha - USINN Modeler';
   },[]);
 
   const [email, setEmail] = useState("");
@@ -46,17 +46,17 @@ export default function RequestChange() {
   };
 
   return (
-    <main className="d-flex flex-fill flex-column align-items-center py-2 py-sm-5" aria-labelledby="region">
-      <div className="d-flex justify-content-center">
+    <main className="d-flex flex-fill flex-column align-items-center pb-2 pb-sm-5" aria-labelledby="region">
+      <div className="w-100 d-flex justify-content-center bg-white py-2 py-sm-3">
         <img src={usinnModeler} alt="" />
       </div>
 
-      <div className="h-100 d-flex flex-column justify-content-center col-12 col-md-8 col-lg-4">
+      <div className="h-75 d-flex flex-column justify-content-center mt-5 col-12 col-md-8 col-lg-4">
 
         {!enviadoComSucesso ? ( // Renderiza o formulário apenas se não for enviado com sucesso
           <div>
-            <div className="text-center mb-4" style={{ marginTop: "-10px", marginBottom: "100px" }}>
-              <FontAwesomeIcon icon={faKey} className="pb-2 pb-sm-5" size="3x" color="#007BFF" />
+            <div className="text-center mb-4" >
+              <FontAwesomeIcon icon={faKey} className="mb-2 mb-sm-5 p-3 bg-white rounded-circle" size="3x" color="#007BFF" />
               <h1 id="region" className="h2">Esqueceu sua senha?</h1>
               <p>Não se preocupe, enviaremos as instruções de recuperação.</p>
             </div>
@@ -81,6 +81,9 @@ export default function RequestChange() {
               </div>
 
             </form>
+            <div className="col-12 text-center pt-5">
+                <Link className="text-reset text-decoration-none fw-bold h5" to="/login" > <i className="bi bi-arrow-left"></i> Voltar para login</Link>
+            </div>
           </div>
         ) : (
           // Renderiza a mensagem após o envio bem-sucedido
@@ -92,10 +95,8 @@ export default function RequestChange() {
             <p>Enviamos um link para recuperação de senha.</p>
           </div>
 
-          <div className="col-12 text-center mt-4">
-            <Link className="text-decoration-none fw-bold" to="/login">
-              <i className="bi bi-arrow-left"></i> Voltar para login
-            </Link>
+          <div className="col-12 text-center pt-5">
+              <Link className="text-reset text-decoration-none fw-bold h5" to="/login" > <i className="bi bi-arrow-left"></i> Voltar para login</Link>
           </div>
         </div>
         )}

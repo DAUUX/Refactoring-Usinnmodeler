@@ -1,3 +1,5 @@
+@import "../../assets//styles/variables";
+
 #profileImg {
     text-align: center;
     line-height:40px;
@@ -7,4 +9,11 @@
     font-size: 25px;
     font-weight: bold;
     border-radius: 50%;
+}
+
+.dropdown-item{
+    &:hover, &:focus{
+        background-color: $primary !important;
+        color: #ffffff !important;  
+    }
 }

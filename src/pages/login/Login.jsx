@@ -10,7 +10,7 @@ import { useEffect } from "react";
 export default function Login() {
 
 	useEffect(() => {
-    document.title = 'Login / USINN Modeler';
+    document.title = 'Login - USINN Modeler';
   },[]);
 
 	const history = useHistory();
@@ -95,7 +95,7 @@ export default function Login() {
 						/>
 						{formik.touched.password && formik.errors.password ? (<strong className="invalid-feedback m-0 p-0 pt-1"> {formik.errors.password}</strong>) : null}
 						
-						<Link className="mt-2 text-decoration-none float-end" to="/request-change">Esqueceu sua senha?</Link>
+						<Link className="mt-2 float-end text-primary" to="/request-change">Esqueceu sua senha?</Link>
 					</div> 
 
 					<button className="btn btn-primary btn-lg mt-2" type="submit">
@@ -103,7 +103,7 @@ export default function Login() {
 					</button>
 
 					<div className="col-12 text-center mt-5">
-						<p> Não tem conta ainda? <Link className="fw-bold text-decoration-none" to="/cadastro">Registre-se</Link> </p>
+						<p> Não tem conta ainda? <Link className="fw-bold text-primary" to="/cadastro">Registre-se</Link> </p>
 					</div>
 
 				</form>

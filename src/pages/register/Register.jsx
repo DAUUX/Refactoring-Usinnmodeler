@@ -14,7 +14,7 @@ import { useEffect } from "react";
 export default function Register() {
 
 	useEffect(() => {
-    document.title = 'Cadastrar / USINN Modeler';
+    document.title = 'Cadastrar - USINN Modeler';
   },[]);
 	
 	const history = useHistory();
@@ -209,14 +209,14 @@ export default function Register() {
 											onChange={(e) => {formik.handleChange(e); formik.setFieldTouched(e.target.name, true, false)}}
 											value={formik.values.accept}
 											name="accept" 
-											className="form-check-input" 
+											className="form-check-input border-1 border-dark" 
 											type="checkbox" 
 											checked={formik.values.accept}
 											id="acceptCheckbox"
 										/>
 
 										<label className="form-check-label" htmlFor="acceptCheckbox"> 
-											Li e aceito os <Link className="text-reset text-decoration-none fw-bold" target="_blank" to="/privacidade"> termos de uso </Link> 
+											Li e aceito os <Link className="fw-bold text-primary" target="_blank" to="/privacidade"> termos de uso </Link> 
 										</label>
 
 										{formik.touched.accept && formik.errors.accept ? (<strong className="invalid-feedback ms-n3 d-block"> {formik.errors.accept}</strong>) : null}
@@ -230,7 +230,7 @@ export default function Register() {
 								</div>
 
 								<div className="col-12 text-center mt-4">
-									<Link className="text-decoration-none fw-bold" to="/login" > <i className="bi bi-arrow-left"></i> Voltar para login</Link>
+									<Link className="text-reset text-decoration-none fw-bold h5" to="/login" > <i className="bi bi-arrow-left"></i> Voltar para login</Link>
 								</div>
 
 						</form>

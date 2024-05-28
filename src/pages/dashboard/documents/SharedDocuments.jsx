@@ -11,7 +11,7 @@ import RenameDiagramModal from "../../../components/RenameDiagramModal";
 function SharedDocuments() {
 
     useEffect(() => {
-        document.title = 'Documentos Compartilhados / USINN Modeler';
+        document.title = 'Compartilhados comigo - USINN Modeler';
     },[]);
 
     let [diagrams, setDiagrams] = useState([]);

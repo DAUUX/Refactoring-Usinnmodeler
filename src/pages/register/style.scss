@@ -1,3 +1,9 @@
+@import "../../assets/styles/_variables.scss";
+
+input::placeholder, select option{
+  color: $gray-900;
+}
+
 @media (min-width: 992px) {
   #gray-area {
     position: relative;
@@ -7,6 +13,7 @@
     transform: translate(-50%, 0);
     padding: 0 8%;
     height: 70px;
+    border: 1px $gray-900 solid;
     border-radius: 10rem;
     background-color: #d9d9dd;
 
@@ -14,7 +21,7 @@
     .form-select:not(.is-invalid) {
       border-color: #959595;
       &:focus {
-        border-color: darken(#959595, 15%);
+        border-color: darken($gray-900, 15%);
       }
     }
   }

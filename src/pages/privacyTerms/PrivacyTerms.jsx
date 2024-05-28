@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 function PrivacyTerms() {
 
     useEffect(() => {
-        document.title = 'Termos de Privacidade / USINN Modeler';
+        document.title = 'Termos de Privacidade - USINN Modeler';
     },[]);
 
     return (
