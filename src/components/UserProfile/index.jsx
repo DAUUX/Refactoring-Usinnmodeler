@@ -5,8 +5,8 @@ import { Toast } from "../Toast";
 import './style.scss';
 import {avatarOptions } from '../../Consts';
 import { Modal } from "bootstrap";
-import ConfirmRemoveLoginModal from "../ConfirmRemoveLoginModal";
-import RemoveLoginModal from "../RemoveLoginModal";
+import ConfirmRemoveLoginModal from "../ConfirmDeleteAccountModal";
+import RemoveLoginModal from "../DeleteAccountModal";
 
 function UserProfile(props) {
 

@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Toast } from "../Toast";
 import Spinner from "../Spinner";
 import { useFormik } from 'formik';
@@ -11,6 +11,7 @@ function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
     const [loading, setLoading] = useState(false);
     const modalRef = useRef(null);
 
+    // Formulario com Formik
     const formik = useFormik({
         initialValues: {
             password: ''
@@ -24,7 +25,7 @@ function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
                 await api.post('user/check-password', values);
                 Toast('success', 'Senha confirmada!', "checkCircle");
                 onConfirmLoginRemoved();
-                closeModal(); // Fechar o modal
+                closeModal(); // Fechar Modal
             } catch (error) {
                 if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
                     Toast('error', "Falha na conexão ao servidor", "errorServer");
@@ -38,12 +39,33 @@ function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
         },
     });
 
+    // Fecha o Modal pegando a instancia dele
     const closeModal = () => {
         if (modalRef.current) {
             const modalInstance = Modal.getInstance(modalRef.current);
             modalInstance.hide();
         }
     };
+
+
+
+    // Limpa a senha do Modal quando inicia
+    useEffect(() => {
+        const handleShown = () => {
+            formik.setValues({
+                password: '' // Valor ''
+            });
+        };
+        const modalElement = modalRef.current;
+        const modalInstance = new Modal(modalElement);
+        modalElement.addEventListener('shown.bs.modal', handleShown);
+
+        return () => {
+            modalElement.removeEventListener('shown.bs.modal', handleShown);
+            modalInstance.dispose();
+        };
+    }, []);
+
 
     return (
         <div className="modal" id={id} tabIndex="-1" aria-labelledby="RemoveLoginModal" aria-hidden="true" ref={modalRef}>
