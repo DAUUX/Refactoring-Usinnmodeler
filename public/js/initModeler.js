@@ -140,6 +140,7 @@ function init(editor, rootPath){
         });
 
 		window.addEventListener('openDiagramSVG', (event) => {
+			console.log(editor)
 			editor.execute("show");
         });
 

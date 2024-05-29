@@ -14,12 +14,10 @@ function ExportDiagramModal({id, onExportDiagram, diagramSVG}) {
     },[])
     async function getDiagramImg(format, svg) {
         onExportDiagram(true);
-        // console.log("-------------------------------------------\n" + svg)
 
         try {
 
             const data = {format, svg};            
-            // console.log("---------------------------------\nsvg-front  " + svg)
             const response = await api.post(`diagrams/export`, data);
             let imgBuffer = response.data.img;
             let imgFormat = response.data.format;
@@ -74,8 +72,9 @@ function ExportDiagramModal({id, onExportDiagram, diagramSVG}) {
                 break;
             case 'svg':
                 event = new CustomEvent('openDiagramSVG');
-		        window.dispatchEvent(event);
+                window.dispatchEvent(event);
                 break;
+            
             case "pdf":
                 event = new CustomEvent('openDiagramPDF');
 		        window.dispatchEvent(event);
