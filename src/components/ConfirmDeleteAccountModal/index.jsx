@@ -38,10 +38,11 @@ function ConfirmRemoveLoginModal({id}) {
                     <div className="modal-body text-center px-4 pb-4">
                         <i className="bi bi-exclamation-triangle-fill mb-5 mt-3" style={{'fontSize': '60px'}}></i>
                         <h4 className="mb-5">Seu perfil será excluído !</h4>
-                        <div className="d-flex justify-content-center gap-3">
+                        <div className="d-flex justify-content-center gap-sm-1 gap-md-2 gap-lg-3">
                             <button className="btn btn-primary" disabled={loading} type="button" data-bs-dismiss="modal">Cancelar</button>
                             <button className="btn btn-danger" disabled={loading} onClick={removeLogin} type="button" data-bs-dismiss="modal">Confirmar</button>
                         </div>
+
                     </div>
                 </div>
             </div>

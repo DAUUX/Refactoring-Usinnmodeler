@@ -52,9 +52,7 @@ function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
     // Limpa a senha do Modal quando inicia
     useEffect(() => {
         const handleShown = () => {
-            formik.setValues({
-                password: '' // Valor ''
-            });
+            formik.resetForm();
         };
         const modalElement = modalRef.current;
         const modalInstance = new Modal(modalElement);
