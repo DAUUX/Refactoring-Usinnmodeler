@@ -11,6 +11,11 @@ import ExportDiagramModal from "../../components/ExportDiagramModal";
 import Spinner from "../../components/Spinner";
 
 function Modeler(props) {
+
+    useEffect(() => {
+        document.title = 'Diagrama - USINN Modeler';
+    },[]);
+
     const [loadingOverlay, setLoadingOverlay] = useState(false);
     const [diagram, setDiagram]       = useState('');
     const [diagramSVG, setDiagramSVG] = useState('');
@@ -176,9 +181,9 @@ function Modeler(props) {
             </nav>
 
            <div hidden={oculteManipulationIcons}>
-                <div id="actionsMenu" className="d-flex bg-light py-2 px-5" >
+                <div id="actionsMenu" className="d-flex py-2 px-5" >
                     {/* mxGraph actions added here */ }
-                    <button data-bs-toggle="modal" data-bs-target={`#exportModalId`} className="btn btn-light btn-sm order-last" title="Exportar" > 
+                    <button data-bs-toggle="modal" data-bs-target={`#exportModalId`} className="btn bg-white btn-sm order-last" title="Exportar" > 
                         <i className="bi bi-box-arrow-up-right fs-5 pe-4 "></i>
                         <span className="h6 text-secondary">Exportar diagrama</span>
                     </button>                             
