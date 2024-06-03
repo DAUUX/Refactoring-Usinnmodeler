@@ -40,8 +40,8 @@ function Register() {
 				.max(new Date(), 'Data de nascimento inválida')
 				.required('Data de nascimento é obrigatória'),
 			gender: Yup.number().integer('Valor é inválido').min(1, 'Valor é inválido').max(3, 'Valor é inválido').required('Gênero é obrigatório'),
-			role: Yup.number().integer('Valor é inválido'),
-			company: Yup.string().max(100, 'A organização deve ter no máximo 100 caracteres').required('A organização é obrigatório'),
+			role: Yup.number().integer('Valor é inválido').required('O perfil é obrigatório'),
+			company: Yup.string().max(100, 'A organização deve ter no máximo 100 caracteres').required('A organização é obrigatória'),
 			accept: Yup.boolean().oneOf([true], 'É necessário aceitar os termos')
 		}),
    
@@ -181,7 +181,7 @@ function Register() {
 													<option value={index+1} key={index} > {item} </option>
 												)}
 											</select>
-											{formik.touched.role && formik.errors.role ? (<div className="invalid-feedback d-block"> {formik.errors.role}</div>) : null}
+											
 										</div>
 
 										<div className="col-12 col-lg-6 mb-3">
@@ -197,8 +197,13 @@ function Register() {
 											/>
 										</div>
 									</div>
-									{formik.touched.company && formik.errors.company ? (<div className="invalid-feedback d-block text-center"> {formik.errors.company}</div>) : null}
-								</div>
+									{formik.touched.role && formik.errors.role || formik.touched.company && formik.errors.company ? 
+									(<div className="invalid-feedback d-flex justify-content-around ">
+										<span>{formik.errors.role}</span> 
+										<span className="">{formik.errors.company}</span>
+									</div>) : 
+									null}
+									</div>
 
 								<div className="col-12 d-flex justify-content-center py-3">
 									<div className="form-check">
