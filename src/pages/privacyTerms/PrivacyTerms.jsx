@@ -1,24 +1,29 @@
 import './style.scss';
 import usinnModeler from "../../assets/icons/usinn-logo-horiz.png";
+import { useEffect } from 'react';
 
 function PrivacyTerms() {
 
+    useEffect(() => {
+        document.title = 'Termos de Privacidade - USINN Modeler';
+    },[]);
+
     return (
 
-        <div id="termosPrivacidade" className="main py-5">
+        <main id="termosPrivacidade" className="py-5" aria-labelledby="region">
 
             <div className="container">
 
                 <div className="row justify-content-center">
 
-                    <div className="col-12 d-flex justify-content-center align-items-center pb-4">
-                        <img src={usinnModeler} alt="logo USINN" />
+                    <div className="col-12 d-flex justify-content-center align-items-center pb-4" aria-hidden="true">
+                        <img src={usinnModeler} alt="" />
                         <span className="text-primary fs-3 fw-light ms-2">Modeler</span>
                     </div>
 
                     <div className="col-12 col-lg-10">
 
-                        <h1 className="mb-4">Termos de Uso e Política de Privacidade</h1>
+                        <h1 id="region" className="mb-4">Termos de Uso e Política de Privacidade</h1>
 
                         <p className=" fs-5">Bem-vindo ao nosso sistema. Antes de utilizá-lo, pedimos que leia atentamente os seguintes termos de uso e política de privacidade. Ao continuar a utilizar o nosso sistema, você concorda com estes termos.</p>
 
@@ -49,12 +54,12 @@ function PrivacyTerms() {
                         <h4>YouTube video widget</h4>
 
                         <p className="mb-0">YouTube é um serviço de visualização de conteúdo de vídeo fornecido pelo Google LLC que permite a este Site a incorporar conteúdo desse tipo em suas páginas.</p>
-                        <small>Mais informações: <a href="https://policies.google.com/privacy" target="_blank">Política de privacidade Youtube</a></small>
+                        <small>Mais informações: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Política de privacidade Youtube</a></small>
 
                         <h4 className="mt-2">Google Fonts</h4>
                         
                         <p className="mb-0">Google Fonts é um serviço de visualização de face de tipo fornecido pelo Google LLC que permite este Site a incorporar conteúdo desse tipo em suas páginas.</p>
-                        <small>Mais informações: <a href="https://policies.google.com/privacy" target="_blank"> Política de privacidade Google Fonts</a></small>
+                        <small>Mais informações: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer"> Política de privacidade Google Fonts</a></small>
 
                         <h2 className="mt-3">Atualização dos termos de uso e política de privacidade</h2>
 
@@ -66,7 +71,7 @@ function PrivacyTerms() {
 
             </div>
 
-        </div>
+        </main>
 
     )
 

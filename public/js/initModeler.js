@@ -173,7 +173,8 @@ function init(editor, rootPath){
 				button.classList.add('btn');
 				button.classList.add('btn-light');
 				button.classList.add('btn-sm');
-				button.title = descriptions[i]
+				button.classList.add('bg-white');
+				button.title = descriptions[i];
 				
 				var icon = document.createElement("img");
 				icon.src=rootPath+"/images/icons/"+ icons[j][k] +".png";
