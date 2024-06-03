@@ -11,6 +11,10 @@ import FavoriteDiagram from "../../../components/FavoriteDiagram";
 
 function MyDocuments() {
 
+    useEffect(() => {
+        document.title = 'Meus Documentos - USINN Modeler';
+    },[]);
+
     let [diagrams, setDiagrams] = useState([]);
     let [loading, setLoading] = useState(true);
 

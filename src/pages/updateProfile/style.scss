@@ -1,6 +1,8 @@
+@import '../../assets/styles/variables'; 
+
 #update {
     min-height: 100%;
-    position: relative;
+    position: relative; 
     
     #content{
 
@@ -20,7 +22,7 @@
                 .form-control:not(.is-invalid), .form-select:not(.is-invalid) {
                     border-color: #959595;
                     &:focus {
-                        border-color: darken(#959595, 15%);
+                        border-color: darken($gray-900, 15%);
                     }
                 }
             }

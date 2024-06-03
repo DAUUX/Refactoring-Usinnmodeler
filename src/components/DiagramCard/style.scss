@@ -2,15 +2,23 @@
 
 #diagram-card {
     transition: all 300ms;
-    
-    &:hover {
-        border-color: $primary;
-        // transform: scale(1.02);
-        .card-header {
-            border-color: $primary;
+    border-color: $primary;
+
+    .card-header{
+        background-color: $primary;
+        color: #ffffff;
+
+        button.dropdown-toggle{
+            color: #ffffff;
+        }
+
+        .dropdown-item{
+            &:hover, &:focus{
+                background-color: $primary !important;
+                color: #ffffff !important;  
+            }
         }
     }
-
 
     .card-header > div:first-child{
         text-overflow: ellipsis;
@@ -39,4 +47,13 @@
     .dropdown .dropdown-toggle::after {
         display: none;
     }
+
+    &:hover{
+        box-shadow: 5px 5px 10px #000000;
+    }
+
+    .show{
+        z-index: 2;
+    }
+
 }
