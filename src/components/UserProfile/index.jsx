@@ -5,8 +5,8 @@ import { Toast } from "../Toast";
 import './style.scss';
 import {avatarOptions } from '../../Consts';
 import { Modal } from "bootstrap";
-import ConfirmRemoveLoginModal from "../ConfirmRemoveLoginModal";
-import RemoveLoginModal from "../RemoveLoginModal";
+import ConfirmRemoveLoginModal from "../ConfirmDeleteAccountModal";
+import RemoveLoginModal from "../DeleteAccountModal";
 
 function UserProfile(props) {
 
@@ -42,23 +42,6 @@ function UserProfile(props) {
         
     }
 
-    function callConfirmRemoveLoginModal() {
-        const modal = new Modal('#ConfirmRemoveLoginModal')          
-        modal.show();
-    }
-    function callRemoveLoginModal() {
-        const modal = new Modal('#RemoveLoginModal')          
-        modal.show();
-    }
-
-    function callConfirmRemoveLoginModal() {
-        const modal = new Modal('#ConfirmRemoveLoginModal')          
-        modal.show();
-    }
-    function callRemoveLoginModal() {
-        const modal = new Modal('#RemoveLoginModal')          
-        modal.show();
-    }
 
     function callConfirmRemoveLoginModal() {
         const modal = new Modal('#ConfirmRemoveLoginModal')          

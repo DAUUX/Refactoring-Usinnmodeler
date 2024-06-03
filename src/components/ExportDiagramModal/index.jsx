@@ -111,7 +111,7 @@ function ExportDiagramModal({id, onExportDiagram, diagramSVG}) {
 							>
 								<option selected value="" disabled hidden> Formato </option>
 								{ formatOptions.map((item, index) => 
-									<option value={index+1} key={index} > {item} </option>
+									<option value={index+1} key={index} > {item.toLocaleUpperCase()} </option>
 								)}
 							</select>                            
                         </div>

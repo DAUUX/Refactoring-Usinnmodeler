@@ -9,8 +9,14 @@ import "./style.scss";
 import { roleOptions, genderOptions } from '../../Consts';
 import { useFormik } from "formik";
 import * as Yup from 'yup';
+import { useEffect } from "react";
 
-function Register() {
+export default function Register() {
+
+	useEffect(() => {
+    document.title = 'Cadastrar - USINN Modeler';
+  },[]);
+	
 	const history = useHistory();
 
 	const formik = useFormik({
@@ -65,27 +71,20 @@ function Register() {
 				}
 				
 			}
-   
 		},
-   
 	});
 	
 	return (
-		<main id="register-page" className="flex-fill d-flex align-items-center">  
-		    
-			<div className="container py-5">
+		<main id="register-page" className="flex-fill d-flex align-items-center" aria-label="formulário de cadastro">    
+			<div className="container py-5 py-sm-0">
 
-				<div className="row pb-3">
-					<div className="col-12 d-flex justify-content-center align-items-center">
-						<img src={usinnModeler} alt="logo USINN" />
-						<span className="text-primary fs-3 fw-light ms-2">Modeler</span>
-					</div>
+				<div className="pb-3 d-flex justify-content-center align-items-center" aria-hidden="true">
+					<img src={usinnModeler} alt="" />
+					<span className="text-primary fs-3 fw-light ms-2">Modeler</span>
 				</div>
 
 				<div id="content" className="row position-relative justify-content-center mt-5">
-					
 					<div className="col-12 col-md-8 col-lg-4">
-
 						<form className="row" noValidate="" onSubmit={formik.handleSubmit}>
 								
 								<div className="col-12 mb-3">
@@ -100,7 +99,7 @@ function Register() {
 										name="name" 
 										placeholder="Nome completo*"
 									/>
-									{formik.touched.name && formik.errors.name ? (<div className="invalid-feedback d-block"> {formik.errors.name}</div>) : null}
+									{formik.touched.name && formik.errors.name ? (<strong className="invalid-feedback d-block"> {formik.errors.name}</strong>) : null}
 								</div>
 
 								<div className="col-12 mb-3">
@@ -114,7 +113,7 @@ function Register() {
 										name="email" 
 										placeholder="E-mail*"
 									/>
-									{formik.touched.email && formik.errors.email ? (<div className="invalid-feedback d-block"> {formik.errors.email}</div>) : null}
+									{formik.touched.email && formik.errors.email ? (<strong className="invalid-feedback d-block"> {formik.errors.email}</strong>) : null}
 								</div>
 
 								<div className="col-12 mb-3">
@@ -128,7 +127,7 @@ function Register() {
 										name="password" 
 										placeholder="Senha*"
 									/>
-									{formik.touched.password && formik.errors.password ? (<div className="invalid-feedback d-block"> {formik.errors.password}</div>) : null}
+									{formik.touched.password && formik.errors.password ? (<strong className="invalid-feedback d-block"> {formik.errors.password}</strong>) : null}
 								</div>
 
 								<div className="col-12 col-lg-6 mb-3">
@@ -140,10 +139,10 @@ function Register() {
 										className={`form-control ${formik.touched.birthday && formik.errors.birthday ? 'is-invalid' : '' }`}
 										type="text" 
 										name="birthday" 
-      									mask='99/99/9999'
-										placeholder="Data de nascimento*" 
+      							mask='99/99/9999'
+										placeholder="Data de nascimento*"
 									/>
-									{formik.touched.birthday && formik.errors.birthday ? (<div className="invalid-feedback d-block"> {formik.errors.birthday}</div>) : null}
+									{formik.touched.birthday && formik.errors.birthday ? (<strong className="invalid-feedback d-block"> {formik.errors.birthday}</strong>) : null}
 								</div>
 
 								<div className="col-12 col-lg-6 mb-3">
@@ -151,9 +150,10 @@ function Register() {
 										disabled={formik.isSubmitting}
 										onChange={(e) => {formik.handleChange(e); formik.setFieldTouched(e.target.name, true, false)}}
 										value={formik.values.gender}
-										className={`form-select ${formik.touched.gender && formik.errors.gender ? 'is-invalid' : '' }${formik.values.gender == '' ? ' is-empty': ''}`} 
+										className={`form-select ${formik.touched.gender && formik.errors.gender ? 'is-invalid' : '' }${formik.values.gender === '' ? ' is-empty': ''}`} 
 										name="gender" 
 										placeholder="Gênero*"
+										title="seu gênero"
 									>
 										<option value="" disabled hidden> Gênero* </option>
 
@@ -162,7 +162,7 @@ function Register() {
 										)}
 
 									</select>
-									{formik.touched.gender && formik.errors.gender ? (<div className="invalid-feedback d-block"> {formik.errors.gender}</div>) : null}
+									{formik.touched.gender && formik.errors.gender ? (<strong className="invalid-feedback d-block"> {formik.errors.gender}</strong>) : null}
 								</div>
 
 								<div id="gray-area" className="my-lg-2">
@@ -172,16 +172,17 @@ function Register() {
 												disabled={formik.isSubmitting}
 												onChange={(e) => {formik.handleChange(e); formik.setFieldTouched(e.target.name, true, false)}}
 												value={formik.values.role}
-												className={`form-select ${formik.touched.role && formik.errors.role ? 'is-invalid' : ''}${formik.values.role == '' ? ' is-empty': ''}`}
+												className={`form-select ${formik.touched.role && formik.errors.role ? 'is-invalid' : ''}${formik.values.role === '' ? ' is-empty': ''}`}
 												name="role"
 												placeholder="Perfil"
+												title="seu perfil"
 											>
 												<option value="" disabled hidden> Perfil </option>
 												{ roleOptions.map((item, index) => 
 													<option value={index+1} key={index} > {item} </option>
 												)}
 											</select>
-											{formik.touched.role && formik.errors.role ? (<div className="invalid-feedback d-block"> {formik.errors.role}</div>) : null}
+											{formik.touched.role && formik.errors.role ? (<strong className="invalid-feedback d-block"> {formik.errors.role}</strong>) : null}
 										</div>
 
 										<div className="col-12 col-lg-6 mb-3">
@@ -195,6 +196,10 @@ function Register() {
 												name="company"
 												placeholder="Organização*"
 											/>
+<<<<<<< HEAD
+=======
+											{formik.touched.company && formik.errors.company ? (<strong className="invalid-feedback d-block"> {formik.errors.company}</strong>) : null}
+>>>>>>> 8768497dd73ee25ec92a7754a45872296f0cc805
 										</div>
 									</div>
 									{formik.touched.company && formik.errors.company ? (<div className="invalid-feedback d-block text-center"> {formik.errors.company}</div>) : null}
@@ -208,17 +213,17 @@ function Register() {
 											onChange={(e) => {formik.handleChange(e); formik.setFieldTouched(e.target.name, true, false)}}
 											value={formik.values.accept}
 											name="accept" 
-											className="form-check-input" 
+											className="form-check-input border-1 border-dark" 
 											type="checkbox" 
 											checked={formik.values.accept}
 											id="acceptCheckbox"
 										/>
 
-										<label className="form-check-label text-muted" htmlFor="acceptCheckbox"> 
-											Li e aceito os <Link className="text-reset text-decoration-none fw-bold" target="_blank" to="/privacidade"> termos de uso </Link> 
+										<label className="form-check-label" htmlFor="acceptCheckbox"> 
+											Li e aceito os <Link className="fw-bold text-primary" target="_blank" to="/privacidade"> termos de uso </Link> 
 										</label>
 
-										{formik.touched.accept && formik.errors.accept ? (<div className="invalid-feedback ms-n3 d-block"> {formik.errors.accept}</div>) : null}
+										{formik.touched.accept && formik.errors.accept ? (<strong className="invalid-feedback ms-n3 d-block"> {formik.errors.accept}</strong>) : null}
 									</div>
 								</div>
 
@@ -229,17 +234,13 @@ function Register() {
 								</div>
 
 								<div className="col-12 text-center mt-4">
-									<Link className="text-decoration-none text-muted fw-bold" to="/login" > <i className="bi bi-arrow-left"></i> Voltar para login</Link>
+									<Link className="text-reset text-decoration-none fw-bold h5" to="/login" > <i className="bi bi-arrow-left"></i> Voltar para login</Link>
 								</div>
 
 						</form>
 					</div>
-
 				</div>
-
 			</div>
 		</main>
 	);
 }
-
-export default Register;
