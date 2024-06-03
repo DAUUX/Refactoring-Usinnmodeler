@@ -16,34 +16,41 @@ function ExportDiagramModal({id, onExportDiagram, diagramSVG}) {
         onExportDiagram(true);
 
         try {
+            const data = {format, svg};        
+            if (data.format == 4){
+                const blob = new Blob([svg], {type: "image/svg+xml"});
+                const blobUrl = URL.createObjectURL(blob);
 
-            const data = {format, svg};            
-            const response = await api.post(`diagrams/export`, data);
-            let imgBuffer = response.data.img;
-            let imgFormat = response.data.format;
+                window.open(blobUrl, '_blank');
+            } else {
+                const response = await api.post(`diagrams/export`, data);
+                let imgBuffer = response.data.img;
+                let imgFormat = response.data.format;
 
-            const base64ImageData = 'data:image/' + imgFormat + ';base64,' + imgBuffer;
-            const contentType = 'image/' + imgFormat;
+                const base64ImageData = 'data:image/' + imgFormat + ';base64,' + imgBuffer;
+                const contentType = 'image/' + imgFormat;
 
-            const byteCharacters = atob(base64ImageData.substr(`data:${contentType};base64,`.length));
-            const byteArrays = [];
+                const byteCharacters = atob(base64ImageData.substr(`data:${contentType};base64,`.length));
+                const byteArrays = [];
 
-            for (let offset = 0; offset < byteCharacters.length; offset += 1024) {
-                const slice = byteCharacters.slice(offset, offset + 1024);
+                for (let offset = 0; offset < byteCharacters.length; offset += 1024) {
+                    const slice = byteCharacters.slice(offset, offset + 1024);
 
-                const byteNumbers = new Array(slice.length);
-                for (let i = 0; i < slice.length; i++) {
-                    byteNumbers[i] = slice.charCodeAt(i);
+                    const byteNumbers = new Array(slice.length);
+                    for (let i = 0; i < slice.length; i++) {
+                        byteNumbers[i] = slice.charCodeAt(i);
+                    }
+
+                    const byteArray = new Uint8Array(byteNumbers);
+
+                    byteArrays.push(byteArray);
                 }
+                const blob = new Blob(byteArrays, {type: contentType});
+                const blobUrl = URL.createObjectURL(blob);
 
-                const byteArray = new Uint8Array(byteNumbers);
+                window.open(blobUrl, '_blank');
 
-                byteArrays.push(byteArray);
             }
-            const blob = new Blob(byteArrays, {type: contentType});
-            const blobUrl = URL.createObjectURL(blob);
-
-            window.open(blobUrl, '_blank');
 
             Toast('success', 'Diagrama exportado com sucesso!', "checkCircle");
 
@@ -70,11 +77,6 @@ function ExportDiagramModal({id, onExportDiagram, diagramSVG}) {
         switch(formatOptions[value-1]) {
             case "":
                 break;
-            case 'svg':
-                event = new CustomEvent('openDiagramSVG');
-                window.dispatchEvent(event);
-                break;
-            
             case "pdf":
                 event = new CustomEvent('openDiagramPDF');
 		        window.dispatchEvent(event);
