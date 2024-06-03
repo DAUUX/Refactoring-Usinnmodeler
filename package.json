@@ -4,27 +4,27 @@
   "homepage": "https://dauux.github.io/Refactoring-Usinnmodeler",
   "private": true,
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.4.2",
-    "@fortawesome/free-solid-svg-icons": "^6.4.2",
-    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@fortawesome/fontawesome-svg-core": "^6.5.2",
+    "@fortawesome/free-solid-svg-icons": "^6.5.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@splidejs/react-splide": "^0.7.12",
-    "@testing-library/jest-dom": "^5.16.2",
-    "@testing-library/react": "^12.1.3",
-    "@testing-library/user-event": "^13.5.0",
-    "axios": "^0.26.1",
-    "bootstrap": "^5.1.1",
-    "bootstrap-icons": "^1.9.1",
-    "formik": "^2.2.9",
-    "moment": "^2.29.4",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "@testing-library/jest-dom": "^6.4.5",
+    "@testing-library/react": "^15.0.7",
+    "@testing-library/user-event": "^14.5.2",
+    "axios": "^1.7.2",
+    "bootstrap": "^5.3.3",
+    "bootstrap-icons": "^1.11.3",
+    "formik": "^2.4.6",
+    "moment": "^2.30.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-input-mask": "^2.0.4",
     "react-router-dom": "^5.3.0",
-    "react-scripts": "5.0.0",
-    "sweetalert2": "^11.4.8",
-    "sweetalert2-react-content": "^4.2.0",
-    "web-vitals": "^2.1.4",
-    "yup": "^1.1.1"
+    "react-scripts": "5.0.1",
+    "sweetalert2": "^11.11.0",
+    "sweetalert2-react-content": "^5.0.7",
+    "web-vitals": "^4.0.1",
+    "yup": "^1.4.0"
   },
   "scripts": {
     "predeploy": "npm run build",
@@ -53,7 +53,13 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^4.0.0",
-    "sass": "^1.49.11"
+    "gh-pages": "^6.1.1",
+    "nth-check": "^2.1.1",
+    "postcss": "^8.4.38",
+    "sass": "^1.77.4"
+  },
+  "overrides":{
+    "nth-check": "$nth-check",
+    "postcss": "$postcss"
   }
 }
