@@ -253,7 +253,7 @@ function ShareDiagramModal(props) {
                         </div>}
                     </div>
                     <div className="modal-footer d-flex justify-content-between">
-                        <button title="Copiar link" disabled={loading} className="btn text-primary px-4 px-sm-5" type="button" onClick={copy}> {!copied? 'Copiar link' : 'Copiado'}  </button>
+                        <button title="Copiar link" disabled={loading} className="btn text-primary border-dark px-4" type="button" onClick={copy}> {!copied? 'Copiar link' : 'Copiado'}  </button>
                         <button title="Enviar" disabled={loading} className="btn bg-primary text-white px-4 px-sm-5" type="button" onClick={inviteLink}> Enviar </button>                       
                     </div>
                 </div>
