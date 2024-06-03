@@ -11,6 +11,7 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
         document.getElementById(id).addEventListener('show.bs.modal', event => {
             formik.resetForm()
         });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
     const formik = useFormik({
@@ -39,7 +40,7 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
             
             } catch (error) {
             
-                if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+                if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
                     Toast('error', "Falha na conexão ao servidor", "errorServer");
                 }
                 else{
@@ -71,7 +72,9 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
                                 className="form-control" 
                                 type="text" 
                                 name="name" 
-                                placeholder="Novo nome"/>
+                                placeholder="Novo nome"
+                                autoComplete="name"
+                                />
 
                             {formik.touched.name && formik.errors.name ? (<div className="invalid-feedback d-block"> {formik.errors.name}</div>) : null}
                         </div>

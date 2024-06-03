@@ -30,7 +30,7 @@ function PasswordConfirmation({ setConfirmPassModal, handleConfirmPasswordChange
               <button type="button" className="btn py-3 px-4 px-sm-5 btn-light  text-primary border-dark" onClick={() => setConfirmPassModal(false)}>
                Cancelar
               </button>
-              <button type="button" className="btn py-3 px-4 px-sm-5 btn-primary save-button " onClick={() => (handleConfirmPasswordChange(), setConfirmPassModal(false))}>
+              <button type="button" className="btn py-3 px-4 px-sm-5 btn-primary save-button " onClick={() => { handleConfirmPasswordChange(); setConfirmPassModal(false)}}>
                Confirmar
               </button>
             </div>

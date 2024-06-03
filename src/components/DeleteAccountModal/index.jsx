@@ -27,7 +27,7 @@ function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
                 onConfirmLoginRemoved();
                 closeModal(); // Fechar Modal
             } catch (error) {
-                if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+                if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
                     Toast('error', "Falha na conexão ao servidor", "errorServer");
                 }
                 else{
@@ -62,6 +62,7 @@ function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
             modalElement.removeEventListener('shown.bs.modal', handleShown);
             modalInstance.dispose();
         };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
 

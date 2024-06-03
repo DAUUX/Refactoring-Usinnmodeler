@@ -63,7 +63,7 @@ export default function Register() {
 				
 			} catch (error) {
 				
-				if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+				if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
 					Toast('error', "Falha na conexão ao servidor", "errorServer");
 				}
 				else{
@@ -98,6 +98,7 @@ export default function Register() {
 										type="text" 
 										name="name" 
 										placeholder="Nome completo*"
+										autoComplete="name"
 									/>
 									{formik.touched.name && formik.errors.name ? (<strong className="invalid-feedback d-block"> {formik.errors.name}</strong>) : null}
 								</div>
@@ -112,6 +113,7 @@ export default function Register() {
 										type="email" 
 										name="email" 
 										placeholder="E-mail*"
+										autoComplete="email"
 									/>
 									{formik.touched.email && formik.errors.email ? (<strong className="invalid-feedback d-block"> {formik.errors.email}</strong>) : null}
 								</div>
@@ -195,6 +197,7 @@ export default function Register() {
 												type="text" 
 												name="company"
 												placeholder="Organização"
+												autoComplete="organization"
 											/>
 											{formik.touched.company && formik.errors.company ? (<strong className="invalid-feedback d-block"> {formik.errors.company}</strong>) : null}
 										</div>

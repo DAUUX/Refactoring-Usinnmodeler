@@ -1,6 +1,6 @@
 import "./style.scss"
 import { useState,useEffect } from "react";
-import { Route, Switch, useRouteMatch, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Spinner from "../../components/Spinner";
 import UserProfile from "../../components/UserProfile";
 import { roleOptions, genderOptions, avatarOptions } from '../../Consts';
@@ -17,14 +17,9 @@ function UpdateProfile() {
         document.title = 'Editar Perfil - USINN Modeler';
     },[]);
 
-    let match = useRouteMatch();
-
-    const [menuOpen, setMenuOpen]             = useState(false);
     const [loadingOverlay, setLoadingOverlay] = useState(false);
 
     const [imgAvatar, setImgAvatar] = useState(0);
-
-    const username = JSON.parse(localStorage.getItem("user"))['name']
 
     const formik = useFormik({
 
@@ -57,7 +52,7 @@ function UpdateProfile() {
 		onSubmit: async values => {
 			try {	
 
-				const response = await api.put('user', {...values, birthday: moment(values.birthday, 'DD/MM/YYYY', true).format('YYYY-MM-DD'),avatar: imgAvatar+1});
+				await api.put('user', {...values, birthday: moment(values.birthday, 'DD/MM/YYYY', true).format('YYYY-MM-DD'),avatar: imgAvatar+1});
 			
 
 				Toast('success', 'Os dados foram atualizados com sucesso!', "user");
@@ -65,7 +60,7 @@ function UpdateProfile() {
 				
 			} catch (error) {
 				
-				if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+				if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
                     Toast('error', "Falha na conexão ao servidor", "errorServer");
                 }
                 else{
@@ -82,7 +77,7 @@ function UpdateProfile() {
         setLoadingOverlay(true);
         try{
             const res = await api.get(`user`);
-            const { name, email, password, birthday, gender, company, role, avatar } = res.data;
+            const { name, email, birthday, gender, company, role, avatar } = res.data;
             formik.setFieldValue('name',name);
             formik.setFieldValue('email',email);
             formik.setFieldValue('birthday', moment(birthday, 'YYYY-MM-DD').format('DD/MM/YYYY'));
@@ -91,7 +86,7 @@ function UpdateProfile() {
             formik.setFieldValue('role',role);
             setImgAvatar(avatar-1);
         } catch(error){
-            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
                 Toast('error', "Falha na conexão ao servidor", "errorServer");
             }
             else{
@@ -103,6 +98,7 @@ function UpdateProfile() {
 
     useEffect(()=>{
         getUser();
+     // eslint-disable-next-line react-hooks/exhaustive-deps
      },[]) 
 
     
@@ -141,6 +137,7 @@ function UpdateProfile() {
                                     type="text" 
                                     name="name" 
                                     placeholder="Nome completo*"
+                                    autoComplete="name"
                                 />
                                 {formik.touched.name && formik.errors.name ? (<div className="invalid-feedback d-block"> {formik.errors.name}</div>) : null}
                             </div>
@@ -155,6 +152,7 @@ function UpdateProfile() {
                                     type="email" 
                                     name="email" 
                                     placeholder="E-mail*"
+                                    autoComplete="email"
                                 />
                                 {formik.touched.email && formik.errors.email ? (<div className="invalid-feedback d-block"> {formik.errors.email}</div>) : null}
                             </div>
@@ -169,7 +167,7 @@ function UpdateProfile() {
                                     type="text" 
                                     name="birthday" 
                                     mask='99/99/9999'
-                                    placeholder="Data de nascimento*" 
+                                    placeholder="Data de nascimento*"
                                 />
                                 {formik.touched.birthday && formik.errors.birthday ? (<div className="invalid-feedback d-block"> {formik.errors.birthday}</div>) : null}
                             </div>
@@ -179,7 +177,7 @@ function UpdateProfile() {
                                     disabled={formik.isSubmitting}
                                     onChange={(e) => {formik.handleChange(e); formik.setFieldTouched(e.target.name, true, false)}}
                                     value={formik.values.gender}
-                                    className={`form-select ${formik.touched.gender && formik.errors.gender ? 'is-invalid' : '' }${formik.values.gender == '' ? ' is-empty': ''}`} 
+                                    className={`form-select ${formik.touched.gender && formik.errors.gender ? 'is-invalid' : '' }${formik.values.gender === '' ? ' is-empty': ''}`} 
                                     name="gender" 
                                     placeholder="Gênero*"
                                 >
@@ -200,7 +198,7 @@ function UpdateProfile() {
                                             disabled={formik.isSubmitting}
                                             onChange={(e) => {formik.handleChange(e); formik.setFieldTouched(e.target.name, true, false)}}
                                             value={formik.values.role}
-                                            className={`form-select ${formik.touched.role && formik.errors.role ? 'is-invalid' : ''}${formik.values.role == '' ? ' is-empty': ''}`}
+                                            className={`form-select ${formik.touched.role && formik.errors.role ? 'is-invalid' : ''}${formik.values.role === '' ? ' is-empty': ''}`}
                                             name="role"
                                             placeholder="Perfil"
                                         >
@@ -222,6 +220,7 @@ function UpdateProfile() {
                                             type="text" 
                                             name="company"
                                             placeholder="Organização"
+                                            autoComplete="organization"
                                         />
                                         {formik.touched.company && formik.errors.company ? (<div className="invalid-feedback d-block"> {formik.errors.company}</div>) : null}
                                     </div>
@@ -248,10 +247,10 @@ function UpdateProfile() {
                     <div className="order-1 order-md-2 col-12 col-md-6 col-lg-8 px-0 px-sm-5 d-flex justify-content-center pb-4">
                     
                         <div className="d-flex flex-column align-items-center">
-                            <img className="mb-4 img-fluid"src={avatarOptions[imgAvatar]}></img>
+                            <img className="mb-4 img-fluid"src={avatarOptions[imgAvatar]} alt=""></img>
                             <div className="d-flex justify-content-between mx-lg-5">
                                 {avatarOptions.map((item, index) => 
-                                    <button onClick={(e)=> {setImgAvatar(index)}} className="btn rounded-circle p-0 mx-1 mx-lg-3" ><img className="img-fluid" src={item} key={index}/></button>
+                                    <button onClick={(e)=> {setImgAvatar(index)}} className="btn rounded-circle p-0 mx-1 mx-lg-3" ><img className="img-fluid" src={item} key={index} alt=""/></button>
                                 )}
                             </div>
                         </div>

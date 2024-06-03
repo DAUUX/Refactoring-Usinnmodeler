@@ -19,7 +19,7 @@ function ConfirmRemoveLoginModal({id}) {
         
         } catch (error) {
         
-            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
                 Toast('error', "Falha na conexão ao servidor", "errorServer");
             }
             else{

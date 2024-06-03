@@ -34,7 +34,7 @@ function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram,
                         </li>
 
                         {
-                            userId == JSON.parse(localStorage.getItem('user')).id && (
+                            userId === JSON.parse(localStorage.getItem('user')).id && (
                                 <li>
                                     <button className="dropdown-item" onClick={(e)=> {e.stopPropagation(); e.preventDefault(); onShareDiagram(id)}}> <i className="bi bi-share-fill"></i> Compartilhar</button>
                                 </li>

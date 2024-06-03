@@ -45,7 +45,7 @@ export default function Login() {
 	
 			} catch (error) {
 	
-				if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+				if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
 					Toast('error', "Falha na conexão ao servidor", "errorServer");
 				}
 				else{
@@ -78,6 +78,7 @@ export default function Login() {
 							type="email"
 							name="email"
 							placeholder="E-mail*"
+							autoComplete="email"
 						/>
 						{formik.touched.email && formik.errors.email ? (<strong className="invalid-feedback m-0 p-0 pt-1"> {formik.errors.email}</strong>) : null}
 					</div>

@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { Redirect, Route, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { slugify } from "../../Helpers";
 import api from "../../services/api";
@@ -20,7 +19,7 @@ const ShareRoute = (props) => {
         
         } catch (error) {
         
-            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
                 Toast('error', "Falha na conexão ao servidor", "errorServer");
             }
             else{
@@ -35,6 +34,7 @@ const ShareRoute = (props) => {
 
     useEffect(()=>{
         getSharedDiagram();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
     return null;

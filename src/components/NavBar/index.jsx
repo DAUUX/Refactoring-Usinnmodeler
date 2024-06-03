@@ -1,10 +1,8 @@
-import { Link, useLocation, useHistory } from "react-router-dom"; 
+import { Link, useLocation } from "react-router-dom"; 
 import "./style.scss";
 import logoUsinn from "../../assets/icons/usinn-logo-min.png";
 
 function NavBar() {
-  const history = useHistory();
-
   const { pathname } = useLocation();
 	//Pega a primeira parte da url, para identificar o módulo atual
 	const path = pathname.split('/')[1];

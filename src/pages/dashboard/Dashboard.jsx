@@ -1,6 +1,6 @@
 import "./style.scss"
 import { useState } from "react";
-import { Route, Switch, useRouteMatch, Link } from "react-router-dom";
+import { Route, Switch, useRouteMatch } from "react-router-dom";
 import DashboardMenu from "../../components/DashboardMenu";
 import Documents from "./documents/Documents";
 import Spinner from "../../components/Spinner";
@@ -12,8 +12,6 @@ function Dashboard() {
 
     const [menuOpen, setMenuOpen]             = useState(false);
     const [loadingOverlay, setLoadingOverlay] = useState(false);
-
-    const username = JSON.parse(localStorage.getItem("user"))['name']
 
     return (
         <main id="dashboard" className={`flex-fill d-flex ${menuOpen ? 'menu-open' : ''}`}>

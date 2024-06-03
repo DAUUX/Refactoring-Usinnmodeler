@@ -4,12 +4,13 @@ import { Toast } from "../Toast";
 
 function ExportDiagramModal({id, onExportDiagram}) {
     const formatOptions = ["png", "jpeg", "webp","svg", "pdf"];
-    const [format, setFormat]   = useState();
+    const [format, setFormat]   = useState("");
 
     useEffect(()=>{
         document.getElementById(id).addEventListener('show.bs.modal', event => {
             setFormat('');
         });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
     async function getDiagramImg(format, svg) {
         onExportDiagram(true);
@@ -51,7 +52,7 @@ function ExportDiagramModal({id, onExportDiagram}) {
         
         } catch (error) {
         
-            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
                 Toast('error', "Falha na conexão ao servidor", "errorServer");
             }
             else{
@@ -111,7 +112,7 @@ function ExportDiagramModal({id, onExportDiagram}) {
                                     exportDiagram(e)
                                 }}
 							>
-								<option selected value="" disabled hidden> Formato </option>
+								<option value="" disabled hidden> Formato </option>
 								{ formatOptions.map((item, index) => 
 									<option value={index+1} key={index} > {item.toLocaleUpperCase()} </option>
 								)}

@@ -30,7 +30,7 @@ function UserProfile(props) {
 
 
         } catch (error) {
-            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
                 Toast('error', "Falha na conexão ao servidor", "errorServer");
             }
             else{
@@ -65,7 +65,7 @@ function UserProfile(props) {
     return (
             <div className="dropdown d-flex">
 
-                <div id="profileImg" className="text-uppercase"> <img className="mb-4 img-fluid"src={avatarOptions[user.avatar-1]}></img> </div>
+                <div id="profileImg" className="text-uppercase"> <img className="mb-4 img-fluid"src={avatarOptions[user.avatar-1]} alt=""></img> </div>
                 
                 {props.textColor === "white" ? 
                     <button className="btn px-2 pe-0 dropdown-toggle text-white" id="dropdownMenuButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">  
