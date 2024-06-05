@@ -4,6 +4,13 @@ input::placeholder, select option{
   color: $gray-900;
 }
 
+
+@media (max-width: 991px) {
+  #gray-area .position-absolute {
+      position: unset !important;
+  }
+}
+
 @media (min-width: 992px) {
   #gray-area {
     position: relative;
