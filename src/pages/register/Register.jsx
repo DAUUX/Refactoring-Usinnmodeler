@@ -46,13 +46,8 @@ export default function Register() {
 				.max(new Date(), 'Data de nascimento inválida')
 				.required('Data de nascimento é obrigatória'),
 			gender: Yup.number().integer('Valor é inválido').min(1, 'Valor é inválido').max(3, 'Valor é inválido').required('Gênero é obrigatório'),
-<<<<<<< HEAD
 			role: Yup.number().integer('Valor é inválido').required('O perfil é obrigatório'),
 			company: Yup.string().max(100, 'A organização deve ter no máximo 100 caracteres').required('A organização é obrigatória'),
-=======
-			role: Yup.number().integer('Valor é inválido').required('Perfil é obrigatório'),
-			company: Yup.string().max(100, 'A organização deve ter no máximo 100 caracteres').required('Organização é obrigatória'),
->>>>>>> 2e13cb9b37ebc87cc7c2e40a426438c15ac9bfd5
 			accept: Yup.boolean().oneOf([true], 'É necessário aceitar os termos')
 		}),
    
@@ -187,10 +182,7 @@ export default function Register() {
 													<option value={index+1} key={index} > {item} </option>
 												)}
 											</select>
-<<<<<<< HEAD
-=======
 											{formik.touched.role && formik.errors.role ? (<strong className="invalid-feedback position-absolute"> {formik.errors.role}</strong>) : null}
->>>>>>> 2e13cb9b37ebc87cc7c2e40a426438c15ac9bfd5
 										</div>
 
 										<div className="col-12 col-lg-6 mb-3">
@@ -204,22 +196,10 @@ export default function Register() {
 												name="company"
 												placeholder="Organização*"
 											/>
-<<<<<<< HEAD
-										</div>
-									</div>
-									{formik.touched.role && formik.errors.role || formik.touched.company && formik.errors.company ? 
-									(<div className="invalid-feedback d-flex justify-content-around ">
-										<span>{formik.errors.role}</span> 
-										<span className="">{formik.errors.company}</span>
-									</div>) : 
-									null}
-									</div>
-=======
 											{formik.touched.company && formik.errors.company ? (<strong className="invalid-feedback position-absolute"> {formik.errors.company}</strong>) : null}
 										</div>
 									</div>
 								</div>
->>>>>>> 2e13cb9b37ebc87cc7c2e40a426438c15ac9bfd5
 
 								<div className="col-12 d-flex justify-content-center py-3">
 									<div className="form-check">
