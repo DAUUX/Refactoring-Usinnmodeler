@@ -4,7 +4,7 @@ import { Toast } from "../Toast";
 
 
 function ExportDiagramModal({id, onExportDiagram, diagramSVG}) {
-    const formatOptions = ["png", "jpeg", "webp","svg", "pdf"];
+    const formatOptions = ["png", "jpeg", "webp", "pdf", "svg"];
     const [format, setFormat]   = useState();
 
     useEffect(()=>{
@@ -18,7 +18,7 @@ function ExportDiagramModal({id, onExportDiagram, diagramSVG}) {
         try {
 
             const data = {format, svg};        
-            if (data.format == 4){
+            if (data.format == 5){
                 const blob = new Blob([svg], {type: "image/svg+xml"});
                 const blobUrl = URL.createObjectURL(blob);
 
@@ -28,9 +28,17 @@ function ExportDiagramModal({id, onExportDiagram, diagramSVG}) {
                 let imgBuffer = response.data.img;
                 let imgFormat = response.data.format;
 
-                const base64ImageData = 'data:image/' + imgFormat + ';base64,' + imgBuffer;
-                const contentType = 'image/' + imgFormat;
+                let base64ImageData;
+                let contentType;
 
+                if (imgFormat === 'pdf') {
+                    base64ImageData = 'data:application/pdf;base64,' + imgBuffer;
+                    contentType = 'application/pdf';
+                } else {
+                    base64ImageData = 'data:image/' + imgFormat + ';base64,' + imgBuffer;
+                    contentType = 'image/' + imgFormat;
+                }
+                
                 const byteCharacters = atob(base64ImageData.substr(`data:${contentType};base64,`.length));
                 const byteArrays = [];
 
@@ -77,10 +85,6 @@ function ExportDiagramModal({id, onExportDiagram, diagramSVG}) {
         
         switch(formatOptions[value-1]) {
             case "":
-                break;
-            case "pdf":
-                event = new CustomEvent('openDiagramPDF');
-		        window.dispatchEvent(event);
                 break;
             default:
                 const getSVG = (event) => {
