@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import api from "../../services/api";
 import { Toast } from "../Toast";
 
-function ExportDiagramModal({id, onExportDiagram}) {
+
+function ExportDiagramModal({id, onExportDiagram, diagramSVG}) {
     const formatOptions = ["png", "jpeg", "webp","svg", "pdf"];
     const [format, setFormat]   = useState();
 
@@ -81,10 +82,7 @@ function ExportDiagramModal({id, onExportDiagram}) {
                 break;
             default:
                 const getSVG = (event) => {
-                    console.log("event");
-                    console.log(event);
-                    console.log("event-detail-svg     " + event.detail.svg);
-                    getDiagramImg(value, event.detail.svg);        
+                    getDiagramImg(value, diagramSVG == "" ? event.detail.svg : diagramSVG);        
                 }
                 window.addEventListener('sendDiagramSVG', getSVG , { once: true });
                 event = new CustomEvent('generateDiagramSVG');
