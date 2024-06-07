@@ -46,8 +46,8 @@ export default function Register() {
 				.max(new Date(), 'Data de nascimento inválida')
 				.required('Data de nascimento é obrigatória'),
 			gender: Yup.number().integer('Valor é inválido').min(1, 'Valor é inválido').max(3, 'Valor é inválido').required('Gênero é obrigatório'),
-			role: Yup.number().integer('Valor é inválido'),
-			company: Yup.string().max(100, 'A organização deve ter no máximo 100 caracteres'),
+			role: Yup.number().integer('Valor é inválido').required('O perfil é obrigatório'),
+			company: Yup.string().max(100, 'A organização deve ter no máximo 100 caracteres').required('A organização é obrigatória'),
 			accept: Yup.boolean().oneOf([true], 'É necessário aceitar os termos')
 		}),
    
@@ -177,12 +177,12 @@ export default function Register() {
 												placeholder="Perfil"
 												title="seu perfil"
 											>
-												<option value="" disabled hidden> Perfil </option>
+												<option value="" disabled hidden> Perfil* </option>
 												{ roleOptions.map((item, index) => 
 													<option value={index+1} key={index} > {item} </option>
 												)}
 											</select>
-											{formik.touched.role && formik.errors.role ? (<strong className="invalid-feedback d-block"> {formik.errors.role}</strong>) : null}
+											{formik.touched.role && formik.errors.role ? (<strong className="invalid-feedback position-absolute"> {formik.errors.role}</strong>) : null}
 										</div>
 
 										<div className="col-12 col-lg-6 mb-3">
@@ -194,9 +194,9 @@ export default function Register() {
 												className={`form-control ${formik.touched.company && formik.errors.company ? 'is-invalid' : '' }`}
 												type="text" 
 												name="company"
-												placeholder="Organização"
+												placeholder="Organização*"
 											/>
-											{formik.touched.company && formik.errors.company ? (<strong className="invalid-feedback d-block"> {formik.errors.company}</strong>) : null}
+											{formik.touched.company && formik.errors.company ? (<strong className="invalid-feedback position-absolute"> {formik.errors.company}</strong>) : null}
 										</div>
 									</div>
 								</div>
