@@ -7,7 +7,6 @@ import { roleOptions, genderOptions, avatarOptions } from '../../Consts';
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import api from "../../services/api";
-import InputMask from 'react-input-mask';
 import { Toast } from '../../components/Toast';
 import moment from "moment";
 
@@ -102,7 +101,17 @@ function UpdateProfile() {
      },[]) 
 
     
+     const maskBirth = (e) => {
+        const input = e.target.value;
+        const formatted = input
+            .replace(/\D/g, '') // Remove caracteres não numéricos
+            .replace(/^(\d{2})(\d)/, '$1/$2') // Adiciona a barra após os 2 primeiros dígitos
+            .replace(/^(\d{2})\/(\d{2})(\d)/, '$1/$2/$3') // Adiciona a barra após os próximos 2 dígitos
+            .replace(/(\d{2})\/(\d{2})\/(\d{4}).*/, '$1/$2/$3'); // Limita o campo a 10 caracteres (DD/MM/AAAA)
 
+        // Atualiza o valor no formulário
+        formik.setFieldValue('birthday', formatted);
+    };
 
     return (
         <main id="update" className={`flex-fill h-100 pb-5`}>
@@ -121,7 +130,7 @@ function UpdateProfile() {
             
                 <div id="content" className="row justify-content-between position-relative mt-5 mx-3">
 					
-					<div className="order-2 order-md-1 col-12 col-md-6 col-lg-4">
+					<div className="order-2 order-lg-1 col-12 col-md-6 col-lg-4 m-auto">
 
 						<form className="row px-0 px-sm-3" noValidate="" onSubmit={formik.handleSubmit}>
         
@@ -158,15 +167,14 @@ function UpdateProfile() {
                             </div>
 
                             <div className="col-12 col-lg-6 mb-3">
-                                <InputMask 
+                                <input 
                                     disabled={formik.isSubmitting}
-                                    onChange={formik.handleChange}
+                                    onChange={(e) => {formik.handleChange(e); maskBirth(e)}}
                                     onInput={(e) => formik.setFieldTouched(e.target.name, true, false)}
                                     value={formik.values.birthday}
                                     className={`form-control ${formik.touched.birthday && formik.errors.birthday ? 'is-invalid' : '' }`}
                                     type="text" 
                                     name="birthday" 
-                                    mask='99/99/9999'
                                     placeholder="Data de nascimento*"
                                 />
                                 {formik.touched.birthday && formik.errors.birthday ? (<div className="invalid-feedback d-block"> {formik.errors.birthday}</div>) : null}
@@ -227,7 +235,7 @@ function UpdateProfile() {
                                 </div>
                             </div>
 
-                            <div className="d-flex justify-content-between px-0">
+                            <div className="d-flex justify-content-center px-0 gap-4">
                                 
                                 <div className="text-center mt-2">
                                     <Link className="text-decoration-none btn text-primary fw-bold px-4 px-sm-5 border-dark" to="/dashboard" >Cancelar</Link>
@@ -244,13 +252,13 @@ function UpdateProfile() {
 						</form>
 					</div>
                     
-                    <div className="order-1 order-md-2 col-12 col-md-6 col-lg-8 px-0 px-sm-5 d-flex justify-content-center pb-4">
+                    <div className="order-1 order-lg-2 col-12 col-lg-6 px-0 d-flex justify-content-center pb-5 pb-lg-0" id="avatares">
                     
                         <div className="d-flex flex-column align-items-center">
                             <img className="mb-4 img-fluid"src={avatarOptions[imgAvatar]} alt=""></img>
-                            <div className="d-flex justify-content-between mx-lg-5">
+                            <div className="d-flex justify-content-between ">
                                 {avatarOptions.map((item, index) => 
-                                    <button onClick={(e)=> {setImgAvatar(index)}} className="btn rounded-circle p-0 mx-1 mx-lg-3" ><img className="img-fluid" src={item} key={index} alt=""/></button>
+                                    <button key={index} onClick={(e)=> {setImgAvatar(index)}} className="btn rounded-circle p-0 mx-1 mx-lg-3" ><img className="img-fluid" src={item} alt=""/></button>
                                 )}
                             </div>
                         </div>

@@ -1,5 +1,5 @@
 import usinnModeler from "../../assets/icons/usinn-logo-horiz.png";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Toast } from "../../components/Toast";
 import api from "../../services/api";
 import Spinner from "../../components/Spinner";
@@ -13,7 +13,7 @@ export default function Login() {
     document.title = 'Login - USINN Modeler';
   },[]);
 
-	const history = useHistory();
+	const navigate = useNavigate();
 
 	const formik = useFormik({
 
@@ -41,7 +41,7 @@ export default function Login() {
 	
 				Toast('success', 'Login realizado com sucesso!', "checkCircle");
 
-				history.push('/dashboard');
+				navigate('/dashboard');
 	
 			} catch (error) {
 	

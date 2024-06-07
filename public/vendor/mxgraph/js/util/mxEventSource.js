@@ -155,35 +155,31 @@ mxEventSource.prototype.removeListener = function(funct)
  * sender - Optional sender to be passed to the listener. Default value is
  * the return value of <getEventSource>.
  */
-mxEventSource.prototype.fireEvent = function(evt, sender)
-{
-	if (this.eventListeners != null && this.isEventsEnabled())
-	{
-		if (evt == null)
-		{
-			evt = new mxEventObject();
-		}
-		
-		if (sender == null)
-		{
-			sender = this.getEventSource();
-		}
-
-		if (sender == null)
-		{
-			sender = this;
-		}
-
-		var args = [sender, evt];
-		
-		for (var i = 0; i < this.eventListeners.length; i += 2)
-		{
-			var listen = this.eventListeners[i];
-			
-			if (listen == null || listen == evt.getName())
-			{
-				this.eventListeners[i+1].apply(this, args);
+mxEventSource.prototype.fireEvent = function(evt, sender) {
+	if (this.eventListeners != null && this.isEventsEnabled()) {
+			if (evt == null) {
+					evt = new mxEventObject();
 			}
-		}
+
+			if (sender == null) {
+					sender = this.getEventSource();
+			}
+
+			if (sender == null) {
+					sender = this;
+			}
+
+			var args = [sender, evt];
+
+			for (var i = 0; i < this.eventListeners.length; i += 2) {
+					var listen = this.eventListeners[i];
+
+					if (listen == null || listen == evt.getName()) {
+							var listener = this.eventListeners[i + 1];
+							if (listener != null) {
+									listener.apply(this, args);
+							}
+					}
+			}
 	}
 };

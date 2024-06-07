@@ -1,6 +1,6 @@
 import "./style.scss";
 import { useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import api from "../../services/api";
 import { Toast } from "../../components/Toast";
 import ShareDiagramModal from "../../components/ShareDiagramModal";
@@ -25,11 +25,12 @@ function Modeler(props) {
     const [shareModalId]              = useState('ShareDiagramModal');
     const [oculteManipulationIcons, setOculteManipulationIcons] = useState(false);
 
-    const history = useHistory();
+    const { id } = useParams();
+    const navigate = useNavigate();
 
     async function validPermissionForEdit() {        
         let user_id = JSON.parse(localStorage.getItem('user')).id;
-        const diagram = await api.get(`/collaboration/${props.match.params.id}/${user_id}`);
+        const diagram = await api.get(`/collaboration/${id}/${user_id}`);
         const collaboratorPermission = diagram.data.permission;
         collaboratorPermission === 1 ? setOculteManipulationIcons(true) : setOculteManipulationIcons(false);
     }
@@ -41,16 +42,16 @@ function Modeler(props) {
             setCreated(true);
         }
 
-        if (!props.match.params.id)
+        if (!id)
             return;
 
         try {
-            const res = await api.get(`diagrams/${props.match.params.id}`);
+            const res = await api.get(`diagrams/${id}`);
             
             const {diagram_data, name, user_id} = res.data;
             setName(name);            
 
-            window.history.replaceState(null, name, `/modeler/${props.match.params.id}/${slugify(name)}`);  
+            window.history.replaceState(null, name, `/modeler/${id}/${slugify(name)}`);  
 
             setOwner(user_id === JSON.parse(localStorage.getItem('user')).id ? true : false);
             
@@ -67,7 +68,7 @@ function Modeler(props) {
             else{
                 Toast('error', error, "errorCircle");
             }
-            history.push('/modeler');
+            navigate('/modeler');
             
         }
     }
@@ -80,9 +81,9 @@ function Modeler(props) {
             
             const data = {name, diagram_data: diagram, diagram_svg: diagramSVG};
             
-            const response = await api.put(`diagrams/${props.match.params.id}`, data);
+            const response = await api.put(`diagrams/${id}`, data);
 
-            window.history.replaceState(null, name, `/modeler/${props.match.params.id}/${slugify(response.data.name)}`);
+            window.history.replaceState(null, name, `/modeler/${id}/${slugify(response.data.name)}`);
 
             Toast('success', 'Diagrama salvo com sucesso!', "checkCircle");
         
@@ -109,9 +110,9 @@ function Modeler(props) {
             
             const data = {name};
             
-            const response = await api.put(`diagrams/rename/${props.match.params.id}`, data);
+            const response = await api.put(`diagrams/rename/${id}`, data);
 
-            window.history.replaceState(null, name, `/modeler/${props.match.params.id}/${slugify(response.data.name)}`);
+            window.history.replaceState(null, name, `/modeler/${id}/${slugify(response.data.name)}`);
 
             Toast('success', 'Diagrama salvo com sucesso!', "checkCircle");
 
@@ -144,7 +145,7 @@ function Modeler(props) {
         };
         
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[props.match.params.id])
+    },[id])
     
     useEffect(()=>{
         if (diagram && diagramSVG) {
@@ -169,7 +170,7 @@ function Modeler(props) {
                     <div className="collapse navbar-collapse justify-content-end" id="modelerNavbarToggle">
                         <div className="d-flex align-items-center py-3 py-lg-0">
                             <span>
-                                {props.match.params.id && owner &&
+                                {id && owner &&
                                     <button data-bs-toggle="modal" data-bs-target={`#${shareModalId}`} className="btn btn-light btn-sm order-last text-primary me-4" title="Compartilhar">
                                         Compartilhar <i className="bi bi-share-fill fs-7"></i>
                                     </button>
@@ -213,7 +214,7 @@ function Modeler(props) {
                 </div>
             </section>
 
-            <ShareDiagramModal id={shareModalId} diagram_id={props.match.params.id} />
+            <ShareDiagramModal id={shareModalId} diagram_id={id} />
 
             
             <ExportDiagramModal id={"exportModalId"} onExportDiagram={(value)=>{setLoadingOverlay(value)}}/>

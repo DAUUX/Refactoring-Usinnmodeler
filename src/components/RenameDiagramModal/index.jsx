@@ -1,9 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Toast } from "../Toast";
 import api from "../../services/api";
 import Spinner from "../Spinner";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
+import { Modal } from "bootstrap";
 
 function Rename({id, diagram_id, onDiagramRenamed}) {
 
@@ -13,6 +14,8 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
         });
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
+
+    const modalRef = useRef(null);
 
     const formik = useFormik({
 
@@ -37,6 +40,11 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
                 document.getElementById(id).click();
 
                 onDiagramRenamed()
+                
+                if (modalRef.current) {
+                    const modalInstance = Modal.getInstance(modalRef.current);
+                    modalInstance.hide();
+                }
             
             } catch (error) {
             
@@ -54,7 +62,7 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
 	});
 	
     return (
-        <div className="modal" id={id} tabIndex="-1" aria-labelledby="RenameDiagramModalLabel" aria-hidden="true">
+        <div className="modal" id={id} tabIndex="-1" aria-labelledby="RenameDiagramModalLabel" ref={modalRef} aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header">

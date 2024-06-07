@@ -8,7 +8,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@splidejs/react-splide": "^0.7.12",
-    "@testing-library/jest-dom": "^6.4.5",
+    "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/react": "^16.0.0",
     "@testing-library/user-event": "^14.5.2",
     "axios": "^1.7.2",
@@ -23,7 +23,7 @@
     "react-scripts": "5.0.1",
     "sweetalert2": "^11.4.8",
     "sweetalert2-react-content": "^5.0.7",
-    "web-vitals": "^4.0.1",
+    "web-vitals": "^4.1.1",
     "yup": "^1.4.0"
   },
   "scripts": {
@@ -56,7 +56,7 @@
     "gh-pages": "^6.1.1",
     "nth-check": "^2.1.1",
     "postcss": "^8.4.38",
-    "sass": "^1.77.4"
+    "sass": "^1.77.5"
   },
   "overrides": {
     "nth-check": "$nth-check",

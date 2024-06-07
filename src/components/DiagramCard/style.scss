@@ -2,7 +2,7 @@
 
 #diagram-card {
     transition: all 300ms;
-    border-color: $primary;
+    border: 1px $primary solid;
 
     .card-header{
         background-color: $primary;
@@ -31,6 +31,8 @@
         
         overflow: hidden;
         position: relative;
+
+        background-color: #ffffff;
 
         img {
             height: 100%;

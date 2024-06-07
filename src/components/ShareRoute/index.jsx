@@ -1,11 +1,12 @@
 import { useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { slugify } from "../../Helpers";
 import api from "../../services/api";
 import { Toast } from "../Toast";
 
 const ShareRoute = (props) => {
-    const history = useHistory();
+    const navigate = useNavigate();
+    const { token } = useParams();
 
     async function getSharedDiagram() {
 
@@ -13,7 +14,7 @@ const ShareRoute = (props) => {
 
         try {
         
-            const res = await api.post(`collaboration/${props.computedMatch.params.token}`);
+            const res = await api.post(`collaboration/${token}`);
 
             diagram = res.data.diagram ? res.data.diagram : res.data;
         
@@ -28,7 +29,7 @@ const ShareRoute = (props) => {
         
         }
 
-        history.push(`/modeler${diagram.id ? '/'+diagram.id+'/'+slugify(diagram.name) : ''}`);
+        navigate(`/modeler${diagram.id ? '/'+diagram.id+'/'+slugify(diagram.name) : ''}`);
 
     }
 

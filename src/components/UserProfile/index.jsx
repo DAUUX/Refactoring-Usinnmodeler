@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useHistory, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import api from "../../services/api";
 import { Toast } from "../Toast";
 import './style.scss';
@@ -11,7 +11,7 @@ import RemoveLoginModal from "../DeleteAccountModal";
 function UserProfile(props) {
 
     const [user, setUser] = useState({name: ''});
-    const history   = useHistory();
+    const navigate   = useNavigate();
 
     async function getUserData() {
 
@@ -55,7 +55,7 @@ function UserProfile(props) {
     function logout() {
         localStorage.removeItem('user');
         localStorage.removeItem('token');
-        history.push(`/`);
+        navigate(`/`);
     }
 
     useEffect(()=>{

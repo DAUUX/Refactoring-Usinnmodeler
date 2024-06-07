@@ -20,13 +20,23 @@ export default function Home() {
   const [hambOpen, setHmabOpen] = useState(false)
 
   useEffect(() => {
-    document.title = 'Home - USINN Modeler';
-  
     const intervalId = setInterval(() => {
       setTitle(prevTitle => prevTitle === 'EXPERIÊNCIA COMPLETA' ? 'MODELAGEM 3 EM 1' : 'EXPERIÊNCIA COMPLETA');
     }, 3000);
   
     return () => clearInterval(intervalId);
+  }, []);
+
+  useEffect(() => {
+    document.title = 'Home - USINN Modeler';
+    const hash = window.location.hash;
+    
+    if (hash) {
+      const element = document.getElementById(hash.replace('#', ''));
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
   }, []);
 
   return (

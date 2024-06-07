@@ -1,6 +1,6 @@
 import "./style.scss"
 import { useState,useEffect } from "react";
-import { useHistory, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Spinner from "../../components/Spinner";
 import UserProfile from "../../components/UserProfile";
 import { useFormik } from "formik";
@@ -18,7 +18,7 @@ function ChangePassword() {
         document.title = 'Atualizar Senha - USINN Modeler';
     },[]);
 
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const [loadingOverlay, setLoadingOverlay] = useState(false);
     const [confirmSaveModal, setConfirmPassModal] = useState(false);
@@ -49,7 +49,7 @@ function ChangePassword() {
         // Saí do WebApp
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-        history.push('/login');
+        navigate('/login');
     }
 
     const handleConfirmPasswordChange = async () => { //faz o envio ao backEnd
@@ -128,7 +128,7 @@ function ChangePassword() {
                             </div>
 
 
-                            <div className="d-flex justify-content-between">
+                            <div className="d-flex justify-content-center gap-5">
                                 
                                 <div className="text-center mt-2">
                                     <Link className="text-decoration-none btn text-primary fw-bold px-4 px-sm-5 border-dark" to="/dashboard" >Cancelar</Link>

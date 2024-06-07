@@ -1,9 +1,8 @@
 import usinnModeler from "../../assets/icons/usinn-logo-horiz.png";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Spinner from "../../components/Spinner";
 import { Toast } from '../../components/Toast';
 import api from "../../services/api";
-import InputMask from 'react-input-mask';
 import moment from "moment";
 import "./style.scss";
 import { roleOptions, genderOptions } from '../../Consts';
@@ -17,7 +16,7 @@ export default function Register() {
     document.title = 'Cadastrar - USINN Modeler';
   },[]);
 	
-	const history = useHistory();
+	const navigate = useNavigate();
 
 	const formik = useFormik({
 
@@ -46,8 +45,8 @@ export default function Register() {
 				.max(new Date(), 'Data de nascimento inválida')
 				.required('Data de nascimento é obrigatória'),
 			gender: Yup.number().integer('Valor é inválido').min(1, 'Valor é inválido').max(3, 'Valor é inválido').required('Gênero é obrigatório'),
-			role: Yup.number().integer('Valor é inválido'),
-			company: Yup.string().max(100, 'A organização deve ter no máximo 100 caracteres'),
+			role: Yup.number().integer('Valor é inválido').required('O perfil é obrigatório'),
+			company: Yup.string().max(100, 'A organização deve ter no máximo 100 caracteres').required('A organização é obrigatória'),
 			accept: Yup.boolean().oneOf([true], 'É necessário aceitar os termos')
 		}),
    
@@ -59,7 +58,7 @@ export default function Register() {
 				
 				Toast('success', 'Cadastro realizado com sucesso!', "checkCircle");
 				
-				history.push('/login');
+				navigate('/login');
 				
 			} catch (error) {
 				
@@ -73,6 +72,18 @@ export default function Register() {
 			}
 		},
 	});
+
+	const maskBirth = (e) => {
+		const input = e.target.value;
+		const formatted = input
+				.replace(/\D/g, '') // Remove caracteres não numéricos
+				.replace(/^(\d{2})(\d)/, '$1/$2') // Adiciona a barra após os 2 primeiros dígitos
+				.replace(/^(\d{2})\/(\d{2})(\d)/, '$1/$2/$3') // Adiciona a barra após os próximos 2 dígitos
+				.replace(/(\d{2})\/(\d{2})\/(\d{4}).*/, '$1/$2/$3'); // Limita o campo a 10 caracteres (DD/MM/AAAA)
+
+		// Atualiza o valor no formulário
+		formik.setFieldValue('birthday', formatted);
+};
 	
 	return (
 		<main id="register-page" className="flex-fill d-flex align-items-center" aria-label="formulário de cadastro">    
@@ -133,15 +144,14 @@ export default function Register() {
 								</div>
 
 								<div className="col-12 col-lg-6 mb-3">
-									<InputMask 
+									<input 
 										disabled={formik.isSubmitting}
-										onChange={formik.handleChange}
+										onChange={(e) => {formik.handleChange(e); maskBirth(e)}}
 										onInput={(e) => formik.setFieldTouched(e.target.name, true, false)}
 										value={formik.values.birthday}
 										className={`form-control ${formik.touched.birthday && formik.errors.birthday ? 'is-invalid' : '' }`}
 										type="text" 
 										name="birthday" 
-      							mask='99/99/9999'
 										placeholder="Data de nascimento*"
 									/>
 									{formik.touched.birthday && formik.errors.birthday ? (<strong className="invalid-feedback d-block"> {formik.errors.birthday}</strong>) : null}
@@ -179,12 +189,12 @@ export default function Register() {
 												placeholder="Perfil"
 												title="seu perfil"
 											>
-												<option value="" disabled hidden> Perfil </option>
+												<option value="" disabled hidden> Perfil* </option>
 												{ roleOptions.map((item, index) => 
 													<option value={index+1} key={index} > {item} </option>
 												)}
 											</select>
-											{formik.touched.role && formik.errors.role ? (<strong className="invalid-feedback d-block"> {formik.errors.role}</strong>) : null}
+											{formik.touched.role && formik.errors.role ? (<strong className="invalid-feedback position-absolute"> {formik.errors.role}</strong>) : null}
 										</div>
 
 										<div className="col-12 col-lg-6 mb-3">
@@ -196,10 +206,10 @@ export default function Register() {
 												className={`form-control ${formik.touched.company && formik.errors.company ? 'is-invalid' : '' }`}
 												type="text" 
 												name="company"
-												placeholder="Organização"
+												placeholder="Organização*"
 												autoComplete="organization"
 											/>
-											{formik.touched.company && formik.errors.company ? (<strong className="invalid-feedback d-block"> {formik.errors.company}</strong>) : null}
+											{formik.touched.company && formik.errors.company ? (<strong className="invalid-feedback position-absolute"> {formik.errors.company}</strong>) : null}
 										</div>
 									</div>
 								</div>

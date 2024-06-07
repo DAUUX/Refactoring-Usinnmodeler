@@ -1,7 +1,7 @@
 import './style.scss'
 import usinnModeler from "../../assets/icons/logo-usinn-white.png";
 
-import { Link, useRouteMatch, useLocation, useHistory } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Toast } from '../Toast';
 import api from '../../services/api';
 import { slugify } from '../../Helpers';
@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 
 function DashboardMenu({menuOpen, setMenuOpen, onCreateDiagram}) {
 
-    const history   = useHistory();
+    const navigate   = useNavigate();
 
     const menuItems = [
         {
@@ -24,7 +24,7 @@ function DashboardMenu({menuOpen, setMenuOpen, onCreateDiagram}) {
         }
     ]
 
-    let match = useRouteMatch();
+    const route = "/dashboard"
 
     let { pathname } = useLocation()
 
@@ -41,7 +41,7 @@ function DashboardMenu({menuOpen, setMenuOpen, onCreateDiagram}) {
 
             const {id, name} = res.data;
 
-            history.push(`/modeler/${id}/${slugify(name)}`);
+            navigate(`/modeler/${id}/${slugify(name)}`);
         
         } catch (error) {
         
@@ -79,7 +79,7 @@ function DashboardMenu({menuOpen, setMenuOpen, onCreateDiagram}) {
                     menuItems.map(item=>{
                         return  (
                             <li className={`nav-item ${(pathname.split("/")[2] ? "/"+pathname.split("/")[2] : '') === item.path ? 'active' : ''}`} key={item.name}>
-                                <Link to={`${match.url}${item.path}`} className="text-white d-block fs-5 text-decoration-none px-4 py-4" onClick={() => setMenuOpen(false)}> 
+                                <Link to={`${route}${item.path}`} className="text-white d-block fs-5 text-decoration-none px-4 py-4" onClick={() => setMenuOpen(false)}> 
                                     <i className={`bi ${item.icon} me-2`}></i>  {item.name} 
                                 </Link>
                             </li>

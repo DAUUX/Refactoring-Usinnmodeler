@@ -6,6 +6,12 @@
     
     #content{
 
+        #avatares{
+            button{
+                max-width: 100px;
+            }
+        }
+
         @media (min-width: 992px) {
             
             #gray-area {
