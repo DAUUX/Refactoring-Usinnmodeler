@@ -5,10 +5,10 @@ import { Toast } from "../Toast";
 import './style.scss';
 import {avatarOptions } from '../../Consts';
 import { Modal } from "bootstrap";
-import ConfirmRemoveLoginModal from "../ConfirmRemoveLoginModal";
-import RemoveLoginModal from "../RemoveLoginModal";
+import ConfirmRemoveLoginModal from "../ConfirmDeleteAccountModal";
+import RemoveLoginModal from "../DeleteAccountModal";
 
-function UserProfile() {
+function UserProfile(props) {
 
     const [user, setUser] = useState({name: ''});
     const history   = useHistory();
@@ -30,30 +30,18 @@ function UserProfile() {
 
 
         } catch (error) {
-            Toast('error', error);
+            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+                Toast('error', "Falha na conexão ao servidor", "errorServer");
+            }
+            else{
+                Toast('error', error, "errorCircle");
+            }
             localStorage.removeItem('user');
             localStorage.removeItem('token');
         }
         
     }
 
-    function callConfirmRemoveLoginModal() {
-        const modal = new Modal('#ConfirmRemoveLoginModal')          
-        modal.show();
-    }
-    function callRemoveLoginModal() {
-        const modal = new Modal('#RemoveLoginModal')          
-        modal.show();
-    }
-
-    function callConfirmRemoveLoginModal() {
-        const modal = new Modal('#ConfirmRemoveLoginModal')          
-        modal.show();
-    }
-    function callRemoveLoginModal() {
-        const modal = new Modal('#RemoveLoginModal')          
-        modal.show();
-    }
 
     function callConfirmRemoveLoginModal() {
         const modal = new Modal('#ConfirmRemoveLoginModal')          
@@ -80,9 +68,15 @@ function UserProfile() {
 
                 <div id="profileImg" className="text-uppercase"> <img className="mb-4 img-fluid"src={avatarOptions[user.avatar-1]}></img> </div>
                 
-                <button className="btn px-2 pe-0 dropdown-toggle" id="dropdownMenuButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">  
-                    <b> {user.name} </b>
-                </button>
+                {props.textColor === "white" ? 
+                    <button className="btn px-2 pe-0 dropdown-toggle text-white" id="dropdownMenuButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">  
+                        <b> {user.name} </b> 
+                    </button>
+                : 
+                    <button className="btn px-2 pe-0 dropdown-toggle" id="dropdownMenuButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">  
+                        <b> {user.name} </b> 
+                    </button>
+                }
 
             <ul className="dropdown-menu dropdown-menu-lg-end" aria-labelledby="dropdownMenuButton">
                 <li><Link className="dropdown-item" to="/dashboard/atualizarperfil"> Atualizar Perfil </Link></li>

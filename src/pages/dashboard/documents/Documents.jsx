@@ -23,15 +23,15 @@ function Documents() {
             </nav>
             
             <div id="documentsNav" className="my-4">
-                <ul className="nav nav-tabs bold">
-                    <li className={`nav-item ${pathname == match.url ? 'active' : ''} mx-3`}>
+                <ul className="nav nav-tabs bold flex-column flex-sm-row px-3 gap-3">
+                    <li className={`nav-item ${pathname == match.url ? 'active' : ''}`}>
                         <Link to={`${match.url}`} className="text-dark d-block text-decoration-none pb-2 px-2">
                             Meus documentos
                         </Link> 
                     </li>
                     <li className={`nav-item ${pathname == match.url+'/favoritos' ? 'active' : ''}`}>
                         <Link to={`${match.url}/favoritos`} className="text-dark d-block text-decoration-none pb-2 px-2">
-                            Favoritos
+                            Meus favoritos
                         </Link> 
                     </li>
                     <li className={`nav-item ${pathname == match.url+'/compartilhados' ? 'active' : ''}`}>

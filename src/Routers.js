@@ -15,7 +15,7 @@ import RequestChange from "./pages/alter_password/RequestChange";
 const Routers = () => {
   return (
     // forceRefresh para tentar corrigir problema onde o salvamento e atalhos do modeler não funcionam
-    <BrowserRouter forceRefresh={true} basename={process.env.REACT_APP_BASE_ROUTE}>
+    <BrowserRouter basename={process.env.REACT_APP_BASE_ROUTE}>
       <Switch>
         <PrivateRoute path="/modeler/:id?/:slug?" component={Modeler} />
         <PrivateRoute path="/dashboard" component={Dashboard} />

@@ -115,7 +115,6 @@ mxDefaultToolbar.prototype.init = function(container)
 				this.editor.insertFunction = mxUtils.bind(this, function()
 				{
 					funct.apply(this, arguments);
-					this.toolbar.resetMode();
 				});
 			}
 			else
@@ -123,15 +122,6 @@ mxDefaultToolbar.prototype.init = function(container)
 				this.editor.insertFunction = null;
 			}
 		}));
-		
-		// Resets the selected tool after a doubleclick or escape keystroke
-		this.resetHandler = mxUtils.bind(this, function()
-		{
-			if (this.toolbar != null)
-			{
-				this.toolbar.resetMode(true);
-			}
-		});
 
 		this.editor.graph.addListener(mxEvent.DOUBLE_CLICK, this.resetHandler);
 		this.editor.addListener(mxEvent.ESCAPE, this.resetHandler);
@@ -263,7 +253,7 @@ mxDefaultToolbar.prototype.addOption = function(combo, title, value)
  * first and only argument that is executed after the mode has been
  * selected.
  */
-mxDefaultToolbar.prototype.addMode = function(title, icon, mode, pressed, funct)
+mxDefaultToolbar.prototype.addMode = function(title, icon, mode, pressed, funct, section)
 {
 	var clickHandler = mxUtils.bind(this, function()
 	{
@@ -275,7 +265,7 @@ mxDefaultToolbar.prototype.addMode = function(title, icon, mode, pressed, funct)
 		}
 	});
 	
-	return this.toolbar.addSwitchMode(title, icon, clickHandler, pressed);
+	return this.toolbar.addSwitchMode(section, title, icon, clickHandler, pressed);
 };
 
 /**
@@ -299,7 +289,7 @@ mxDefaultToolbar.prototype.addMode = function(title, icon, mode, pressed, funct)
  * toggle - Optional boolean that specifies if the item can be toggled.
  * Default is true.
  */
-mxDefaultToolbar.prototype.addPrototype = function(title, icon, ptype, pressed, insert, toggle)
+mxDefaultToolbar.prototype.addPrototype = function(title, icon, ptype, pressed, insert, toggle, section)
 {
 	// Creates a wrapper function that is in charge of constructing
 	// the new cell instance to be inserted into the graph
@@ -330,11 +320,10 @@ mxDefaultToolbar.prototype.addPrototype = function(title, icon, ptype, pressed, 
 			this.drop(factory(), evt, cell);
 		}
 		
-		this.toolbar.resetMode();
 		mxEvent.consume(evt);
 	});
 	
-	var img = this.toolbar.addMode(title, icon, clickHandler, pressed, null, toggle);
+	var img = this.toolbar.addMode(title, icon, clickHandler, pressed, null, toggle, section);
 				
 	// Creates a wrapper function that calls the click handler without
 	// the graph argument

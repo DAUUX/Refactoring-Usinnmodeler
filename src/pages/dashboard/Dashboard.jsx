@@ -17,9 +17,9 @@ function Dashboard() {
     const username = JSON.parse(localStorage.getItem("user"))['name']
 
     return (
-        <main id="dashboard" className={`flex-fill d-flex align-items-center ${menuOpen ? 'menu-open' : ''}`}>
+        <main id="dashboard" className={`flex-fill d-flex ${menuOpen ? 'menu-open' : ''}`}>
             
-            <DashboardMenu menuOpen={menuOpen} onCreateDiagram={(value) => setLoadingOverlay(value) } />
+            <DashboardMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} onCreateDiagram={(value) => setLoadingOverlay(value) } />
         
             <Switch>
                 <Route path={`${match.path}/documentos`}>

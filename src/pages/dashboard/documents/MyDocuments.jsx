@@ -11,6 +11,10 @@ import FavoriteDiagram from "../../../components/FavoriteDiagram";
 
 function MyDocuments() {
 
+    useEffect(() => {
+        document.title = 'Meus Documentos - USINN Modeler';
+    },[]);
+
     let [diagrams, setDiagrams] = useState([]);
     let [loading, setLoading] = useState(true);
 
@@ -22,7 +26,12 @@ function MyDocuments() {
             const res = await api.get(`diagrams`);
             setDiagrams(res.data.diagrams);
         } catch(error){
-            Toast('error', error);
+            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+                Toast('error', "Falha na conexão ao servidor", "errorServer");
+            }
+            else{
+                Toast('error', error, "errorCircle");
+            }
         }
         setLoading(false);
     }
