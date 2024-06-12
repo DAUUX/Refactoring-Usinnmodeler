@@ -217,7 +217,7 @@ function Modeler(props) {
             <ShareDiagramModal id={shareModalId} diagram_id={id} />
 
             
-            <ExportDiagramModal id={"exportModalId"} onExportDiagram={(value)=>{setLoadingOverlay(value)}}/>
+            <ExportDiagramModal id={"exportModalId"} onExportDiagram={(value)=>{setLoadingOverlay(value)}} diagramSVG={diagramSVG}/>
 
             <div id="loadingOverlay" className={`${loadingOverlay ? 'open':''}`}>
                 <Spinner className="spinner-border spinner-border text-light" isLoading={loadingOverlay}  />

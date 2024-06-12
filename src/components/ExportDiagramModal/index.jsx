@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import api from "../../services/api";
 import { Toast } from "../Toast";
 
-function ExportDiagramModal({id, onExportDiagram}) {
-    const formatOptions = ["png", "jpeg", "webp","svg", "pdf"];
-    const [format, setFormat]   = useState("");
+
+function ExportDiagramModal({id, onExportDiagram, diagramSVG}) {
+    const formatOptions = ["png", "jpeg", "webp", "pdf", "svg"];
+    const [format, setFormat]   = useState();
 
     useEffect(()=>{
         document.getElementById(id).addEventListener('show.bs.modal', event => {
@@ -14,38 +15,51 @@ function ExportDiagramModal({id, onExportDiagram}) {
     },[])
     async function getDiagramImg(format, svg) {
         onExportDiagram(true);
-        // console.log("-------------------------------------------\n" + svg)
 
         try {
+            const data = {format, svg};        
+            if (data.format == 5){
+                const blob = new Blob([svg], {type: "image/svg+xml"});
+                const blobUrl = URL.createObjectURL(blob);
 
-            const data = {format, svg};            
-            // console.log("---------------------------------\nsvg-front  " + svg)
-            const response = await api.post(`diagrams/export`, data);
-            let imgBuffer = response.data.img;
-            let imgFormat = response.data.format;
+                window.open(blobUrl, '_blank');
+            } else {
+                const response = await api.post(`diagrams/export`, data);
+                let imgBuffer = response.data.img;
+                let imgFormat = response.data.format;
 
-            const base64ImageData = 'data:image/' + imgFormat + ';base64,' + imgBuffer;
-            const contentType = 'image/' + imgFormat;
+                let base64ImageData;
+                let contentType;
 
-            const byteCharacters = atob(base64ImageData.substr(`data:${contentType};base64,`.length));
-            const byteArrays = [];
-
-            for (let offset = 0; offset < byteCharacters.length; offset += 1024) {
-                const slice = byteCharacters.slice(offset, offset + 1024);
-
-                const byteNumbers = new Array(slice.length);
-                for (let i = 0; i < slice.length; i++) {
-                    byteNumbers[i] = slice.charCodeAt(i);
+                if (imgFormat === 'pdf') {
+                    base64ImageData = 'data:application/pdf;base64,' + imgBuffer;
+                    contentType = 'application/pdf';
+                } else {
+                    base64ImageData = 'data:image/' + imgFormat + ';base64,' + imgBuffer;
+                    contentType = 'image/' + imgFormat;
                 }
+                
+                const byteCharacters = atob(base64ImageData.substr(`data:${contentType};base64,`.length));
+                const byteArrays = [];
 
-                const byteArray = new Uint8Array(byteNumbers);
+                for (let offset = 0; offset < byteCharacters.length; offset += 1024) {
+                    const slice = byteCharacters.slice(offset, offset + 1024);
 
-                byteArrays.push(byteArray);
+                    const byteNumbers = new Array(slice.length);
+                    for (let i = 0; i < slice.length; i++) {
+                        byteNumbers[i] = slice.charCodeAt(i);
+                    }
+
+                    const byteArray = new Uint8Array(byteNumbers);
+
+                    byteArrays.push(byteArray);
+                }
+                const blob = new Blob(byteArrays, {type: contentType});
+                const blobUrl = URL.createObjectURL(blob);
+
+                window.open(blobUrl, '_blank');
+
             }
-            const blob = new Blob(byteArrays, {type: contentType});
-            const blobUrl = URL.createObjectURL(blob);
-
-            window.open(blobUrl, '_blank');
 
             Toast('success', 'Diagrama exportado com sucesso!', "checkCircle");
 
@@ -72,20 +86,9 @@ function ExportDiagramModal({id, onExportDiagram}) {
         switch(formatOptions[value-1]) {
             case "":
                 break;
-            case 'svg':
-                event = new CustomEvent('openDiagramSVG');
-		        window.dispatchEvent(event);
-                break;
-            case "pdf":
-                event = new CustomEvent('openDiagramPDF');
-		        window.dispatchEvent(event);
-                break;
             default:
                 const getSVG = (event) => {
-                    console.log("event");
-                    console.log(event);
-                    console.log("event-detail-svg     " + event.detail.svg);
-                    getDiagramImg(value, event.detail.svg);        
+                    getDiagramImg(value, diagramSVG == "" ? event.detail.svg : diagramSVG);        
                 }
                 window.addEventListener('sendDiagramSVG', getSVG , { once: true });
                 event = new CustomEvent('generateDiagramSVG');
