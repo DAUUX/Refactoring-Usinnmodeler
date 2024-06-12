@@ -18,7 +18,7 @@ function ExportDiagramModal({id, onExportDiagram, diagramSVG}) {
 
         try {
             const data = {format, svg};        
-            if (data.format == 5){
+            if (data.format === '5'){
                 const blob = new Blob([svg], {type: "image/svg+xml"});
                 const blobUrl = URL.createObjectURL(blob);
 
@@ -88,7 +88,7 @@ function ExportDiagramModal({id, onExportDiagram, diagramSVG}) {
                 break;
             default:
                 const getSVG = (event) => {
-                    getDiagramImg(value, diagramSVG == "" ? event.detail.svg : diagramSVG);        
+                    getDiagramImg(value, diagramSVG === "" ? event.detail.svg : diagramSVG);        
                 }
                 window.addEventListener('sendDiagramSVG', getSVG , { once: true });
                 event = new CustomEvent('generateDiagramSVG');
