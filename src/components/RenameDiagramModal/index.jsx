@@ -1,9 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Toast } from "../Toast";
 import api from "../../services/api";
 import Spinner from "../Spinner";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
+import { Modal } from "bootstrap";
 
 function Rename({id, diagram_id, onDiagramRenamed}) {
 
@@ -11,7 +12,10 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
         document.getElementById(id).addEventListener('show.bs.modal', event => {
             formik.resetForm()
         });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
+
+    const modalRef = useRef(null);
 
     const formik = useFormik({
 
@@ -36,10 +40,15 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
                 document.getElementById(id).click();
 
                 onDiagramRenamed()
+                
+                if (modalRef.current) {
+                    const modalInstance = Modal.getInstance(modalRef.current);
+                    modalInstance.hide();
+                }
             
             } catch (error) {
             
-                if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+                if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
                     Toast('error', "Falha na conexão ao servidor", "errorServer");
                 }
                 else{
@@ -53,7 +62,7 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
 	});
 	
     return (
-        <div className="modal" id={id} tabIndex="-1" aria-labelledby="RenameDiagramModalLabel" aria-hidden="true">
+        <div className="modal" id={id} tabIndex="-1" aria-labelledby="RenameDiagramModalLabel" ref={modalRef} aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header">
@@ -71,7 +80,9 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
                                 className="form-control" 
                                 type="text" 
                                 name="name" 
-                                placeholder="Novo nome"/>
+                                placeholder="Novo nome"
+                                autoComplete="name"
+                                />
 
                             {formik.touched.name && formik.errors.name ? (<div className="invalid-feedback d-block"> {formik.errors.name}</div>) : null}
                         </div>

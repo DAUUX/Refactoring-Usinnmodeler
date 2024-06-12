@@ -35,7 +35,7 @@ export default function RequestChange() {
       setEnviadoComSucesso(true);
       // history.push('/sucesso'); // Você pode ou não redirecionar para outra página, dependendo de como deseja implementar isso.
     } catch (error) {
-      if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+      if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
         Toast('error', "Falha na conexão ao servidor", "errorServer");
       }
       else{
@@ -69,7 +69,9 @@ export default function RequestChange() {
                   value={email}
                   className={`form-control`}
                   type="email"
+                  name="email"
                   placeholder="Digite seu endereço de e-mail"
+                  autoComplete="email"
                 />
               </div>
 
@@ -88,7 +90,7 @@ export default function RequestChange() {
         ) : (
           // Renderiza a mensagem após o envio bem-sucedido
 
-        <div  iv className="text-center" style={{ marginTop: "-10px", marginBottom: "100px" }}>
+        <div className="text-center" style={{ marginTop: "-10px", marginBottom: "100px" }}>
           <div>
             <FontAwesomeIcon className="pb-2 pb-sm-5" icon={faEnvelope} size="3x" color="#007BFF"/>
             <h1 className="h2"> Cheque seu E-mail </h1>

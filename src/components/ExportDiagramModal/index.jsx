@@ -11,13 +11,14 @@ function ExportDiagramModal({id, onExportDiagram, diagramSVG}) {
         document.getElementById(id).addEventListener('show.bs.modal', event => {
             setFormat('');
         });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
     async function getDiagramImg(format, svg) {
         onExportDiagram(true);
 
         try {
             const data = {format, svg};        
-            if (data.format == 5){
+            if (data.format === '5'){
                 const blob = new Blob([svg], {type: "image/svg+xml"});
                 const blobUrl = URL.createObjectURL(blob);
 
@@ -65,7 +66,7 @@ function ExportDiagramModal({id, onExportDiagram, diagramSVG}) {
         
         } catch (error) {
         
-            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
                 Toast('error', "Falha na conexão ao servidor", "errorServer");
             }
             else{
@@ -87,7 +88,7 @@ function ExportDiagramModal({id, onExportDiagram, diagramSVG}) {
                 break;
             default:
                 const getSVG = (event) => {
-                    getDiagramImg(value, diagramSVG == "" ? event.detail.svg : diagramSVG);        
+                    getDiagramImg(value, diagramSVG === "" ? event.detail.svg : diagramSVG);        
                 }
                 window.addEventListener('sendDiagramSVG', getSVG , { once: true });
                 event = new CustomEvent('generateDiagramSVG');
@@ -114,7 +115,7 @@ function ExportDiagramModal({id, onExportDiagram, diagramSVG}) {
                                     exportDiagram(e)
                                 }}
 							>
-								<option selected value="" disabled hidden> Formato </option>
+								<option value="" disabled hidden> Formato </option>
 								{ formatOptions.map((item, index) => 
 									<option value={index+1} key={index} > {item.toLocaleUpperCase()} </option>
 								)}

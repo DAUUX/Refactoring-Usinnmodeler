@@ -62,11 +62,10 @@ ul[role=tablist]{
   padding: 10px 0;
 }
 
-@media (max-height: 300px) {
+@media (max-height: 400px) {
   //ficar visivel após zomm de 500%
   main section:first-child{
     height: auto !important;
-    padding: 80px 0 40px;
-    background-color: red !important;
+    padding: 90px 0 40px;
   }
 }

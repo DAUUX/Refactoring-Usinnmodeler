@@ -12,7 +12,7 @@ function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram,
     }
     
     return (
-        <Link to={`/modeler/${id}/${slugify(name)}`} className="card text-reset text-decoration-none mw-25" id="diagram-card">
+        <Link to={`/modeler/${id}/${slugify(name)}`} className="card text-reset text-decoration-none mw-25 overflow-hidden" id="diagram-card">
             <div className="card-header  d-flex">
                 <div className='overflow-hidden'>
                     <span className="fw-bold">{name}</span><br />
@@ -34,7 +34,7 @@ function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram,
                         </li>
 
                         {
-                            userId == JSON.parse(localStorage.getItem('user')).id && (
+                            userId === JSON.parse(localStorage.getItem('user')).id && (
                                 <li>
                                     <button className="dropdown-item" onClick={(e)=> {e.stopPropagation(); e.preventDefault(); onShareDiagram(id)}}> <i className="bi bi-share-fill"></i> Compartilhar</button>
                                 </li>

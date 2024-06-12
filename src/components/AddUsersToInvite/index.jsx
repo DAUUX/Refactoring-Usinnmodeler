@@ -8,15 +8,12 @@ function AddUsersToInvite(props) {
     
     useEffect( ()=>{
         props.addUser(id, email, permission); 
-    }, [email]);
-    
-    useEffect( ()=>{
-        props.addUser(id, email, permission); 
-    }, [permission]);
-    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [email, permission]);
 
     useEffect(()=>{
         setId(props.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(()=>{
@@ -27,10 +24,10 @@ function AddUsersToInvite(props) {
     return (
         <div className="row mb-3 d-flex align-items-center"> 
             <span className="col-6 col-sm-7">
-                <input type="text" className="form-control" placeholder="E-mail" value={email} onChange={(e)=>{setEmail(e.target.value)}}/> 
+                <input name="email" type="text" className="form-control" placeholder="E-mail" value={email} onChange={(e)=>{setEmail(e.target.value)}} autoComplete="email"/> 
             </span>
             <span className="col-4 col-sm-3 col-lg-4">
-                <select className="form-select" onChange={(e)=>{setPermission(e.target.value)}}>
+                <select name="permissão" className="form-select" onChange={(e)=>{setPermission(e.target.value)}}>
                     <option value={1}>Leitor</option>
                     <option value={2}>Editor</option>
                 </select>

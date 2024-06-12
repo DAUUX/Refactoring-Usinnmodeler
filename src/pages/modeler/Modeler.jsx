@@ -1,6 +1,6 @@
 import "./style.scss";
 import { useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import api from "../../services/api";
 import { Toast } from "../../components/Toast";
 import ShareDiagramModal from "../../components/ShareDiagramModal";
@@ -25,13 +25,14 @@ function Modeler(props) {
     const [shareModalId]              = useState('ShareDiagramModal');
     const [oculteManipulationIcons, setOculteManipulationIcons] = useState(false);
 
-    const history = useHistory();
+    const { id } = useParams();
+    const navigate = useNavigate();
 
     async function validPermissionForEdit() {        
         let user_id = JSON.parse(localStorage.getItem('user')).id;
-        const diagram = await api.get(`/collaboration/${props.match.params.id}/${user_id}`);
+        const diagram = await api.get(`/collaboration/${id}/${user_id}`);
         const collaboratorPermission = diagram.data.permission;
-        collaboratorPermission == 1 ? setOculteManipulationIcons(true) : setOculteManipulationIcons(false);
+        collaboratorPermission === 1 ? setOculteManipulationIcons(true) : setOculteManipulationIcons(false);
     }
 
     async function createDiagramEditor() {
@@ -41,18 +42,18 @@ function Modeler(props) {
             setCreated(true);
         }
 
-        if (!props.match.params.id)
+        if (!id)
             return;
 
         try {
-            const res = await api.get(`diagrams/${props.match.params.id}`);
+            const res = await api.get(`diagrams/${id}`);
             
             const {diagram_data, name, user_id} = res.data;
             setName(name);            
 
-            window.history.replaceState(null, name, `/modeler/${props.match.params.id}/${slugify(name)}`);  
+            window.history.replaceState(null, name, `/modeler/${id}/${slugify(name)}`);  
 
-            setOwner(user_id == JSON.parse(localStorage.getItem('user')).id ? true : false);
+            setOwner(user_id === JSON.parse(localStorage.getItem('user')).id ? true : false);
             
             validPermissionForEdit();
 
@@ -61,13 +62,13 @@ function Modeler(props) {
 
         } catch (error) {
 
-            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
                 Toast('error', "Falha na conexão ao servidor", "errorServer");
             }
             else{
                 Toast('error', error, "errorCircle");
             }
-            history.push('/modeler');
+            navigate('/modeler');
             
         }
     }
@@ -80,15 +81,15 @@ function Modeler(props) {
             
             const data = {name, diagram_data: diagram, diagram_svg: diagramSVG};
             
-            const response = await api.put(`diagrams/${props.match.params.id}`, data);
+            const response = await api.put(`diagrams/${id}`, data);
 
-            window.history.replaceState(null, name, `/modeler/${props.match.params.id}/${slugify(response.data.name)}`);
+            window.history.replaceState(null, name, `/modeler/${id}/${slugify(response.data.name)}`);
 
             Toast('success', 'Diagrama salvo com sucesso!', "checkCircle");
         
         } catch (error) {
         
-            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
                 Toast('error', "Falha na conexão ao servidor", "errorServer");
             }
             else{
@@ -109,9 +110,9 @@ function Modeler(props) {
             
             const data = {name};
             
-            const response = await api.put(`diagrams/rename/${props.match.params.id}`, data);
+            const response = await api.put(`diagrams/rename/${id}`, data);
 
-            window.history.replaceState(null, name, `/modeler/${props.match.params.id}/${slugify(response.data.name)}`);
+            window.history.replaceState(null, name, `/modeler/${id}/${slugify(response.data.name)}`);
 
             Toast('success', 'Diagrama salvo com sucesso!', "checkCircle");
 
@@ -119,7 +120,7 @@ function Modeler(props) {
         
         } catch (error) {
         
-            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
                 Toast('error', "Falha na conexão ao servidor", "errorServer");
             }
             else{
@@ -143,12 +144,14 @@ function Modeler(props) {
             window.removeEventListener('saveDiagram', saveDiagram);
         };
         
-    },[props.match.params.id])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[id])
     
     useEffect(()=>{
         if (diagram && diagramSVG) {
             updateDiagram();
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [diagram, diagramSVG])
 
     return (
@@ -156,26 +159,28 @@ function Modeler(props) {
             
 
             <nav id="modelerNavbar" className="navbar navbar-expand-lg bg-primary ">
-                <div className="container-fluid px-5">
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#modelerNavbarToggle" aria-controls="modelerNavbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                <div className="container-fluid px-lg-5">
+                    <button className="navbar-toggler bg-light me-3 me-lg-0" type="button" data-bs-toggle="collapse" data-bs-target="#modelerNavbarToggle" aria-controls="modelerNavbarToggle" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <form onSubmit={rename} className="d-flex me-auto" role="search" >
 						<Link to="/dashboard"> <img src={logo} className="me-4" alt="logo USINN" /> </Link>
-                        <input value={name} onChange={(e) => {setName(e.target.value)}} onBlur={rename} className="form-control py-0 px-2 text-white" type="text" id="nameInput" />
+                        <input value={name} onChange={(e) => {setName(e.target.value)}} onBlur={rename} className="form-control py-0 px-2 text-white" type="text" id="nameInput" name="name" autoComplete="name" />
                     </form>
                     <div className="collapse navbar-collapse justify-content-end" id="modelerNavbarToggle">
-                        <span>
-                            {props.match.params.id && owner &&
-                                <button data-bs-toggle="modal" data-bs-target={`#${shareModalId}`} className="btn btn-light btn-sm order-last text-primary me-4" title="Compartilhar"> 
-                                    Compartilhar <i className="bi bi-share-fill fs-7"></i> 
-                                </button>
-                            }
-                        </span>
-                        
-                        <span>
-                            <UserProfile textColor = "white"/>
-                        </span>
+                        <div className="d-flex align-items-center py-3 py-lg-0">
+                            <span>
+                                {id && owner &&
+                                    <button data-bs-toggle="modal" data-bs-target={`#${shareModalId}`} className="btn btn-light btn-sm order-last text-primary me-4" title="Compartilhar">
+                                        Compartilhar <i className="bi bi-share-fill fs-7"></i>
+                                    </button>
+                                }
+                            </span>
+                            
+                            <span>
+                                <UserProfile textColor = "white"/>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </nav>
@@ -198,7 +203,7 @@ function Modeler(props) {
 
                 {/* Editor */}
                 <div id="graph" className="col-12 bg-white h-100">
-                    <center id="splash"> <img src="/images/loading.gif"/> </center>
+                    <center id="splash"> <img src="/images/loading.gif" alt=""/> </center>
                 </div>
 
                 <div id="outlineContainer"></div>
@@ -209,7 +214,7 @@ function Modeler(props) {
                 </div>
             </section>
 
-            <ShareDiagramModal id={shareModalId} diagram_id={props.match.params.id} />
+            <ShareDiagramModal id={shareModalId} diagram_id={id} />
 
             
             <ExportDiagramModal id={"exportModalId"} onExportDiagram={(value)=>{setLoadingOverlay(value)}} diagramSVG={diagramSVG}/>

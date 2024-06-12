@@ -1,10 +1,7 @@
 import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
 import './style.css'
 
 export function Toast(status, text, icons) {
-
-    const MySwal = withReactContent(Swal)
 
     let bgColors = {
         'success': '#00672E',
@@ -16,7 +13,7 @@ export function Toast(status, text, icons) {
         'error': '#FFFFFF'
     }
     
-    MySwal.fire({
+    Swal.fire({
         iconHtml: `<span class="${icons}"></span>`,
         showCloseButton: true,
         toast: true,
@@ -39,6 +36,12 @@ export function Toast(status, text, icons) {
             toast.addEventListener('mouseenter', Swal.stopTimer)
             toast.addEventListener('mouseleave', Swal.resumeTimer)
             toast.addEventListener('click', Swal.close)
+
+            //Removendo o que não está sendo utilizado, para remover alertas no console
+            toast.querySelectorAll('input').forEach(input => input.remove());
+            toast.querySelectorAll('label').forEach(label => label.remove());
+            toast.querySelectorAll('textarea').forEach(textarea => textarea.remove());
+            toast.querySelectorAll('select').forEach(select => select.remove());
         }
     })
 }
