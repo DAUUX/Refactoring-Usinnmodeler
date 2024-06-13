@@ -19,6 +19,7 @@ function Dashboard() {
             <DashboardMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} onCreateDiagram={(value) => setLoadingOverlay(value) } />
             
             <Routes>
+                <Route path="/" element={<Inicio />} />
                 <Route path={`documentos/*`} element={<Documents/>} />
                 <Route path={`atualizarperfil`} element={<UpdateProfile/>} />
                 <Route path={`atualizarsenha`} element={<ChangePassword/>} />

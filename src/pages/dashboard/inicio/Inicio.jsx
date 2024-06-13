@@ -21,7 +21,7 @@ function Inicio(){
         </nav>
 
   
-        <nav className="container-fluid mt-3 pt-4">
+        <nav className="container-fluid pt-4">
                 { resultcardModels &&( 
                 <div className="px-5">
                     <h3 className="ps-4">Modelos de Diagramas</h3>
