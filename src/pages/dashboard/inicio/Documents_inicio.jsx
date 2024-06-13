@@ -53,9 +53,9 @@ function Documents_inicio() {
     
     // Variável com os quatro primeiros diagramas
     const firstFourDiagrams = diagrams.slice(0, 4);
-    const result = firstFourDiagrams.length !== 0;
+    const resultcardRecentes = firstFourDiagrams.length !== 0;
 
-    const card = (
+    const cardRecentes = (
         <div className="container-fluid px-4 ">
             <div className="row ">
                 {
@@ -96,7 +96,7 @@ function Documents_inicio() {
     );
 
     // Retorne as variáveis result e card dentro de um objeto
-    return { result, card };
+    return { resultcardRecentes, cardRecentes };
 }
 
 export default Documents_inicio;

@@ -20,7 +20,8 @@ function Dashboard() {
         <main id="dashboard" className={`flex-fill d-flex ${menuOpen ? 'menu-open' : ''}`}>
             
             <DashboardMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} onCreateDiagram={(value) => setLoadingOverlay(value) } />
-        
+  
+
             <Switch>
                 <Route path={`${match.path}/documentos`}>
                     <Documents/>
@@ -38,7 +39,7 @@ function Dashboard() {
 
             <div id="loadingOverlay" className={`${loadingOverlay ? 'open':''}`}>
                 <Spinner className="spinner-border spinner-border text-light" isLoading={loadingOverlay}  />
-            </div>
+            </div>   
 
             <button 
                 onClick={()=> setMenuOpen(!menuOpen)}

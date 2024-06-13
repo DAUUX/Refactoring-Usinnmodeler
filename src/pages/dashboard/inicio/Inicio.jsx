@@ -3,7 +3,8 @@ import Documents_inicio from './Documents_inicio'
 import './style.scss'
 
 function Inicio(){
-    const { result, card } = Documents_inicio();
+    const {resultcardModels, cardModels} = 0;
+    const { resultcardRecentes, cardRecentes } = Documents_inicio();
     const Data = JSON.parse(localStorage.getItem('user'));
 
     return(        
@@ -15,37 +16,31 @@ function Inicio(){
                 <div className="h4 mx-auto pt-3">
                     <b>Seja bem-vindo(a), {Data.name}!</b>
                 </div>
-                    <UserProfile/>
+                <UserProfile/>
             </div>
         </nav>
 
-        { result &&( 
-        <nav className="container-fluid  px-5">
-                <div className="px-4">
-                    <h3 className="ps-4">Documentos recentes</h3>
+  
+        <nav className="container-fluid mt-3 pt-4">
+                { resultcardModels &&( 
+                <div className="px-5">
+                    <h3 className="ps-4">Modelos de Diagramas</h3>
                     <div className="align-items-center">
-                        {card}
+                        {cardModels}
                     </div>
                 </div>
-            <div className="container text-start px-5">
-                <div class="row">
-                    <div className="col">
-                        <h3 >Notificações</h3>
-                        <div className="container">
-                        
-                        </div>
-                    </div>
+                )}
 
-                    <div className="col">
-                        <h3>Documentação da Notação</h3>
-                        <div className="container">
-                        
-                        </div>
+                { resultcardRecentes &&( 
+                <div className="px-5 mt-5">
+                    <h3 className="ps-4">Documentos recentes</h3>
+                    <div className="align-items-center">
+                        {cardRecentes}
                     </div>
-                    </div>
-            </div>
+                </div>
+                )}
         </nav>
-        )}
+
 
     </div>
     )
