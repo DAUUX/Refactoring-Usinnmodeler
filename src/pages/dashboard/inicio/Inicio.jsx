@@ -22,24 +22,25 @@ function Inicio(){
 
   
         <nav className="container-fluid pt-4">
-                { resultcardModels &&( 
-                <div className="px-5">
+            {resultcardModels && (
+                <div className="px-md-5">
                     <h3 className="ps-4">Modelos de Diagramas</h3>
                     <div className="align-items-center">
                         {cardModels}
                     </div>
                 </div>
-                )}
+            )}
 
-                { resultcardRecentes &&( 
-                <div className="px-5 mt-5">
+            {resultcardRecentes && (
+                <div className=" px-md-5 mt-5">
                     <h3 className="ps-4">Documentos recentes</h3>
                     <div className="align-items-center">
                         {cardRecentes}
                     </div>
                 </div>
-                )}
+            )}
         </nav>
+
 
 
     </div>

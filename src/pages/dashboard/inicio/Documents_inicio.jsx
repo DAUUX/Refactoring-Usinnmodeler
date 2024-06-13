@@ -18,8 +18,10 @@ function Documents_inicio() {
     async function getDiagrams() {
         setLoading(true);
         try{
-            const res = await api.get(`diagrams`);
-            setDiagrams(res.data.diagrams);
+            const res = await api.get('diagrams?limit=4');
+            console.log(res.data.diagrams);
+            const sortedDiagrams = res.data.diagrams.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+            setDiagrams(sortedDiagrams);
         } catch(error){
             Toast('error', error);
         }
@@ -52,8 +54,7 @@ function Documents_inicio() {
     }
     
     // Variável com os quatro primeiros diagramas
-    const firstFourDiagrams = diagrams.slice(0, 4);
-    const resultcardRecentes = firstFourDiagrams.length !== 0;
+    const resultcardRecentes = diagrams.length !== 0;
 
     const cardRecentes = (
         <div className="container-fluid px-4 ">
@@ -66,9 +67,9 @@ function Documents_inicio() {
                     )
                 }
                 {
-                    firstFourDiagrams.length > 0 && !loading && (
-                        firstFourDiagrams.map((diagram) => (
-                            <div key={diagram.id} className="col-12 col-md-4 col-lg-3 mb-3">
+                    diagrams.length > 0 && !loading && (
+                        diagrams.map((diagram) => (
+                            <div key={diagram.id} className="col-12 col-md-4 col-lg-3 mb-3" style={{ minWidth: "210px" }}>
                                 <DiagramCard
                                     id={diagram.id}
                                     name={diagram.name}
