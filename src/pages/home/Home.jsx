@@ -20,13 +20,23 @@ export default function Home() {
   const [hambOpen, setHmabOpen] = useState(false)
 
   useEffect(() => {
-    document.title = 'Home - USINN Modeler';
-  
     const intervalId = setInterval(() => {
       setTitle(prevTitle => prevTitle === 'EXPERIÊNCIA COMPLETA' ? 'MODELAGEM 3 EM 1' : 'EXPERIÊNCIA COMPLETA');
     }, 3000);
   
     return () => clearInterval(intervalId);
+  }, []);
+
+  useEffect(() => {
+    document.title = 'Home - USINN Modeler';
+    const hash = window.location.hash;
+    
+    if (hash) {
+      const element = document.getElementById(hash.replace('#', ''));
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
   }, []);
 
   return (
@@ -255,18 +265,18 @@ export default function Home() {
         <section
           id="Tutorial"
           aria-labelledby="region4"
-          className="bg-primary text-white d-flex flex-column flex-sm-row p-2 py-3 px-sm-0 py-sm-5"
+          className="bg-primary text-white d-flex flex-column flex-lg-row p-2 py-3 px-lg-0 py-lg-5"
         >
-          <div className="col-sm-5 col-lg-4 align-content-center pb-3 pb-sm-0 px-5">
+          <div className="col-lg-5 col-lg-4 align-content-center pb-3 pb-lg-0 px-5">
             <h1 id="region4" className="text-center">
               TUTORIAL
             </h1>
-            <div className="w-auto px-5 px-sm-0 py-3 p-sm-3 pb-sm-0 text-center">
+            <div className="w-auto px-5 px-lg-0 py-3 p-lg-3 pb-lg-0 text-center">
               <img src={NomeUsinn} alt="" className="w-100" style={{maxWidth: "200px"}} />
             </div> 
           </div>
 
-          <div className="ratio ratio-21x9 me-sm-5">
+          <div className="ratio ratio-21x9 me-lg-5">
             <iframe
               allowFullScreen
               title="Tutorial USINN"

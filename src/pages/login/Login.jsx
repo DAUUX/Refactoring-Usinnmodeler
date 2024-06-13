@@ -1,5 +1,5 @@
 import usinnModeler from "../../assets/icons/usinn-logo-horiz.png";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Toast } from "../../components/Toast";
 import api from "../../services/api";
 import Spinner from "../../components/Spinner";
@@ -13,7 +13,7 @@ export default function Login() {
     document.title = 'Login - USINN Modeler';
   },[]);
 
-	const history = useHistory();
+	const navigate = useNavigate();
 
 	const formik = useFormik({
 
@@ -41,11 +41,11 @@ export default function Login() {
 	
 				Toast('success', 'Login realizado com sucesso!', "checkCircle");
 
-				history.push('/dashboard');
+				navigate('/dashboard');
 	
 			} catch (error) {
 	
-				if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+				if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
 					Toast('error', "Falha na conexão ao servidor", "errorServer");
 				}
 				else{
@@ -78,6 +78,7 @@ export default function Login() {
 							type="email"
 							name="email"
 							placeholder="E-mail*"
+							autoComplete="email"
 						/>
 						{formik.touched.email && formik.errors.email ? (<strong className="invalid-feedback m-0 p-0 pt-1"> {formik.errors.email}</strong>) : null}
 					</div>

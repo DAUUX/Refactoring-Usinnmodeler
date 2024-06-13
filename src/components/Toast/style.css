@@ -1,5 +1,6 @@
 .toast-container {
     width: 380px !important;
+    position: fixed !important;
 }
 
 .toast-popup {

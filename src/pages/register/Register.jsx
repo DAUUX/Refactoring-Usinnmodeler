@@ -1,9 +1,8 @@
 import usinnModeler from "../../assets/icons/usinn-logo-horiz.png";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Spinner from "../../components/Spinner";
 import { Toast } from '../../components/Toast';
 import api from "../../services/api";
-import InputMask from 'react-input-mask';
 import moment from "moment";
 import "./style.scss";
 import { roleOptions, genderOptions } from '../../Consts';
@@ -17,7 +16,7 @@ export default function Register() {
     document.title = 'Cadastrar - USINN Modeler';
   },[]);
 	
-	const history = useHistory();
+	const navigate = useNavigate();
 
 	const formik = useFormik({
 
@@ -59,11 +58,11 @@ export default function Register() {
 				
 				Toast('success', 'Cadastro realizado com sucesso!', "checkCircle");
 				
-				history.push('/login');
+				navigate('/login');
 				
 			} catch (error) {
 				
-				if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+				if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
 					Toast('error', "Falha na conexão ao servidor", "errorServer");
 				}
 				else{
@@ -73,6 +72,18 @@ export default function Register() {
 			}
 		},
 	});
+
+	const maskBirth = (e) => {
+		const input = e.target.value;
+		const formatted = input
+				.replace(/\D/g, '') // Remove caracteres não numéricos
+				.replace(/^(\d{2})(\d)/, '$1/$2') // Adiciona a barra após os 2 primeiros dígitos
+				.replace(/^(\d{2})\/(\d{2})(\d)/, '$1/$2/$3') // Adiciona a barra após os próximos 2 dígitos
+				.replace(/(\d{2})\/(\d{2})\/(\d{4}).*/, '$1/$2/$3'); // Limita o campo a 10 caracteres (DD/MM/AAAA)
+
+		// Atualiza o valor no formulário
+		formik.setFieldValue('birthday', formatted);
+};
 	
 	return (
 		<main id="register-page" className="flex-fill d-flex align-items-center" aria-label="formulário de cadastro">    
@@ -98,6 +109,7 @@ export default function Register() {
 										type="text" 
 										name="name" 
 										placeholder="Nome completo*"
+										autoComplete="name"
 									/>
 									{formik.touched.name && formik.errors.name ? (<strong className="invalid-feedback d-block"> {formik.errors.name}</strong>) : null}
 								</div>
@@ -112,6 +124,7 @@ export default function Register() {
 										type="email" 
 										name="email" 
 										placeholder="E-mail*"
+										autoComplete="email"
 									/>
 									{formik.touched.email && formik.errors.email ? (<strong className="invalid-feedback d-block"> {formik.errors.email}</strong>) : null}
 								</div>
@@ -131,15 +144,14 @@ export default function Register() {
 								</div>
 
 								<div className="col-12 col-lg-6 mb-3">
-									<InputMask 
+									<input 
 										disabled={formik.isSubmitting}
-										onChange={formik.handleChange}
+										onChange={(e) => {formik.handleChange(e); maskBirth(e)}}
 										onInput={(e) => formik.setFieldTouched(e.target.name, true, false)}
 										value={formik.values.birthday}
 										className={`form-control ${formik.touched.birthday && formik.errors.birthday ? 'is-invalid' : '' }`}
 										type="text" 
 										name="birthday" 
-      							mask='99/99/9999'
 										placeholder="Data de nascimento*"
 									/>
 									{formik.touched.birthday && formik.errors.birthday ? (<strong className="invalid-feedback d-block"> {formik.errors.birthday}</strong>) : null}
@@ -195,6 +207,7 @@ export default function Register() {
 												type="text" 
 												name="company"
 												placeholder="Organização*"
+												autoComplete="organization"
 											/>
 											{formik.touched.company && formik.errors.company ? (<strong className="invalid-feedback position-absolute"> {formik.errors.company}</strong>) : null}
 										</div>

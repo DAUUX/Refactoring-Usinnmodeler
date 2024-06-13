@@ -7,7 +7,6 @@ import { Modal } from "bootstrap";
 import ShareDiagramModal from "../../../components/ShareDiagramModal";
 import RemoveDiagramModal from "../../../components/RemoveDiagramModal";
 import RenameDiagramModal from "../../../components/RenameDiagramModal";
-import FavoriteDiagram from "../../../components/FavoriteDiagram";
 
 function FavoritedDocuments() {
 
@@ -26,7 +25,7 @@ function FavoritedDocuments() {
             const res = await api.get(`diagrams/favorited`);
             setDiagrams(res.data.diagrams);
         } catch(error){
-            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
                 Toast('error', "Falha na conexão ao servidor", "errorServer");
             }
             else{
@@ -97,7 +96,7 @@ function FavoritedDocuments() {
                 }
 
                 {
-                    diagrams.length ==0 && !loading &&(
+                    diagrams.length === 0 && !loading &&(
                         <h4 className="text-center mt-5">Ainda não há diagramas favoritados</h4>
                     )
                 }

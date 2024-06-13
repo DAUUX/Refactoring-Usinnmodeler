@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate, Link, useParams } from "react-router-dom";
 import { Toast } from "../../components/Toast";
 import api from "../../services/api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,7 +8,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 import usinnModeler from "../../assets/icons/usinn-logo-horiz.png";
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 export default function AlterPassword(props) {
 
@@ -16,7 +15,8 @@ export default function AlterPassword(props) {
     document.title = 'Alterar Senha - USINN Modeler';
   },[]);
 
-  const history = useHistory();
+  const navigate = useNavigate();
+  const { token } = useParams()
 
   const formik = useFormik({
     initialValues: {
@@ -31,12 +31,11 @@ export default function AlterPassword(props) {
     
     onSubmit: async (values) => {
       try {
-        let token = props.match.params.token;
         await api.post('reset-password', { token, password: values.novaSenha });
-        history.push('/sucesso');
+        navigate('/login');
         Toast('success', 'Senha alterada com sucesso!', "key");
       } catch (error) {
-        if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+        if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
           Toast('error', "Falha na conexão ao servidor", "errorServer");
         }
         else{

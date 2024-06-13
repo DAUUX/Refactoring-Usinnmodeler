@@ -1,12 +1,12 @@
 import { React, useState } from "react";
 import { Toast } from "../Toast";
 import api from "../../services/api";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useNavigate } from "react-router-dom";
 
 function ConfirmRemoveLoginModal({id}) {
 
     const [loading, setLoading] = useState(false);
-    const history               = useHistory();
+    const navigate               = useNavigate();
 
     async function removeLogin() {
         setLoading(true);
@@ -15,11 +15,11 @@ function ConfirmRemoveLoginModal({id}) {
         
             await api.delete('user');
             Toast('success', "Perfil removido com sucesso!", "checkCircle");
-            history.push(`/login`);
+            navigate(`/login`);
         
         } catch (error) {
         
-            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
                 Toast('error', "Falha na conexão ao servidor", "errorServer");
             }
             else{

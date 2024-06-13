@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import { Redirect, Route, useLocation } from "react-router-dom";
-import { useHistory } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { slugify } from "../../Helpers";
 import api from "../../services/api";
 import { Toast } from "../Toast";
 
 const ShareRoute = (props) => {
-    const history = useHistory();
+    const navigate = useNavigate();
+    const { token } = useParams();
 
     async function getSharedDiagram() {
 
@@ -14,13 +14,13 @@ const ShareRoute = (props) => {
 
         try {
         
-            const res = await api.post(`collaboration/${props.computedMatch.params.token}`);
+            const res = await api.post(`collaboration/${token}`);
 
             diagram = res.data.diagram ? res.data.diagram : res.data;
         
         } catch (error) {
         
-            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
                 Toast('error', "Falha na conexão ao servidor", "errorServer");
             }
             else{
@@ -29,12 +29,13 @@ const ShareRoute = (props) => {
         
         }
 
-        history.push(`/modeler${diagram.id ? '/'+diagram.id+'/'+slugify(diagram.name) : ''}`);
+        navigate(`/modeler${diagram.id ? '/'+diagram.id+'/'+slugify(diagram.name) : ''}`);
 
     }
 
     useEffect(()=>{
         getSharedDiagram();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
     return null;
