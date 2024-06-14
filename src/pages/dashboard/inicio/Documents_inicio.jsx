@@ -19,7 +19,6 @@ function Documents_inicio() {
         setLoading(true);
         try{
             const res = await api.get('diagrams?limit=4');
-            console.log(res.data.diagrams);
             const sortedDiagrams = res.data.diagrams.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
             setDiagrams(sortedDiagrams);
         } catch(error){
@@ -69,7 +68,7 @@ function Documents_inicio() {
                 {
                     diagrams.length > 0 && !loading && (
                         diagrams.map((diagram) => (
-                            <div key={diagram.id} className="col-12 col-md-4 col-lg-3 mb-3" style={{ minWidth: "210px" }}>
+                            <div key={diagram.id} className="col-12 col-md-4 col-lg-3 mb-3" style={{ minWidth: "245px" }}>
                                 <DiagramCard
                                     id={diagram.id}
                                     name={diagram.name}

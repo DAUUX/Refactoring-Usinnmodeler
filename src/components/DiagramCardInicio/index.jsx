@@ -12,7 +12,7 @@ function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram,
     }
     
     return (
-        <Link to={`/modeler/${id}/${slugify(name)}`} className="card text-reset text-decoration-none" id="diagram-card" style={{ overflow: 'hidden', maxHeight: '200px'  }}>
+        <Link to={`/modeler/${id}/${slugify(name)}`} className="card text-reset text-decoration-none" id="diagram-card" style={{ overflow: 'hidden' }}>
             <div className="card-header d-flex">
                 <div>
                     <span className="fw-bold">{name}</span><br />
@@ -34,7 +34,7 @@ function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram,
                         </li>
 
                         {
-                            userId == JSON.parse(localStorage.getItem('user')).id && (
+                            userId === JSON.parse(localStorage.getItem('user')).id && (
                                 <li>
                                     <button className="dropdown-item" onClick={(e)=> {e.stopPropagation(); e.preventDefault(); onShareDiagram(id)}}> <i className="bi bi-share-fill"></i> Compartilhar</button>
                                 </li>
@@ -51,7 +51,7 @@ function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram,
             </div>
             <div className="card-body p-3" >
                 {thumbnail.includes('.svg') ?
-                    <img className='w-100' src={`${process.env.REACT_APP_API_URL}${thumbnail}`} alt="Thumbnail do diagrama" /> : null
+                    <img className='w-100' src={`${process.env.REACT_APP_API_URL}${thumbnail}`} alt="Thumbnail do diagrama"  /> : null
                 }
             </div>
 
