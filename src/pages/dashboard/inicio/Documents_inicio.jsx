@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import DiagramCard from "../../../components/DiagramCardInicio";
+import DiagramCard from "../../../components/DiagramCard";
 import Spinner from "../../../components/Spinner";
 import { Toast } from "../../../components/Toast";
 import api from "../../../services/api";
@@ -68,7 +68,7 @@ function Documents_inicio() {
                 {
                     diagrams.length > 0 && !loading && (
                         diagrams.map((diagram) => (
-                            <div key={diagram.id} className="col-12 col-md-4 col-lg-3 mb-3" style={{ minWidth: "245px" }}>
+                            <div key={diagram.id} className="col-12 col-md-4 col-lg-3 mb-3" >
                                 <DiagramCard
                                     id={diagram.id}
                                     name={diagram.name}

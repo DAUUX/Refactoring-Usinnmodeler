@@ -9,24 +9,19 @@ function Inicio(){
 
     return(        
     
-    <div id="inicioPage" className="flex-fill">
+    <div id="inicioPage" className="flex-fill ">
     
-        <nav className="navbar navbar-expand-lg p-3">
-            <div className="container-fluid d-flex flex-column flex-md-row align-items-center">
-                <div className="text-center flex-grow-1 order-2 order-md-1">
-                    <div className="h4 mx-auto pt-0 pt-md-3">
-                        <b>Seja bem-vindo(a), {Data.name}!</b>
-                    </div>
-                </div>
-                
-                <div className="ml-md-auto order-1 order-md-2">
+        <nav className="navbar navbar-expand-lg p-3 justify-content-end">     
+                <div className="d-flex ">
                     <UserProfile />
                 </div>
-            </div>
         </nav>
 
   
         <nav className="container-fluid pt-0 pt-md-2">
+            <div className="h4 text-center ">
+                <b>Seja bem-vindo(a), {Data.name}!</b>
+            </div>
             {resultcardModels && (
                 <div className="px-md-5">
                     <h3 className="ps-4">Modelos de Diagramas</h3>
@@ -37,9 +32,9 @@ function Inicio(){
             )}
 
             {resultcardRecentes && (
-                <div className="px-md-5 mt-5">
+                <div className="px-md-0 mt-5">
                     <h3 className="ps-4">Documentos recentes</h3>
-                    <div className="align-items-center">
+                    <div className="">
                         {cardRecentes}
                     </div>
                 </div>
