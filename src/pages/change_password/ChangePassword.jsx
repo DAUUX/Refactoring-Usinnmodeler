@@ -1,156 +1,131 @@
-import "./style.scss"
-import { useState,useEffect } from "react";
-import { useRouteMatch, Redirect, Link } from "react-router-dom";
-import Spinner from "../../components/Spinner";
-import UserProfile from "../../components/UserProfile";
-import { useFormik } from "formik";
-import * as Yup from 'yup';
+import React, { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelope, faKey } from "@fortawesome/free-solid-svg-icons";
+import { Toast } from "../../components/Toast";
 import api from "../../services/api";
-import { Toast } from '../../components/Toast';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faKey } from '@fortawesome/free-solid-svg-icons';
+import Spinner from "../../components/Spinner";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import UserProfile from "../../components/UserProfile";
 
-import PasswordConfirmation from "../../components/PasswordConfirmationModal";
+import "./style.scss";
 
-function ChangePassword() {
+function RequestChange() {
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [enviadoComSucesso, setEnviadoComSucesso] = useState(false); // Estado para controlar o envio bem-sucedido
+  const history = useHistory();
 
-    let match = useRouteMatch();
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
 
-    const [loadingOverlay, setLoadingOverlay] = useState(false);
-    const [confirmSaveModal, setConfirmPassModal] = useState(false);
-    const [passwordValues, setPasswordValues] = useState(null);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      // Simule a lógica de envio de email de redefinição de senha (substitua com sua lógica real)
+      await api.post("recover-password", { email });
+      // Redirecionamento após envio bem-sucedido (substitua com o caminho correto)
+      setEnviadoComSucesso(true);
+      // history.push('/sucesso'); // Você pode ou não redirecionar para outra página, dependendo de como deseja implementar isso.
+    } catch (error) {
+      Toast("error", error); // Tratamento de erro
+    }
+    setLoading(false);
+  };
 
-    const username = JSON.parse(localStorage.getItem("user"))['name']
+  return (
+    <main className="flex-fill d-flex flex-column h-100">
+      <nav className="navbar navbar-expand-lg bg-white p-3 justify-content-between w-100">
+        {/* Perfil user */}
+        <div className="container-fluid">
+          <div className="mb-0 h4">
+            <b>Redefinir Senha</b>
+          </div>
+          <UserProfile />
+        </div>
+      </nav>
 
-    const formik = useFormik({
+      <div className="container flex-fill d-flex align-items-center">
+        <div className="row justify-content-center mt-5 w-100">
+          <div className="col-12 col-md-8 col-lg-4 text-center">
+            {!enviadoComSucesso ? ( // Renderiza o formulário apenas se não for enviado com sucesso
+              <div>
+                {/* Adicione o ícone de chave */}
+                <div
+                  className="text-center"
+                  style={{ marginTop: "-10px", marginBottom: "100px" }}
+                >
+                  <FontAwesomeIcon icon={faKey} size="3x" color="#007BFF" />
+                </div>
+                <h2 style={{ whiteSpace: "nowrap" }}>
+                  Gostaria de redefinir sua senha?
+                </h2>
+                <p className="text-muted text-center mb-4">
+                  Não se preocupe, enviaremos as instruções de redefinição por
+                  e-mail.
+                </p>
+                <form
+                  className={`row justify-content-center`}
+                  onSubmit={handleSubmit}
+                >
+                  <div className="col-12 mb-3">
+                    <input
+                      autoFocus
+                      onChange={handleEmailChange}
+                      value={email}
+                      className={`form-control`}
+                      type="email"
+                      placeholder="Digite seu endereço de e-mail"
+                    />
+                  </div>
 
-		initialValues: {
-			password: '',
-            confirmPassword: ''
-		},
-   
-		validationSchema: Yup.object({
-			password: Yup.string().min(8, 'Senha deve ter no mínimo 8 caracteres').required('Senha é obrigatória'),
-            confirmPassword: Yup.string()
-            .oneOf([Yup.ref('password'), null], 'As senhas precisam ser iguais') // Garante que confirmPassword seja igual a password
-            .required('Confirmação de senha é obrigatória'),
-		}),
-   
-        onSubmit: async values => {
-            // Define os valores do formulario(senha) e inicia o modal
-            setPasswordValues(values);
-            setConfirmPassModal(true);
-        },
-	});
-
-
-    const handleConfirmPasswordChange = async () => { //faz o envio ao backEnd
-        //Antes o envio ao backEnd ficava no formik.handleSubmit
-        try {
-            setLoadingOverlay(true);
-            const response = await api.put('user/change-password', passwordValues); // Envio da solicitação com os valores do formulario de senha
-            Toast('success', 'Os dados foram atualizados com sucesso!');
-        } catch (error) {
-            Toast('error', error);
-        } finally {
-            setLoadingOverlay(false); // Fecha a tela de carregamento
-            setPasswordValues(null); // Limpa os valores para seguranca
-            setConfirmPassModal(false); // Fecha o modal após a conclusão da solicitação
-        }
-
-    };
-
-    return (
-        <main id="changePassword" className={`flex-fill h-100`}>
-            
-            
-            <nav className="navbar navbar-expand-lg bg-white p-3 justify-content-between w-100">{/* Perfil user */}
-                        <div className="container-fluid">
-                            <div className="mb-0 h4">
-                                <b>Atualizar Senha</b>
-                            </div>
-                            <UserProfile/>
-                        </div>
-            </nav>
-
-            <div className="container">
-            
-                <div id="content" className="row justify-content-center position-relative mt-5 mx-3">
-					
-					<div className="col-12 col-md-6 col-lg-5 mt-5">
-
-						<form className="row" noValidate="" onSubmit={formik.handleSubmit}>{/* O formik.handleSubmit chama o modal */}
-                            
-                            <div className="text-center mb-3">
-                                <FontAwesomeIcon icon={faKey} size="3x" color="#007BFF" />
-                            </div>
-        
-                            <div className="col-12 mb-3">
-                                <input 
-                                    disabled={formik.isSubmitting}
-                                    onChange={formik.handleChange}
-                                    onInput={(e) => formik.setFieldTouched(e.target.name, true, false)}
-                                    value={formik.values.password}
-                                    className={`form-control ${formik.touched.password && formik.errors.password ? 'is-invalid' : '' }`}
-                                    type="password" 
-                                    name="password" 
-                                    placeholder="Senha*"
-                                />
-                                {formik.touched.password && formik.errors.password ? (<div className="invalid-feedback d-block"> {formik.errors.password}</div>) : null}
-                            </div>
-
-                            <div className="col-12 mb-3">
-                                <input 
-                                    disabled={formik.isSubmitting}
-                                    onChange={formik.handleChange}
-                                    onInput={(e) => formik.setFieldTouched(e.target.name, true, false)}
-                                    value={formik.values.confirmPassword}
-                                    className={`form-control ${formik.touched.confirmPassword && formik.errors.confirmPassword ? 'is-invalid' : '' }`}
-                                    type="password" 
-                                    name="confirmPassword" 
-                                    placeholder="Confirmar Senha*"
-                                />
-                                {formik.touched.confirmPassword && formik.errors.confirmPassword ? (<div className="invalid-feedback d-block"> {formik.errors.confirmPassword}</div>) : null}
-                            </div>
-
-
-                            <div className="d-flex justify-content-between">
-                                
-                                <div className="text-center mt-2">
-                                    <Link className="text-decoration-none btn text-primary fw-bold px-3" to="/dashboard" >Cancelar</Link>
-                                </div>
-                                
-                                <div className="mt-2">
-                                    <button className="btn btn-primary" type="submit">
-                                        Confirmar
-                                    </button>
-                                </div>
-                            </div>                    
-                            
-						</form>
-					</div>
-                    
-                    
-
-				</div>
-                
-
-            </div>
-        
-            <div id="loadingOverlay" className={`${loadingOverlay ? 'open':''}`} style={{zIndex: '9',    position: "fixed",top: "50%",left: "50%",transform: "translate(-50%, -50%)",}}> {/* Tela de carregamento */}
-                <Spinner className="spinner-border spinner-border text-light" isLoading={loadingOverlay}  />
-            </div>        
-
-            {confirmSaveModal && (//Modal
-                <PasswordConfirmation 
-                    setConfirmPassModal={setConfirmPassModal} 
-                    handleConfirmPasswordChange={handleConfirmPasswordChange} // Passa a função para confirmar a alteração de senha para o modal
-                />
+                  <div className="col-12 d-grid gap-2 mt-2">
+                    <button
+                      className="btn btn-primary btn-lg"
+                      type="submit"
+                      disabled={loading}
+                    >
+                      <Spinner
+                        className="spinner-border spinner-border-sm me-2"
+                        isLoading={loading}
+                      />{" "}
+                      Enviar
+                    </button>
+                  </div>
+                </form>
+              </div>
+            ) : (
+              // Renderiza a mensagem após o envio bem-sucedido
+              <div>
+                <div
+                  className="text-center"
+                  style={{ marginTop: "-10px", marginBottom: "100px" }}
+                >
+                  <FontAwesomeIcon icon={faEnvelope} size="3x" color="#007BFF" />
+                </div>
+                <h2> Cheque seu E-mail </h2>
+                <p className="text-muted">
+                  Enviamos um link para redefinição de senha.
+                </p>
+                <div className="col-12 text-center mt-4">
+                  <Link
+                    className="text-decoration-none text-muted fw-bold"
+                    to="/login"
+                  >
+                    {" "}
+                    <i className="bi bi-arrow-left"></i> Voltar para login
+                  </Link>
+                </div>
+              </div>
             )}
-            
-        </main>
-    )
-
+          </div>
+        </div>
+      </div>
+    </main>
+  );
 }
 
-export default ChangePassword;
+export default RequestChange;
