@@ -30,12 +30,12 @@
 }
 
 .toast-close:hover {
-    background: #959595;
-    color: #fff;
+    background: #959595 !important;
+    color: #fff !important;
 }
 
 .toast-progressbar {
-    background-color: #fff;
+    background-color: #ffffff !important;
 }
 
 .delete {
@@ -127,5 +127,5 @@
 }
 
 .no-border{
-    border: 0;
+    border: 0 !important;
 }

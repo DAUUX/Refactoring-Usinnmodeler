@@ -51,3 +51,21 @@ body {
 	width: 1em;
 	height: 1em;
 }
+
+.no-arrow::after {
+  display: none !important;
+}
+
+//-----------------------ACESSIBILIDADE---------------------------
+
+*.btn.dropdown-toggle{
+	border: 0 !important;
+}
+
+.outline-white :focus-visible{
+  outline: 2px #ffffff solid !important;
+}
+
+.outline-black :focus-visible{
+	outline: 2px #000000 solid !important;
+}

@@ -5,8 +5,10 @@ import Spinner from "../Spinner";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { Modal } from "bootstrap";
+import { useSocket } from "../../services/SocketContext";
 
 function Rename({id, diagram_id, onDiagramRenamed}) {
+    const socket = useSocket()
 
     useEffect(()=>{
         document.getElementById(id).addEventListener('show.bs.modal', event => {
@@ -15,7 +17,7 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
-    const modalRef = useRef(null);
+    const modalRef = useRef(null); 
 
     const formik = useFormik({
 
@@ -26,13 +28,17 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
 		validationSchema: Yup.object({
 			name: Yup.string()
 				.min(3, 'O nome deve ter no mínimo 3 caracteres')
-				.max(255, 'O nome deve ter no máximo 100 caracteres')
+				.max(100, 'O nome deve ter no máximo 100 caracteres')
 				.required('Nome é obrigatório')
 		}),
    
 		onSubmit: async values => {
    
             try {
+
+                const res = await api.get(`diagrams/${diagram_id}`);  
+                const {user_id, name} = res.data
+                const owner = user_id === JSON.parse(localStorage.getItem('user')).id
             
                 await api.put(`diagrams/rename/${diagram_id}`, values);
                 Toast('success', 'Diagrama renomeado com sucesso!', "checkCircle");
@@ -40,6 +46,12 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
                 document.getElementById(id).click();
 
                 onDiagramRenamed()
+
+                if(!owner && name !== formik.values.name){
+                    const collaborator_name = JSON.parse(localStorage.getItem('user')).name;
+                    await api.post('notification', {user_id: user_id, type: 2, message: `"${collaborator_name}" alterou o nome do seu diagrama: "${name}" para "${formik.values.name}"`})
+                    await socket.emit('send_notification', user_id);
+                }
                 
                 if (modalRef.current) {
                     const modalInstance = Modal.getInstance(modalRef.current);

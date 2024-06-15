@@ -32,10 +32,11 @@ function AddUsersToInvite(props) {
                     <option value={2}>Editor</option>
                 </select>
             </span>
-            <span className="col-2 col-lg-1 d-flex justify-content-end">
+            <span className="col-2 col-lg-1 d-flex justify-content-end outline-black">
                 <button
                     className={`btn text-primary border border-primary px-0 ${!props.visibleButton && 'disabled'}`}
                     onClick={() => props.onDelete(props.id)}
+                    tabIndex={!props.visibleButton ? -1 : 0}
                     style={{width:"43px", minWidth:"43px"}}>
                     <i className="bi bi-dash-lg" />
                 </button>

@@ -1,0 +1,40 @@
+@import "../../assets/styles/variables";
+
+#droptdown-notification {
+  
+  .dropdown-menu {
+    transform: translateX(-90%);
+    max-height: 60svh;
+    overflow-y: auto;
+    background-color: #ffffff;
+    z-index: 1020 !important;
+    button {
+      max-width: 450px;
+      &:hover, &:focus {
+        background-color: $primary;
+        color: #ffffff;
+      }
+    }
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: $gray-900;
+    }
+    @media (max-width: 840px) {
+      transform: translateX(-50%);
+      max-width: 350px;
+    }
+    @media (max-width: 610px) {
+      max-width: 250px;
+    }
+  }
+  #countNotific {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    font-size: 0.7rem;
+    height: 20px;
+    width: 20px;
+  }
+}

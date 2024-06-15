@@ -1,8 +1,11 @@
-import React from 'react';
+import React from "react";
 import Routers from "./Routers";
+import { SocketProvider } from "./services/SocketContext";
 
 export default function App() {
-   return (
-       <Routers/>
-   );
+  return (
+    <SocketProvider>
+      <Routers />
+    </SocketProvider>
+  );
 }

@@ -3,6 +3,7 @@ import UserProfile from "../../../components/UserProfile";
 import MyDocuments  from "./MyDocuments";
 import SharedDocuments from "./SharedDocuments";
 import FavoritedDocuments from "./FavoritedDocuments";
+import Notifications from "../../../components/Notifications"
 import './style.scss'
 
 function Documents() {
@@ -12,12 +13,15 @@ function Documents() {
     
     return (
         <div id="documentsPage" className="flex-fill h-100">
-            <nav className="navbar navbar-expand-lg bg-white p-3 justify-content-between">
+            <nav className="navbar navbar-expand-lg bg-white p-3 pe-1 justify-content-between">
                 <div className="container-fluid">
                     <div className="mb-0 h4">
                         <b>Documentos</b>
                     </div>
-                    <UserProfile/>
+                    <div className="d-flex align-items-center ps-2 ps-sm-4 gap-2 gap-sm-4">
+                        <Notifications/>
+                        <UserProfile/>
+                    </div>
                 </div>
             </nav>
             
