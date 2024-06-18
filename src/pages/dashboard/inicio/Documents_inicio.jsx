@@ -18,9 +18,8 @@ function Documents_inicio() {
     async function getDiagrams() {
         setLoading(true);
         try{
-            const res = await api.get('diagrams?limit=4&order=updated_at');
-            const sortedDiagrams = res.data.diagrams.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
-            setDiagrams(sortedDiagrams);
+            const res = await api.get('/diagrams/recent?limit=4');
+            setDiagrams(res.data.diagrams);
         } catch(error){
             Toast('error', error);
         }
