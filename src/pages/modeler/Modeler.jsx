@@ -1,3 +1,4 @@
+
 import "./style.scss";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -184,6 +185,8 @@ function Modeler(props) {
                     </div>
                 </div>
             </nav>
+            
+
 
            <div hidden={oculteManipulationIcons}>
                 <div id="actionsMenu" className="d-flex py-2 px-5" >
@@ -210,7 +213,6 @@ function Modeler(props) {
 
                 <div id="zoomActions" hidden="hidden"></div>
                 <div id="footer" hidden="hidden">
-                    <p id="status"> Carregando... </p>
                 </div>
             </section>
 
