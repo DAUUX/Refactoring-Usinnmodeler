@@ -56,6 +56,7 @@ function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram,
                     <img className='w-100' src={`${link}${thumbnail}`} alt="Thumbnail do diagrama" /> : null
                 }
             </div>
+
         </Link>
     )
 }

@@ -6,6 +6,7 @@ import Documents from "./documents/Documents";
 import Spinner from "../../components/Spinner";
 import UpdateProfile from "../updateProfile/UpdateProfile";
 import ChangePassword from "../change_password/ChangePassword";
+import Inicio from "./inicio/Inicio";
 
 function Dashboard() {
 
@@ -18,6 +19,7 @@ function Dashboard() {
             <DashboardMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} onCreateDiagram={(value) => setLoadingOverlay(value) } />
             
             <Routes>
+                <Route path="/" element={<Inicio />} />
                 <Route path={`documentos/*`} element={<Documents/>} />
                 <Route path={`atualizarperfil`} element={<UpdateProfile/>} />
                 <Route path={`atualizarsenha`} element={<ChangePassword/>} />
@@ -25,7 +27,7 @@ function Dashboard() {
 
             <div id="loadingOverlay" className={`${loadingOverlay ? 'open':''}`}>
                 <Spinner className="spinner-border spinner-border text-light" isLoading={loadingOverlay}  />
-            </div>
+            </div>   
 
             <button 
                 onClick={()=> setMenuOpen(!menuOpen)}
