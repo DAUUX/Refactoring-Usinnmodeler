@@ -63,6 +63,7 @@ function UserProfile(props) {
      },[])
     
     return (
+        
             <div className="dropdown d-flex">
 
                 <div id="profileImg" className="text-uppercase"> <img className="mb-4 img-fluid"src={avatarOptions[user.avatar-1]} alt=""></img> </div>
@@ -86,11 +87,13 @@ function UserProfile(props) {
 
             <RemoveLoginModal id={"RemoveLoginModal"} onConfirmLoginRemoved={()=>{callConfirmRemoveLoginModal()}}/>
             <ConfirmRemoveLoginModal id={"ConfirmRemoveLoginModal"}/>
+        
         </div>
 
 
     )
-    
+
 }
 
 export default UserProfile;
+
