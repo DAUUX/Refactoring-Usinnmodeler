@@ -3,6 +3,8 @@ import { slugify } from '../../Helpers';
 import './style.scss';
 import FavoriteDiagram from "../../components/FavoriteDiagram";
 
+const link = process.env.REACT_APP_API_URL == "http://localhost:8080/api/" ? process.env.REACT_APP_API_URL : process.env.RAILWAY_VOLUME_MOUNT_PATH + '/'
+
 function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram, onRemoveDiagram, onRenameDiagram, favorited, onDiagramFavorited}) {
 
     function elapsedTime (date) {
@@ -51,9 +53,10 @@ function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram,
             </div>
             <div className="card-body p-3">
                 {   thumbnail.includes('.svg') ?
-                    <img className='w-100' src={`${process.env.REACT_APP_API_URL}${thumbnail}`} alt="Thumbnail do diagrama" /> : null
+                    <img className='w-100' src={`${link}${thumbnail}`} alt="Thumbnail do diagrama" /> : null
                 }
             </div>
+
         </Link>
     )
 }

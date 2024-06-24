@@ -80,11 +80,13 @@ function UserProfile(props) {
 
             <RemoveLoginModal id={"RemoveLoginModal"} onConfirmLoginRemoved={()=>{callConfirmRemoveLoginModal()}}/>
             <ConfirmRemoveLoginModal id={"ConfirmRemoveLoginModal"}/>
+        
         </div>
 
 
     )
-    
+
 }
 
 export default UserProfile;
+
