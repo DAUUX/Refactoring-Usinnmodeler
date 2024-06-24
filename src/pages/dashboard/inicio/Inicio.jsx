@@ -1,6 +1,7 @@
 import UserProfile from "../../../components/UserProfile";
 import Documents_inicio from './Documents_inicio'
 import './style.scss'
+import Notifications from "../../../components/Notifications"
 
 function Inicio(){
     const {resultcardModels, cardModels} = 0;
@@ -12,9 +13,10 @@ function Inicio(){
     <div id="inicioPage" className="flex-fill ">
     
         <nav className="navbar navbar-expand-lg p-3 justify-content-end">     
-                <div className="d-flex ">
-                    <UserProfile />
-                </div>
+            <div className="d-flex align-items-center gap-2 gap-sm-4">
+                <Notifications/>
+                <UserProfile/>
+            </div>
         </nav>
 
   

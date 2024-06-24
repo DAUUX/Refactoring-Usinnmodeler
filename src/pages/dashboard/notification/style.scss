@@ -1,0 +1,37 @@
+@import '../../../assets/styles/variables';
+
+#notification{
+  div:not(.spinner){
+    width: 100% !important;
+    max-width: 100vw !important;
+    button{
+      &:hover{
+        background-color: #ffffff;
+        color: $primary !important;
+      }
+      &:focus:not(:hover){
+        background-color: $primary;
+        color: #ffffff;
+      }
+    }
+    &:nth-child(1){
+      border-top: 1px #000000 solid !important;
+    }
+    &:hover, &:focus {
+      background-color: $primary;
+      color: #ffffff;
+    }
+  }
+  a{
+    &:focus, &:hover{
+      background-color: $primary;
+      color: #ffffff;
+    }
+  }
+  .reader{
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  .cursor-default {
+    cursor: default !important;
+  }
+}

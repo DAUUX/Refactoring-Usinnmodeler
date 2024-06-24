@@ -8,12 +8,25 @@
     overflow-y: auto;
     background-color: #ffffff;
     z-index: 1020 !important;
-    button {
+    div {
       max-width: 450px;
+      button{
+        &:hover{
+          background-color: #ffffff;
+          color: $primary !important;
+        }
+        &:focus:not(:hover){
+          background-color: $primary;
+          color: #ffffff;
+        }
+      }
       &:hover, &:focus {
         background-color: $primary;
         color: #ffffff;
       }
+    }
+    .reader{
+      background-color: rgba(0, 0, 0, 0.1);
     }
     &::-webkit-scrollbar {
       width: 5px;
@@ -36,5 +49,8 @@
     font-size: 0.7rem;
     height: 20px;
     width: 20px;
+  }
+  .cursor-default {
+    cursor: default !important;
   }
 }
