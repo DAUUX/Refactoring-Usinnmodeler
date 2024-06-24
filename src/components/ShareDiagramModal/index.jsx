@@ -96,7 +96,7 @@ function ShareDiagramModal(props) {
             const user_id = response.data.filter(id => id !== collaborator_id);
             
             await api.post(`share/${props.diagram_id}/inviteLink`, {link, usersInvited});  
-            await api.post('notification', {user_id: user_id, type: 1, message: `"${collaborator_name}" compartilhou o diagrama: "${name}. Cheque seu e-mail!"`})
+            await api.post('notification', {user_id: user_id, diagram_id: props.diagram_id, diagram_name: name, type: 1, message: `"${collaborator_name}" compartilhou o diagrama: "${name}". Cheque seu e-mail!`})
             await socket.emit('send_notification', user_id);
             
             Toast('success', 'Diagrama compartilhado com sucesso!', "share");
@@ -167,12 +167,12 @@ function ShareDiagramModal(props) {
 
             if(updation === "StopShare"){
                 await api.delete(`/collaboration/${props.diagram_id}/${user_id}`);
-                await api.post('notification', {user_id: user_id, type: 1, message: `"${collaborator_name}" parou de compartilhar o diagrama: "${name}"`})     
+                await api.post('notification', {user_id: user_id, diagram_id: props.diagram_id, diagram_name: name, type: 1, message: `"${collaborator_name}" parou de compartilhar o diagrama: "${name}"`})     
                 await socket.emit('send_notification', user_id);    
                 getAllCollaborations();                
             } else {
                 await api.put(`/collaboration/${props.diagram_id}/${user_id}`, {updation});
-                await api.post('notification', {user_id: user_id, type: 1, message: `"${collaborator_name}" deu permissão de ${updation === '1' ? 'leitor' : 'editor'} no: "${name}"`})   
+                await api.post('notification', {user_id: user_id, diagram_id: props.diagram_id, diagram_name: name, type: 1, message: `"${collaborator_name}" deu permissão de ${updation === '1' ? 'leitor' : 'editor'} no: "${name}"`})   
                 await socket.emit('send_notification', user_id);
             }         
         } catch(error) {

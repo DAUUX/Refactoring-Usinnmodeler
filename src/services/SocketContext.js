@@ -9,14 +9,17 @@ export const useSocket = () => {
 
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
+  let userId = JSON.parse(localStorage.getItem('user')).id;
 
   useEffect(() => {
     const newSocket = io(process.env.REACT_APP_SOCKET_URL, {
-      path: '/api/socket.io'
+      path: '/api/socket.io',
+      auth: {userId}
     });
     setSocket(newSocket);
 
     return () => newSocket.close();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
