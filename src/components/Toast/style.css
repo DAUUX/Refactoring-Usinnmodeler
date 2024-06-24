@@ -24,18 +24,18 @@
     right: 8px;
     font-size: 25px !important;
     font-weight: bolder;
-    color: #fff;
+    color: #ffffff;
     width: 20px !important;
     height: 20px !important;
 }
 
 .toast-close:hover {
     background: #959595;
-    color: #fff;
+    color: #ffffff;
 }
 
 .toast-progressbar {
-    background-color: #fff;
+    background-color: #ffffff;
 }
 
 .delete {
