@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Toast } from "../Toast";
 import api from "../../services/api";
+import { useSocket } from "../../services/SocketContext";
 
 function RemoveDiagramModal({id, diagram_id, onDiagramRemoved}) {
+    const socket = useSocket()
 
     const [loading, setLoading]   = useState(false);
 
@@ -10,9 +12,23 @@ function RemoveDiagramModal({id, diagram_id, onDiagramRemoved}) {
         setLoading(true);
 
         try {
-        
-            await api.delete(`diagrams/${diagram_id}`);
+            
+            const resDiagram = await api.get(`diagrams/${diagram_id}`)
+            const id_owner = resDiagram.data.user_id
+            const owner = id_owner === JSON.parse(localStorage.getItem('user')).id
 
+            await api.delete(`diagrams/${diagram_id}`)
+
+            if(owner){
+                const name_user = JSON.parse(localStorage.getItem('user')).name
+                const name_diagram = resDiagram.data.name
+                const resCollaborator = await api.get(`collaboration/${diagram_id}`)
+                const user_ids = resCollaborator.data.collaborators.map(collaborator => collaborator.collaborator_id)
+
+                await api.post('notification', {user_id: user_ids, diagram_id: diagram_id, type: 3, message: `"${name_user}" deletou o diagrama compartilhado com você: "${name_diagram}"`})
+                await socket.emit('send_notification', user_ids);
+            }  
+    
             Toast('success', "O Diagrama foi excluído com sucesso", "delete");
 
             onDiagramRemoved();
