@@ -49,8 +49,8 @@ function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram,
                 </div>
 
             </div>
-            <div className="card-body p-3" >
-                {thumbnail.includes('.svg') ?
+            <div className="card-body p-3">
+                {   thumbnail.includes('.svg') ?
                     <img className='w-100' src={`${process.env.REACT_APP_API_URL}${thumbnail}`} alt="Thumbnail do diagrama" /> : null
                 }
             </div>
