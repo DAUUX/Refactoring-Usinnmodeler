@@ -1,0 +1,13 @@
+.password-toggle-icon {
+  position: absolute;
+  top: 50%;
+  right: 30px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.password-toggle-icon svg {
+  height: 14px; /* Reduzindo o tamanho do ícone */
+  width: auto;
+  color: #666; /* Cor do ícone */
+}
