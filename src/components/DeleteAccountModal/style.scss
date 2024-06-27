@@ -1,0 +1,13 @@
+.password-toggle-icon {
+  position: absolute;
+  right: 25px; /* Ajuste a posição conforme necessário */
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1000; /* Garante que o ícone esteja acima do input */
+  border: none !important; /* Remove bordas */
+  box-shadow: none !important; /* Remove sombra */
+}
+
+.icon-eye {
+  font-size: 1.3rem; /* Define o tamanho do ícone de olho */
+}
