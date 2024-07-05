@@ -17,6 +17,8 @@ export default function Register() {
 	const togglePasswordVisibility = () => {
 	  setShowPassword(!showPassword);
 	};
+	let DateTenYears = new Date();
+	DateTenYears.setFullYear((new Date()).getFullYear() - 10);
 
 	useEffect(() => {
     document.title = 'Cadastrar - USINN Modeler';
@@ -48,7 +50,8 @@ export default function Register() {
 			birthday: Yup.date()
 				.transform((value, currentValue) => { return moment(currentValue, 'DD/MM/YYYY', true).toDate() })
 				.typeError('Data é inválida')
-				.max(new Date(), 'Data de nascimento inválida')
+				.min(new Date(0, 0, 1), 'Data de nascimento inválida')
+				.max(DateTenYears, 'Data de nascimento inválida')
 				.required('Data de nascimento é obrigatória'),
 			gender: Yup.number().integer('Valor é inválido').min(1, 'Valor é inválido').max(3, 'Valor é inválido').required('Gênero é obrigatório'),
 			role: Yup.number().integer('Valor é inválido').required('O perfil é obrigatório'),
