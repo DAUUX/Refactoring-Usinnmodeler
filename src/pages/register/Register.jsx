@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import usinnModeler from "../../assets/icons/usinn-logo-horiz.png";
 import { Link, useNavigate } from "react-router-dom";
 import Spinner from "../../components/Spinner";
@@ -8,9 +9,14 @@ import "./style.scss";
 import { roleOptions, genderOptions } from '../../Consts';
 import { useFormik } from "formik";
 import * as Yup from 'yup';
-import { useEffect } from "react";
 
 export default function Register() {
+
+	const [showPassword, setShowPassword] = useState(false);
+
+	const togglePasswordVisibility = () => {
+	  setShowPassword(!showPassword);
+	};
 
 	useEffect(() => {
     document.title = 'Cadastrar - USINN Modeler';
@@ -95,8 +101,7 @@ export default function Register() {
 				</div>
 
 				<div id="content" className="row position-relative justify-content-center mt-5">
-					<div className="col-12 col-md-8 col-lg-4">
-						<form className="row" noValidate="" onSubmit={formik.handleSubmit}>
+						<form className="row m-auto mt-5 col-12 col-md-8 col-lg-4" noValidate="" onSubmit={formik.handleSubmit}>
 								
 								<div className="col-12 mb-3">
 									<input 
@@ -129,17 +134,22 @@ export default function Register() {
 									{formik.touched.email && formik.errors.email ? (<strong className="invalid-feedback d-block"> {formik.errors.email}</strong>) : null}
 								</div>
 
-								<div className="col-12 mb-3">
+								<div className="col-12 mb-3 " style={{ position: 'relative' }}>
 									<input 
 										disabled={formik.isSubmitting}
 										onChange={formik.handleChange}
 										onInput={(e) => formik.setFieldTouched(e.target.name, true, false)}
 										value={formik.values.password}
 										className={`form-control ${formik.touched.password && formik.errors.password ? 'is-invalid' : '' }`}
-										type="password" 
+										type={showPassword ? "text" : "password"}
 										name="password" 
 										placeholder="Senha*"
 									/>
+									<div className="">
+										<i onClick={togglePasswordVisibility} className={`Reyeicon bi bi-${showPassword ? 'eye': 'eye-slash'} icon ${formik.touched.password && formik.errors.password ? 'reyeicon-active': ''}`}
+										></i>
+									</div>
+
 									{formik.touched.password && formik.errors.password ? (<strong className="invalid-feedback d-block"> {formik.errors.password}</strong>) : null}
 								</div>
 
@@ -247,7 +257,6 @@ export default function Register() {
 								</div>
 
 						</form>
-					</div>
 				</div>
 			</div>
 		</main>

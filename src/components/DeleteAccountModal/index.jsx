@@ -1,19 +1,23 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Toast } from "../Toast";
 import Spinner from "../Spinner";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import api from "../../services/api";
 import { Modal } from "bootstrap";
-import { IoEyeOutline, IoEyeOffOutline } from 'react-icons/io5';
-import "./style.scss";
+import './style.scss';
+
 
 function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
     const [loading, setLoading] = useState(false);
-    const [showPassword, setShowPassword] = useState(false); // Estado para controlar visibilidade da senha
     const modalRef = useRef(null);
+    const [showPassword, setShowPassword] = useState(false);
 
-    // Formulário com Formik
+	const togglePasswordVisibility = () => {
+	  setShowPassword(!showPassword);
+	};
+
+    // Formulario com Formik
     const formik = useFormik({
         initialValues: {
             password: ''
@@ -29,9 +33,10 @@ function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
                 onConfirmLoginRemoved();
                 closeModal(); // Fechar Modal
             } catch (error) {
-                if (error === "TypeError: Cannot read properties of undefined (reading 'status')") {
+                if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
                     Toast('error', "Falha na conexão ao servidor", "errorServer");
-                } else {
+                }
+                else{
                     Toast('error', error, "errorCircle");
                 }
             }
@@ -40,12 +45,7 @@ function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
         },
     });
 
-    // Função para alternar visibilidade da senha
-    const togglePasswordVisibility = () => {
-        setShowPassword(!showPassword);
-    };
-
-    // Fechar o Modal
+    // Fecha o Modal pegando a instancia dele
     const closeModal = () => {
         if (modalRef.current) {
             const modalInstance = Modal.getInstance(modalRef.current);
@@ -53,7 +53,9 @@ function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
         }
     };
 
-    // Limpar o formulário quando o Modal é mostrado
+
+
+    // Limpa a senha do Modal quando inicia
     useEffect(() => {
         const handleShown = () => {
             formik.resetForm();
@@ -66,7 +68,10 @@ function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
             modalElement.removeEventListener('shown.bs.modal', handleShown);
             modalInstance.dispose();
         };
-    }, [formik]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+
 
     return (
         <div className="modal" id={id} tabIndex="-1" aria-labelledby="RemoveLoginModal" aria-hidden="true" ref={modalRef}>
@@ -78,25 +83,26 @@ function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
                     </div>
                     <form noValidate="" onSubmit={formik.handleSubmit}>
                         <div className="modal-body">
-                            <div className="input-group">
-                                <input
-                                    id="password"
-                                    autoFocus
-                                    disabled={formik.isSubmitting}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik.values.password}
-                                    className={`form-control ${formik.touched.password && formik.errors.password ? 'is-invalid' : ''}`}
-                                    placeholder="Insira sua senha"
-                                    type={showPassword ? 'text' : 'password'} // Mostra como texto se showPassword for true
-                                    name="password"
-                                />
-                                <span className="input-group-text password-toggle-icon" style={{ cursor: 'pointer' }} onClick={togglePasswordVisibility}>
-                                    {showPassword ? <IoEyeOffOutline className="icon-eye" /> : <IoEyeOutline className="icon-eye" />}
-                                </span>
+                            <input
+                                id="password"
+                                autoFocus
+                                disabled={formik.isSubmitting}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.password}
+                                className={`form-control ${formik.touched.password && formik.errors.password ? 'is-invalid' : ''}`}
+                                placeholder="Insira sua senha"
+                                type={showPassword ? "text" : "password"}
+                                name="password"
+                            />
+                            <div className="">
+                                <i onClick={togglePasswordVisibility}
+                                    className={`eyeicon bi bi-${showPassword ? 'eye': 'eye-slash'} icon ${formik.touched.password && formik.errors.password ? 'deyeicon-active': ''}`}
+                                ></i>
                             </div>
+
                             {formik.touched.password && formik.errors.password ? (
-                                <div className="invalid-feedback d-block">{formik.errors.password}</div>
+                                <div className="invalid-feedback d-block"> {formik.errors.password}</div>
                             ) : null}
                         </div>
                         <div className="modal-footer">
@@ -108,7 +114,7 @@ function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
                 </div>
             </div>
         </div>
-    );
+    )
 }
 
 export default RemoveLoginModal;
