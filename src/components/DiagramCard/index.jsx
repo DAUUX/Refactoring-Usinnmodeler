@@ -6,6 +6,7 @@ import api from "../../services/api";
 import FavoriteDiagram from "../../components/FavoriteDiagram";
 
 function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram, onRemoveDiagram, onRenameDiagram, favorited, onDiagramFavorited}) {
+    const link = process.env.REACT_APP_API_URL == "http://localhost:8080/api/" ? process.env.REACT_APP_API_URL : process.env.RAILWAY_VOLUME_MOUNT_PATH + '/';
 
     const [svgContent, setSvgContent] = useState(null);
     const [imgSrc, setImgSrc] = useState(null);
