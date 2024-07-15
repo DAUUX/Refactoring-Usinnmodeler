@@ -1,0 +1,72 @@
+#modelerPage { 
+
+    #loadingOverlay {
+        display: none;
+
+        &.open{
+            z-index: 200;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.35);
+        }
+    }
+
+    #modelerNavbar {
+    
+        background-color: #d9d9d9;
+    
+        #nameInput {
+            border: 0;
+            font-size: 20px;
+            font-weight: 600;
+            &:hover, &:focus {
+                border: 2px solid rgba(0,0,0,.2);
+            }
+        }
+    }
+
+    #modelerToolbar {
+        width: 15rem;
+        max-height: 95%;
+        z-index: 2;
+    }
+
+    #actionsMenu {
+        .btn:hover {
+            background-color: #e4e4e4;
+        }
+    }   
+
+    #graph {
+        background: url('../../../public/images/grid.gif');
+        overflow: scroll;
+    }
+    
+    #zoomActions {
+        width:100%;
+        padding-left:54px;
+        padding-top:4px;
+    }
+    
+    #outlineContainer {
+        position:fixed;
+        overflow:hidden;
+        bottom:20px;
+        right:20px;
+        width:200px;
+        height:140px;
+        background:white;
+        border-style:solid;
+        border-color:black;
+    }
+
+    .Hidden {
+        display: none;
+    }
+}
+
+

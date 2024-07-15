@@ -12,6 +12,7 @@ import UserProfile from "./components/UserProfile";
 import UpdateProfile from "./pages/updateProfile/UpdateProfile";
 import AlterPassword from "./pages/alter_password/AlterPassword";
 import RequestChange from "./pages/alter_password/RequestChange";
+import ModeleReactFlow from "./pages/modeler/ModelerReactFlow";
 const Routers = () => {
   return (
     // forceRefresh para tentar corrigir problema onde o salvamento e atalhos do modeler não funcionam
@@ -20,7 +21,7 @@ const Routers = () => {
         <PrivateRoute path="/modeler/:id?/:slug?" component={Modeler} />
         <PrivateRoute path="/dashboard" component={Dashboard} />
         <ShareRoute path="/shared/:token" component={ShareRoute} />
-        <Route path="/" exact component={Home} />
+        <Route path="/" exact component={ModeleReactFlow} />
         <Route path="/cadastro" exact component={Register} />
         <Route path="/login" exact component={Login} />
         <Route path="/privacidade" component={PrivacyTerms} />
