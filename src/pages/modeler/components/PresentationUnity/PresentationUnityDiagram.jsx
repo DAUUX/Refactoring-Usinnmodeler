@@ -1,56 +1,98 @@
-import { useState, useEffect } from 'react';
-import { Handle, Position } from 'reactflow';
-import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import { Grid } from "@mui/material";
-import './text-updater-node.css';
+import { Button } from '@mui/material';
+import React, { useState } from 'react';
+import { useReactFlow } from 'reactflow';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 
+function Subflow({ id, data }) {
+  const [isEditing, setIsEditing] = useState(false); 
+  const [text, setText] = useState('Unidade de apresentação'); 
+  const [isMinimized, setIsMinimized] = useState(false); 
+  const { getNode, setNodes } = useReactFlow();
 
-function PresentationUnityDiagram({ data }) {
+  const handleBlur = () => {
+    setIsEditing(false); 
+  };
 
-  const [name, setName] = useState(data.name)
+  const handleChange = (e) => {
+    setText(e.target.value); 
+  };
 
-  useEffect(() => {
-    if (!!data.name.trim()) {
-      setName(data.name)
+  const handleClick = () => {
+    if(!isMinimized) {
+      setIsEditing(true); 
     }
-  }, [data.name])
+  };
 
-  const onChange = (evt) => {
-    setName(evt.target.value)
-  }
+  const toggleMinimize = () => {
+    setIsMinimized(!isMinimized);
+    setNodes((nds) => 
+      nds.map((n) => {
+        if (n.parentId === id) {
+          return {
+            ...n,
+            hidden: !isMinimized, 
+          };
+        }
+        return n;
+      })
+    );
+  };
 
-  const inputElement = document.getElementById('text-input-user-action-diagram');
-
-  inputElement && inputElement.addEventListener('blur', () => {
-    data.name = name
-  });
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      setIsEditing(false);
+    }
+  };
 
   return (
-    <div className="text-updater-node">
-      <Handle type="target" position={Position.Top} isConnectable />
-      <Handle type="target" position={Position.Left} isConnectable />
-      <Grid container justifyContent={"space-between"} flexDirection={"row"}>
-        <Grid item xs={10}>
-          <input id="text-input-user-action-diagram" spellCheck="false" placeholder="Ação do Usuário" onChange={onChange} name="text" className="nodrag" value={name} />
-        </Grid>
-      </Grid>
-      <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <PersonOutlineOutlinedIcon sx={{ color: '#000000' }} />
-      </Grid>
-      <Handle
-        type="source"
-        position={Position.Bottom}
-        id="a"
-        isConnectable
-      />
-      <Handle
-        type="source"
-        position={Position.Right}
-        id="a"
-        isConnectable
-      />
+    <div
+      style={{
+        width: isMinimized ? 230 : 500,
+        height: isMinimized ? 50 : 300,
+        backgroundColor: 'rgba(128, 128, 128, 0.2)',
+        border: '2px solid #999',
+        borderRadius: '10px',
+        position: 'relative',
+        overflow: 'hidden'
+      }}
+    >
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+      }}>
+        <>
+          {isEditing ? (
+            <input
+              type="text"
+              value={text}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              autoFocus
+              style={{ position: 'absolute', top: 10, marginLeft: 40 }}
+              onKeyDown={handleKeyDown} 
+            />
+          ) : (
+            <span
+              style={{ position: 'absolute', top: 10, marginLeft: 40}}
+              onClick={handleClick}
+            >
+              {text}
+            </span>
+          )}
+        </>
+        <Button 
+          onClick={toggleMinimize} 
+          style={{
+            minWidth: 'auto', // Para ajustar o tamanho do botão ao ícone
+          }}
+        >
+          {isMinimized ? <AddIcon /> : <RemoveIcon />}
+        </Button>
+      </div>
     </div>
   );
 }
 
-export default PresentationUnityDiagram;
+export default Subflow;

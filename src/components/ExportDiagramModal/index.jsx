@@ -81,9 +81,6 @@ function ExportDiagramModal({id, onExportDiagram}) {
                 break;
             default:
                 const getSVG = (event) => {
-                    console.log("event");
-                    console.log(event);
-                    console.log("event-detail-svg     " + event.detail.svg);
                     getDiagramImg(value, event.detail.svg);        
                 }
                 window.addEventListener('sendDiagramSVG', getSVG , { once: true });

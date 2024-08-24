@@ -4,10 +4,13 @@ import ReactFlow, {
   addEdge,
   useNodesState,
   useEdgesState,
-  Controls
+  Controls,
+  ConnectionMode,
+  MiniMap,
+  Background
 } from 'reactflow';
 import 'reactflow/dist/style.css';
-
+import './customStyles.css';
 import Sidebar from './Sidebar';
 import OpenPointDiagram from "./components/OpenPoint/OpenPointDiagram";
 import ClosePointDiagram from "./components/ClosePoint/ClosePointDiagram";
@@ -16,9 +19,18 @@ import UserActionDiagram from "./components/UserAction/UserActionDiagram";
 import AlertContentDiagram from "./components/AlertContent/AlertContentDiagram";
 import ObrigatoryUserActionDiagram from "./components/ObrigatoryUserAction/ObrigatoryUserActionDiagram";
 import ProgressIndicatorDiagram from "./components/ProgressIndicator/ProgressIndicatorDiagram";
-import CustomEdge from "./CustomEdge";
-import './index.css';
+import DataColectionDiagram from "./components/DataColection/DataColectionDiagram";
+import Transition from "./components/Edges/Transition";
+import NavigationDescription from "./components/Edges/NavigationDescription";
+import FeedbackSucess from "./components/Edges/FeedbackSucess";
+import FeedbackUnsucess from "./components/Edges/FeedbackUnsucess";
+import CancelTransition from "./components/Edges/CancelTransition";
+import QueryData from "./components/Edges/QueryData";
+import { useModeler } from "../../context/modelerContext";
+import PresentationUnity from "./components/PresentationUnity/PresentationUnityDiagram";
+import PresentationUnityAcessibleDiagram from "./components/PresentationUnityAcessible/PresentationUnityAcessibleDiagram";
 
+import './index.css';
 
 let id = 0;
 const getId = () => `dndnode_${id++}`;
@@ -29,31 +41,39 @@ const ModelerReactFlow = () => {
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   
-  const currentEdgeTypeRef = useRef(null)
+  const {currentEdge } = useModeler();
 
   useEffect(() => {
-    console.log("current edge => ", currentEdgeTypeRef)
-  }, [currentEdgeTypeRef.current])
+    console.log("nodes => ", nodes)
+  }, [currentEdge, nodes])
   
   const edgeTypes = useMemo(
       () => ({
-        'navigation': CustomEdge,
+        'transition': Transition,
+        'navigation': NavigationDescription, // com descrição
+        'sucess-feedback': FeedbackSucess, // com descrição
+        'unsucess-feedback': FeedbackUnsucess, // com descrição
+        'cancel-transition': CancelTransition, // com descrição
+        'query-data': QueryData // com descrição
       }),
     [],
   );
 
   const nodeTypes = useMemo(
     () => ({
-      "open-point": OpenPointDiagram,
-      "close-point": ClosePointDiagram,
-      "sistem-process": SistemProcessDiagram,
-      "user-action": UserActionDiagram,
-      "alert-content": AlertContentDiagram,
-      "obg-user-action": ObrigatoryUserActionDiagram,
-      "progress-indicator": ProgressIndicatorDiagram
-    }),
-  [],
-);
+        "open-point": OpenPointDiagram,
+        "close-point": ClosePointDiagram,
+        "sistem-process": SistemProcessDiagram,
+        "user-action": UserActionDiagram,
+        "alert-content": AlertContentDiagram,
+        "obg-user-action": ObrigatoryUserActionDiagram,
+        "progress-indicator": ProgressIndicatorDiagram,
+        "data-colection": DataColectionDiagram,
+        "presentation-unity": PresentationUnity,
+        "presentation-unity-acessible": PresentationUnityAcessibleDiagram
+      }),
+    [],
+  );
 
   const onDragOver = useCallback((event) => {
     event.preventDefault();
@@ -62,12 +82,58 @@ const ModelerReactFlow = () => {
 
   const onConnect = useCallback(
     (connection) => {
-      console.log(connection, 22)
-      const edge = { ...connection, type: currentEdgeTypeRef.current,  };
+      const edge = { ...connection, type: currentEdge };
       setEdges((eds) => addEdge(edge, eds));
     },
-    [setEdges],
+
+    [setEdges, currentEdge],
   );
+
+  const onNodeDragStop = (event, node) => {
+    setNodes((nodes) => {
+      return nodes.map((item) => {
+        if (item.id === node.id) {
+          // Verifica se o nó está dentro de outro nó de tipo específico
+          const updatedNode = nodes.find((targetNode) => {
+            const { width, height, type, id } = targetNode;
+            const { x, y } = targetNode.position;
+  
+            if (
+              (type === "presentation-unity" || type === "presentation-unity-acessible") &&
+              node.position.x > x &&
+              node.position.x < x + width &&
+              node.position.y > y &&
+              node.position.y < y + height &&
+              node.id !== id
+            ) {
+              return true;
+            }
+  
+            return false;
+          });
+  
+          if (updatedNode) {
+            const { id, position: { x, y } } = updatedNode;
+            return {
+              ...node,
+              parentId: id,
+              extent: 'parent',
+              draggable: false,
+              position: {
+                x: node.position.x - x,
+                y: node.position.y - y,
+              },
+            };
+          }
+        }
+  
+        // Retorna o nó original sem alterações
+        return item;
+      });
+    });
+  };
+  
+  
 
   const onDrop = useCallback(
     (event) => {
@@ -89,8 +155,7 @@ const ModelerReactFlow = () => {
         type,
         position,
         data: { 
-          label: `${type}-node`,
-          ref: currentEdgeTypeRef
+          label: `${type}-node`
         },
       };
 
@@ -102,6 +167,8 @@ const ModelerReactFlow = () => {
     },
     [reactFlowInstance],
   );
+
+  const nodeClassName = (node) => node.type;
 
   return (
     <div className="dndflow">
@@ -117,13 +184,16 @@ const ModelerReactFlow = () => {
             onInit={setReactFlowInstance}
             onDrop={onDrop}
             onDragOver={onDragOver}
+            onNodeDragStop={onNodeDragStop}
             nodeTypes={nodeTypes}
             edgeTypes={edgeTypes}
             minZoom={0.2}
             maxZoom={4}
-            connectionMode='loose'
+            connectionMode={ConnectionMode.Loose}
+            className="react-flow-subflows-example"
           >
             <Controls />
+            <MiniMap zoomable pannable nodeClassName={nodeClassName} />
           </ReactFlow>
         </div>
       </ReactFlowProvider>

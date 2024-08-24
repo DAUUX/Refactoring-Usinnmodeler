@@ -10,21 +10,23 @@ function OpenPointDiagram({ data }, props) {
     
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+    setOpenNavigation(true)
   };
 
+  const handleClose = () => {
+    setOpenNavigation(false);
+    setAnchorEl(null)
+  }
   return (
     <>
       <OpenPoint />
-      <Handle type="source" position={Position.Right}/>
+      <Handle type="source" position={Position.Right} onClick={(e) => handleClick(e)} />
       <TypeNavigations 
         nodeName={"OpenPointDiagram"} 
-        onChange={() => {
-          data.ref.current = "navigation"
-        }}
-        onClose={() => setOpenNavigation(false)}
+        onClose={() => handleClose()}
         open={openNavigation}
         anchor={anchorEl}
-        close={() => setAnchorEl(null)}
+        close={() => handleClose()}
       />
     </>
   );

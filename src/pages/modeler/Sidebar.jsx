@@ -30,7 +30,7 @@ export default function Sidebar() {
     <div style={{
       width: '30vw'
     }}>
-      <Accordion>
+      <Accordion defaultExpanded>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon color='primary' />}
           aria-controls="panel1-content"
@@ -39,7 +39,7 @@ export default function Sidebar() {
           <Typography color={"#1082EC"}>Elementos de navegação</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Grid container spacing={2} alignItems="center">
+          <Grid container spacing={2} alignItems="center" justifyContent="space-between">
             <Grid item onDragStart={(event) => onDragStart(event, 'open-point')} draggable>
               <OpenPoint />
             </Grid>
@@ -47,7 +47,7 @@ export default function Sidebar() {
               <Typography variant='body2' >Ponto de abertura</Typography>
             </Grid>
           </Grid>
-          <Grid container spacing={2} mt={1} alignItems="center">
+          <Grid container spacing={2} mt={1} alignItems="center" justifyContent="space-between">
             <Grid item onDragStart={(event) => onDragStart(event, 'close-point')} draggable>
               <ClosePoint />
             </Grid>
@@ -55,8 +55,8 @@ export default function Sidebar() {
               <Typography variant='body2' >Ponto de encerramento</Typography>
             </Grid>
           </Grid>
-          <Grid container spacing={2} mt={1} alignItems="center">
-            <Grid item onDragStart={(event) => onDragStart(event, 'close-point')} draggable>
+          <Grid container spacing={2} mt={1} alignItems="center" justifyContent="space-between">
+            <Grid item onDragStart={(event) => onDragStart(event, 'presentation-unity')} draggable>
               <PresentationUnity />
             </Grid>
             <Grid item>
@@ -65,7 +65,7 @@ export default function Sidebar() {
           </Grid>
         </AccordionDetails>
       </Accordion>
-      <Accordion>
+      <Accordion defaultExpanded>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon color='primary' />}
           aria-controls="panel1-content"
@@ -74,7 +74,7 @@ export default function Sidebar() {
           <Typography color={"#1082EC"}>Elementos de interação</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Grid container spacing={2} alignItems="center" mb={2} >
+          <Grid container spacing={2} alignItems="center" mb={2} justifyContent="space-between" >
             <Grid item onDragStart={(event) => onDragStart(event, 'sistem-process')} draggable>
               <SistemProcess />
             </Grid>
@@ -82,7 +82,7 @@ export default function Sidebar() {
               <Typography variant='body2' >Processo do sistema</Typography>
             </Grid>
           </Grid>
-          <Grid container spacing={2} alignItems="center"  >
+          <Grid container spacing={2} alignItems="center"  justifyContent="space-between">
             <Grid item onDragStart={(event) => onDragStart(event, 'user-action')} draggable>
               <UserAction />
             </Grid>
@@ -92,7 +92,7 @@ export default function Sidebar() {
           </Grid>
         </AccordionDetails>
       </Accordion>
-      <Accordion>
+      <Accordion defaultExpanded>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon color='primary' />}
           aria-controls="panel1-content"
@@ -101,23 +101,23 @@ export default function Sidebar() {
           <Typography color={"#1082EC"}>Elementos de usabilidade</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Grid container spacing={2} alignItems="center" mb={2}>
-            <Grid item onDragStart={(event) => onDragStart(event, 'close-point')} draggable>
+          <Grid container spacing={2} alignItems="center" mb={2} justifyContent="space-between">
+            <Grid item onDragStart={(event) => onDragStart(event, 'presentation-unity-acessible')} draggable>
               <PresentationUnityAcessible />
             </Grid>
             <Grid item>
               <Typography variant='body2' >Unidade de Apresentação</Typography>
             </Grid>
           </Grid>
-          <Grid container spacing={2} alignItems="center" mb={2}>
-            <Grid item onDragStart={(event) => onDragStart(event, 'close-point')} draggable>
+          <Grid container spacing={2} alignItems="center" mb={2} justifyContent="space-between">
+            <Grid item onDragStart={(event) => onDragStart(event, 'data-colection')} draggable>
               <DataColection />
             </Grid>
             <Grid item>
               <Typography variant='body2' >Coleção de dados</Typography>
             </Grid>
           </Grid>
-          <Grid container spacing={2} alignItems="center" mb={2} >
+          <Grid container spacing={2} alignItems="center" mb={2} justifyContent="space-between">
             <Grid item onDragStart={(event) => onDragStart(event, 'alert-content')} draggable>
               <AlertContent />
             </Grid>
@@ -125,7 +125,7 @@ export default function Sidebar() {
               <Typography variant='body2' >Conteúdo de Alerta</Typography>
             </Grid>
           </Grid>
-          <Grid container spacing={2} alignItems="center" mb={2}>
+          <Grid container spacing={2} alignItems="center" mb={2} justifyContent="space-between">
             <Grid item onDragStart={(event) => onDragStart(event, 'obg-user-action')} draggable>
               <ObrigatoryUserAction />
             </Grid>
@@ -133,7 +133,7 @@ export default function Sidebar() {
               <Typography variant='body2' >Ação do Usuário Obrigatória</Typography>
             </Grid>
           </Grid>
-          <Grid container spacing={2} alignItems="center" >
+          <Grid container spacing={2} alignItems="center" justifyContent="space-between">
             <Grid item onDragStart={(event) => onDragStart(event, 'progress-indicator')} draggable>
               <ProgressIndicator />
             </Grid>
