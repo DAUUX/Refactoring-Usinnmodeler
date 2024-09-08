@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Handle, Position, NodeResizer } from 'reactflow';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import { Grid } from "@mui/material";
 import './text-updater-node.css';
+import TypeNavigations from '../TypeNavigations';
 
 
 function AlertContentDiagram({ data }) {
@@ -25,10 +26,26 @@ function AlertContentDiagram({ data }) {
     setName(evt.target.value)
   }
 
+  const [openNavigation, setOpenNavigation] = React.useState(false)
+  
+  const [anchorEl, setAnchorEl] = React.useState(null);
+    
+  const handleClick = (event) => {
+    console.log(event)
+    setAnchorEl(event.currentTarget);
+    setOpenNavigation(true)
+  };
+
+  const handleClose = () => {
+    setOpenNavigation(false);
+    setAnchorEl(null)
+  }
+
+
   return (
-    <div className="text-updater-node">
-      <Handle type="target" position={Position.Top} isConnectable />
-      <Handle type="target" position={Position.Left} isConnectable />
+    <div className="text-updater-node" style={{
+      zIndex: 9999
+    }}>
       <Grid container justifyContent={"space-between"} flexDirection={"row"}>
         <Grid item xs={10}>
           <input id="text-input-user-action-diagram" spellCheck="false" placeholder="Conteúdo de Alerta" onChange={onChange} name="text" className="nodrag" value={name} />
@@ -37,17 +54,20 @@ function AlertContentDiagram({ data }) {
       <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
         <WarningAmberIcon sx={{ color: '#000000' }} />
       </Grid>
-      <Handle
-        type="source"
-        position={Position.Bottom}
-        id="a"
-        isConnectable
-      />
-      <Handle
-        type="source"
-        position={Position.Right}
-        id="a"
-        isConnectable
+      <Handle type="target" position={Position.Left} isConnectable id='alert-content-target-left'/>
+      <Handle type="target" position={Position.Top} isConnectable id='alert-content-target-top'/>
+      <Handle type="target" position={Position.Right} isConnectable id='alert-content-target-right'/>
+      <Handle type="target" position={Position.Bottom} isConnectable id='alert-content-target-bottom'/>
+      <Handle type="source" position={Position.Left} id='alert-content-source-left' onClick={(e) => handleClick(e)} />
+      <Handle type="source" position={Position.Top} id='alert-content-source-top' onClick={(e) => handleClick(e)}/>
+      <Handle type="source" position={Position.Right} id='alert-content-source-right' onClick={(e) => handleClick(e)}/>
+      <Handle type="source" position={Position.Bottom} id='alert-content-source-bottom' onClick={(e) => handleClick(e)}/>
+      <TypeNavigations 
+        edges={['transition', 'unsucess-feedback', 'sucess-feedback', 'cancel-transition']} 
+        onClose={() => handleClose()}
+        open={openNavigation}
+        anchor={anchorEl}
+        close={() => handleClose()}
       />
     </div>
   );

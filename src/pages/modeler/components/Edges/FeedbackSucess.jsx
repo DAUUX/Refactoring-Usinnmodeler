@@ -1,8 +1,12 @@
 import React from 'react';
-import { BaseEdge, getStraightPath } from 'reactflow';
+import { getStraightPath, SmoothStepEdge } from 'reactflow';
+import ArrowHeadMarker from './ArrowHeadMarkerEnd';
+import IconPosition from "./IconPosition";
+import MessageIcon from '@mui/icons-material/Message';
+import LabelEdge from "./LabelEdge";
 
 export default function FeedbackSucess(props) {
-  const { sourceX, sourceY, targetX, targetY, id } = props;
+  const { sourceX, sourceY, targetX, targetY, id, sourcePosition, targetPosition } = props;
   const [edgePath] = getStraightPath({
     sourceX,
     sourceY,
@@ -12,42 +16,30 @@ export default function FeedbackSucess(props) {
 
   return (
     <>
-      <svg>
-        <defs>
-          <marker
-            id="arrowhead"
-            markerWidth="10"
-            markerHeight="10"
-            refX="10"
-            refY="3.5"
-            orient="auto"
-            markerUnits="strokeWidth"
-          >
-            <polygon points="0 0, 10 3.5, 0 7" fill="black" />
-          </marker>
-        </defs>
-        <g transform={`translate(${sourceX}, ${sourceY})`}>
-          <svg
-            x={targetX - sourceX - 15} 
-            y={targetY - sourceY - 30} 
-            width="20" 
-            height="20" 
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="black"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M21 15a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H3a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3v3l3-3h12z"></path>
-          </svg>
-        </g>
-      </svg>
-      <BaseEdge
+      <ArrowHeadMarker />
+      <SmoothStepEdge
         id={id}
-        path={edgePath}
+        sourceX={sourceX}
+        sourceY={sourceY}
+        targetX={targetX}
+        targetY={targetY}
+        sourcePosition={sourcePosition}
+        targetPosition={targetPosition}
         style={{ stroke: 'black', strokeWidth: 2 }}
         markerEnd="url(#arrowhead)"
+      />
+      <LabelEdge 
+        sourceX={sourceX} 
+        sourceY={sourceY} 
+        targetX={targetX} 
+        targetY={targetY}
+      />
+      <IconPosition 
+        sourceX={sourceX}
+        sourceY={sourceY}
+        targetX={targetX}
+        targetY={targetY}
+        icon={<MessageIcon color='black'/>}
       />
     </>
   );

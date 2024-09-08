@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Accordion, AccordionSummary, AccordionDetails, Typography, Grid } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
@@ -12,18 +12,11 @@ import ProgressIndicator from "./components/ProgressIndicator/ProgressIndicator"
 import DataColection from "./components/DataColection/DataColection";
 import PresentationUnity from "./components/PresentationUnity/PresentationUnity";
 import PresentationUnityAcessible from "./components/PresentationUnityAcessible/PresentationUnityAcessible";
-import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 
 export default function Sidebar() {
   const onDragStart = (event, nodeType) => {
     event.dataTransfer.setData('application/reactflow', nodeType);
     event.dataTransfer.effectAllowed = 'move';
-  };
-
-  const [selectedValue, setSelectedValue] = useState('');
-
-  const handleChange = (event) => {
-    setSelectedValue(event.target.value);
   };
 
   return (

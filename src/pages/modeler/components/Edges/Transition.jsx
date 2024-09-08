@@ -1,8 +1,9 @@
 import React from 'react';
-import { BaseEdge, getStraightPath } from 'reactflow';
-
+import { getStraightPath, SmoothStepEdge } from 'reactflow';
+import LabelEdge from "./LabelEdge";
+import ArrowHeadMarkerStartEnd from "./ArrowHeadMarkerStartEnd";
 export default function Navigation(props) {
-  const { sourceX, sourceY, targetX, targetY, id } = props;
+  const { sourceX, sourceY, targetX, targetY, id, sourcePosition, targetPosition } = props;
   const [edgePath] = getStraightPath({
     sourceX,
     sourceY,
@@ -12,38 +13,25 @@ export default function Navigation(props) {
 
   return (
     <>
-      <svg>
-        <defs>
-          <marker
-            id="arrowhead-start"
-            markerWidth="10"
-            markerHeight="7"
-            refX="0"
-            refY="3.5"
-            orient="auto"
-            markerUnits="strokeWidth"
-          >
-            <polygon points="10 0, 0 3.5, 10 7" fill="black" />
-          </marker>
-          <marker
-            id="arrowhead-end"
-            markerWidth="10"
-            markerHeight="7"
-            refX="10"
-            refY="3.5"
-            orient="auto"
-            markerUnits="strokeWidth"
-          >
-            <polygon points="0 0, 10 3.5, 0 7" fill="black" />
-          </marker>
-        </defs>
-      </svg>
-      <BaseEdge
+      <ArrowHeadMarkerStartEnd />
+      <SmoothStepEdge
         id={id}
         path={edgePath}
         style={{ stroke: 'black', strokeWidth: 2 }}
+        sourceX={sourceX}
+        sourceY={sourceY}
+        targetX={targetX}
+        targetY={targetY}
+        sourcePosition={sourcePosition}
+        targetPosition={targetPosition}
         markerStart="url(#arrowhead-start)"
         markerEnd="url(#arrowhead-end)"
+      />
+      <LabelEdge 
+        sourceX={sourceX} 
+        sourceY={sourceY} 
+        targetX={targetX} 
+        targetY={targetY}
       />
     </>
   );

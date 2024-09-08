@@ -1,54 +1,39 @@
 import React from 'react';
-import { BaseEdge, getStraightPath } from 'reactflow';
+import { SmoothStepEdge } from 'reactflow';
+import IconPosition from "./IconPosition";
+import StorageIcon from '@mui/icons-material/Storage';
+import ArrowHeadMarker from "./ArrowHeadMarkerEnd";
+import LabelEdge from './LabelEdge';
 
 export default function QueryData(props) {
-  const { sourceX, sourceY, targetX, targetY, id } = props;
-  const [edgePath] = getStraightPath({
-    sourceX,
-    sourceY,
-    targetX,
-    targetY,
-  });
+  const { sourceX, sourceY, targetX, targetY, id, targetPosition, sourcePosition } = props;
 
   return (
     <>
-      <svg>
-        <defs>
-          <marker
-            id="arrowhead"
-            markerWidth="10"
-            markerHeight="10"
-            refX="10"
-            refY="3.5"
-            orient="auto"
-            markerUnits="strokeWidth"
-          >
-            <polygon points="0 0, 10 3.5, 0 7" fill="black" />
-          </marker>
-        </defs>
-        <g transform={`translate(${sourceX}, ${sourceY})`}>
-          <svg
-            x={targetX - sourceX - 30} 
-            y={targetY - sourceY - 40} 
-            width="30" 
-            height="30" 
-            viewBox="0 0 30 30"
-            fill="none"
-            stroke="black"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <rect x="1" y="1" width="28" height="28" rx="5" ry="5" />
-            <line x1="1" y1="15" x2="29" y2="15" />
-          </svg>
-        </g>
-      </svg>
-      <BaseEdge
+      <ArrowHeadMarker />
+      <SmoothStepEdge
         id={id}
-        path={edgePath}
+        sourceX={sourceX}
+        sourceY={sourceY}
+        targetX={targetX}
+        targetY={targetY}
+        sourcePosition={sourcePosition}
+        targetPosition={targetPosition}
         style={{ stroke: 'black', strokeWidth: 2 }}
         markerEnd="url(#arrowhead)"
+      />
+      <LabelEdge 
+        sourceX={sourceX} 
+        sourceY={sourceY} 
+        targetX={targetX} 
+        targetY={targetY}
+      />
+      <IconPosition 
+        sourceX={sourceX}
+        sourceY={sourceY}
+        targetX={targetX}
+        targetY={targetY}
+        icon={<StorageIcon />}
       />
     </>
   );

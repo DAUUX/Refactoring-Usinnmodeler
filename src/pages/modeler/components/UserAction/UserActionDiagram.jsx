@@ -1,13 +1,17 @@
-import { useCallback, useState, useEffect } from 'react';
-import { Handle, Position, NodeResizer } from 'reactflow';
+import React, { useState, useEffect } from 'react';
+import { Handle, Position } from 'reactflow';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import { Grid } from "@mui/material";
 import './text-updater-node.css';
+import TypeNavigations from '../TypeNavigations';
 
 
 function UserActionDiagram({ data }) {
 
-  const [name, setName] = useState(data.name)
+  const [name, setName] = useState(data.name);
+  const [isEditing, setIsEditing] = useState(true);
+  const [openNavigation, setOpenNavigation] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
   useEffect(() => {
     if (!!data.name.trim()) {
@@ -24,30 +28,99 @@ function UserActionDiagram({ data }) {
   inputElement && inputElement.addEventListener('blur', () => {
     data.name = name
   });
+    
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+    setOpenNavigation(true)
+  };
+
+  const handleClose = () => {
+    setOpenNavigation(false);
+    setAnchorEl(null)
+  }
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      if(name.length === 0) setName('Ação do usuário')
+      setIsEditing(false);
+    }
+  };
 
   return (
     <div className="text-updater-node">
-      <Handle type="target" position={Position.Top} isConnectable />
-      <Handle type="target" position={Position.Left} isConnectable />
+
       <Grid container justifyContent={"space-between"} flexDirection={"row"}>
-        <Grid item xs={10}>
-          <input id="text-input-user-action-diagram" spellCheck="false" placeholder="Ação do Usuário" onChange={onChange} name="text" className="nodrag" value={name} />
-        </Grid>
+          {
+            isEditing ?
+            <input 
+              id="text-input-user-action-diagram" 
+              spellCheck="false" 
+              placeholder="Ação do Usuário" 
+              onChange={onChange} 
+              name="text" 
+              className="nodrag" 
+              value={name} 
+              onKeyDown={handleKeyDown}/> :
+            <span onClick={() => setIsEditing(true)} style={{minWidth: 150}}>{name}</span>
+          }
       </Grid>
       <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
         <PersonOutlineOutlinedIcon sx={{ color: '#000000' }} />
       </Grid>
       <Handle
-        type="source"
+        type="target"
         position={Position.Bottom}
-        id="a"
         isConnectable
+        id='user-action-target-bottom'
+      />
+      <Handle
+        type="target"
+        position={Position.Right}
+        isConnectable
+        id='user-action-target-right'
+      />
+      <Handle 
+        type="target" 
+        position={Position.Top} 
+        isConnectable 
+        id='user-action-target-top'
+        />
+      <Handle 
+        type="target" 
+        position={Position.Left} 
+        isConnectable 
+        id='user-action-target-left'
+        />
+      <Handle
+        type="source" 
+        position={Position.Bottom}
+        onClick={(e) => handleClick(e)} 
+        id='user-action-source-bottom'
       />
       <Handle
         type="source"
         position={Position.Right}
-        id="a"
-        isConnectable
+        onClick={(e) => handleClick(e)} 
+        id='user-action-source-right'
+      />
+      <Handle 
+        type="source"
+        position={Position.Top}
+        onClick={(e) => handleClick(e)}
+        id='user-action-source-top'
+      />
+      <Handle 
+        type="source"
+        position={Position.Left} 
+        onClick={(e) => handleClick(e)}
+        id='user-action-source-left'
+      />
+      <TypeNavigations 
+        edges={['transition', 'cancel-transition', 'navigation']} 
+        onClose={() => handleClose()}
+        open={openNavigation}
+        anchor={anchorEl}
+        close={() => handleClose()}
       />
     </div>
   );

@@ -54,7 +54,6 @@ function Subflow({ id, data }) {
         border: '2px solid #999',
         borderRadius: '10px',
         position: 'relative',
-        overflow: 'hidden'
       }}
     >
       <div style={{

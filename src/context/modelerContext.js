@@ -5,7 +5,6 @@ const ModelerContext = createContext();
 export const ModelerProvider = ({ children }) => {
     const [currentEdge, setCurrentEdge] = useState("");
 
-
     return (
         <ModelerContext.Provider value={{ currentEdge, setCurrentEdge }}>
             {children}

@@ -4,7 +4,7 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Handle, Position } from 'reactflow';
 import './text-updater-node.css';
-
+import TypeNavigations from '../TypeNavigations';
 function DataColection({ data, id }) {
   // Sincronizar o estado local com os dados fornecidos pelo React Flow
   const [name, setName] = useState(data.name || '');
@@ -46,10 +46,39 @@ function DataColection({ data, id }) {
     }
   };
 
+  const [openNavigation, setOpenNavigation] = React.useState(false)
+  
+  const [anchorEl, setAnchorEl] = React.useState(null);
+    
+  const handleClick = (event) => {
+    console.log(event)
+    setAnchorEl(event.currentTarget);
+    setOpenNavigation(true)
+  };
+
+  const handleClose = () => {
+    setOpenNavigation(false);
+    setAnchorEl(null)
+  }
+
+
   return (
     <>
-      <Handle type="target" position={Position.Top} isConnectable />
-      <Handle type="target" position={Position.Left} isConnectable />
+      <Handle type="target" position={Position.Left} isConnectable id='data-colection-target-left'/>
+      <Handle type="target" position={Position.Top} isConnectable id='data-colection-target-top'/>
+      <Handle type="target" position={Position.Right} isConnectable id='data-colection-target-right'/>
+      <Handle type="target" position={Position.Bottom} isConnectable id='data-colection-target-bottom'/>
+      <Handle type="source" position={Position.Left} id='data-colection-source-left' onClick={(e) => handleClick(e)} />
+      <Handle type="source" position={Position.Top} id='data-colection-source-top' onClick={(e) => handleClick(e)}/>
+      <Handle type="source" position={Position.Right} id='data-colection-source-right' onClick={(e) => handleClick(e)}/>
+      <Handle type="source" position={Position.Bottom} id='data-colection-source-bottom' onClick={(e) => handleClick(e)}/>
+      <TypeNavigations 
+        edges={['query-data']} 
+        onClose={() => handleClose()}
+        open={openNavigation}
+        anchor={anchorEl}
+        close={() => handleClose()}
+      />
       <Box 
         sx={{ 
           border: '1px solid #000', 
@@ -147,18 +176,6 @@ function DataColection({ data, id }) {
         )}
       </Box>
       
-      <Handle
-        type="source"
-        position={Position.Bottom}
-        id="a"
-        isConnectable
-      />
-      <Handle
-        type="source"
-        position={Position.Right}
-        id="b"
-        isConnectable
-      />
     </>
   );
 }
