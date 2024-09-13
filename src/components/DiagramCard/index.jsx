@@ -6,31 +6,32 @@ import api from "../../services/api";
 import FavoriteDiagram from "../../components/FavoriteDiagram";
 
 function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram, onRemoveDiagram, onRenameDiagram, favorited, onDiagramFavorited}) {
-    const link = process.env.REACT_APP_API_URL == "http://localhost:8080/api/" ? process.env.REACT_APP_API_URL : process.env.RAILWAY_VOLUME_MOUNT_PATH + '/';
+    // const [svgContent, setSvgContent] = useState(null);
+    // const [imgSrc, setImgSrc] = useState(null);
 
-    const [svgContent, setSvgContent] = useState(null);
-    const [imgSrc, setImgSrc] = useState(null);
+    // useEffect(() => {
+    //     async function getThumbnail(filename) {
+    //         try {
+    //             const res = await api.get(`diagrams/thumbnail/${filename}`);
+    //             const svg = res.data.svgContent;
+    //             setSvgContent(svg);
 
-    useEffect(() => {
-        async function getThumbnail(filename) {
-            try {
-                const res = await api.get(`diagrams/thumbnail/${filename}`);
-                const svg = res.data.svgContent;
-                setSvgContent(svg);
+    //             const svgBlob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
+    //             const url = URL.createObjectURL(svgBlob);
+    //             setImgSrc(url);
 
-                const svgBlob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
-                const url = URL.createObjectURL(svgBlob);
-                setImgSrc(url);
+    //         } catch (error) {
+    //             console.log(error);
+    //         }
+    //     }
 
-            } catch (error) {
-                console.log(error);
-            }
-        }
+    //     if (thumbnail.includes('.svg')) {
+    //         getThumbnail(thumbnail);
+    //     }
+    // }, [thumbnail]);
 
-        if (thumbnail.includes('.svg')) {
-            getThumbnail(thumbnail);
-        }
-    }, [thumbnail]);
+    // const link = process.env.REACT_APP_API_URL == "http://localhost:8080/api/" ? `${process.env.REACT_APP_API_URL}${thumbnail}` : imgSrc;
+    const link = `${process.env.REACT_APP_API_URL}${thumbnail}`;
 
     function elapsedTime (date) {
         let now = new Date();
@@ -77,10 +78,11 @@ function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram,
 
             </div>
             <div className="card-body p-3">
-                {   imgSrc && (
-                    <img className='w-100' src={imgSrc} alt="Thumbnail do diagrama" />
-                )}
+                {   thumbnail.includes('.svg') ?
+                    <img className='w-100' src={`${link}`} alt="Thumbnail do diagrama" /> : null
+                }
             </div>
+            
 
         </Link>
     )
