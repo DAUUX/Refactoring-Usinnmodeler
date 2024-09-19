@@ -1,13 +1,13 @@
 
-.eyeicon {
+.icon {
   position: absolute;
-  right: 0%;
-  transform: translateY(-160%) translateX(-250%);
+  right: 30px;
+  bottom: 1.5em;
+  color: #13528E;
   cursor: pointer;
   font-size: 1.3em;
-  transition: opacity 1.5s;
-
 }
 .deyeicon-active{
-  top: 55%;
+  margin-right: 15px;
+  bottom: 2.7em;
 }

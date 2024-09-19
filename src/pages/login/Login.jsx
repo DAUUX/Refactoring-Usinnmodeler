@@ -104,7 +104,7 @@ export default function Login() {
 							placeholder="Senha*"
 						/>
 								<i onClick={togglePasswordVisibility}
-								className={`bi bi-${showPassword ? 'eye': 'eye-slash'} icon ${formik.touched.password && formik.errors.password ? 'eyeicon-active': ''}`}
+								className={`bi bi-${showPassword ? 'eye-fill': 'eye-slash-fill'} icon ${formik.touched.password && formik.errors.password ? 'eyeicon-active': ''}`}
 								></i>
 
 						{formik.touched.password && formik.errors.password ? (<strong className="invalid-feedback m-0 p-0 pt-1"> {formik.errors.password}</strong>) : null}

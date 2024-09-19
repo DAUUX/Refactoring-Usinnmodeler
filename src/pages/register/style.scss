@@ -1,13 +1,14 @@
-.Reyeicon{
+.icon{
   position: absolute;
-  right: 0%;
-  transform: translateY(-160%) translateX(-200%);
+  right: 10;
+  top: 0;
+  color: #13528E;
   cursor: pointer;
   font-size: 1.3em;
-  transition: opacity 1.5s;
 }
 .reyeicon-active{
-  top: 56.5%;
+  top: 1px;
+  margin-right: 15px;
 }
 
 

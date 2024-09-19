@@ -97,7 +97,7 @@ function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
                             />
                             <div className="">
                                 <i onClick={togglePasswordVisibility}
-                                    className={`eyeicon bi bi-${showPassword ? 'eye': 'eye-slash'} icon ${formik.touched.password && formik.errors.password ? 'deyeicon-active': ''}`}
+                                    className={`eyeicon bi bi-${showPassword ? 'eye-fill': 'eye-slash-fill'} icon ${formik.touched.password && formik.errors.password ? 'deyeicon-active': ''}`}
                                 ></i>
                             </div>
 
