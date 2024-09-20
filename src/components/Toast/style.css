@@ -1,5 +1,6 @@
 .toast-container {
     width: 380px !important;
+    position: fixed !important;
 }
 
 .toast-popup {
@@ -23,18 +24,18 @@
     right: 8px;
     font-size: 25px !important;
     font-weight: bolder;
-    color: #fff;
+    color: #ffffff !important;
     width: 20px !important;
     height: 20px !important;
 }
 
 .toast-close:hover {
     background: #959595;
-    color: #fff;
+    color: #ffffff !important;
 }
 
 .toast-progressbar {
-    background-color: #fff;
+    background-color: #ffffff !important;
 }
 
 .delete {
@@ -126,5 +127,5 @@
 }
 
 .no-border{
-    border: 0;
+    border: 0 !important;
 }

@@ -1,6 +1,6 @@
 import "./style.scss";
 import { useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import { Toast } from "../../components/Toast";
 import ShareDiagramModal from "../../components/ShareDiagramModal";
@@ -20,7 +20,7 @@ function Modeler(props) {
     const [shareModalId]              = useState('ShareDiagramModal');
     const [oculteManipulationIcons, setOculteManipulationIcons] = useState(false);
 
-    const history = useHistory();
+    const navigate = useNavigate();
 
     async function validPermissionForEdit() {        
         let user_id = JSON.parse(localStorage.getItem('user')).id;
@@ -62,7 +62,7 @@ function Modeler(props) {
             else{
                 Toast('error', error, "errorCircle");
             }
-            history.push('/modeler');
+            navigate('/modeler');
             
         }
     }

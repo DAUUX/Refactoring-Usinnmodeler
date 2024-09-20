@@ -7,9 +7,12 @@ import { Modal } from "bootstrap";
 import ShareDiagramModal from "../../../components/ShareDiagramModal";
 import RemoveDiagramModal from "../../../components/RemoveDiagramModal";
 import RenameDiagramModal from "../../../components/RenameDiagramModal";
-import FavoriteDiagram from "../../../components/FavoriteDiagram";
 
 function MyDocuments() {
+
+    useEffect(() => {
+        document.title = 'Meus Documentos - USINN Modeler';
+    },[]);
 
     let [diagrams, setDiagrams] = useState([]);
     let [loading, setLoading] = useState(true);
@@ -22,7 +25,7 @@ function MyDocuments() {
             const res = await api.get(`diagrams`);
             setDiagrams(res.data.diagrams);
         } catch(error){
-            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
                 Toast('error', "Falha na conexão ao servidor", "errorServer");
             }
             else{
@@ -92,7 +95,7 @@ function MyDocuments() {
                 }
 
                 {
-                    diagrams.length ==0 && !loading &&(
+                    diagrams.length === 0 && !loading &&(
                         <h4 className="text-center mt-5">Ainda não há diagramas</h4>
                     )
                 }

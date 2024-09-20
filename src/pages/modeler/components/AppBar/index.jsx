@@ -4,13 +4,13 @@ import SaveIcon from '@mui/icons-material/Save';
 import { TextField } from '@mui/material';
 import usinnModeler from "../../../../assets/icons/logo-min-blue.png";
 import DownloadIcon from '@mui/icons-material/Download';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = ({onDownload, onSave, name}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState('Novo Diagrama');
   
-  const history = useHistory();
+  const navigate = useNavigate()
 
     useEffect(() => {
       if(name && name.length>0) {
@@ -36,7 +36,7 @@ const Navbar = ({onDownload, onSave, name}) => {
     <AppBar position="static" color="default" style={{background: '#A9A9A9'}}>
       <Toolbar>
         <div className="d-flex flex-column mb-4" style={{marginTop: 20, marginRight:30}}>
-          <img src={usinnModeler} alt="logo USINN" onClick={() => history.replace('/dashboard')}/>
+          <img src={usinnModeler} alt="logo USINN" onClick={() => navigate('/dashboard')}/>
         </div>
         {isEditing ? (
           <TextField

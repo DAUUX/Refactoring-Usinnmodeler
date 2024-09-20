@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
-import { useHistory, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import api from "../../services/api";
 import { Toast } from "../Toast";
 import './style.scss';
 import {avatarOptions } from '../../Consts';
 import { Modal } from "bootstrap";
-import ConfirmRemoveLoginModal from "../ConfirmRemoveLoginModal";
-import RemoveLoginModal from "../RemoveLoginModal";
+import ConfirmRemoveLoginModal from "../ConfirmDeleteAccountModal";
+import RemoveLoginModal from "../DeleteAccountModal";
 
 function UserProfile(props) {
 
     const [user, setUser] = useState({name: ''});
-    const history   = useHistory();
+    const navigate   = useNavigate();
 
     async function getUserData() {
 
@@ -30,7 +30,7 @@ function UserProfile(props) {
 
 
         } catch (error) {
-            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
                 Toast('error', "Falha na conexão ao servidor", "errorServer");
             }
             else{
@@ -42,23 +42,6 @@ function UserProfile(props) {
         
     }
 
-    function callConfirmRemoveLoginModal() {
-        const modal = new Modal('#ConfirmRemoveLoginModal')          
-        modal.show();
-    }
-    function callRemoveLoginModal() {
-        const modal = new Modal('#RemoveLoginModal')          
-        modal.show();
-    }
-
-    function callConfirmRemoveLoginModal() {
-        const modal = new Modal('#ConfirmRemoveLoginModal')          
-        modal.show();
-    }
-    function callRemoveLoginModal() {
-        const modal = new Modal('#RemoveLoginModal')          
-        modal.show();
-    }
 
     function callConfirmRemoveLoginModal() {
         const modal = new Modal('#ConfirmRemoveLoginModal')          
@@ -72,7 +55,7 @@ function UserProfile(props) {
     function logout() {
         localStorage.removeItem('user');
         localStorage.removeItem('token');
-        history.push(`/`);
+        navigate(`/`);
     }
 
     useEffect(()=>{
@@ -80,9 +63,10 @@ function UserProfile(props) {
      },[])
     
     return (
+        
             <div className="dropdown d-flex">
 
-                <div id="profileImg" className="text-uppercase"> <img className="mb-4 img-fluid"src={avatarOptions[user.avatar-1]}></img> </div>
+                <div id="profileImg" className="text-uppercase"> <img className="mb-4 img-fluid"src={avatarOptions[user.avatar-1]} alt=""></img> </div>
                 
                 {props.textColor === "white" ? 
                     <button className="btn px-2 pe-0 dropdown-toggle text-white" id="dropdownMenuButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">  
@@ -103,11 +87,13 @@ function UserProfile(props) {
 
             <RemoveLoginModal id={"RemoveLoginModal"} onConfirmLoginRemoved={()=>{callConfirmRemoveLoginModal()}}/>
             <ConfirmRemoveLoginModal id={"ConfirmRemoveLoginModal"}/>
+        
         </div>
 
 
     )
-    
+
 }
 
 export default UserProfile;
+

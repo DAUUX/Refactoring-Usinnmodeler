@@ -1,28 +1,35 @@
-#register-page {
+@import "../../assets/styles/_variables.scss";
 
-    #content{
+input::placeholder, select option{
+  color: $gray-900;
+}
 
-        @media (min-width: 992px) {
-            
-            #gray-area {
-                position: relative;
-                width: 110% !important;
-                max-width: none;
-                margin-left: 50%;
-                transform: translate(-50%,0);
-                padding: 0 8%;
-                height: 70px;
-                border-radius: 10rem;
-                background-color: #d9d9dd;
 
-                .form-control:not(.is-invalid), .form-select:not(.is-invalid) {
-                    border-color: #959595;
-                    &:focus {
-                        border-color: darken(#959595, 15%);
-                    }
-                }
-            }
-        }
-    
+@media (max-width: 991px) {
+  #gray-area .position-absolute {
+      position: unset !important;
+  }
+}
+
+@media (min-width: 992px) {
+  #gray-area {
+    position: relative;
+    width: 113% !important;
+    max-width: none;
+    margin-left: 50%;
+    transform: translate(-50%, 0);
+    padding: 0 8%;
+    height: 70px;
+    border: 1px $gray-900 solid;
+    border-radius: 10rem;
+    background-color: #d9d9dd;
+
+    .form-control:not(.is-invalid),
+    .form-select:not(.is-invalid) {
+      border-color: #959595;
+      &:focus {
+        border-color: darken($gray-900, 15%);
+      }
     }
+  }
 }

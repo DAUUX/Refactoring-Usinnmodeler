@@ -1,13 +1,19 @@
 import usinnModeler from "../../assets/icons/usinn-logo-horiz.png";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Toast } from "../../components/Toast";
 import api from "../../services/api";
 import Spinner from "../../components/Spinner";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useEffect } from "react";
 
-function Login() {
-	const history = useHistory();
+export default function Login() {
+
+	useEffect(() => {
+    document.title = 'Login - USINN Modeler';
+  },[]);
+
+	const navigate = useNavigate();
 
 	const formik = useFormik({
 
@@ -35,11 +41,11 @@ function Login() {
 	
 				Toast('success', 'Login realizado com sucesso!', "checkCircle");
 
-				history.push('/dashboard');
+				navigate('/dashboard');
 	
 			} catch (error) {
 	
-				if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+				if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
 					Toast('error', "Falha na conexão ao servidor", "errorServer");
 				}
 				else{
@@ -47,79 +53,62 @@ function Login() {
 				}
 				
 			}
-   
 		},
-   
 	});
 	
 	return (
-		<main className="flex-fill d-flex align-items-center">
-
+		<main className="flex-fill d-flex align-items-center" aria-label="formulário de login">
 			<div className="container">
 
-				<div className="row pb-3">
-					<div className="col-12 d-flex justify-content-center align-items-center">
-						<img src={usinnModeler} alt="logo USINN" />
-						<span className="text-primary fs-3 fw-light ms-2">Modeler</span>
-					</div>
+				<div className="py-3 d-flex justify-content-center align-items-center" aria-hidden="true">
+					<img src={usinnModeler} alt="" />
+					<span className="text-primary fs-3 fw-light ms-2">Modeler</span>
 				</div>
 
-				<div className="row justify-content-center mt-5">
+				<form className="row m-auto mt-5 col-12 col-md-8 col-lg-4" onSubmit={formik.handleSubmit}>
 
-					<div className="col-12 col-md-8 col-lg-4">
+					<div className="mb-3 p-0">
+						<input
+							autoFocus
+							disabled={formik.isSubmitting}
+							onChange={formik.handleChange}
+							onInput={(e) => formik.setFieldTouched(e.target.name, true, false)}
+							value={formik.values.email}
+							className={`form-control ${formik.touched.email && formik.errors.email ? 'is-invalid' : '' }`}
+							type="email"
+							name="email"
+							placeholder="E-mail*"
+							autoComplete="email"
+						/>
+						{formik.touched.email && formik.errors.email ? (<strong className="invalid-feedback m-0 p-0 pt-1"> {formik.errors.email}</strong>) : null}
+					</div>
 
-						<form className={`row justify-content-center`} onSubmit={formik.handleSubmit}>
-							<div className="col-12 mb-3">
-								<input
-									autoFocus
-									disabled={formik.isSubmitting}
-									onChange={formik.handleChange}
-									onInput={(e) => formik.setFieldTouched(e.target.name, true, false)}
-									value={formik.values.email}
-									className={`form-control ${formik.touched.email && formik.errors.email ? 'is-invalid' : '' }`}
-									type="email"
-									name="email"
-									placeholder="E-mail*"
-								/>
-								{formik.touched.email && formik.errors.email ? (<div className="invalid-feedback d-block"> {formik.errors.email}</div>) : null}
-							</div>
-
-							<div className="col-12 mb-3 d-flex flex-column">
-								<input
-									disabled={formik.isSubmitting}
-									onChange={formik.handleChange}
-									onInput={(e) => formik.setFieldTouched(e.target.name, true, false)}
-									value={formik.values.password}
-									className={`form-control ${formik.touched.password && formik.errors.password ? 'is-invalid' : '' }`}
-									type="password"
-									name="password"
-									placeholder="Senha*"
-								/>
-								{formik.touched.password && formik.errors.password ? (<div className="invalid-feedback d-block"> {formik.errors.password}</div>) : null}
-								
-								<Link className="text-decoration-none mt-2 ms-auto" to="/request-change">Esqueceu sua senha?</Link> 
-							</div>
-
-							<div className="col-12 d-grid gap-2 mt-2">
-								<button className="btn btn-primary btn-lg" type="submit">
-									<Spinner className="spinner-border spinner-border-sm me-2" isLoading={formik.isSubmitting}  /> ACESSAR
-								</button>
-							</div>
-
-							<div className="col-12 text-center mt-5">
-								<p> Não tem conta ainda? <Link className="fw-bold text-decoration-none" to="/cadastro">Registre-se</Link> </p>
-
-							</div>
-
-						</form>
+					<div className="mb-3 p-0">
+						<input
+							disabled={formik.isSubmitting}
+							onChange={formik.handleChange}
+							onInput={(e) => formik.setFieldTouched(e.target.name, true, false)}
+							value={formik.values.password}
+							className={`form-control ${formik.touched.password && formik.errors.password ? 'is-invalid' : '' }`}
+							type="password"
+							name="password"
+							placeholder="Senha*"
+						/>
+						{formik.touched.password && formik.errors.password ? (<strong className="invalid-feedback m-0 p-0 pt-1"> {formik.errors.password}</strong>) : null}
 						
+						<Link className="mt-2 float-end text-primary" to="/request-change">Esqueceu sua senha?</Link>
+					</div> 
+
+					<button className="btn btn-primary btn-lg mt-2" type="submit">
+						<Spinner className="spinner-border spinner-border-sm me-2" isLoading={formik.isSubmitting}  /> ACESSAR
+					</button>
+
+					<div className="col-12 text-center mt-5">
+						<p> Não tem conta ainda? <Link className="fw-bold text-primary" to="/cadastro">Registre-se</Link> </p>
 					</div>
-				</div>
 
+				</form>
 			</div>
-
 		</main>
 	);
 }
-
-export default Login;

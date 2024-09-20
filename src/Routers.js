@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch, BrowserRouter } from "react-router-dom";
+import { Route, Routes, BrowserRouter } from "react-router-dom";
 import Home from "./pages/home/Home";
 import Register from "./pages/register/Register";
 import Login from "./pages/login/Login";
@@ -17,28 +17,29 @@ const Routers = () => {
   return (
     // forceRefresh para tentar corrigir problema onde o salvamento e atalhos do modeler não funcionam
     <BrowserRouter basename={process.env.REACT_APP_BASE_ROUTE}>
-      <Switch>
-        {/* <PrivateRoute path="/modeler/:id?/:slug?" component={Modeler} /> */}
-        <PrivateRoute path="/dashboard" component={Dashboard} />
-        <ShareRoute path="/shared/:token" component={ShareRoute} />
-        <PrivateRoute 
-          path="/modeler/:id?" 
-          exact 
-          render={(props) => (
-            <ModelerProvider>
-              <ReactFlowProvider>
-                <ModeleReactFlow {...props}/>
-              </ReactFlowProvider>
-            </ModelerProvider>
-          )}/>
-        <Route path="/cadastro" exact component={Register} />
-        <Route path="/login" exact component={Login} />
-        <Route path="/privacidade" component={PrivacyTerms} />
-        <Route path="/redefinir-senha/:token" exact component={AlterPassword} />
-        <Route path="/request-change" exact component={RequestChange} />
-        <Route path="*" component={Home} />
-        <Route path="/atualizar" component={UpdateProfile}/>
-      </Switch>
+      <Routes>
+        {/* <Route path="/modeler/:id?/:slug?" element={<PrivateRoute element={<Modeler />} /> } /> */}
+        <Route path="/modeler/:id?" element={
+          <PrivateRoute 
+            element={
+              <ModelerProvider>
+                <ReactFlowProvider>
+                  <ModeleReactFlow />
+                </ReactFlowProvider>
+              </ModelerProvider>
+            }
+          />} />
+        <Route path="/dashboard/*" element={<PrivateRoute element={<Dashboard />} /> } />
+        <Route path="/shared/:token" element={<ShareRoute element={<ShareRoute />}/>} />
+        <Route path="/" exact element={<Home />} />
+        <Route path="/cadastro" exact element={<Register />} />
+        <Route path="/login" exact element={<Login />} />
+        <Route path="/privacidade" element={<PrivacyTerms />} />
+        <Route path="/redefinir-senha/:token" exact element={<AlterPassword />} />
+        <Route path="/request-change" exact element={<RequestChange />} />
+        <Route path="*" element={<Home />} />
+        <Route path="/atualizar" element={<UpdateProfile />}/>
+      </Routes>
     </BrowserRouter>
   );
 };

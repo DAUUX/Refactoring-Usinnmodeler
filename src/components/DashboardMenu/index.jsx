@@ -1,15 +1,15 @@
 import './style.scss'
 import usinnModeler from "../../assets/icons/logo-usinn-white.png";
 
-import { Link, useRouteMatch, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Toast } from '../Toast';
 import api from '../../services/api';
 import { slugify } from '../../Helpers';
-import { useHistory } from "react-router-dom";
+import { useEffect } from 'react';
 
-function DashboardMenu({menuOpen, onCreateDiagram}) {
+function DashboardMenu({menuOpen, setMenuOpen, onCreateDiagram}) {
 
-    const history   = useHistory();
+    const navigate   = useNavigate();
 
     const menuItems = [
         {
@@ -24,15 +24,16 @@ function DashboardMenu({menuOpen, onCreateDiagram}) {
         }
     ]
 
-    let match = useRouteMatch();
+    const route = "/dashboard"
 
     let { pathname } = useLocation()
 
     async function createNewDiagram(e) {
 
         e.preventDefault();
-
-        history.push('/modeler');
+        console.log(9238478912347)
+        // return
+        navigate('/modeler');
         // onCreateDiagram(true);
         // const data = {name: 'Novo diagrama', diagram_data: '', diagram_svg: ''};
 
@@ -59,9 +60,12 @@ function DashboardMenu({menuOpen, onCreateDiagram}) {
 
     } 
 
-
+    useEffect(() => {
+        document.body.style.overflowY = menuOpen ? 'hidden' : 'scroll'
+    },[menuOpen])
+ 
     return (
-        <aside id="dashboard-menu" className={`bg-primary d-flex flex-column pt-5 align-items-center ${menuOpen ? 'open' : ''}`}>
+        <aside id="dashboard-menu" className={`position-sticky sticky-top bg-primary d-flex flex-column pt-5 align-items-center ${menuOpen ? 'open' : ''}`}>
 
             <div className="d-flex flex-column mb-4">
                 <img src={usinnModeler} alt="logo USINN" />
@@ -76,8 +80,8 @@ function DashboardMenu({menuOpen, onCreateDiagram}) {
                 {
                     menuItems.map(item=>{
                         return  (
-                            <li className={`nav-item ${(pathname.split("/")[2] ? "/"+pathname.split("/")[2] : '') == item.path ? 'active' : ''}`} key={item.name}>
-                                <Link to={`${match.url}${item.path}`} className="text-white d-block fs-5 text-decoration-none px-4 py-4"> 
+                            <li className={`nav-item ${(pathname.split("/")[2] ? "/"+pathname.split("/")[2] : '') === item.path ? 'active' : ''}`} key={item.name}>
+                                <Link to={`${route}${item.path}`} className="text-white d-block fs-5 text-decoration-none px-4 py-4" onClick={() => setMenuOpen(false)}> 
                                     <i className={`bi ${item.icon} me-2`}></i>  {item.name} 
                                 </Link>
                             </li>
@@ -86,7 +90,7 @@ function DashboardMenu({menuOpen, onCreateDiagram}) {
                 }                
             </ul>
 
-            <a href="#" className="text-white d-block fw-bold text-decoration-none mt-auto mb-4"> Assista ao tutorial</a>
+            <Link to="/#Tutorial" target="_blank" className="text-white d-block fw-bold text-decoration-none mt-auto mb-4"> Assista ao tutorial</Link>
 
         </aside>
     )

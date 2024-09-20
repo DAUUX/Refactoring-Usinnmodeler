@@ -1,26 +1,27 @@
 import "./style.scss"
 import { useState,useEffect } from "react";
-import { Route, Switch, useRouteMatch, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Spinner from "../../components/Spinner";
 import UserProfile from "../../components/UserProfile";
 import { roleOptions, genderOptions, avatarOptions } from '../../Consts';
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import api from "../../services/api";
-import InputMask from 'react-input-mask';
 import { Toast } from '../../components/Toast';
 import moment from "moment";
 
 function UpdateProfile() {
 
-    let match = useRouteMatch();
+    let DateTenYears = new Date();
+	DateTenYears.setFullYear((new Date()).getFullYear() - 10);
 
-    const [menuOpen, setMenuOpen]             = useState(false);
+    useEffect(() => {
+        document.title = 'Editar Perfil - USINN Modeler';
+    },[]);
+
     const [loadingOverlay, setLoadingOverlay] = useState(false);
 
     const [imgAvatar, setImgAvatar] = useState(0);
-
-    const username = JSON.parse(localStorage.getItem("user"))['name']
 
     const formik = useFormik({
 
@@ -43,7 +44,8 @@ function UpdateProfile() {
 			birthday: Yup.date()
 				.transform((value, currentValue) => { return moment(currentValue, 'DD/MM/YYYY', true).toDate() })
 				.typeError('Data é inválida')
-				.max(new Date(), 'Data de nascimento inválida')
+				.min(new Date(0, 0, 1), 'Data de nascimento inválida')
+				.max(DateTenYears, 'Data de nascimento inválida')
 				.required('Data de nascimento é obrigatória'),
 			gender: Yup.number().integer('Valor é inválido').min(1, 'Valor é inválido').max(3, 'Valor é inválido').required('Gênero é obrigatório'),
 			role: Yup.number().integer('Valor é inválido'),
@@ -53,7 +55,7 @@ function UpdateProfile() {
 		onSubmit: async values => {
 			try {	
 
-				const response = await api.put('user', {...values, birthday: moment(values.birthday, 'DD/MM/YYYY', true).format('YYYY-MM-DD'),avatar: imgAvatar+1});
+				await api.put('user', {...values, birthday: moment(values.birthday, 'DD/MM/YYYY', true).format('YYYY-MM-DD'),avatar: imgAvatar+1});
 			
 
 				Toast('success', 'Os dados foram atualizados com sucesso!', "user");
@@ -61,7 +63,7 @@ function UpdateProfile() {
 				
 			} catch (error) {
 				
-				if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+				if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
                     Toast('error', "Falha na conexão ao servidor", "errorServer");
                 }
                 else{
@@ -78,7 +80,7 @@ function UpdateProfile() {
         setLoadingOverlay(true);
         try{
             const res = await api.get(`user`);
-            const { name, email, password, birthday, gender, company, role, avatar } = res.data;
+            const { name, email, birthday, gender, company, role, avatar } = res.data;
             formik.setFieldValue('name',name);
             formik.setFieldValue('email',email);
             formik.setFieldValue('birthday', moment(birthday, 'YYYY-MM-DD').format('DD/MM/YYYY'));
@@ -87,7 +89,7 @@ function UpdateProfile() {
             formik.setFieldValue('role',role);
             setImgAvatar(avatar-1);
         } catch(error){
-            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
                 Toast('error', "Falha na conexão ao servidor", "errorServer");
             }
             else{
@@ -99,13 +101,24 @@ function UpdateProfile() {
 
     useEffect(()=>{
         getUser();
+     // eslint-disable-next-line react-hooks/exhaustive-deps
      },[]) 
 
     
+     const maskBirth = (e) => {
+        const input = e.target.value;
+        const formatted = input
+            .replace(/\D/g, '') // Remove caracteres não numéricos
+            .replace(/^(\d{2})(\d)/, '$1/$2') // Adiciona a barra após os 2 primeiros dígitos
+            .replace(/^(\d{2})\/(\d{2})(\d)/, '$1/$2/$3') // Adiciona a barra após os próximos 2 dígitos
+            .replace(/(\d{2})\/(\d{2})\/(\d{4}).*/, '$1/$2/$3'); // Limita o campo a 10 caracteres (DD/MM/AAAA)
 
+        // Atualiza o valor no formulário
+        formik.setFieldValue('birthday', formatted);
+    };
 
     return (
-        <main id="update" className={`flex-fill h-100`}>
+        <main id="update" className={`flex-fill h-100 pb-5`}>
             
             
             <nav className="navbar navbar-expand-lg bg-white p-3 justify-content-between w-100">
@@ -117,13 +130,13 @@ function UpdateProfile() {
                         </div>
             </nav>
 
-            <div className="container">
+            <div className="container px-0 px-sm-0">
             
                 <div id="content" className="row justify-content-between position-relative mt-5 mx-3">
 					
-					<div className="order-2 order-md-1 col-12 col-md-6 col-lg-4">
+					<div className="order-2 order-lg-1 col-12 col-md-6 col-lg-4 m-auto">
 
-						<form className="row" noValidate="" onSubmit={formik.handleSubmit}>
+						<form className="row px-0 px-sm-3" noValidate="" onSubmit={formik.handleSubmit}>
         
 								
                             <div className="col-12 mb-3">
@@ -137,6 +150,7 @@ function UpdateProfile() {
                                     type="text" 
                                     name="name" 
                                     placeholder="Nome completo*"
+                                    autoComplete="name"
                                 />
                                 {formik.touched.name && formik.errors.name ? (<div className="invalid-feedback d-block"> {formik.errors.name}</div>) : null}
                             </div>
@@ -151,21 +165,21 @@ function UpdateProfile() {
                                     type="email" 
                                     name="email" 
                                     placeholder="E-mail*"
+                                    autoComplete="email"
                                 />
                                 {formik.touched.email && formik.errors.email ? (<div className="invalid-feedback d-block"> {formik.errors.email}</div>) : null}
                             </div>
 
                             <div className="col-12 col-lg-6 mb-3">
-                                <InputMask 
+                                <input 
                                     disabled={formik.isSubmitting}
-                                    onChange={formik.handleChange}
+                                    onChange={(e) => {formik.handleChange(e); maskBirth(e)}}
                                     onInput={(e) => formik.setFieldTouched(e.target.name, true, false)}
                                     value={formik.values.birthday}
                                     className={`form-control ${formik.touched.birthday && formik.errors.birthday ? 'is-invalid' : '' }`}
                                     type="text" 
                                     name="birthday" 
-                                    mask='99/99/9999'
-                                    placeholder="Data de nascimento*" 
+                                    placeholder="Data de nascimento*"
                                 />
                                 {formik.touched.birthday && formik.errors.birthday ? (<div className="invalid-feedback d-block"> {formik.errors.birthday}</div>) : null}
                             </div>
@@ -175,7 +189,7 @@ function UpdateProfile() {
                                     disabled={formik.isSubmitting}
                                     onChange={(e) => {formik.handleChange(e); formik.setFieldTouched(e.target.name, true, false)}}
                                     value={formik.values.gender}
-                                    className={`form-select ${formik.touched.gender && formik.errors.gender ? 'is-invalid' : '' }${formik.values.gender == '' ? ' is-empty': ''}`} 
+                                    className={`form-select ${formik.touched.gender && formik.errors.gender ? 'is-invalid' : '' }${formik.values.gender === '' ? ' is-empty': ''}`} 
                                     name="gender" 
                                     placeholder="Gênero*"
                                 >
@@ -196,7 +210,7 @@ function UpdateProfile() {
                                             disabled={formik.isSubmitting}
                                             onChange={(e) => {formik.handleChange(e); formik.setFieldTouched(e.target.name, true, false)}}
                                             value={formik.values.role}
-                                            className={`form-select ${formik.touched.role && formik.errors.role ? 'is-invalid' : ''}${formik.values.role == '' ? ' is-empty': ''}`}
+                                            className={`form-select ${formik.touched.role && formik.errors.role ? 'is-invalid' : ''}${formik.values.role === '' ? ' is-empty': ''}`}
                                             name="role"
                                             placeholder="Perfil"
                                         >
@@ -218,20 +232,21 @@ function UpdateProfile() {
                                             type="text" 
                                             name="company"
                                             placeholder="Organização"
+                                            autoComplete="organization"
                                         />
                                         {formik.touched.company && formik.errors.company ? (<div className="invalid-feedback d-block"> {formik.errors.company}</div>) : null}
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="d-flex justify-content-between">
+                            <div className="d-flex justify-content-center px-0 gap-4">
                                 
                                 <div className="text-center mt-2">
-                                    <Link className="text-decoration-none btn text-primary fw-bold" to="/dashboard" >Cancelar</Link>
-                                    </div>
+                                    <Link className="text-decoration-none btn text-primary fw-bold px-4 px-sm-5 border-dark" to="/dashboard" >Cancelar</Link>
+                                </div>
                                 
                                 <div className="mt-2">
-                                    <button className="btn btn-primary" type="submit">
+                                    <button className="btn btn-primary px-4 px-sm-5" type="submit">
                                         <Spinner className="spinner-border spinner-border-sm me-2" isLoading={formik.isSubmitting}  /> Confirmar
                                     </button>
                                 </div>
@@ -241,13 +256,13 @@ function UpdateProfile() {
 						</form>
 					</div>
                     
-                    <div className="order-1 order-md-2 col-12 col-md-6 col-lg-8 px-5 d-flex justify-content-center pb-4">
+                    <div className="order-1 order-lg-2 col-12 col-lg-6 px-0 d-flex justify-content-center pb-5 pb-lg-0" id="avatares">
                     
                         <div className="d-flex flex-column align-items-center">
-                            <img className="mb-4 img-fluid"src={avatarOptions[imgAvatar]}></img>
-                            <div className="d-flex justify-content-between mx-lg-5">
+                            <img className="mb-4 img-fluid"src={avatarOptions[imgAvatar]} alt=""></img>
+                            <div className="d-flex justify-content-between ">
                                 {avatarOptions.map((item, index) => 
-                                    <button onClick={(e)=> {setImgAvatar(index)}} className="btn rounded-circle p-0 mx-1 mx-lg-3" ><img className="img-fluid" src={item} key={index}/></button>
+                                    <button key={index} onClick={(e)=> {setImgAvatar(index)}} className="btn rounded-circle p-0 mx-1 mx-lg-3" ><img className="img-fluid" src={item} alt=""/></button>
                                 )}
                             </div>
                         </div>

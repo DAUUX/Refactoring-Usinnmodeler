@@ -26,11 +26,11 @@ function PasswordConfirmation({ setConfirmPassModal, handleConfirmPasswordChange
             Sua senha será redefinida
             </p>
 
-            <div className="button-container">
-              <button type="button" className="button btn-light  text-primary" onClick={() => setConfirmPassModal(false)}>
+            <div className="button-container gap-3 gap-sm-5">
+              <button type="button" className="btn py-3 px-4 px-sm-5 btn-light  text-primary border-dark" onClick={() => setConfirmPassModal(false)}>
                Cancelar
               </button>
-              <button type="button" className="button btn-primary save-button " onClick={() => (handleConfirmPasswordChange(), setConfirmPassModal(false))}>
+              <button type="button" className="btn py-3 px-4 px-sm-5 btn-primary save-button " onClick={() => { handleConfirmPasswordChange(); setConfirmPassModal(false)}}>
                Confirmar
               </button>
             </div>

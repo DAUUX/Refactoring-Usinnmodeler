@@ -1,0 +1,71 @@
+@import "../../assets/styles/variables";
+
+* {
+  scroll-behavior: smooth;
+}
+
+//-------------------------------------------------------------------------------------------------------
+
+.CirculoDeFundo {
+  background: url("../../assets/icons/circle.svg") no-repeat;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.BarraDeFundo {
+  background: url("../../assets/icons/linhaSection3.svg") no-repeat;
+  background-position: right;
+}
+
+.CheckList {
+  list-style-image: url("../../assets/icons/verificado.svg");
+}
+
+//-----------------------------------------------------------------------------------------------
+
+.backgroundMembers {
+  background: url("../../assets/icons/linhaAzul.svg") no-repeat;
+  background-position: center;
+  background-size: 100%;
+}
+
+.member {
+  width: 164px;
+  height: 164px;
+  border-radius: 100%;
+  margin: 62px auto 20px auto;
+  object-fit: cover;
+}
+
+//------------------------------------ACESSIBILIDADE---------------------------
+
+//ficar visivel quando está navegando com o tab
+:is(.btn, button, .underline):focus:not(:hover) {
+  outline: 2px black solid !important;
+}
+
+//ver melhor onde o mouse está nos links
+.underline:hover {
+  text-decoration: underline !important;
+}
+
+.btn {
+  transition: 0.2s linear !important;
+}
+
+.btn:hover {
+  transform: scale(0.9) !important;
+}
+
+ul[role=tablist]{
+  background-color: $primary;
+  padding: 10px 0;
+}
+
+@media (max-height: 400px) {
+  //ficar visivel após zomm de 500%
+  main section:first-child{
+    height: auto !important;
+    padding: 90px 0 40px;
+  }
+}

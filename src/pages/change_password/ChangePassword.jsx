@@ -1,6 +1,6 @@
 import "./style.scss"
 import { useState,useEffect } from "react";
-import { useRouteMatch, useHistory, Redirect, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Spinner from "../../components/Spinner";
 import UserProfile from "../../components/UserProfile";
 import { useFormik } from "formik";
@@ -14,14 +14,15 @@ import PasswordConfirmation from "../../components/PasswordConfirmationModal";
 
 function ChangePassword() {
 
-    let match = useRouteMatch();
-    const history = useHistory();
+    useEffect(() => {
+        document.title = 'Atualizar Senha - USINN Modeler';
+    },[]);
+
+    const navigate = useNavigate();
 
     const [loadingOverlay, setLoadingOverlay] = useState(false);
     const [confirmSaveModal, setConfirmPassModal] = useState(false);
     const [passwordValues, setPasswordValues] = useState(null);
-
-    const username = JSON.parse(localStorage.getItem("user"))['name']
 
     const formik = useFormik({
 
@@ -48,18 +49,18 @@ function ChangePassword() {
         // Saí do WebApp
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-        history.push('/login');
+        navigate('/login');
     }
 
     const handleConfirmPasswordChange = async () => { //faz o envio ao backEnd
         //Antes o envio ao backEnd ficava no formik.handleSubmit
         try {
             setLoadingOverlay(true);
-            const response = await api.put('user/change-password', passwordValues); // Envio da solicitação com os valores do formulario de senha
+            await api.put('user/change-password', passwordValues); // Envio da solicitação com os valores do formulario de senha
             Toast('success', 'Os dados foram atualizados com sucesso!', "key");
             logoutUser()
         } catch (error) {
-            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
                 Toast('error', "Falha na conexão ao servidor", "errorServer");
             }
             else{
@@ -86,7 +87,7 @@ function ChangePassword() {
                         </div>
             </nav>
 
-            <div className="container">
+            <div className="container px-0">
             
                 <div id="content" className="row justify-content-center position-relative mt-5 mx-3">
 					
@@ -127,19 +128,18 @@ function ChangePassword() {
                             </div>
 
 
-                            <div className="d-flex justify-content-between">
+                            <div className="d-flex justify-content-center gap-5">
                                 
                                 <div className="text-center mt-2">
-                                    <Link className="text-decoration-none btn text-primary fw-bold px-3" to="/dashboard" >Cancelar</Link>
+                                    <Link className="text-decoration-none btn text-primary fw-bold px-4 px-sm-5 border-dark" to="/dashboard" >Cancelar</Link>
                                 </div>
                                 
                                 <div className="mt-2">
-                                    <button className="btn btn-primary" type="submit">
+                                    <button className="btn btn-primary px-4 px-sm-5" type="submit">
                                         Confirmar
                                     </button>
                                 </div>
                             </div>                    
-                            
 						</form>
 					</div>
                     

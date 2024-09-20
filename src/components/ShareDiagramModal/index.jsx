@@ -54,6 +54,7 @@ function ShareDiagramModal(props) {
             setComponentes([0]);
         });
         
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
 
     useEffect(()=>{
@@ -67,6 +68,7 @@ function ShareDiagramModal(props) {
             setEditorLink('');
         }
         
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[open]); 
 
     async function inviteLink() {        
@@ -88,7 +90,7 @@ function ShareDiagramModal(props) {
             setWasInvited(!wasInvited);
         } catch (error) {
         
-            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
                 Toast('error', "Falha na conexão ao servidor", "errorServer");
             }
             else{
@@ -107,7 +109,7 @@ function ShareDiagramModal(props) {
 
             const {token} = res.data;
 
-            if(permission == 1){
+            if(permission === 1){
                 setReaderLink(`${window.location.origin}/shared/${token}`);
             } else {
                 setEditorLink(`${window.location.origin}/shared/${token}`);
@@ -116,7 +118,7 @@ function ShareDiagramModal(props) {
         
         } catch (error) {
         
-            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
                 Toast('error', "Falha na conexão ao servidor", "errorServer");
             }
             else{
@@ -133,7 +135,7 @@ function ShareDiagramModal(props) {
             const res = await api.get(`/collaboration/${props.diagram_id}/getAllCollaborationWithName`);
             setCollaborators(res.data.usersInviteds); 
         } catch(error) {
-            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
                 Toast('error', "Falha na conexão ao servidor", "errorServer");
             }
             else{
@@ -144,45 +146,20 @@ function ShareDiagramModal(props) {
 
     async function updatePermission(user_id, updation) {
         try{
-            if(updation == "StopShare"){
+            if(updation === "StopShare"){
                 await api.delete(`/collaboration/${props.diagram_id}/${user_id}`);   
                 getAllCollaborations();                
             } else {
                 await  api.put(`/collaboration/${props.diagram_id}/${user_id}`, {updation});
             }         
         } catch(error) {
-            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
                 Toast('error', "Falha na conexão ao servidor", "errorServer");
             }
             else{
                 Toast('error', error, "errorCircle");
             }
         }
-    }
-
-    async function stopSharingForAll() {
-
-        setLoading(true);
-        
-        try {
-            
-            setReaderLink('');
-            setEditorLink('');
-            await api.delete(`share/${props.diagram_id}`);
-            
-        } catch (error) {
-            
-            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
-                Toast('error', "Falha na conexão ao servidor", "errorServer");
-            }
-            else{
-                Toast('error', error, "errorCircle");
-            }
-            
-        }
-
-        setLoading(false);
-
     }
 
     function copy() {
@@ -253,7 +230,7 @@ function ShareDiagramModal(props) {
                         </div>}
                     </div>
                     <div className="modal-footer d-flex justify-content-between">
-                        <button title="Copiar link" disabled={loading} className="btn text-primary px-4 px-sm-5" type="button" onClick={copy}> {!copied? 'Copiar link' : 'Copiado'}  </button>
+                        <button title="Copiar link" disabled={loading} className="btn text-primary border-dark px-4" type="button" onClick={copy}> {!copied? 'Copiar link' : 'Copiado'}  </button>
                         <button title="Enviar" disabled={loading} className="btn bg-primary text-white px-4 px-sm-5" type="button" onClick={inviteLink}> Enviar </button>                       
                     </div>
                 </div>

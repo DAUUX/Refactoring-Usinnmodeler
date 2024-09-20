@@ -34,7 +34,7 @@ import { toPng } from 'html-to-image';
 import { Button, Popover } from '@mui/material';
 import AppBarCustom from "./components/AppBar";
 import './index.css';
-import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import { useParams } from 'react-router-dom';
 import api from '../../services/api';
 import { Toast } from '../../components/Toast';
 

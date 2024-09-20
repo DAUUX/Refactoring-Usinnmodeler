@@ -349,71 +349,60 @@ mxToolbar.prototype.addOption = function(combo, title, value)
  * be selected at a time. The currently selected item is the default item
  * after a reset of the toolbar.
  */
-mxToolbar.prototype.addSwitchMode = function(sec, title, icon, funct, pressedIcon, style)
-{
-
+mxToolbar.prototype.addSwitchMode = function(sec, title, icon, funct, pressedIcon, style) {
 	var img = document.createElement('img');
 	img.initialClassName = style || 'mxToolbarMode';
 	img.className = img.initialClassName;
 	img.setAttribute('src', icon);
 	img.altIcon = pressedIcon;
-	
-	if (title != null)
-	{
-		img.setAttribute('title', title);
+
+	if (title != null) {
+			img.setAttribute('title', title);
 	}
-	
-	mxEvent.addListener(img, 'click', mxUtils.bind(this, function(evt)
-	{
-		var tmp = this.selectedMode.altIcon;
-		
-		if (tmp != null)
-		{
-			this.selectedMode.altIcon = this.selectedMode.getAttribute('src');
-			this.selectedMode.setAttribute('src', tmp);
-		}
-		else
-		{
-			this.selectedMode.className = this.selectedMode.initialClassName;
-		}
-		
-		if (this.updateDefaultMode)
-		{
-			this.defaultMode = img;
-		}
-		
-		this.selectedMode = img;
-		
-		var tmp = img.altIcon;
-		
-		if (tmp != null)
-		{
-			img.altIcon = img.getAttribute('src');
-			img.setAttribute('src', tmp);
-		}
-		else
-		{
-			img.className = img.initialClassName+'Selected';
-		}
-		
-		this.fireEvent(new mxEventObject(mxEvent.SELECT));
-		funct();
+
+	mxEvent.addListener(img, 'click', mxUtils.bind(this, function(evt) {
+			if (this.selectedMode) {
+					var tmp = this.selectedMode.altIcon;
+
+					if (tmp != null) {
+							this.selectedMode.altIcon = this.selectedMode.getAttribute('src');
+							this.selectedMode.setAttribute('src', tmp);
+					} else {
+							this.selectedMode.className = this.selectedMode.initialClassName;
+					}
+			}
+
+			if (this.updateDefaultMode) {
+					this.defaultMode = img;
+			}
+
+			this.selectedMode = img;
+
+			var tmp = img.altIcon;
+
+			if (tmp != null) {
+					img.altIcon = img.getAttribute('src');
+					img.setAttribute('src', tmp);
+			} else {
+					img.className = img.initialClassName + 'Selected';
+			}
+
+			this.fireEvent(new mxEventObject(mxEvent.SELECT));
+			funct();
 	}));
-	
+
 	this.container.children[sec - 1].children[1].appendChild(img);
-	
-	if (this.defaultMode == null)
-	{
-		this.defaultMode = img;
-		
-		// Function should fire only once so
-		// do not pass it with the select event
-		this.selectMode(img);
-		funct();
+
+	if (this.defaultMode == null) {
+			this.defaultMode = img;
+
+			this.selectMode(img);
+			funct();
 	}
-	
+
 	return img;
 };
+
 
 /**
  * Function: addMode
