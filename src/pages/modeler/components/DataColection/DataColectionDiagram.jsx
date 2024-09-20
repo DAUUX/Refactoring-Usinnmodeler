@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Box, TextField, IconButton } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Handle, Position } from 'reactflow';
+import { Handle, NodeResizer, Position } from 'reactflow';
 import './text-updater-node.css';
 import TypeNavigations from '../TypeNavigations';
-function DataColection({ data, id }) {
+function DataColection({ data, id, selected }) {
   // Sincronizar o estado local com os dados fornecidos pelo React Flow
   const [name, setName] = useState(data.name || '');
   const [fields, setFields] = useState(data.fields || [{ name: '' }]);
@@ -175,7 +175,6 @@ function DataColection({ data, id }) {
           </Box>
         )}
       </Box>
-      
     </>
   );
 }

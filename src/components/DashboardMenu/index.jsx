@@ -32,29 +32,30 @@ function DashboardMenu({menuOpen, onCreateDiagram}) {
 
         e.preventDefault();
 
-        onCreateDiagram(true);
-        const data = {name: 'Novo diagrama', diagram_data: '', diagram_svg: ''};
+        history.push('/modeler');
+        // onCreateDiagram(true);
+        // const data = {name: 'Novo diagrama', diagram_data: '', diagram_svg: ''};
 
-        try {
+        // try {
         
-            const res = await api.post('diagrams', data);
+        //     const res = await api.post('diagrams', data);
 
-            const {id, name} = res.data;
+        //     const {id, name} = res.data;
 
-            history.push(`/modeler/${id}/${slugify(name)}`);
+        //     history.push(`/modeler/${id}/${slugify(name)}`);
         
-        } catch (error) {
+        // } catch (error) {
         
-            if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
-                Toast('error', "Falha na conexão ao servidor", "errorServer");
-            }
-            else{
-                Toast('error', error, "errorCircle");
-            }
+        //     if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+        //         Toast('error', "Falha na conexão ao servidor", "errorServer");
+        //     }
+        //     else{
+        //         Toast('error', error, "errorCircle");
+        //     }
         
-        }
+        // }
 
-        onCreateDiagram(false);
+        // onCreateDiagram(false);
 
     } 
 

@@ -16,7 +16,7 @@ export default function EditableEdgeLabel({ sourceX, sourceY, targetX, targetY }
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
-      if (text.length === 0) setText('Clique para editar');
+      if(text === 'Clique para editar') setText();
       setIsEditing(false);
     }
   };

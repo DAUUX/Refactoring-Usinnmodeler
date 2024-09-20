@@ -2,16 +2,16 @@ import React from 'react';
 import { Accordion, AccordionSummary, AccordionDetails, Typography, Grid } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import OpenPoint from "./components/OpenPoint/OpenPoint";
-import ClosePoint from "./components/ClosePoint/ClosePoint";
-import SistemProcess from "./components/SistemProcess/SistemProcess";
-import UserAction from "./components/UserAction/UserAction";
-import AlertContent from "./components/AlertContent/AlertContent";
-import ObrigatoryUserAction from "./components/ObrigatoryUserAction/ObrigatoryUserAction";
-import ProgressIndicator from "./components/ProgressIndicator/ProgressIndicator";
-import DataColection from "./components/DataColection/DataColection";
-import PresentationUnity from "./components/PresentationUnity/PresentationUnity";
-import PresentationUnityAcessible from "./components/PresentationUnityAcessible/PresentationUnityAcessible";
+import OpenPoint from "../OpenPoint/OpenPoint";
+import ClosePoint from "../ClosePoint/ClosePoint";
+import SistemProcess from "../SistemProcess/SistemProcess";
+import UserAction from "../UserAction/UserAction";
+import AlertContent from "../AlertContent/AlertContent";
+import ObrigatoryUserAction from "../ObrigatoryUserAction/ObrigatoryUserAction";
+import ProgressIndicator from "../ProgressIndicator/ProgressIndicator";
+import DataColection from "../DataColection/DataColection";
+import PresentationUnity from "../PresentationUnity/PresentationUnity";
+import PresentationUnityAcessible from "../PresentationUnityAcessible/PresentationUnityAcessible";
 
 export default function Sidebar() {
   const onDragStart = (event, nodeType) => {

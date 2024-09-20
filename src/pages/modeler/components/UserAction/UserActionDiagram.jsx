@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Handle, Position } from 'reactflow';
+import { Handle, Position, NodeResizeControl } from 'reactflow';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import { Grid } from "@mui/material";
 import './text-updater-node.css';
@@ -48,20 +48,19 @@ function UserActionDiagram({ data }) {
 
   return (
     <div className="text-updater-node">
-
       <Grid container justifyContent={"space-between"} flexDirection={"row"}>
           {
             isEditing ?
-            <input 
-              id="text-input-user-action-diagram" 
-              spellCheck="false" 
-              placeholder="Ação do Usuário" 
-              onChange={onChange} 
-              name="text" 
-              className="nodrag" 
-              value={name} 
-              onKeyDown={handleKeyDown}/> :
-            <span onClick={() => setIsEditing(true)} style={{minWidth: 150}}>{name}</span>
+              <input 
+                id="text-input-user-action-diagram" 
+                spellCheck="false" 
+                placeholder="Ação do Usuário" 
+                onChange={onChange} 
+                name="text" 
+                className="nodrag" 
+                value={name} 
+                onKeyDown={handleKeyDown}/> :
+              <span onClick={() => setIsEditing(true)} style={{minWidth: 150}}>{name}</span>
           }
       </Grid>
       <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>

@@ -1,15 +1,17 @@
 import React, { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import ReactFlow, {
-  ReactFlowProvider,
   addEdge,
   useNodesState,
   useEdgesState,
   Controls,
   ConnectionMode,
   MiniMap,
+  useReactFlow,
+  getNodesBounds,
+  getViewportForBounds,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
-import Sidebar from './Sidebar';
+import Sidebar from './components/Sidebar';
 import OpenPointDiagram from "./components/OpenPoint/OpenPointDiagram";
 import ClosePointDiagram from "./components/ClosePoint/ClosePointDiagram";
 import SistemProcessDiagram from "./components/SistemProcess/SistemProcessDiagram";
@@ -24,37 +26,96 @@ import FeedbackSucess from "./components/Edges/FeedbackSucess";
 import FeedbackUnsucess from "./components/Edges/FeedbackUnsucess";
 import CancelTransition from "./components/Edges/CancelTransition";
 import QueryData from "./components/Edges/QueryData";
-import { useModeler } from "../../context/modelerContext";
 import PresentationUnity from "./components/PresentationUnity/PresentationUnityDiagram";
 import PresentationUnityAcessibleDiagram from "./components/PresentationUnityAcessible/PresentationUnityAcessibleDiagram";
-
+import { useModeler } from "../../context/modelerContext";
+import { v4 as uuidv4 } from 'uuid';
+import { toPng } from 'html-to-image';
+import { Button, Popover } from '@mui/material';
+import AppBarCustom from "./components/AppBar";
 import './index.css';
+import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import api from '../../services/api';
+import { Toast } from '../../components/Toast';
 
-let id = 0;
-const getId = () => `dndnode_${id++}`;
+const getId = () => `id-${uuidv4()}`;
 
 const ModelerReactFlow = () => {
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
-  const [nodesOnDelete, setNodesOnDele] = useState([])
-  
+  const [nodesOnDelete, setNodesOnDele] = useState([]);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [open, setOpen] = useState(false);
   const {currentEdge, setCurrentEdge } = useModeler();
+  const [anchorPosition, setAnchorPosition] = useState(null);
+  const [nameDiagram, setNameDiagram] = useState('');
 
-  useEffect(() => {console.log(nodes, 121212)}, [nodes])
+  const { id } = useParams();
+
+  const { getNodes } = useReactFlow();
+  
+  useEffect(() => {
+    console.log(nodes, '------', edges)
+  }, [nodes])
+  useEffect(() => {
+    if(!!id){
+      try {
+        const getDiagram = async () => {
+          const res = await api.get(`/diagrams/${id}`);
+          const {data} = res;
+          console.log(data.name);
+          setNameDiagram(data.name);
+          const graph = JSON.parse(data.data);
+          setNodes(graph.nodes);
+          setEdges(graph.edges);
+        }
+  
+        getDiagram();
+        
+      } catch (error) {
+        Toast('error', 'Não foi possivel recuperar diagrama');
+      }
+    }
+  }, []);
+
   useEffect(() => {
     if (Array.isArray(nodesOnDelete)) {
-      // Unir as listas se nodesOnDelete for um array
       setNodes((prevNodes) => {
-        console.log(prevNodes, 6666)
         return  [...new Set([...prevNodes, ...nodesOnDelete])]
-      
       });
     } else {
       console.error('nodesOnDelete não é um array:', nodesOnDelete);
     }
   }, [nodesOnDelete]);
+
+  const handleContextMenu = (event) => {
+    event.preventDefault(); 
+    setAnchorPosition({
+      top: event.clientY,
+      left: event.clientX,
+    });
+    setOpen(true);
+
+    setTimeout(() => {
+      setOpen(false);
+    }, 1000);
+  };
+
+  useEffect(() => {
+    const wrapper = reactFlowWrapper.current;
+
+    if (wrapper) {
+      wrapper.addEventListener('contextmenu', handleContextMenu);
+    }
+
+    return () => {
+      if (wrapper) {
+        wrapper.removeEventListener('contextmenu', handleContextMenu);
+      }
+    };
+  }, []);
 
   const edgeTypes = useMemo(
       () => ({
@@ -258,7 +319,6 @@ const ModelerReactFlow = () => {
           }
         }
   
-        // Retorna o nó original sem alterações
         return item;
       });
 
@@ -283,10 +343,12 @@ const ModelerReactFlow = () => {
       event.preventDefault();
   
       const type = event.dataTransfer.getData('application/reactflow');
-  
+
       if (typeof type === 'undefined' || !type) {
         return;
       }
+      
+      setNodes((nds) => nds.map(nd => ({ ...nd, selected: false })));
   
       const position = reactFlowInstance.screenToFlowPosition({
         x: event.clientX,
@@ -311,40 +373,37 @@ const ModelerReactFlow = () => {
       ) {
         newNode.data.name = '';
       }
-  
-      setNodes((nds) => {
-        const parentNode = nds.find((targetNode) => {
-          const { width, height, type, id } = targetNode;
-          const { x, y } = targetNode.position;
-  
-          if (
-            (type === 'presentation-unity' || type === 'presentation-unity-acessible') &&
-            position.x > x &&
-            position.x < x + width &&
-            position.y > y &&
-            position.y < y + height &&
-            newNode.id !== id
-          ) {
-            return true;
-          }
-          return false;
-        });
-  
-        if (parentNode) {
-          const { id, position: parentPosition } = parentNode;
-          newNode = {
-            ...newNode,
-            parentId: id,
-            extent: 'parent',
-            position: {
-              x: position.x - parentPosition.x,
-              y: position.y - parentPosition.y,
-            },
-          };
+      
+      const parentNode = nodes.find((targetNode) => {
+        const { width, height, type, id } = targetNode;
+        const { x, y } = targetNode.position;
+
+        if ((type === 'presentation-unity' || type === 'presentation-unity-acessible') &&
+          position.x > x &&
+          position.x < x + width &&
+          position.y > y &&
+          position.y < y + height &&
+          newNode.id !== id
+        ) {
+          return true;
         }
-  
-        return nds.concat(newNode);
+        return false;
       });
+
+      if (parentNode) {
+        const { id, position: parentPosition } = parentNode;
+        newNode = {
+          ...newNode,
+          parentId: id,
+          extent: 'parent',
+          position: {
+            x: position.x - parentPosition.x,
+            y: position.y - parentPosition.y,
+          },
+        };
+      }
+
+      setNodes((nds) => [...nds, newNode]);
     },
     [reactFlowInstance],
   );
@@ -379,36 +438,134 @@ const ModelerReactFlow = () => {
 
   const nodeClassName = (node) => node.type;
 
+  const onDownload = () => {
+    
+    function downloadImage(dataUrl) {
+      const a = document.createElement('a');
+    
+      a.setAttribute('download', 'usin-modeler.png');
+      a.setAttribute('href', dataUrl);
+      a.click();
+    }
+
+    const imageWidth = 1024;
+    const imageHeight = 768;
+
+    const nodesBounds = getNodesBounds(getNodes());
+    const viewport = getViewportForBounds(
+      nodesBounds,
+      imageWidth,
+      imageHeight,
+      0.5,
+      2,
+    );
+
+    toPng(document.querySelector('.react-flow__viewport'), {
+      backgroundColor: 'white',
+      width: imageWidth,
+      height: imageHeight,
+      style: {
+        width: imageWidth,
+        height: imageHeight,
+        transform: `translate(${viewport.x}px, ${viewport.y}px) scale(${viewport.zoom})`,
+      },
+    }).then(downloadImage);
+  }
+
+  const onSave = async (name) => {
+    try {
+      
+      if(id) {
+        const res = await api.put(`diagrams/${id}`, {
+          name,
+          nodes,
+          edges
+        })
+        Toast('success', 'Diagrama editado com sucesso.')
+      }else {
+        console.log('asdfo[aisjdfasdiofk')
+        const res = await api.post('diagrams', {
+          name,
+          nodes,
+          edges
+        })
+        console.log(res)
+        Toast('success', 'Diagrama criado com sucesso.')
+      }
+  
+    } catch (error) {
+        Toast('error', 'Não foi possivel criar diagrama.')
+    }
+  }
+
   return (
-    <div className="dndflow">
-      <Sidebar />
-      <ReactFlowProvider>
-        <div className="reactflow-wrapper" ref={reactFlowWrapper}>
-          <ReactFlow
-            nodes={nodes}
-            edges={edges}
-            onNodesChange={onNodesChange}
-            onEdgesChange={onEdgesChange}
-            onConnect={onConnect}
-            onInit={setReactFlowInstance}
-            onDrop={onDrop}
-            onDragOver={onDragOver}
-            onNodeDragStop={onNodeDragStop}
-            isValidConnection={isValidConnection}
-            nodeTypes={nodeTypes}
-            edgeTypes={edgeTypes}
-            minZoom={0.2}
-            maxZoom={4}
-            connectionMode={ConnectionMode.Strict}
-            className="react-flow-subflows-example"
-            onNodesDelete={onNodesDelete}
+    <>
+      <AppBarCustom onDownload={() => onDownload()} onSave={(name) => onSave(name)} name={nameDiagram}/>
+      <div className="dndflow">
+        <Sidebar />
+        <>
+          <div className="reactflow-wrapper" ref={reactFlowWrapper}>
+            <ReactFlow
+              nodes={nodes}
+              edges={edges}
+              onNodesChange={onNodesChange}
+              onEdgesChange={onEdgesChange}
+              onConnect={onConnect}
+              onInit={setReactFlowInstance}
+              onDrop={onDrop}
+              onDragOver={onDragOver}
+              onNodeDragStop={onNodeDragStop}
+              isValidConnection={isValidConnection}
+              nodeTypes={nodeTypes}
+              edgeTypes={edgeTypes}
+              minZoom={0.2}
+              maxZoom={4}
+              connectionMode={ConnectionMode.Strict}
+              className="react-flow-subflows-example"
+              onNodesDelete={onNodesDelete}
+            >
+              <Controls />
+              <MiniMap zoomable pannable nodeClassName={nodeClassName} />
+            </ReactFlow>
+          </div>
+          <Popover
+            open={open}
+            anchorEl={anchorEl}
+            onClose={() => setOpen(false)}
+            anchorReference="anchorPosition"
+            anchorPosition={anchorPosition}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
           >
-            <Controls />
-            <MiniMap zoomable pannable nodeClassName={nodeClassName} />
-          </ReactFlow>
-        </div>
-      </ReactFlowProvider>
-    </div>
+            <Button 
+              onClick={() => {
+                setNodes(nodes.map(nd => {
+                  if(!!(nd.parentId) && !!(nd.extent) && nd.selected) {
+                    delete nd.parentId
+                    delete nd.extent
+                    nd.position.y = nd.position.y+200
+                    return nd;
+                  }
+                  return nd;
+                }))
+              }}
+              sx={{
+                fontSize: 12,       
+                color: 'black',      
+                padding: '10px 20px', 
+              }}>
+                Desagrupar
+            </Button>
+          </Popover>
+        </>
+      </div>
+    </>
   );
 };
 

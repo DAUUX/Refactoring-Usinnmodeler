@@ -19,7 +19,11 @@ export default function QueryData(props) {
         targetY={targetY}
         sourcePosition={sourcePosition}
         targetPosition={targetPosition}
-        style={{ stroke: 'black', strokeWidth: 2 }}
+        style={{ 
+          stroke: 'black', 
+          strokeWidth: 2,
+          strokeDasharray: '5,5'
+        }}
         markerEnd="url(#arrowhead)"
       />
       <LabelEdge 

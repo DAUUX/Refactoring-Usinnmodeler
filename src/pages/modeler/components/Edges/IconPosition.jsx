@@ -25,6 +25,7 @@ export default function QuadrantIcon({ sourceX, sourceY, targetX, targetY, icon 
   let offsetX = 10; 
   let offsetY = 10;
 
+  console.log(quadrant);
   switch (quadrant) {
     case 'Quadrante I': 
       console.log('Quadrante I'); 

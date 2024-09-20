@@ -6,7 +6,7 @@ import './text-updater-node.css';
 import TypeNavigations from '../TypeNavigations';
 
 
-function AlertContentDiagram({ data }) {
+function AlertContentDiagram({ data, selected }) {
 
   const [name, setName] = useState(data.name)
 
@@ -43,17 +43,34 @@ function AlertContentDiagram({ data }) {
 
 
   return (
-    <div className="text-updater-node" style={{
-      zIndex: 9999
+    <div 
+    className="text-updater-node" 
+    style={{
+      zIndex: 9999,
+      width: '100%',
+      height: '100%',
     }}>
       <Grid container justifyContent={"space-between"} flexDirection={"row"}>
         <Grid item xs={10}>
-          <input id="text-input-user-action-diagram" spellCheck="false" placeholder="Conteúdo de Alerta" onChange={onChange} name="text" className="nodrag" value={name} />
+          <input 
+            id="text-input-user-action-diagram" 
+            spellCheck="false" 
+            placeholder="Conteúdo de Alerta" 
+            onChange={onChange} 
+            name="text" 
+            className="nodrag" 
+            value={name} 
+            style={{ width: '100%', height: '100%', resize: 'none', padding: '5px', boxSizing: 'border-box' }}/>
         </Grid>
       </Grid>
-      <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
         <WarningAmberIcon sx={{ color: '#000000' }} />
       </Grid>
+      <NodeResizer
+        isVisible={selected}
+        minWidth={200}
+        minHeight={60}
+      />
       <Handle type="target" position={Position.Left} isConnectable id='alert-content-target-left'/>
       <Handle type="target" position={Position.Top} isConnectable id='alert-content-target-top'/>
       <Handle type="target" position={Position.Right} isConnectable id='alert-content-target-right'/>
@@ -63,7 +80,7 @@ function AlertContentDiagram({ data }) {
       <Handle type="source" position={Position.Right} id='alert-content-source-right' onClick={(e) => handleClick(e)}/>
       <Handle type="source" position={Position.Bottom} id='alert-content-source-bottom' onClick={(e) => handleClick(e)}/>
       <TypeNavigations 
-        edges={['transition', 'unsucess-feedback', 'sucess-feedback', 'cancel-transition']} 
+        edges={['navigation','transition', 'unsucess-feedback', 'sucess-feedback', 'cancel-transition']} 
         onClose={() => handleClose()}
         open={openNavigation}
         anchor={anchorEl}

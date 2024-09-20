@@ -12,7 +12,7 @@ function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram,
     }
     
     return (
-        <Link to={`/modeler/${id}/${slugify(name)}`} className="card text-reset text-decoration-none mw-25" id="diagram-card">
+        <Link to={`/modeler/${id}`} className="card text-reset text-decoration-none mw-25" id="diagram-card">
             <div className="card-header  d-flex">
                 <div className='overflow-hidden'>
                     <span className="fw-bold">{name}</span><br />

@@ -82,7 +82,6 @@ function MyDocuments() {
                                         thumbnail={diagram.diagram_svg} 
                                         onShareDiagram={(id) => callShareDiagramModal(id)} 
                                         onRemoveDiagram={(id)=> callRemoveDiagramModal(id)} 
-                                        onRenameDiagram={(id)=> callRenameDiagramModal(id)} 
                                         favorited={diagram.favorite} 
                                         onDiagramFavorited={()=>{}}
                                     />                                                          
