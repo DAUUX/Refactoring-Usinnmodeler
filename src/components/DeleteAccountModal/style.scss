@@ -1,13 +1,13 @@
 
-.icon {
+.DeleteAccountModal .deyeicon {
   position: absolute;
   right: 30px;
-  bottom: 1.5em;
+  top:15px;
   color: #13528E;
   cursor: pointer;
   font-size: 1.3em;
 }
-.deyeicon-active{
+.DeleteAccountModal .deyeicon-active{
+  top:17px;
   margin-right: 15px;
-  bottom: 2.7em;
 }

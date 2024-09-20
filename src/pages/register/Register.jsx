@@ -95,7 +95,7 @@ export default function Register() {
 };
 	
 	return (
-		<main id="register-page" className="flex-fill d-flex align-items-center" aria-label="formulário de cadastro">    
+		<main id="register-page" className="flex-fill d-flex align-items-center register" aria-label="formulário de cadastro">    
 			<div className="container py-5 py-sm-0">
 
 				<div className="pb-3 d-flex justify-content-center align-items-center" aria-hidden="true">

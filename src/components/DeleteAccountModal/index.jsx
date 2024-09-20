@@ -74,7 +74,7 @@ function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
 
 
     return (
-        <div className="modal" id={id} tabIndex="-1" aria-labelledby="RemoveLoginModal" aria-hidden="true" ref={modalRef}>
+        <div className="modal DeleteAccountModal" id={id} tabIndex="-1" aria-labelledby="RemoveLoginModal" aria-hidden="true" ref={modalRef}>
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header">
@@ -97,7 +97,7 @@ function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
                             />
                             <div className="">
                                 <i onClick={togglePasswordVisibility}
-                                    className={`eyeicon bi bi-${showPassword ? 'eye-fill': 'eye-slash-fill'} icon ${formik.touched.password && formik.errors.password ? 'deyeicon-active': ''}`}
+                                    className={`deyeicon bi bi-${showPassword ? 'eye-fill': 'eye-slash-fill'} ${formik.touched.password && formik.errors.password ? 'deyeicon-active': ''}`}
                                 ></i>
                             </div>
 
