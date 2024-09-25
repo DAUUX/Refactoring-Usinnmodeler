@@ -24,14 +24,7 @@
     "sweetalert2": "^11.4.8",
     "sweetalert2-react-content": "^5.0.7",
     "web-vitals": "^4.1.1",
-    "yup": "^1.4.0",
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.5",
-    "@mui/icons-material": "^5.15.19",
-    "@mui/material": "^5.15.19",
-    "html-to-image": "^1.11.11",
-    "reactflow": "^11.11.3",
-    "uuid": "^10.0.0"
+    "yup": "^1.4.0"
   },
   "scripts": {
     "predeploy": "npm run build",
