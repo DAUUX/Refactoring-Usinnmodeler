@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Handle, Position } from 'reactflow';
+import { Handle, NodeResizer, Position } from 'reactflow';
 import { Grid } from "@mui/material";
 import './text-updater-node.css';
 
@@ -7,7 +7,7 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import TypeNavigations from '../TypeNavigations';
 
-function ObrigatoryUserActionDiagram({ data }) {
+function ObrigatoryUserActionDiagram({ data, selected }) {
 
   const [name, setName] = useState(data.name);
   const [isEditing, setIsEditing] = useState(true);
@@ -48,7 +48,12 @@ function ObrigatoryUserActionDiagram({ data }) {
   };
 
   return (
-    <div className="text-updater-node">
+    <div className="text-updater-node"
+    style={{
+      zIndex: 9999,
+      width: '100%',
+      height: '100%',
+    }}>
       <Handle type="target" position={Position.Left} isConnectable id='sistem-process-target-left'/>
       <Handle type="target" position={Position.Top} isConnectable id='sistem-process-target-top'/>
       <Handle type="target" position={Position.Right} isConnectable id='sistem-process-target-right'/>
@@ -88,6 +93,11 @@ function ObrigatoryUserActionDiagram({ data }) {
           }} />
         </>
       </Grid>
+      <NodeResizer
+        isVisible={selected}
+        minWidth={200}
+        minHeight={60}
+      />
     </div>
   );
 }

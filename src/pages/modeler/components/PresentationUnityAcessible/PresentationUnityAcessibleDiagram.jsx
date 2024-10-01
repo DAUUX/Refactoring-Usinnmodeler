@@ -1,11 +1,11 @@
 import { Button } from '@mui/material';
 import React, { useState } from 'react';
-import { useReactFlow } from 'reactflow';
+import { NodeResizer, useReactFlow } from 'reactflow';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import Seta from "./seta.png";
 
-function Subflow({ id, data }) {
+function Subflow({ id, data, selected }) {
   const [isEditing, setIsEditing] = useState(false); 
   const [text, setText] = useState('Unidade de apresentação'); 
   const [isMinimized, setIsMinimized] = useState(false); 
@@ -49,8 +49,8 @@ function Subflow({ id, data }) {
   return (
     <div
       style={{
-        width: isMinimized ? 230 : 500,
-        height: isMinimized ? 50 : 300,
+        width: isMinimized ? 230 : '100%',
+        height: isMinimized ? 50: '100%',
         backgroundColor: 'rgba(128, 128, 128, 0.2)',
         border: '2px solid #999',
         borderRadius: '10px',
@@ -93,6 +93,18 @@ function Subflow({ id, data }) {
           {isMinimized ? <AddIcon /> : <RemoveIcon />}
         </Button>
       </div>
+      {isMinimized ? 
+      <NodeResizer
+        isVisible={false}
+        minWidth={230}
+        minHeight={50}
+      /> :
+      <NodeResizer
+        isVisible={selected}
+        minWidth={500}
+        minHeight={300}
+      />
+      }
     </div>
   );
 }

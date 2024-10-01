@@ -63,7 +63,12 @@ function DataColection({ data, id, selected }) {
 
 
   return (
-    <>
+    <div className='text-updater-node'
+    style={{
+      zIndex: 9999,
+      width: '100%',
+      height: '100%',
+    }}>
       <Handle type="target" position={Position.Left} isConnectable id='data-colection-target-left'/>
       <Handle type="target" position={Position.Top} isConnectable id='data-colection-target-top'/>
       <Handle type="target" position={Position.Right} isConnectable id='data-colection-target-right'/>
@@ -83,7 +88,8 @@ function DataColection({ data, id, selected }) {
         sx={{ 
           border: '1px solid #000', 
           borderRadius: 1, 
-          width: 170, 
+          width: '100%', 
+          height: '100%', 
           backgroundColor: '#fff', 
           margin: '0 auto', 
           display: 'flex',
@@ -146,6 +152,7 @@ function DataColection({ data, id, selected }) {
                 size="small"
                 placeholder="Dados"
                 sx={{ 
+                  width: '100%',
                   fontSize: 12, 
                   textAlign: 'center', 
                   backgroundColor: '#fff' 
@@ -175,7 +182,12 @@ function DataColection({ data, id, selected }) {
           </Box>
         )}
       </Box>
-    </>
+      <NodeResizer
+        isVisible={selected}
+        minWidth={185}
+        minHeight={85 + (fields.length * 55) + 55}
+      />
+    </div>
   );
 }
 

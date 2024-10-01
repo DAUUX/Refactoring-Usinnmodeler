@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Handle, Position } from 'reactflow';
+import { Handle, NodeResizer, Position } from 'reactflow';
 import { Grid } from "@mui/material";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import './text-updater-node.css';
 import TypeNavigations from '../TypeNavigations';
 
 
-function ProgressIndicatorDiagram({ data }) {
+function ProgressIndicatorDiagram({ data, selected }) {
 
   const [name, setName] = useState(data.name)
 
@@ -42,7 +42,12 @@ function ProgressIndicatorDiagram({ data }) {
   }
 
   return (
-    <div className="text-updater-node">
+    <div className="text-updater-node"
+    style={{
+      zIndex: 9999,
+      width: '100%',
+      height: '100%',
+    }}>
       <Handle type="target" position={Position.Left} isConnectable id='progress-indicator-target-left'/>
       <Handle type="target" position={Position.Top} isConnectable id='progress-indicator-target-top'/>
       <Handle type="target" position={Position.Right} isConnectable id='progress-indicator-target-right'/>
@@ -66,6 +71,11 @@ function ProgressIndicatorDiagram({ data }) {
       <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
         <AccessTimeIcon sx={{ color: '#000000' }} />
       </Grid>
+      <NodeResizer
+        isVisible={selected}
+        minWidth={180}
+        minHeight={55}
+      />
     </div>
   );
 }

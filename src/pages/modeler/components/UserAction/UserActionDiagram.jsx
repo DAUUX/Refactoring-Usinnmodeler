@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Handle, Position, NodeResizeControl } from 'reactflow';
+import { Handle, Position, NodeResizeControl, NodeResizer } from 'reactflow';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import { Grid } from "@mui/material";
 import './text-updater-node.css';
 import TypeNavigations from '../TypeNavigations';
 
 
-function UserActionDiagram({ data }) {
+function UserActionDiagram({ data, selected }) {
 
   const [name, setName] = useState(data.name);
   const [isEditing, setIsEditing] = useState(true);
@@ -47,7 +47,12 @@ function UserActionDiagram({ data }) {
   };
 
   return (
-    <div className="text-updater-node">
+    <div className="text-updater-node"
+    style={{
+      zIndex: 9999,
+      width: '100%',
+      height: '100%',
+    }}>
       <Grid container justifyContent={"space-between"} flexDirection={"row"}>
           {
             isEditing ?
@@ -120,6 +125,11 @@ function UserActionDiagram({ data }) {
         open={openNavigation}
         anchor={anchorEl}
         close={() => handleClose()}
+      />
+      <NodeResizer
+        isVisible={selected}
+        minWidth={180}
+        minHeight={60}
       />
     </div>
   );
