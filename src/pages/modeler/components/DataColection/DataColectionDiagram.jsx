@@ -117,6 +117,7 @@ function DataColection({ data, id, selected }) {
             variant="outlined"
             size="small"
             fullWidth
+            multiline
             placeholder="Coleção de dados"
             sx={{ 
               fontSize: 12, 
@@ -151,6 +152,7 @@ function DataColection({ data, id, selected }) {
                 variant="outlined"
                 size="small"
                 placeholder="Dados"
+                multiline
                 sx={{ 
                   width: '100%',
                   fontSize: 12, 

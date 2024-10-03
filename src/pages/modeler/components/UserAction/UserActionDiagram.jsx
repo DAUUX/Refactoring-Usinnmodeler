@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Handle, Position, NodeResizeControl, NodeResizer } from 'reactflow';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import { Grid } from "@mui/material";
@@ -9,15 +9,28 @@ import TypeNavigations from '../TypeNavigations';
 function UserActionDiagram({ data, selected }) {
 
   const [name, setName] = useState(data.name);
-  const [isEditing, setIsEditing] = useState(true);
   const [openNavigation, setOpenNavigation] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const textareaRef = useRef(null);
+  const [minDimensions, setMinDimensions] = useState({ minWidth: 180, minHeight: 60 });
 
   useEffect(() => {
     if (!!data.name.trim()) {
       setName(data.name)
     }
   }, [data.name])
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+      const { offsetHeight } = textareaRef.current;
+      setMinDimensions((prev) => ({
+        minWidth: prev.minWidth,
+        minHeight: offsetHeight + 35,
+      }));
+    }
+  }, [name, selected]);
 
   const onChange = (evt) => {
     setName(evt.target.value)
@@ -42,7 +55,6 @@ function UserActionDiagram({ data, selected }) {
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       if(name.length === 0) setName('Ação do usuário')
-      setIsEditing(false);
     }
   };
 
@@ -54,19 +66,19 @@ function UserActionDiagram({ data, selected }) {
       height: '100%',
     }}>
       <Grid container justifyContent={"space-between"} flexDirection={"row"}>
-          {
-            isEditing ?
-              <input 
-                id="text-input-user-action-diagram" 
-                spellCheck="false" 
-                placeholder="Ação do Usuário" 
-                onChange={onChange} 
-                name="text" 
-                className="nodrag" 
-                value={name} 
-                onKeyDown={handleKeyDown}/> :
-              <span onClick={() => setIsEditing(true)} style={{minWidth: 150}}>{name}</span>
-          }
+        <textarea 
+          ref={textareaRef}
+          id="text-input-user-action-diagram" 
+          spellCheck="false" 
+          placeholder="Ação do Usuário" 
+          onChange={onChange} 
+          name="text" 
+          className="nodrag" 
+          value={name} 
+          onKeyDown={handleKeyDown}
+          rows={1}
+          style={{width: '100%', resize: 'none'}}
+        />
       </Grid>
       <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
         <PersonOutlineOutlinedIcon sx={{ color: '#000000' }} />
@@ -128,8 +140,8 @@ function UserActionDiagram({ data, selected }) {
       />
       <NodeResizer
         isVisible={selected}
-        minWidth={180}
-        minHeight={60}
+        minWidth={minDimensions.minWidth}
+        minHeight={minDimensions.minHeight}
       />
     </div>
   );
