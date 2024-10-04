@@ -59,7 +59,7 @@ function DashboardMenu({menuOpen, setMenuOpen, onCreateDiagram}) {
     } 
 
     useEffect(() => {
-        document.body.style.overflowY = menuOpen ? 'hidden' : 'scroll'
+        document.body.style.overflowY = menuOpen ? 'hidden' : 'auto'
     },[menuOpen])
  
     return (
