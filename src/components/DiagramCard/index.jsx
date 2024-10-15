@@ -6,7 +6,7 @@ import api from "../../services/api";
 import FavoriteDiagram from "../../components/FavoriteDiagram";
 
 function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram, onRemoveDiagram, onRenameDiagram, favorited, onDiagramFavorited}) {
-    const [svgContent, setSvgContent] = useState(null);
+    const [, setSvgContent] = useState(null);
     const [imgSrc, setImgSrc] = useState(null);
 
     useEffect(() => {
@@ -76,7 +76,7 @@ function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram,
             </div>
             <div className="card-body p-3">
                 {   thumbnail.includes('.svg') ?
-                    <img className='w-100' src={process.env.REACT_APP_API_URL == "http://localhost:8080/api/" ? `${process.env.REACT_APP_API_URL}${thumbnail}` : imgSrc} alt="Thumbnail do diagrama" /> : null
+                    <img className='w-100' src={process.env.REACT_APP_API_URL === "http://localhost:8080/api/" ? `${process.env.REACT_APP_API_URL}${thumbnail}` : imgSrc} alt="Thumbnail do diagrama" /> : null
                 }
             </div>
             
