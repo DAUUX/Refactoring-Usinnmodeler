@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Handle, NodeResizer, Position } from 'reactflow';
 import { Grid } from "@mui/material";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -9,12 +9,26 @@ import TypeNavigations from '../TypeNavigations';
 function ProgressIndicatorDiagram({ data, selected }) {
 
   const [name, setName] = useState(data.name)
+  const textareaRef = useRef(null);
+  const [minDimensions, setMinDimensions] = useState({ minWidth: 180, minHeight: 55 });
 
   useEffect(() => {
     if (!!data.name.trim()) {
       setName(data.name)
     }
   }, [data.name])
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+      const { offsetHeight } = textareaRef.current;
+      setMinDimensions((prev) => ({
+        minWidth: prev.minWidth,
+        minHeight: offsetHeight + 35,
+      }));
+    }
+  }, [name, selected]);
 
   const onChange = (evt) => {
     setName(evt.target.value)
@@ -41,6 +55,12 @@ function ProgressIndicatorDiagram({ data, selected }) {
     setAnchorEl(null);
   }
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      if(name.length === 0) setName('Indicador de Progresso')
+    }
+  };
+
   return (
     <div className="text-updater-node"
     style={{
@@ -65,7 +85,18 @@ function ProgressIndicatorDiagram({ data, selected }) {
       />
       <Grid container justifyContent={"space-between"} flexDirection={"row"}>
         <Grid item xs={10}>
-          <input id="text-input-user-action-diagram" spellCheck="false" placeholder="Indicador de Progresso" onChange={onChange} name="text" className="nodrag" value={name} />
+          <textarea 
+            ref={textareaRef}
+            id="text-input-user-action-diagram" 
+            spellCheck="false" 
+            placeholder="Indicador de Progresso" 
+            onChange={onChange} 
+            name="text" 
+            className="nodrag" 
+            value={name} 
+            onKeyDown={handleKeyDown}
+            rows={1}
+            style={{ width: '100%', height: '100%', resize: 'none', padding: '5px', boxSizing: 'border-box' }}/>
         </Grid>
       </Grid>
       <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -73,8 +104,8 @@ function ProgressIndicatorDiagram({ data, selected }) {
       </Grid>
       <NodeResizer
         isVisible={selected}
-        minWidth={180}
-        minHeight={55}
+        minWidth={minDimensions.minWidth}
+        minHeight={minDimensions.minHeight}
       />
     </div>
   );

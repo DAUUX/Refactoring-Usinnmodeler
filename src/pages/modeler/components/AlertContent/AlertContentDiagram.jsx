@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Handle, Position, NodeResizer } from 'reactflow';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import { Grid } from "@mui/material";
@@ -9,12 +9,26 @@ import TypeNavigations from '../TypeNavigations';
 function AlertContentDiagram({ data, selected }) {
 
   const [name, setName] = useState(data.name)
+  const textareaRef = useRef(null);
+  const [minDimensions, setMinDimensions] = useState({ minWidth: 200, minHeight: 60 });
 
   useEffect(() => {
     if (!!data.name.trim()) {
       setName(data.name)
     }
   }, [data.name])
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+      const { offsetHeight } = textareaRef.current;
+      setMinDimensions((prev) => ({
+        minWidth: prev.minWidth,
+        minHeight: offsetHeight + 35,
+      }));
+    }
+  }, [name, selected]);
 
   const inputElement = document.getElementById('text-input-user-action-diagram');
 
@@ -41,6 +55,11 @@ function AlertContentDiagram({ data, selected }) {
     setAnchorEl(null)
   }
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      if(name.length === 0) setName('Conteúdo de Alerta')
+    }
+  };
 
   return (
     <div 
@@ -52,7 +71,8 @@ function AlertContentDiagram({ data, selected }) {
     }}>
       <Grid container justifyContent={"space-between"} flexDirection={"row"}>
         <Grid item xs={10}>
-          <input 
+          <textarea 
+            ref={textareaRef}
             id="text-input-user-action-diagram" 
             spellCheck="false" 
             placeholder="Conteúdo de Alerta" 
@@ -60,6 +80,8 @@ function AlertContentDiagram({ data, selected }) {
             name="text" 
             className="nodrag" 
             value={name} 
+            onKeyDown={handleKeyDown}
+            rows={1}
             style={{ width: '100%', height: '100%', resize: 'none', padding: '5px', boxSizing: 'border-box' }}/>
         </Grid>
       </Grid>
@@ -68,8 +90,8 @@ function AlertContentDiagram({ data, selected }) {
       </Grid>
       <NodeResizer
         isVisible={selected}
-        minWidth={200}
-        minHeight={60}
+        minWidth={minDimensions.minWidth}
+        minHeight={minDimensions.minHeight}
       />
       <Handle type="target" position={Position.Left} isConnectable id='alert-content-target-left'/>
       <Handle type="target" position={Position.Top} isConnectable id='alert-content-target-top'/>
