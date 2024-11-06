@@ -109,11 +109,11 @@ export default function Login() {
 
 						{formik.touched.password && formik.errors.password ? (<strong className="invalid-feedback m-0 p-0 pt-1"> {formik.errors.password}</strong>) : null}
 
-						<Link className="mt-2 float-end text-primary" to="/request-change">Esqueceu sua senha?</Link>
+						<Link className="mt-2 float-end text-primary d-flex align-items-center" to="/request-change">Esqueceu sua senha?</Link>
 
 					</div> 
 
-					<button className="btn btn-primary btn-lg mt-2" type="submit">
+					<button className="btn btn-primary btn-lg" type="submit">
 						<Spinner className="spinner-border spinner-border-sm me-2" isLoading={formik.isSubmitting}  /> ACESSAR
 					</button>
 
