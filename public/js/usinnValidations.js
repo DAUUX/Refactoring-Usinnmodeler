@@ -1,3 +1,4 @@
+/* eslint-disable default-case */
 function insertValidations(graph){
 
 	graph.getEdgeValidationError = function(edge, source, target)

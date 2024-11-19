@@ -58,7 +58,7 @@
 		<add as="systemProcess" description="Processo do Sistema">
 			<SystemProcess label="">
 				<mxCell vertex="1" style="systemProcess" >
-				  <mxGeometry height="40" width="40" as="geometry"/>
+					<mxGeometry height="40" width="40" as="geometry"/>
 				</mxCell>
 			</SystemProcess>
 		</add>
@@ -66,7 +66,7 @@
 		<add as="progressIndicator" description="Indicador de Progresso">
 			<ProgressIndicator label="Indicador de Progresso">
 				<mxCell vertex="1" style="progressIndicator" >
-				  <mxGeometry height="80" width="150" as="geometry"/>
+					<mxGeometry height="80" width="150" as="geometry"/>
 				</mxCell>
 			</ProgressIndicator>
 		</add>
@@ -74,7 +74,7 @@
 		<add as="userAction" description="Ação do Usuário">
 			<UserAction label="Ação do Usuário">
 				<mxCell vertex="1" style="userAction" >
-				  <mxGeometry height="80" width="150" as="geometry"/>
+					<mxGeometry height="80" width="150" as="geometry"/>
 				</mxCell>
 			</UserAction>
 		</add>
@@ -82,7 +82,7 @@
 		<add as="notificationAlertOrConfirmation" description="Alerta de Notificação ou Confirmação">
 			<UserAction label="Conteúdo de Alerta">
 				<mxCell vertex="1" style="notificationAlertOrConfirmation" >
-				  <mxGeometry height="80" width="150" as="geometry"/>
+					<mxGeometry height="80" width="150" as="geometry"/>
 				</mxCell>
 			</UserAction>
 		</add>
@@ -90,7 +90,7 @@
 		<add as="requiredUserAction" description="Ação do Usuário (Obrigatória)">
 			<RequiredUserAction label="Ação do Usuário">
 				<mxCell vertex="1" style="requiredUserAction" >
-				  <mxGeometry height="80" width="150" as="geometry"/>
+					<mxGeometry height="80" width="150" as="geometry"/>
 				</mxCell>
 			</RequiredUserAction>
 		</add>
@@ -98,7 +98,7 @@
 		<add as="dataCollection" description="Coleção de Dados">
 			<DataCollection label="Nome da Coleção">
 				<mxCell vertex="1" style="dataCollection">
-				  <mxGeometry height="140" width="140" as="geometry"/>
+					<mxGeometry height="140" width="140" as="geometry"/>
 				</mxCell>
 			</DataCollection>
 		</add>
@@ -493,7 +493,7 @@
 			{
 				if (editor.defaultEdge != null)
 				{
-					   	
+					
 					editor.defaultEdge = editor.templates["userTransitionEdge"];
 					editor.defaultEdge.style = 'userTransitionEdge';
 				}
@@ -511,7 +511,7 @@
 			{
 				if (editor.defaultEdge != null)
 				{
-					   	
+					
 					editor.defaultEdge = editor.templates["systemFeedbackEdge"];
 					editor.defaultEdge.style = 'systemFeedbackEdge';
 					var icon = editor.graph.insertVertex(editor.defaultEdge, null, 'Label', 0, 0, 20, 18,
@@ -530,7 +530,7 @@
 			{
 				if (editor.defaultEdge != null)
 				{
-					   	
+					
 					editor.defaultEdge = editor.templates["systemFeedbackEdge"];
 					editor.defaultEdge.style = 'systemFailureFeedbackEdge';
 					var icon = editor.graph.insertVertex(editor.defaultEdge, null, 'Label', 0, 0, 20, 18,
@@ -551,7 +551,7 @@
 			{
 				if (editor.defaultEdge != null)
 				{
-					   	
+					
 					editor.defaultEdge = editor.templates["cancellationTransitionEdge"];
 					editor.defaultEdge.style = 'cancellationTransitionEdge';
 					var icon = editor.graph.insertVertex(editor.defaultEdge, null, 'Label', 0, 0, 20, 18,
@@ -570,7 +570,7 @@
 			{
 				if (editor.defaultEdge != null)
 				{
-					   	
+					
 					editor.defaultEdge = editor.templates["queryDataEdge"];
 					editor.defaultEdge.style = 'queryDataEdge';
 					var icon = editor.graph.insertVertex(editor.defaultEdge, null, 'Label', 0, 0, 15, 20,

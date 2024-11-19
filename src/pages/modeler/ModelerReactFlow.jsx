@@ -188,14 +188,15 @@ const ModelerReactFlow = () => {
       targetClause = currentEdge === "navigation"
     }
 
-    if(nodeSource.type === "user-action") {
+    if(nodeSource.type === "user-action") { //Aplica a funcionalidade Emitir
       sourceClause = 
         currentEdge === "transition" || 
-        currentEdge === "cancel-transition" ||
+        currentEdge === "cancel-transition" || 
+        currentEdge === "query-data" || 
         currentEdge === "navigation"
     }
 
-    if(nodeTarget.type === "user-action") {
+    if(nodeTarget.type === "user-action") { // Aplica a funcionalidade de receber
       targetClause = 
         currentEdge === "transition" || 
         currentEdge === "sucess-feedback" || 

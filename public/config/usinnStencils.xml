@@ -11,9 +11,9 @@
 	</shape>
 
 	<shape name="alwaysAccessiblePresentationUnit" strokewidth="inherit" h="300" w="400">
-	    <background>
-	    	<fillstroke/>
-	    		<include-shape h="300" w="400" x="0" y="0"  name="presentationUnit" />
+		<background>
+			<fillstroke/>
+				<include-shape h="300" w="400" x="0" y="0"  name="presentationUnit" />
 	    	<stroke/>
 	    </background>
 	    <foreground>

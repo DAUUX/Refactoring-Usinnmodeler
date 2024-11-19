@@ -58,7 +58,7 @@ function ObrigatoryUserActionDiagram({ data }) {
       <Handle type="source" position={Position.Right} id='sistem-process-source-right' onClick={(e) => handleClick(e)}/>
       <Handle type="source" position={Position.Bottom} id='sistem-process-source-bottom' onClick={(e) => handleClick(e)}/>
       <TypeNavigations 
-        edges={['transition', 'cancel-transition', 'navigation']} 
+        edges={['transition', 'cancel-transition', 'navigation','query-data']} 
         onClose={() => handleClose()}
         open={openNavigation}
         anchor={anchorEl}

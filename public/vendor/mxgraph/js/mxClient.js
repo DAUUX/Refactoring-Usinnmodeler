@@ -717,7 +717,6 @@ if (mxForceIncludes || !(typeof module === 'object' && module.exports != null))
 	mxClient.include(mxClient.basePath+'/js/shape/mxCylinder.js');
 	mxClient.include(mxClient.basePath+'/js/shape/mxConnector.js');
 	mxClient.include(mxClient.basePath+'/js/shape/mxSwimlane.js');
-	mxClient.include(mxClient.basePath+'/js/shape/mxUserAction.js'); // Remover
 	mxClient.include(mxClient.basePath+'/js/layout/mxGraphLayout.js');
 	mxClient.include(mxClient.basePath+'/js/layout/mxStackLayout.js');
 	mxClient.include(mxClient.basePath+'/js/layout/mxPartitionLayout.js');

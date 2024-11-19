@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React from 'react';
 import Popover from '@mui/material/Popover';
 import { Card, Grid} from '@mui/material';
@@ -119,7 +120,7 @@ function TypeNavigations({close, anchor, edges}) {
             TransitionProps={{
                 timeout: 1000,
             }}>
-           {renderPointer()}
+            {renderPointer()}
         </Popover>
     );
 }
