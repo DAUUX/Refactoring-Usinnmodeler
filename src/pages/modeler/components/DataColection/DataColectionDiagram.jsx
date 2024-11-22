@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Box, TextField, IconButton } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Handle, NodeResizer, Position } from 'reactflow';
+import { Handle, Position } from 'reactflow';
 import './text-updater-node.css';
 import TypeNavigations from '../TypeNavigations';
 function DataColection({ data, id, selected }) {
@@ -184,11 +184,6 @@ function DataColection({ data, id, selected }) {
           </Box>
         )}
       </Box>
-      <NodeResizer
-        isVisible={selected}
-        minWidth={185}
-        minHeight={85 + (fields.length * 55) + 55}
-      />
     </div>
   );
 }

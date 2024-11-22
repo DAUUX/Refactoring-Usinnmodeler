@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Handle, NodeResizer, Position } from 'reactflow';
+import { Handle, Position } from 'reactflow';
 import { Grid } from "@mui/material";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import './text-updater-node.css';
@@ -102,11 +102,6 @@ function ProgressIndicatorDiagram({ data, selected }) {
       <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
         <AccessTimeIcon sx={{ color: '#000000' }} />
       </Grid>
-      <NodeResizer
-        isVisible={selected}
-        minWidth={minDimensions.minWidth}
-        minHeight={minDimensions.minHeight}
-      />
     </div>
   );
 }

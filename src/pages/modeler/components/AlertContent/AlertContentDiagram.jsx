@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Handle, Position, NodeResizer } from 'reactflow';
+import { Handle, Position } from 'reactflow';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import { Grid } from "@mui/material";
 import './text-updater-node.css';
@@ -88,11 +88,6 @@ function AlertContentDiagram({ data, selected }) {
       <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
         <WarningAmberIcon sx={{ color: '#000000' }} />
       </Grid>
-      <NodeResizer
-        isVisible={selected}
-        minWidth={minDimensions.minWidth}
-        minHeight={minDimensions.minHeight}
-      />
       <Handle type="target" position={Position.Left} isConnectable id='alert-content-target-left'/>
       <Handle type="target" position={Position.Top} isConnectable id='alert-content-target-top'/>
       <Handle type="target" position={Position.Right} isConnectable id='alert-content-target-right'/>

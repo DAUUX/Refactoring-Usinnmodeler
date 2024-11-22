@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Handle, NodeResizer, Position } from 'reactflow';
+import { Handle, Position } from 'reactflow';
 import { Grid } from "@mui/material";
 import './text-updater-node.css';
 
@@ -106,11 +106,6 @@ function ObrigatoryUserActionDiagram({ data, selected }) {
           }} />
         </>
       </Grid>
-      <NodeResizer
-        isVisible={selected}
-        minWidth={minDimensions.minWidth}
-        minHeight={minDimensions.minHeight}
-      />
     </div>
   );
 }

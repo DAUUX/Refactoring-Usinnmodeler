@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Handle, Position, NodeResizeControl, NodeResizer } from 'reactflow';
+import { Handle, Position } from 'reactflow';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import { Grid } from "@mui/material";
 import './text-updater-node.css';
@@ -137,11 +137,6 @@ function UserActionDiagram({ data, selected }) {
         open={openNavigation}
         anchor={anchorEl}
         close={() => handleClose()}
-      />
-      <NodeResizer
-        isVisible={selected}
-        minWidth={minDimensions.minWidth}
-        minHeight={minDimensions.minHeight}
       />
     </div>
   );
