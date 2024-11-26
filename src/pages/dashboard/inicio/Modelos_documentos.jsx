@@ -18,10 +18,10 @@ function Modelos_documentos() {
     async function getDiagrams() {
         setLoading(true);
         try{
-            const res = await api.get('/diagrams/recent?limit=4');
-            setDiagrams(res.data.diagrams);
+            const res = await api.get(`/diagramModels/getAll`);
+            alert(res);
         } catch(error){
-            Toast('error', error);
+            Toast('error', error.message || 'Erro ao buscar os diagramas');
         }
         setLoading(false);
     }
