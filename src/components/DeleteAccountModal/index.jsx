@@ -79,7 +79,7 @@ function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
                 <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title" id="RemoveLoginModal">Excluir Perfil</h5>
-                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" className="btn-close p-0" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form noValidate="" onSubmit={formik.handleSubmit}>
                         <div className="modal-body">

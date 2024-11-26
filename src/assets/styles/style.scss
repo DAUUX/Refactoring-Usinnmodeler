@@ -51,3 +51,13 @@ body {
 	width: 1em;
 	height: 1em;
 }
+
+a, button:not(.splide__pagination__page), input:not([type="checkbox"]), select, .btn {
+	min-height: 44px !important;
+	min-width: 44px !important;
+}
+
+i:is(.bi-eye-slash-fill, .bi-eye-fill) {
+	position: absolute !important;
+	margin-top: 10px !important;
+}

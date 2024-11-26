@@ -165,7 +165,7 @@ function Modeler(props) {
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <form onSubmit={rename} className="d-flex me-auto" role="search" >
-						<Link to="/dashboard"> <img src={logo} className="me-4" alt="logo USINN" /> </Link>
+						<Link to="/dashboard" className="d-flex justify-content-center align-items-center"> <img src={logo} alt="logo USINN" /> </Link>
                         <input value={name} onChange={(e) => {setName(e.target.value)}} onBlur={rename} className="form-control py-0 px-2 text-white" type="text" id="nameInput" name="name" autoComplete="name" />
                     </form>
                     <div className="collapse navbar-collapse justify-content-end" id="modelerNavbarToggle">

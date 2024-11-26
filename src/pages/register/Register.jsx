@@ -149,7 +149,7 @@ export default function Register() {
 										placeholder="Senha*"
 									/>
 									<div className="">
-										<i onClick={togglePasswordVisibility} className={` bi bi-${showPassword ? 'eye-fill': 'eye-slash-fill'} icon ${formik.touched.password && formik.errors.password ? 'reyeicon-active': ''}`}
+										<i onClick={togglePasswordVisibility} className={`bi bi-${showPassword ? 'eye-fill': 'eye-slash-fill'} icon ${formik.touched.password && formik.errors.password ? 'reyeicon-active': ''}`}
 										></i>
 									</div>
 

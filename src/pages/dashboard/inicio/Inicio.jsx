@@ -11,8 +11,8 @@ function Inicio(){
     
     <div id="inicioPage" className="flex-fill ">
     
-        <nav className="navbar navbar-expand-lg p-3 justify-content-end">     
-                <div className="d-flex ">
+        <nav className="navbar navbar-expand-lg p-3">     
+                <div className="container-fluid justify-content-end">
                     <UserProfile />
                 </div>
         </nav>

@@ -24,17 +24,17 @@ function Documents() {
             <div id="documentsNav" className="my-4">
                 <ul className="nav nav-tabs bold flex-column flex-sm-row px-3 gap-3">
                     <li className={`nav-item ${pathname === route ? 'active' : ''}`}>
-                        <Link to={route} className="text-dark d-block text-decoration-none pb-2 px-2">
+                        <Link to={route} className="d-flex align-items-center text-dark d-block text-decoration-none px-2">
                             Meus documentos
                         </Link> 
                     </li>
                     <li className={`nav-item ${pathname === route+'/favoritos' ? 'active' : ''}`}>
-                        <Link to={`${route}/favoritos`} className="text-dark d-block text-decoration-none pb-2 px-2">
+                        <Link to={`${route}/favoritos`} className="d-flex align-items-center text-dark d-block text-decoration-none px-2">
                             Meus favoritos
                         </Link> 
                     </li>
                     <li className={`nav-item ${pathname === route+'/compartilhados' ? 'active' : ''}`}>
-                        <Link to={`${route}/compartilhados`} className="text-dark d-block text-decoration-none pb-2 px-2">
+                        <Link to={`${route}/compartilhados`} className="d-flex align-items-center text-dark d-block text-decoration-none px-2">
                             Compartilhados comigo
                         </Link> 
                     </li>

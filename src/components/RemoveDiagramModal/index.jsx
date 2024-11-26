@@ -38,8 +38,10 @@ function RemoveDiagramModal({id, diagram_id, onDiagramRemoved}) {
                     <div className="modal-body text-center px-4 pb-4">
                         <i className="bi bi-exclamation-triangle-fill mb-5 mt-3" style={{'fontSize': '60px'}}></i>
                         <h4 className="mb-5">Seu diagrama será excluído e você não terá mais acesso a ele!</h4>
-                        <button className="btn btn-light text-primary border-dark me-3" disabled={loading} type="button" data-bs-dismiss="modal">Cancelar</button>
-                        <button className="btn btn-primary" disabled={loading} onClick={removeDiagram} type="button" data-bs-dismiss="modal">Confirmar</button>
+                        <div className="d-flex justify-content-around">
+                            <button className="btn btn-light text-primary border-dark px-4 px-sm-5" disabled={loading} type="button" data-bs-dismiss="modal">Cancelar</button>
+                            <button className="btn btn-primary px-4 px-sm-5" disabled={loading} onClick={removeDiagram} type="button" data-bs-dismiss="modal">Confirmar</button>
+                        </div>
                     </div>
                 </div>
             </div>
