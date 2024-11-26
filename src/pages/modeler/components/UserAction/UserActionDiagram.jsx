@@ -115,7 +115,7 @@ function UserActionDiagram({ data }) {
         id='user-action-source-left'
       />
       <TypeNavigations 
-        edges={['transition', 'cancel-transition', 'navigation','query-data' ]}  // add seta 'query-data'
+        edges={['transition', 'cancel-transition','query-data' ]}  // add seta 'query-data'
         onClose={() => handleClose()}
         open={openNavigation}
         anchor={anchorEl}

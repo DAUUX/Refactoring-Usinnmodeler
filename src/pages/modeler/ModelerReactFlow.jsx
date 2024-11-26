@@ -202,8 +202,7 @@ const ModelerReactFlow = () => {
         currentEdge === "sucess-feedback" || 
         currentEdge === "unsucess-feedback" || 
         currentEdge === "query-data" ||
-        currentEdge === "cancel-transition" ||
-        currentEdge === "navigation"
+        currentEdge === "cancel-transition"
     }
 
     if(nodeSource.type === 'sistem-process') {
