@@ -83,7 +83,7 @@ const NotificationItem = ({ item, notifications }) => {
   };
 
   return (
-    <div className={`not-item fs-5 bg-white btn btn-default px-3 d-flex align-items-center rounded-0 border-0 border-bottom border-black cursor-default ${item.read === 1 && 'reader'}`}
+    <div className={`not-item fs-5 bg-white fw-bold btn-default px-3 d-flex align-items-center rounded-0 border-0 border-bottom border-black cursor-default ${item.read === 1 && 'reader'}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onFocus={() => setIsHovered(true)}

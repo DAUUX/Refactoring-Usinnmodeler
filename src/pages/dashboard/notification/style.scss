@@ -2,6 +2,10 @@
 
 #notification {
   .not-item{
+    display: block; /* ou block */
+    align-items: center; /* Ajusta o conteúdo para o centro verticalmente */
+    min-height: 50px; 
+    height: auto; /* Garante que o elemento não tenha altura fixa */
     &:hover, &:focus{
       background-color: $primary !important;
       color: #ffffff !important;

@@ -153,6 +153,7 @@ function Notifications({ iconColor }) {
               onMouseLeave={() => setMouseHover(null)}
               onFocus={() => setMouseHover(item.id)}
               title={item.message}
+              style={{'height' : '50px'}}
             >
               <span>
                 {item.type === 1 && <i className="bi bi-share"></i>}
