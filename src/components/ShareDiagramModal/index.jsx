@@ -211,7 +211,7 @@ function ShareDiagramModal(props) {
                 <div className="modal-content">
                     <div className="modal-header">
                         <h4 className="modal-title" id="ShareDiagramModalLabel">Compartilhar diagrama</h4>
-                        <button id="closeModal" type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button id="closeModal" type="button" className="btn-close p-0" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div className="modal-body p-2 p-sm-4" id="modal-compartilhar">
                         <input type="hidden" id="link" className="form-control px-2" disabled value={!loading ? readerLink : 'Carregando...'} />    

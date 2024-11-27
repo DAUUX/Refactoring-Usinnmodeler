@@ -4,12 +4,18 @@ import Spinner from "../Spinner";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import api from "../../services/api";
-
 import { Modal } from "bootstrap";
+import './style.scss';
+
 
 function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
     const [loading, setLoading] = useState(false);
     const modalRef = useRef(null);
+    const [showPassword, setShowPassword] = useState(false);
+
+	const togglePasswordVisibility = () => {
+	  setShowPassword(!showPassword);
+	};
 
     // Formulario com Formik
     const formik = useFormik({
@@ -66,13 +72,14 @@ function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
     }, []);
 
 
+
     return (
-        <div className="modal" id={id} tabIndex="-1" aria-labelledby="RemoveLoginModal" aria-hidden="true" ref={modalRef}>
+        <div className="modal DeleteAccountModal" id={id} tabIndex="-1" aria-labelledby="RemoveLoginModal" aria-hidden="true" ref={modalRef}>
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title" id="RemoveLoginModal">Excluir Perfil</h5>
-                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" className="btn-close p-0" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form noValidate="" onSubmit={formik.handleSubmit}>
                         <div className="modal-body">
@@ -85,9 +92,15 @@ function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
                                 value={formik.values.password}
                                 className={`form-control ${formik.touched.password && formik.errors.password ? 'is-invalid' : ''}`}
                                 placeholder="Insira sua senha"
-                                type="password"
+                                type={showPassword ? "text" : "password"}
                                 name="password"
                             />
+                            <div className="">
+                                <i onClick={togglePasswordVisibility}
+                                    className={`deyeicon bi bi-${showPassword ? 'eye-fill': 'eye-slash-fill'} ${formik.touched.password && formik.errors.password ? 'deyeicon-active': ''}`}
+                                ></i>
+                            </div>
+
                             {formik.touched.password && formik.errors.password ? (
                                 <div className="invalid-feedback d-block"> {formik.errors.password}</div>
                             ) : null}

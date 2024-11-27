@@ -25,6 +25,10 @@ function ChangePassword() {
     const [confirmSaveModal, setConfirmPassModal] = useState(false);
     const [passwordValues, setPasswordValues] = useState(null);
 
+    const [showPassword1, setShowPassword1] = useState(false);
+
+    const [showPassword2, setShowPassword2] = useState(false);
+
     const formik = useFormik({
 
 		initialValues: {
@@ -91,9 +95,9 @@ function ChangePassword() {
                         </div>
             </nav>
 
-            <div className="container px-0">
+            <div className="container p-0">
             
-                <div id="content" className="row justify-content-center position-relative mt-5 mx-3">
+                <div className="row justify-content-center m-0">
 					
 					<div className="col-12 col-md-6 col-lg-5 mt-5">
 
@@ -103,31 +107,35 @@ function ChangePassword() {
                                 <FontAwesomeIcon icon={faKey} size="3x" color="#007BFF" />
                             </div>
         
-                            <div className="col-12 mb-3">
+                            <div className="col-12 mb-3" style={{ position: 'relative' }}>
                                 <input 
                                     disabled={formik.isSubmitting}
                                     onChange={formik.handleChange}
                                     onInput={(e) => formik.setFieldTouched(e.target.name, true, false)}
                                     value={formik.values.password}
                                     className={`form-control ${formik.touched.password && formik.errors.password ? 'is-invalid' : '' }`}
-                                    type="password" 
+                                    type={showPassword1 ? "text" : "password"}
                                     name="password" 
                                     placeholder="Senha*"
                                 />
+
+                                <i onClick={() => setShowPassword1(!showPassword1)} className={`bi bi-${showPassword1 ? 'eye-fill': 'eye-slash-fill'} icon ${formik.touched.password && formik.errors.password ? 'icon-active': ''}`}/>
+
                                 {formik.touched.password && formik.errors.password ? (<div className="invalid-feedback d-block"> {formik.errors.password}</div>) : null}
                             </div>
 
-                            <div className="col-12 mb-3">
+                            <div className="col-12 mb-3" style={{ position: 'relative' }}>
                                 <input 
                                     disabled={formik.isSubmitting}
                                     onChange={formik.handleChange}
                                     onInput={(e) => formik.setFieldTouched(e.target.name, true, false)}
                                     value={formik.values.confirmPassword}
                                     className={`form-control ${formik.touched.confirmPassword && formik.errors.confirmPassword ? 'is-invalid' : '' }`}
-                                    type="password" 
+                                    type={showPassword2 ? "text" : "password"}
                                     name="confirmPassword" 
                                     placeholder="Confirmar Senha*"
                                 />
+                                <i onClick={() => setShowPassword2(!showPassword2)} className={`bi bi-${showPassword2 ? 'eye-fill': 'eye-slash-fill'} icon ${formik.touched.confirmPassword && formik.errors.confirmPassword ? 'icon-active': ''}`}/>
                                 {formik.touched.confirmPassword && formik.errors.confirmPassword ? (<div className="invalid-feedback d-block"> {formik.errors.confirmPassword}</div>) : null}
                             </div>
 

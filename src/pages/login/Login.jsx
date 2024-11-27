@@ -5,13 +5,14 @@ import api from "../../services/api";
 import Spinner from "../../components/Spinner";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import './style.scss'
 
 export default function Login() {
 
 	useEffect(() => {
     document.title = 'Login - USINN Modeler';
-  },[]);
+  	},[]);
 
 	const navigate = useNavigate();
 
@@ -55,6 +56,14 @@ export default function Login() {
 			}
 		},
 	});
+
+	
+	const [showPassword, setShowPassword] = useState(false);
+
+	const togglePasswordVisibility = () => {
+	  setShowPassword(!showPassword);
+	};
+  
 	
 	return (
 		<main className="flex-fill d-flex align-items-center" aria-label="formulário de login">
@@ -83,23 +92,28 @@ export default function Login() {
 						{formik.touched.email && formik.errors.email ? (<strong className="invalid-feedback m-0 p-0 pt-1"> {formik.errors.email}</strong>) : null}
 					</div>
 
-					<div className="mb-3 p-0">
+					<div className="mb-3 p-0 password-toggle-container" style={{ position: 'relative' }}>
 						<input
 							disabled={formik.isSubmitting}
 							onChange={formik.handleChange}
 							onInput={(e) => formik.setFieldTouched(e.target.name, true, false)}
 							value={formik.values.password}
 							className={`form-control ${formik.touched.password && formik.errors.password ? 'is-invalid' : '' }`}
-							type="password"
+							type={showPassword ? "text" : "password"}
 							name="password"
 							placeholder="Senha*"
 						/>
+								<i onClick={togglePasswordVisibility}
+								className={`bi bi-${showPassword ? 'eye-fill': 'eye-slash-fill'} icon ${formik.touched.password && formik.errors.password ? 'eyeicon-active': ''}`}
+								></i>
+
 						{formik.touched.password && formik.errors.password ? (<strong className="invalid-feedback m-0 p-0 pt-1"> {formik.errors.password}</strong>) : null}
-						
-						<Link className="mt-2 float-end text-primary" to="/request-change">Esqueceu sua senha?</Link>
+
+						<Link className="mt-2 float-end text-primary d-flex align-items-center" to="/request-change">Esqueceu sua senha?</Link>
+
 					</div> 
 
-					<button className="btn btn-primary btn-lg mt-2" type="submit">
+					<button className="btn btn-primary btn-lg" type="submit">
 						<Spinner className="spinner-border spinner-border-sm me-2" isLoading={formik.isSubmitting}  /> ACESSAR
 					</button>
 

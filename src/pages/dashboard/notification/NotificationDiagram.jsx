@@ -100,11 +100,11 @@ const NotificationItem = ({ item, notifications }) => {
       <span className="w-100 text-start ps-2 pe-3">{item.message}</span>
       {isHovered && (
         <span className="d-flex">
-          <button className="btn btn-default p-0 px-3 text-dark" onClick={() => handleRead(item.id, item.read)}>
+          <button className="btn btn-default p-0 px-3 text-white" onClick={() => handleRead(item.id, item.read)}>
             <i className={`bi ${item.read === 0 ? 'bi-envelope-open' : 'bi bi-envelope'}`}></i>
           </button>
           <button
-            className="btn btn-default p-0 px-3 text-dark" onClick={() => handleDelete(item.id)}>
+            className="btn btn-default p-0 px-3 text-white" onClick={() => handleDelete(item.id)}>
             <i className="bi bi-trash"></i>
           </button>
         </span>
