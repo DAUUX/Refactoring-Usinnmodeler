@@ -83,16 +83,16 @@ function ChangePassword() {
         <main id="changePassword" className={`flex-fill h-100`}>
             
             
-            <nav className="navbar navbar-expand-lg bg-white p-3 pe-1 justify-content-between w-100">{/* Perfil user */}
-                        <div className="container-fluid">
-                            <div className="mb-0 h4">
-                                <b>Atualizar Senha</b>
-                            </div>
-                            <div className="d-flex align-items-center gap-2 gap-sm-4">
-                                <Notifications/>
-                                <UserProfile/>
-                            </div>
-                        </div>
+            <nav className="navbar navbar-expand-lg bg-white p-3 px-1 px-sm-3 justify-content-between w-100">{/* Perfil user */}
+                <div className="container-fluid">
+                    <div className="mb-0 h4">
+                        <b>Atualizar Senha</b>
+                    </div>
+                    <div className="d-flex align-items-center gap-2 ms-auto">
+                        <Notifications/>
+                        <UserProfile/>
+                    </div>
+                </div>
             </nav>
 
             <div className="container p-0">

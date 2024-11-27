@@ -13,12 +13,12 @@ function Documents() {
     
     return (
         <div id="documentsPage" className="flex-fill h-100">
-            <nav className="navbar navbar-expand-lg bg-white p-3 pe-1 justify-content-between">
+            <nav className="navbar navbar-expand-lg bg-white p-3 px-1 px-sm-3 justify-content-between">
                 <div className="container-fluid">
                     <div className="mb-0 h4">
                         <b>Documentos</b>
                     </div>
-                    <div className="d-flex align-items-center ps-2 ps-sm-4 gap-2 gap-sm-4">
+                    <div className="d-flex align-items-center ps-sm-4 gap-2 ms-auto">
                         <Notifications/>
                         <UserProfile/>
                     </div>

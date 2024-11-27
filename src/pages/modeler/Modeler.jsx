@@ -205,7 +205,7 @@ function Modeler(props) {
                             <span className="navbar-toggler-icon"></span>
                         </button>
                         <form onSubmit={rename} className="d-flex align-items-center flex-grow-1" role="search" >
-                            <Link to="/dashboard"> <img src={logo} alt="logo USINN" /> </Link>
+                            <Link to="/dashboard" className="d-flex align-items-center"> <img src={logo} className="m-auto" alt="logo USINN" /> </Link>
                             <input value={name} onChange={(e) => {setName(e.target.value)}} onBlur={rename} className="form-control py-0 ms-3 px-2 text-white flex-grow-1" type="text" id="nameInput" name="name" autoComplete="name" />
                         </form>
                     </div>
@@ -220,7 +220,7 @@ function Modeler(props) {
                             </span>
                             
                             <span>
-                                <div className="d-flex align-items-center gap-4">
+                                <div className="d-flex align-items-center gap-2">
                                     <Notifications iconColor={'text-white'}/>
                                     <UserProfile textColor = "white"/>
                                 </div>

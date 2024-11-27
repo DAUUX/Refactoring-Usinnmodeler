@@ -93,11 +93,16 @@ function ShareDiagramModal(props) {
             const params = new URLSearchParams();
             params.append('emails', usersInvited.map(user => user.email));     
             const response = await api.get(`user/idForEmail?${params.toString()}`);
-            const user_id = response.data.filter(id => id !== collaborator_id);
+            let user_ids = response.data.filter(id => id !== collaborator_id);
             
-            await api.post(`share/${props.diagram_id}/inviteLink`, {link, usersInvited});  
-            await api.post('notification', {user_id: user_id, diagram_id: props.diagram_id, diagram_name: name, type: 1, message: `"${collaborator_name}" compartilhou o diagrama: "${name}". Cheque seu e-mail!`})
-            await socket.emit('send_notification', user_id);
+            await api.post(`share/${props.diagram_id}/inviteLink`, {link, usersInvited});
+            
+            const collaborators = await api.get(`collaboration/${props.diagram_id}`)
+            const existing_collaborators = collaborators.data.collaborators.map(collaborator => collaborator.collaborator_id);
+            user_ids = user_ids.filter(id => !existing_collaborators.includes(id));
+
+            await api.post('notification', {user_id: user_ids, diagram_id: props.diagram_id, diagram_name: name, type: 1, message: `"${collaborator_name}" compartilhou o diagrama: "${name}". Cheque seu e-mail!`})
+            await socket.emit('send_notification', user_ids);
             
             Toast('success', 'Diagrama compartilhado com sucesso!', "share");
             setUsers([]);
