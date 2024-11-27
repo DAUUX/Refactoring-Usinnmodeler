@@ -4,29 +4,28 @@
   "homepage": "https://dauux.github.io/Refactoring-Usinnmodeler",
   "private": true,
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.6.0",
-    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/fontawesome-svg-core": "^6.7.1",
+    "@fortawesome/free-solid-svg-icons": "^6.7.1",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@splidejs/react-splide": "^0.7.12",
-    "@testing-library/jest-dom": "^6.5.0",
-    "@testing-library/react": "^16.0.1",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
     "@testing-library/user-event": "^14.5.2",
-    "axios": "^1.7.7",
+    "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "formik": "^2.4.6",
     "moment": "^2.30.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-icons": "^5.2.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-icons": "^5.4.0",
     "react-input-mask": "^2.0.4",
-    "react-router-dom": "^6.26.2",
+    "react-router-dom": "^7.0.2",
     "react-scripts": "5.0.1",
-    "socket.io-client": "^4.7.5",
+    "socket.io-client": "^4.8.1",
     "sweetalert2": "^11.4.8",
-    "sweetalert2-react-content": "^5.0.7",
-    "web-vitals": "^4.2.3",
-    "yup": "^1.4.0"
+    "web-vitals": "^4.2.4",
+    "yup": "^1.5.0"
   },
   "scripts": {
     "predeploy": "npm run build",
@@ -55,10 +54,10 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^6.1.1",
+    "gh-pages": "^6.2.0",
     "nth-check": "^2.1.1",
-    "postcss": "^8.4.47",
-    "sass": "^1.79.3"
+    "postcss": "^8.4.49",
+    "sass": "^1.82.0"
   },
   "overrides": {
     "nth-check": "$nth-check",

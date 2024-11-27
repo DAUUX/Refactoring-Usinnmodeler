@@ -54,7 +54,6 @@ export default function Notification() {
     
     try {
       const res = await api.get(`notification/diagrams/${user_id}`)
-      console.log(res.data)
       setNameDiagrams(res.data);
     } catch (error) {
       if (error === "TypeError: Cannot read properties of undefined (reading 'status')") {
@@ -72,7 +71,7 @@ export default function Notification() {
 
   return (
     <div id="documentsPage" className="flex-fill h-100">
-      <nav className="navbar navbar-expand-lg bg-white p-3 pe-1 justify-content-between">
+      <nav className="navbar navbar-expand-lg bg-white p-3 px-1 px-sm-3 justify-content-between">
         <div className="container-fluid">
           <div className="mb-0 h4">
             <b>Notificações</b>
@@ -82,12 +81,19 @@ export default function Notification() {
           </div>
         </div>
       </nav>
-      <div id="notification" aria-live="polite">
+      <div id="notification" aria-live="polite" className="pb-5">
         {nameDiagrams.length > 0 ? (
           nameDiagrams.map((item) => (
             <Link key={item.diagram_id} to={`${item.diagram_id}`} className="btn btn-default text-start w-100 d-flex align-items-center rounded-0">
-              <span className="fs-3 me-2"><i className="bi bi-diagram-2"></i></span>
-              <span>{item.diagram_name}</span>     
+              {item.unread_count > 0 && (
+                <span className="bg-danger text-white p-1 px-2 rounded-2 fs-6">
+                  {item.unread_count > 99 ? '99+' : item.unread_count}
+                </span>
+              )}
+              <span className="d-flex align-items-center position-absolute ms-5" style={{"maxWidth":"65%"}}>
+                <span className="fs-3 me-2"><i className="bi bi-diagram-2"></i></span>
+                <span className="text-truncate">{item.diagram_name}</span>     
+              </span>    
             </Link>
           ))
         ) : (

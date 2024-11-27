@@ -4,6 +4,7 @@ import { Toast } from '../Toast';
 import './style.scss';
 import { useSocket } from '../../services/SocketContext';
 import SoundNotification from '../../assets/sound/soundNotification.mp3';
+import { Modal } from 'bootstrap';
 
 function Notifications({ iconColor }) {
   const socket = useSocket();
@@ -11,6 +12,7 @@ function Notifications({ iconColor }) {
   const [notifications, setNotifications] = useState([]);
   const [countNotify, setCountNotific] = useState(0);
   const [updateTrigger, setUpdateTrigger] = useState(false);
+  const [selectedNotificationId, setSelectedNotificationId] = useState(null);
   const audioRef = useRef(new Audio(SoundNotification));
   const [mouseHover, setMouseHover] = useState(false);
 
@@ -111,11 +113,13 @@ function Notifications({ iconColor }) {
       await api.delete(`notification/${id}`);
       await socket.emit('update_notification', user_id);
       setUpdateTrigger(prev => !prev);
+
+      Toast('success', "A notificação foi excluída com sucesso!", "delete");
     } catch (error) {
       if (error === "TypeError: Cannot read properties of undefined (reading 'status')") {
         Toast('error', "Falha na conexão ao servidor", "errorServer");
       } else {
-        Toast('error', error, "errorCircle");
+        Toast('error', "Ocorreu um erro ao deletar a notificação! Tente novamente", "errorCircle");
       }
     }
   };
@@ -124,8 +128,14 @@ function Notifications({ iconColor }) {
     getNotifications();
   }, [updateTrigger]);
 
+  const openDeleteModal = (id) => {
+    setSelectedNotificationId(id);
+    const modal = new Modal('#ConfirmRemoveNotificationModal')          
+    modal.show();
+  };
+
   return (
-    <div className={`dropdown ${iconColor === 'text-white' ? 'outline-white' : 'outline-black'}`} id="droptdown-notification">
+    <div className={`dropdown ${iconColor === 'text-white' ? 'outline-white' : 'outline-black'}`} id="dropdown-notification" data-bs-auto-close="false">
       <button
         className="btn btn-default p-0 dropdown-toggle no-arrow"
         type="button"
@@ -147,12 +157,14 @@ function Notifications({ iconColor }) {
           notifications.map((item) => (
             <div
               key={item.id}
-              className={`btn btn-default px-3 w-100 d-flex align-items-center rounded-0 cursor-default ${item.read === 1 && 'reader'}`}
+              className={`btn btn-default px-3 d-flex align-items-center rounded-0 cursor-default ${item.read === 1 && 'reader'}`}
               tabIndex={0}
               onMouseEnter={() => setMouseHover(item.id)}
               onMouseLeave={() => setMouseHover(null)}
               onFocus={() => setMouseHover(item.id)}
               title={item.message}
+              style={{'height' : '50px'}}
+              onClick={(e) => e.stopPropagation()}
             >
               <span>
                 {item.type === 1 && <i className="bi bi-share"></i>}
@@ -160,24 +172,50 @@ function Notifications({ iconColor }) {
                 {item.type === 3 && <i className="bi bi-trash"></i>}
                 {item.type === 4 && <i className="bi bi-box-arrow-left"></i>}
               </span>
-              <span className="w-100 text-start text-truncate ps-2 pe-3">{item.message}</span>
+              <p className="w-100 text-start text-truncate m-0 ps-2 pe-3">{item.message}</p>
               {mouseHover === item.id ? (
                 <span className="d-flex fs-6">
                   <button className="btn btn-default p-0 px-2 text-white" onClick={(e) => handleRead(e, item.id, item.read)}>
                     <i className={`bi ${item.read === 0 ? 'bi-envelope-open' : 'bi bi-envelope'}`}></i>
                   </button>
-                  <button className="btn btn-default p-0 px-2 text-white" onClick={(e) => handleDelete(e, item.id)}>
+                  <button className="btn btn-default p-0 px-2 text-white" onClick={(e) => {e.stopPropagation(); openDeleteModal(item.id)}}>
                     <i className="bi bi-trash"></i>
                   </button>
                 </span>
               ) : (
-                <span>{calcTemp(item.created_at)}</span>
+                <span className="ps-0 ps-sm-4">{calcTemp(item.created_at)}</span>
               )}
             </div>
           ))
         ) : (
           <p className="h5 p-5 text-nowrap">Não há notificações</p>
         )}
+      </div>
+      <div className="modal fade show" id="ConfirmRemoveNotificationModal" tabIndex="-1" aria-hidden="true" data-bs-backdrop="true" data-bs-keyboard="true">
+        <div className="modal-dialog modal-md modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-body text-center px-4 pb-4">
+              <i className="bi bi-exclamation-triangle-fill mb-5 mt-3" style={{ fontSize: "60px" }}></i>
+              <h4 className="mb-5">A notificação selecionada será excluída!</h4>
+              <div className="d-flex justify-content-around">
+                <button 
+                  className="btn btn-light text-primary border border-black px-4 px-sm-5" 
+                  data-bs-dismiss="modal"
+                  onClick={(e) => e.stopPropagation()}
+                  >
+                    Cancelar
+                  </button>
+                <button
+                  className="btn btn-primary px-4 px-sm-5"
+                  onClick={(e) => {e.stopPropagation(); handleDelete(e, selectedNotificationId)}}
+                  data-bs-dismiss="modal"
+                >
+                  Confirmar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -1,7 +1,6 @@
 @import "../../assets/styles/variables";
 
-#droptdown-notification {
-  
+#dropdown-notification {
   .dropdown-menu {
     transform: translateX(-90%);
     max-height: 60svh;
@@ -10,22 +9,35 @@
     z-index: 1020 !important;
     div {
       max-width: 450px;
-      button{
-        &:hover{
+      button {
+        &:hover {
           background-color: #ffffff;
           color: $primary !important;
         }
-        &:focus:not(:hover){
+        &:focus:not(:hover) {
           background-color: $primary;
           color: #ffffff;
         }
+        &:not(:focus) {
+          color: #000000 !important;
+        }
       }
-      &:hover, &:focus {
-        background-color: $primary;
-        color: #ffffff;
+      &:hover,
+      &:focus {
+        background-color: $primary !important;
+        color: #ffffff !important;
+        button {
+          color: #ffffff !important;
+          &:hover {
+            color: $primary !important;
+          }
+        }
+      }
+      &:focus button {
+        color: #ffffff !important;
       }
     }
-    .reader{
+    .reader {
       background-color: rgba(0, 0, 0, 0.1);
     }
     &::-webkit-scrollbar {
@@ -44,8 +56,8 @@
   }
   #countNotific {
     position: absolute;
-    top: -5px;
-    right: -5px;
+    top: 0;
+    right: 0;
     font-size: 0.7rem;
     height: 20px;
     width: 20px;

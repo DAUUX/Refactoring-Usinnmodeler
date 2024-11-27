@@ -18,16 +18,18 @@ function Inicio(){
     
     <div id="inicioPage" className="flex-fill ">
     
-        <nav className="navbar navbar-expand-lg p-3 justify-content-end">     
-            <div className="d-flex align-items-center gap-2 gap-sm-4">
-                <Notifications/>
-                <UserProfile/>
+        <nav className="navbar navbar-expand-lg p-3 px-1 px-sm-3 justify-content-end">     
+            <div className="container-fluid">
+                <div className="d-flex align-items-center gap-2 ms-auto">
+                    <Notifications/>
+                    <UserProfile/>
+                </div>
             </div>
         </nav>
 
   
         <nav className="container-fluid pt-0 pt-md-2">
-            <div className="h4 text-center ">
+            <div className="h4 text-center text-break">
                 <b>Seja bem-vindo(a), {Data.name}!</b>
             </div>
             {resultcardModels && (

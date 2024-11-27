@@ -7,11 +7,11 @@ import { Toast } from "../../../components/Toast";
 import './style.scss'
 import { useNavigate, useParams } from "react-router-dom";
 import Spinner from "../../../components/Spinner";
+import { Modal } from 'bootstrap';
 
-const NotificationItem = ({ item, notifications }) => {
+const NotificationItem = ({ item, onDelete, onModal }) => {
   const [isHovered, setIsHovered] = useState(false);
   const socket = useSocket();
-  const navigate = useNavigate()
   const containerRef = useRef(null);
 
   const calcTemp = (date) => {
@@ -56,26 +56,6 @@ const NotificationItem = ({ item, notifications }) => {
     }
   }
 
-  const handleDelete = async (id) => {
-    try {
-      const user_id = JSON.parse(localStorage.getItem('user')).id
-      await api.delete(`notification/${id}`)
-      await socket.emit('update_notification', user_id);
-
-      if(notifications.length <= 1){
-        navigate("/dashboard/notification")
-      }
-
-    } catch (error) {
-      if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-        Toast('error', "Falha na conexão ao servidor", "errorServer");
-      }
-      else{
-        Toast('error', error, "errorCircle");
-      }
-    }
-  }
-
   const handleBlur = (event) => {
     if (containerRef.current && !containerRef.current.contains(event.relatedTarget)) {
       setIsHovered(false);
@@ -83,7 +63,7 @@ const NotificationItem = ({ item, notifications }) => {
   };
 
   return (
-    <div className={`not-item fs-5 bg-white btn btn-default px-3 d-flex align-items-center rounded-0 border-0 border-bottom border-black cursor-default ${item.read === 1 && 'reader'}`}
+    <div className={`not-item fs-5 bg-white fw-bold btn-default px-3 d-flex align-items-center rounded-0 border-bottom border-black cursor-default position-relative ${item.read === 1 && 'reader'}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onFocus={() => setIsHovered(true)}
@@ -97,21 +77,22 @@ const NotificationItem = ({ item, notifications }) => {
         {item.type === 3 && <i className="bi bi-trash"></i>}
         {item.type === 4 && <i className="bi bi-box-arrow-left"></i>}
       </span>
-      <span className="w-100 text-start ps-2 pe-3">{item.message}</span>
-      {isHovered && (
-        <span className="d-flex">
-          <button className="btn btn-default p-0 px-3 text-white" onClick={() => handleRead(item.id, item.read)}>
-            <i className={`bi ${item.read === 0 ? 'bi-envelope-open' : 'bi bi-envelope'}`}></i>
-          </button>
-          <button
-            className="btn btn-default p-0 px-3 text-white" onClick={() => handleDelete(item.id)}>
-            <i className="bi bi-trash"></i>
-          </button>
-        </span>
-      )}
 
-      {!isHovered && <span>{calcTemp(item.created_at)}</span>}
+      <p className="w-100 text-break m-0 ps-2 pe-3">{item.message}</p>
 
+      <div className={`d-flex ${isHovered ? 'visible' : 'invisible'}`}>
+        <button className="btn btn-default p-0 text-white" onClick={() => handleRead(item.id, item.read)}>
+          <i className={`bi ${item.read === 0 ? 'bi-envelope-open' : 'bi bi-envelope'}`}></i>
+        </button>
+        <button
+          className="btn btn-default p-0 text-white" onClick={() => {onDelete(); onModal();}}>
+          <i className="bi bi-trash"></i>
+        </button>
+      </div>
+
+      <span className={`position-absolute ${isHovered ? 'd-none' : 'd-block'}`} style={{"right": "15px" }}>
+        {calcTemp(item.created_at)}
+      </span>
     </div>
   );
 };
@@ -121,11 +102,40 @@ export default function Notification() {
   const [updateTrigger, setUpdateTrigger] = useState(false);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
+  const [selectedNotificationId, setSelectedNotificationId] = useState(null);
+
   const socket = useSocket();
   const audioRef = useRef(new Audio(SoundNotification));
   const navigate = useNavigate()
 
   const { id } = useParams()
+
+  const handleDelete = async (id) => {
+    try {
+      const user_id = JSON.parse(localStorage.getItem('user')).id;
+      await api.delete(`notification/${id}`);
+      await socket.emit('update_notification', user_id);
+      
+      if (notifications.length <= 1) {
+        navigate("/dashboard/notification");
+      }
+
+      setUpdateTrigger(prev => !prev);
+
+      Toast('success', "A notificação foi excluída com sucesso!", "delete");
+
+    } catch (error) {
+      if (error === "TypeError: Cannot read properties of undefined (reading 'status')") {
+        Toast('error', "Falha na conexão ao servidor", "errorServer");
+      } else {
+        Toast('error', "Ocorreu um erro ao deletar a notificação! Tente novamente", "errorCircle");
+      }
+    }
+  };
+
+  const openDeleteModal = (id) => {
+    setSelectedNotificationId(id);
+  };
 
   useEffect(() => {
     if (!socket) return;
@@ -163,7 +173,6 @@ export default function Notification() {
   const getNotifications = async () => {
     setLoading(true)
     const user_id = JSON.parse(localStorage.getItem('user')).id;
-    console.log('passou aqui')
 
     try {
       const res = await api.get(`notification/notificationDiagram/${user_id}/${id}`)
@@ -188,6 +197,11 @@ export default function Notification() {
     return true;
   });
 
+  function callRemoveNotificationModal() {
+    const modal = new Modal('#ConfirmRemoveNotificationModal')          
+    modal.show();
+  }
+
   return (
     <div id="documentsPage" className="flex-fill h-100">
       <nav className="navbar navbar-expand-lg bg-white p-3 pe-1 justify-content-between">
@@ -200,31 +214,54 @@ export default function Notification() {
           </div>
         </div>
       </nav>
-      <div id="notification" className="px-2 px-sm-4 mt-4" aria-live="polite">
+      <div id="notification" className="px-2 px-sm-4 my-4" aria-live="polite">
 
-        <div class="btn-group rounded-0 rounded-top" role="group">
-          <button class={`btn teste fs-6 px-2 rounded-0 rounded-top ${filter === 'all' && 'bg-primary text-white active'}`} onClick={() => setFilter("all")}>Todas as notificações</button>
-          <button class={`btn teste fs-6 px-2 rounded-0 rounded-top ${filter === 'read' && 'bg-primary text-white active'}`} onClick={() => setFilter("read")}>Notificações lidas</button>
-          <button class={`btn teste fs-6 px-2 rounded-0 rounded-top ${filter === 'unread' && 'bg-primary text-white active'}`} onClick={() => setFilter("unread")}>Notificações não lidas</button>
+        <div className="btn-group rounded-0 rounded-top rounded-lg overflow-hidden" role="group">
+          <button className={`btn teste fs-6 px-2 rounded-0 ${filter === 'all' && 'bg-primary text-white active'}`} onClick={() => setFilter("all")}>Todas as notificações</button>
+          <button className={`btn teste fs-6 px-2 rounded-0 ${filter === 'read' && 'bg-primary text-white active'}`} onClick={() => setFilter("read")}>Notificações lidas</button>
+          <button className={`btn teste fs-6 px-2 rounded-0 ${filter === 'unread' && 'bg-primary text-white active'}`} onClick={() => setFilter("unread")}>Notificações não lidas</button>
         </div>
 
         {filteredNotifications.length > 0 ? (
-          <div className="border border-top-0 border-bottom-0 border-black rounded-lg">
+          <div id="notificationList" className="border border-black rounded-bottom rounded-end rounded-lg overflow-hidden">
             {filteredNotifications.map((item) => (
               <NotificationItem
                 key={item.id}
                 item={item}
                 notifications={notifications}
+                onDelete={() => openDeleteModal(item.id)}
+                onModal={callRemoveNotificationModal}
               />
             ))}
-          </div>   
+            <div className="modal fade show" id="ConfirmRemoveNotificationModal" tabIndex="-1" aria-hidden="true" data-bs-backdrop="true" data-bs-keyboard="true">
+              <div className="modal-dialog modal-md modal-dialog-centered">
+                <div className="modal-content">
+                  <div className="modal-body text-center px-4 pb-4">
+                    <i className="bi bi-exclamation-triangle-fill mb-5 mt-3" style={{ fontSize: "60px" }}></i>
+                    <h4 className="mb-5">A notificação selecionada será excluída!</h4>
+                    <div className="d-flex justify-content-around">
+                      <button className="btn btn-light text-primary border border-black px-4 px-sm-5" disabled={loading} data-bs-dismiss="modal">Cancelar</button>
+                      <button
+                        className="btn btn-primary px-4 px-sm-5"
+                        onClick={() => handleDelete(selectedNotificationId)}
+                        disabled={loading}
+                        data-bs-dismiss="modal"
+                      >
+                        Confirmar
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         ) : (
           loading ? (
             <div className="col-12 d-flex mt-5 justify-content-center spinner">
               <Spinner className="spinner-border me-2" isLoading={loading}  />
             </div>
           ) : (
-            <h1 className="h3 border border-black text-center py-5 bg-white">
+            <h1 className="h3 border border-black text-center py-5 bg-white rounded-bottom rounded-end rounded-lg">
               {filter === 'read' ? 'Não há notificações lidas' : 'Todas as notificações foram lidas'}
             </h1>
           )

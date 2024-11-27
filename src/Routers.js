@@ -11,14 +11,16 @@ import PrivacyTerms from "./pages/privacyTerms/PrivacyTerms";
 import UpdateProfile from "./pages/updateProfile/UpdateProfile";
 import AlterPassword from "./pages/alter_password/AlterPassword";
 import RequestChange from "./pages/alter_password/RequestChange";
+import { SocketProvider } from "./services/SocketContext"
+
 const Routers = () => {
   return (
     // forceRefresh para tentar corrigir problema onde o salvamento e atalhos do modeler não funcionam
     <BrowserRouter basename={process.env.REACT_APP_BASE_ROUTE}>
       <Routes>
-        <Route path="/modeler/:id?/:slug?" element={<PrivateRoute element={<Modeler />} /> } />
-        <Route path="/dashboard/*" element={<PrivateRoute element={<Dashboard />} /> } />
-        <Route path="/shared/:token" element={<ShareRoute element={<ShareRoute />}/>} />
+        <Route path="/modeler/:id?/:slug?" element={<SocketProvider><PrivateRoute element={<Modeler />} /></SocketProvider>} />
+        <Route path="/dashboard/*" element={<SocketProvider><PrivateRoute element={<Dashboard />} /></SocketProvider>} />
+        <Route path="/shared/:token" element={<SocketProvider><ShareRoute /></SocketProvider>} />
         <Route path="/" exact element={<Home />} />
         <Route path="/cadastro" exact element={<Register />} />
         <Route path="/login" exact element={<Login />} />

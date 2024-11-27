@@ -62,11 +62,11 @@ body {
 	border: 0 !important;
 }
 
-.outline-white :focus-visible{
+.outline-white :focus-visible:not(input[type="password"], .btn-close){
   outline: 2px #ffffff solid !important;
 }
 
-.outline-black :focus-visible{
+.outline-black :focus-visible:not(input[type="password"], .btn-close){
 	outline: 2px #000000 solid !important;
 }
 
