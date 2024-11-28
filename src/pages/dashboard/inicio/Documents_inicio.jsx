@@ -57,7 +57,6 @@ function Documents_inicio() {
     const cardRecentes = (
         <div className="container-fluid px-4">            
             <div className="row">
-                
                 {
                     loading && (
                         <div className="col-12 d-flex mt-5 justify-content-center">

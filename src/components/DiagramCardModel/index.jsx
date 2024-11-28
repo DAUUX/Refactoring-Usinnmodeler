@@ -56,7 +56,6 @@ function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram,
                     className="dropdown ms-auto d-flex ps-3 align-items-center"
                     onClick={(e) => e.stopPropagation()} // Impede que o clique no dropdown afete o Link
                 >
-                    
                     <div className='pb-1'>
                         <FavoriteDiagram 
                             diagram_id={id} 
