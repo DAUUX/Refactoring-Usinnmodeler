@@ -3,64 +3,40 @@ import DiagramCard from "../../../components/DiagramCardModel";
 import Spinner from "../../../components/Spinner";
 import { Toast } from "../../../components/Toast";
 import api from "../../../services/api";
-import { Modal } from "bootstrap";
-import { slugify } from '../../../Helpers';
-import RemoveDiagramModal from "../../../components/RemoveDiagramModal";
 
 function Modelos_documentos({ refresh }) {
   let [diagrams, setDiagrams] = useState([]);
   let [loading, setLoading] = useState(true);
-  const [selectedId, setSelectedId] = useState(null);
-
-  // Função para alternar o estado de "favorito"
-  function callFavoritedDiagram(id) {
-    // Recupera os diagramas do estado
-    setDiagrams(prevDiagrams => {
-      const updatedDiagrams = prevDiagrams.map(diagram => {
-        // Atualiza o campo "favorite" para o diagrama com o id correspondente
-        if (diagram.id === id) {
-          const updatedFavorite = !diagram.favorite;
-          // Salva o novo valor de "favorite" no localStorage
-          const favoriteDiagrams = JSON.parse(localStorage.getItem("favoriteDiagrams")) || {};
-          favoriteDiagrams[diagram.id] = updatedFavorite;
-          localStorage.setItem("favoriteDiagrams", JSON.stringify(favoriteDiagrams));
-          
-          return { ...diagram, favorite: updatedFavorite };
-        }
-        return diagram;
-      });
-
-      // Retorna o estado atualizado
-      return updatedDiagrams;
-    });
-  }
 
   async function getDiagrams() {
     setLoading(true);
     try {
       const res = await api.get('/diagrams/diagramModels');
       const diagramsData = res.data.diagrams;
-
+  
+      const removedDiagrams = JSON.parse(localStorage.getItem("removedDiagrams")) || {};
+  
+      // Mapeia os diagramas, ajustando o campo 'favorite' com base no localStorage
       const diagramsList = Object.keys(diagramsData).map(key => ({
         id: key,
         name: diagramsData[key].titulo,
         updatedAt: diagramsData[key].updatedAt,
         user_id: diagramsData[key].user_id,
         diagram_svg: diagramsData[key].diagram_svg,
-        favorite: diagramsData[key].favorite,
+        favorite: diagramsData[key],
         diagram_data: diagramsData[key].diagram_data
       }));
-
-      const removedDiagrams = JSON.parse(localStorage.getItem("removedDiagrams")) || {};
-
+  
+      // Filtra diagramas que não estão marcados como removidos
       const filteredDiagrams = diagramsList.filter(diagram => removedDiagrams[diagram.id] !== false);
-
+  
       setDiagrams(filteredDiagrams);
     } catch (error) {
       Toast('error', error);
     }
     setLoading(false);
   }
+  
 
   useEffect(() => {
     getDiagrams();
@@ -102,13 +78,10 @@ function Modelos_documentos({ refresh }) {
                 <DiagramCard
                   id={diagram.id}
                   name={diagram.name}
-                  userId={diagram.user_id}
-                  isModel={true}
                   diagram_data={diagram.diagram_data}
                   thumbnail={diagram.diagram_svg}
                   onRemoveDiagram={(id) => callRemoveDiagramModal(id)}
-                  favorited={diagram.favorite}
-                  onDiagramFavorited={() => callFavoritedDiagram(diagram.id)} // Chama a função de favoritar
+                  setDiagrams={setDiagrams}
                 />
               </div>
             ))}
@@ -119,7 +92,6 @@ function Modelos_documentos({ refresh }) {
         )}
       </div>
 
-      <RemoveDiagramModal id="RemoveDiagramModal" diagram_id={selectedId} onDiagramRemoved={() => getDiagrams()} />
     </div>
   );
 

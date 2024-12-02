@@ -1,70 +1,75 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { slugify } from '../../Helpers';
 import './style.scss';
-import FavoriteDiagram from "../../components/FavoriteDiagram";
+
+import StarFill from "../../assets/icons/star-fill.svg";
+import Star from "../../assets/icons/star.svg";
+
 import api from '../../services/api';
 import { Toast } from '../Toast';
+import { useEffect, useState } from 'react';
 
-function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram, onRemoveDiagram, onRenameDiagram, favorited, onDiagramFavorited, isModel = false, diagram_data = ""}) {
-
+function DiagramCard({id, name, description, thumbnail, onRemoveDiagram, diagram_data = ""}) {
 
     const navigate   = useNavigate();
+    const [favorited, setFavorited] = useState(false);
 
-    function elapsedTime (date) {
-        let now = new Date();
-        let difference = now - new Date(date);
-        return Math.round(difference /(1000 * 60 * 60 * 24));
-    }
-    
+
+    useEffect(() => {
+        const favoriteDiagrams = JSON.parse(localStorage.getItem("favoriteDiagrams")) || {};
+        setFavorited(favoriteDiagrams[id] || false); // Define com base no localStorage
+    }, [id]);
+
+
+    const toggleFavorite = () => {
+        const newFavorite = !favorited;
+        setFavorited(newFavorite);
+
+        const favoriteDiagrams = JSON.parse(localStorage.getItem("favoriteDiagrams")) || {};
+        favoriteDiagrams[id] = newFavorite; 
+        localStorage.setItem("favoriteDiagrams", JSON.stringify(favoriteDiagrams));
+        // eslint-disable-next-line no-lone-blocks
+        {!favorited ? 
+            Toast("success", "Diagrama adicionado aos meus favoritos", "checkCircle"):
+            Toast("success","Diagrama removido dos meus favoritos", "checkCircle")}
+    };
+
     async function createNewDiagram() {
-
         const data = {name: name, diagram_data: diagram_data, diagram_svg: ""};
-    
-        try {
+            try {
             const res = await api.post('diagrams', data);
             const {id, name} = res.data;
             navigate(`/modeler/${id}/${slugify(name)}`);
-        } catch (error) {
-            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-                Toast('error', "Falha na conexão ao servidor", "errorServer");
+            } catch (error) {
+                Toast('error',error);
             }
-            else{
-                Toast('error', error, "errorCircle");
-            }
-        }
-    } 
+    }
     
     return (
         <Link
-            to={isModel ? undefined : `/modeler/${id}/${slugify(name)}`}
-            onClick={isModel ? () => { createNewDiagram() } : undefined}
+            onClick={() => { createNewDiagram() }}
             className="card text-reset text-decoration-none mw-25 overflow-hidden"
             id="diagram-card"
         >
             <div className="card-header d-flex">
-                <div className={`overflow-hidden ${isModel ? 'd-flex align-items-center' : ''}`}>
-                    <span className="fw-bold">{name}</span><br />
-                    
-                    {!isModel && (
-                        <span>
-                            Modificado {elapsedTime(lastModified) > 0 ? `há ${elapsedTime(lastModified)} dias` : "hoje"}
-                        </span>
-                    )}
+                <div className={`${description? "overflow-hidden d-flex flex-column align-items-start" : "overflow-hidden d-flex align-items-center cols"}`}>
+                    <span className="fw-bold">{name}</span>
+                    <span className="text-muted">{description}</span>
                 </div>
     
                 <div 
                     className="dropdown ms-auto d-flex ps-3 align-items-center"
                     onClick={(e) => e.stopPropagation()} // Impede que o clique no dropdown afete o Link
                 >
-                    <div className='pb-1'>
-                        <FavoriteDiagram 
-                            diagram_id={id} 
-                            favorited={favorited} 
-                            onFavoritedClick={() => {
-                                onDiagramFavorited();
-                            }} 
-                        />
-                    </div>
+                    <Link className='pb-1' 
+                        onClick={(e)=>{                                        
+                            e.stopPropagation(); 
+                            e.preventDefault(); 
+                            toggleFavorite()}}>
+
+                        {favorited ? <img src={StarFill} alt="Filled Star" /> : <img src={Star} alt="Star" />}
+
+                    </Link>
     
                     <button 
                         className="btn px-2 pe-0 dropdown-toggle" 
@@ -76,35 +81,6 @@ function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram,
                     </button>
     
                     <ul className="dropdown-menu">
-                        {!isModel && (
-                            <li>
-                                <button 
-                                    className="dropdown-item" 
-                                    onClick={(e) => { 
-                                        e.stopPropagation(); 
-                                        e.preventDefault(); 
-                                        onRenameDiagram(id); 
-                                    }}
-                                >
-                                    <i className="bi bi-pencil"></i> Renomear
-                                </button>
-                            </li>
-                        )}
-    
-                        {(userId === JSON.parse(localStorage.getItem('user')).id && !isModel) && (
-                            <li>
-                                <button 
-                                    className="dropdown-item" 
-                                    onClick={(e) => { 
-                                        e.stopPropagation(); 
-                                        e.preventDefault(); 
-                                        onShareDiagram(id); 
-                                    }}
-                                >
-                                    <i className="bi bi-share-fill"></i> Compartilhar
-                                </button>
-                            </li>
-                        )}
 
 
                         <li>
@@ -116,7 +92,7 @@ function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram,
                                     onRemoveDiagram(id); 
                                 }}
                             >
-                                <i className="bi bi-trash3-fill"></i> {!isModel? "Excluir": "Ocultar"}
+                                Ocultar Template
                             </button>
                         </li>
                     </ul>
