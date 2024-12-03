@@ -80,7 +80,7 @@ function AlertContentDiagram({ data, selected }) {
       <Handle type="source" position={Position.Right} id='alert-content-source-right' onClick={(e) => handleClick(e)}/>
       <Handle type="source" position={Position.Bottom} id='alert-content-source-bottom' onClick={(e) => handleClick(e)}/>
       <TypeNavigations 
-        edges={['navigation','transition', 'unsucess-feedback', 'sucess-feedback', 'cancel-transition']} 
+        edges={['transition', 'unsucess-feedback', 'sucess-feedback', 'cancel-transition']} 
         onClose={() => handleClose()}
         open={openNavigation}
         anchor={anchorEl}

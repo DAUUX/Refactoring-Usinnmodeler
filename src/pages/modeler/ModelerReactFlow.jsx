@@ -224,16 +224,14 @@ const ModelerReactFlow = () => {
       sourceClause = currentEdge === 'sucess-feedback' ||
       currentEdge === 'unsucess-feedback' ||
       currentEdge === 'transition' ||
-      currentEdge === 'cancel-transition' ||
-      currentEdge === "navigation"
+      currentEdge === 'cancel-transition'
     }
 
     if(nodeTarget.type === 'alert-content') {
       targetClause = currentEdge === 'sucess-feedback' ||
       currentEdge === 'unsucess-feedback' ||
       currentEdge === 'transition' ||
-      currentEdge === 'cancel-transition' ||
-      currentEdge === "navigation"  
+      currentEdge === 'cancel-transition'
     }
 
     if(nodeSource.type === 'data-colection') {
