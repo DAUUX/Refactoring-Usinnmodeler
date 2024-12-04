@@ -106,6 +106,8 @@ function Subflow({ id, data }) {
           {isMinimized ? <AddIcon /> : <RemoveIcon />}
         </Button>
       </div>
+      {isMinimized &&(      
+      <>
       <Handle type="target" position={Position.Left} isConnectable id='alert-content-target-left'/>
       <Handle type="target" position={Position.Top} isConnectable id='alert-content-target-top'/>
       <Handle type="target" position={Position.Right} isConnectable id='alert-content-target-right'/>
@@ -121,6 +123,12 @@ function Subflow({ id, data }) {
         anchor={anchorEl}
         close={() => handleClose()}
       />
+      </>
+      
+    )}
+
+
+
     </div>
   );
 }
