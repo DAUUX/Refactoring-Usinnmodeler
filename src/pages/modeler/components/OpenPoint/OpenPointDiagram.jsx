@@ -33,6 +33,7 @@ function OpenPointDiagram({ data }, props) {
         open={openNavigation}
         anchor={anchorEl}
         close={() => handleClose()}
+        parent="none"
       />
     </>
   );

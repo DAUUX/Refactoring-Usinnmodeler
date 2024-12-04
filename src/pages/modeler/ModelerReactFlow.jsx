@@ -263,32 +263,34 @@ const ModelerReactFlow = () => {
       sourceClause = currentEdge === 'sucess-feedback' ||
       currentEdge === 'unsucess-feedback' ||
       currentEdge === 'query-data' ||
-      currentEdge === 'cancel-transition' ||
-      currentEdge === "navigation"
+      currentEdge === 'cancel-transition'
     }
 
     if(nodeTarget.type === 'progress-indicator') {
       targetClause = 
         currentEdge === "transition" || 
-        currentEdge === "query-data" ||
-        currentEdge === "navigation"
+        currentEdge === "query-data"
     }
 
     return sourceClause && targetClause
   };
 
+  const excludedTypes = ["open-point", "close-point", "data-colection","user-action","presentation-unity"]; // Adicione outros tipos que não devem ser contidos na Unidade de Apresentação
+
   const onNodeDragStop = (event, node) => {
     setNodes((nodes) => {
-      const currentNodes =  nodes.map((item) => {
+      const updatedNodes = nodes.map((item) => {
         if (item.id === node.id) {
-          
-          
-          const updatedNode = nodes.find((targetNode) => {
+          if (excludedTypes.includes(node.type)) {
+            return { ...node }; // Retorna o nó
+          }
+  
+          const parentCandidate = nodes.find((targetNode) => {
             const { width, height, type, id } = targetNode;
             const { x, y } = targetNode.position;
             
-            if(node.extent === 'parent') return false;
-            if(node.type === "presentation-unity" || node.type === "presentation-unity-acessible") return false;
+            console.log("EXEMPLO: " + JSON.stringify(targetNode, null, 2));
+  
             if (
               (type === "presentation-unity" || type === "presentation-unity-acessible") &&
               node.position.x > x &&
@@ -303,12 +305,16 @@ const ModelerReactFlow = () => {
             return false;
           });
   
-          if (updatedNode) {
-            const { id, position: { x, y } } = updatedNode;
+          if (parentCandidate) {
+            const {
+              id,
+              position: { x, y },
+            } = parentCandidate;
+  
             return {
               ...node,
               parentId: id,
-              extent: 'parent',
+              extent: "parent",
               position: {
                 x: node.position.x - x,
                 y: node.position.y - y,
@@ -319,34 +325,32 @@ const ModelerReactFlow = () => {
   
         return item;
       });
-
-      const presentationNodes = currentNodes.filter(
+  
+      const presentationNodes = updatedNodes.filter(
         (node) =>
-          node.type === 'presentation-unity' ||
-          node.type === 'presentation-unity-acessible'
+          node.type === "presentation-unity" || node.type === "presentation-unity-acessible"
       );
-    
-      const otherNodes = currentNodes.filter(
+  
+      const otherNodes = updatedNodes.filter(
         (node) =>
-          node.type !== 'presentation-unity' &&
-          node.type !== 'presentation-unity-acessible'
+          node.type !== "presentation-unity" && node.type !== "presentation-unity-acessible"
       );
-    
+  
       return [...presentationNodes, ...otherNodes];
     });
   };
-
+  
   const onDrop = useCallback(
     (event) => {
       event.preventDefault();
   
-      const type = event.dataTransfer.getData('application/reactflow');
-
-      if (typeof type === 'undefined' || !type) {
+      const type = event.dataTransfer.getData("application/reactflow");
+  
+      if (!type) {
         return;
       }
-      
-      setNodes((nds) => nds.map(nd => ({ ...nd, selected: false })));
+  
+      setNodes((nds) => nds.map((nd) => ({ ...nd, selected: false })));
   
       const position = reactFlowInstance.screenToFlowPosition({
         x: event.clientX,
@@ -363,48 +367,50 @@ const ModelerReactFlow = () => {
         dragging: true,
       };
   
-      if (
-        type === 'user-action' ||
-        type === 'alert-content' ||
-        type === 'obg-user-action' ||
-        type === 'progress-indicator'
-      ) {
-        newNode.data.name = '';
+      if (["user-action", "alert-content", "obg-user-action", "progress-indicator"].includes(type)) {
+        newNode.data.name = "";
       }
       
-      const parentNode = nodes.find((targetNode) => {
-        const { width, height, type, id } = targetNode;
-        const { x, y } = targetNode.position;
 
-        if ((type === 'presentation-unity' || type === 'presentation-unity-acessible') &&
-          position.x > x &&
-          position.x < x + width &&
-          position.y > y &&
-          position.y < y + height &&
-          newNode.id !== id
-        ) {
-          return true;
+      
+      if (!excludedTypes.includes(type)) {
+        const parentNode = nodes.find((targetNode) => {
+          const { width, height, type, id } = targetNode;
+          const { x, y } = targetNode.position;
+  
+          if (
+            (type === "presentation-unity" || type === "presentation-unity-acessible") &&
+            position.x > x &&
+            position.x < x + width &&
+            position.y > y &&
+            position.y < y + height &&
+            newNode.id !== id
+          ) {
+            return true;
+          }
+  
+          return false;
+        });
+  
+        if (parentNode) {
+          const { id, position: parentPosition } = parentNode;
+          newNode = {
+            ...newNode,
+            parentId: id,
+            extent: "parent",
+            position: {
+              x: position.x - parentPosition.x,
+              y: position.y - parentPosition.y,
+            },
+          };
         }
-        return false;
-      });
-
-      if (parentNode) {
-        const { id, position: parentPosition } = parentNode;
-        newNode = {
-          ...newNode,
-          parentId: id,
-          extent: 'parent',
-          position: {
-            x: position.x - parentPosition.x,
-            y: position.y - parentPosition.y,
-          },
-        };
       }
-
+  
       setNodes((nds) => [...nds, newNode]);
     },
-    [reactFlowInstance],
+    [reactFlowInstance]
   );
+  
 
   const onNodesDelete = (nodesToBeDeleted) => {
     const presentationUnity = nodesToBeDeleted.find(nd => nd.type === "presentation-unity" || nd.type === "presentation-unity-acessible");
