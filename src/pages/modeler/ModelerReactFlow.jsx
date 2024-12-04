@@ -188,6 +188,22 @@ const ModelerReactFlow = () => {
       targetClause = currentEdge === "navigation"
     }
 
+    if(nodeSource.type === "presentation-unity") { // Aplica a funcionalidade Emitir
+      sourceClause = currentEdge === "navigation";
+    }
+
+    if(nodeTarget.type === "presentation-unity") {// Aplica a funcionalidade de receber
+      targetClause = currentEdge === "navigation";
+    }
+
+    if(nodeSource.type === "presentation-unity-acessible") { // Aplica a funcionalidade Emitir
+      sourceClause = currentEdge === "navigation";
+    }
+
+    if(nodeTarget.type === "presentation-unity-acessible") {// Aplica a funcionalidade de receber
+      targetClause = currentEdge === "navigation";
+    }
+
     if(nodeSource.type === "user-action") { //Aplica a funcionalidade Emitir
       sourceClause = 
         currentEdge === "transition" || 
