@@ -232,8 +232,7 @@ const ModelerReactFlow = () => {
     if(nodeTarget.type === 'sistem-process') {
       targetClause = 
         currentEdge === "transition" || 
-        currentEdge === "query-data" ||
-        currentEdge === "navigation"
+        currentEdge === "query-data"
     }
 
     if(nodeSource.type === 'alert-content') {
@@ -261,8 +260,7 @@ const ModelerReactFlow = () => {
     if(nodeSource.type === "obg-user-action") {
       sourceClause = 
         currentEdge === "transition" || 
-        currentEdge === "cancel-transition" ||
-        currentEdge === "navigation"
+        currentEdge === "cancel-transition"
     }
 
     if(nodeTarget.type === "obg-user-action") {
@@ -271,8 +269,7 @@ const ModelerReactFlow = () => {
         currentEdge === "sucess-feedback" || 
         currentEdge === "unsucess-feedback" || 
         currentEdge === "query-data" ||
-        currentEdge === "cancel-transition" ||
-        currentEdge === "navigation"
+        currentEdge === "cancel-transition" 
     }
 
     if(nodeSource.type === 'progress-indicator') {
