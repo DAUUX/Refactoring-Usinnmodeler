@@ -31,7 +31,6 @@ function DashboardMenu({menuOpen, setMenuOpen, onCreateDiagram}) {
     async function createNewDiagram(e) {
 
         e.preventDefault();
-        console.log(9238478912347)
         // return
         navigate('/modeler');
         // onCreateDiagram(true);

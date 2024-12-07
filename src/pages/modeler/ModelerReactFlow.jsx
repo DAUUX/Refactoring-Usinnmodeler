@@ -57,15 +57,11 @@ const ModelerReactFlow = () => {
   const { getNodes } = useReactFlow();
   
   useEffect(() => {
-    console.log(nodes, '------', edges)
-  }, [nodes])
-  useEffect(() => {
     if(!!id){
       try {
         const getDiagram = async () => {
           const res = await api.get(`/diagrams/${id}`);
           const {data} = res;
-          console.log(data.name);
           setNameDiagram(data.name);
           const graph = JSON.parse(data.data);
           setNodes(graph.nodes);
@@ -152,7 +148,7 @@ const ModelerReactFlow = () => {
 
   const onConnect = useCallback(
     (connection) => {
-      const edge = { ...connection, type: currentEdge };
+      const edge = { ...connection, type: currentEdge, label: "Clique para editar", labelPosition: {x: null, y: null} };
 
       setEdges((eds) => addEdge(edge, eds));
       setCurrentEdge("");
@@ -472,6 +468,10 @@ const ModelerReactFlow = () => {
     }).then(downloadImage);
   }
 
+  const onTest = (id, newLabel) => {
+    console.log(id, newLabel);
+  }
+
   const onSave = async (name) => {
     try {
       
@@ -483,13 +483,11 @@ const ModelerReactFlow = () => {
         })
         Toast('success', 'Diagrama editado com sucesso.')
       }else {
-        console.log('asdfo[aisjdfasdiofk')
         const res = await api.post('diagrams', {
           name,
           nodes,
           edges
         })
-        console.log(res)
         Toast('success', 'Diagrama criado com sucesso.')
       }
   

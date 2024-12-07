@@ -25,6 +25,7 @@ export default function Navigation(props) {
         sourceY={sourceY} 
         targetX={targetX} 
         targetY={targetY}
+        id={id}
       />
     </>
   );
