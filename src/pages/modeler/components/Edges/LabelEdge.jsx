@@ -1,7 +1,7 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { EdgeLabelRenderer, useEdges } from 'reactflow';
+import React, { useState, useEffect } from 'react';
+import { EdgeLabelRenderer, useReactFlow, useEdges } from 'reactflow';
 
-export default function EditableEdgeLabel({ sourceX, sourceY, targetX, targetY, id, onTest }) {
+export default function EditableEdgeLabel({ sourceX, sourceY, targetX, targetY, id }) {
   const [text, setText] = useState('Clique para editar'); // Texto padrão
   const [isEditing, setIsEditing] = useState(false);
   const [labelXY, setLabelXY] = useState({
@@ -11,24 +11,22 @@ export default function EditableEdgeLabel({ sourceX, sourceY, targetX, targetY, 
   const [dragStartPosition, setDragStartPosition] = useState({ x: 0, y: 0 });
   const [dragEndPosition, setDragEndPosition] = useState({ x: 0, y: 0 });
 
-  const [edges, setEdges] = useEdges();
+  const { setEdges } = useReactFlow()
+  const edges = useEdges();
 
-  // console.log(edges);
+  useEffect(() => {
+    const edge = edges.find((edge) => edge.id === id);
 
-  // const updateEdges = useCallback(() => {
-  //   setEdges((prevEdges) =>
-  //     prevEdges.map((edge) => {
-  //       if (edge.id === id) {
-  //         return {
-  //           ...edge,
-  //           label: text,
-  //           labelPosition: labelXY,
-  //         };
-  //       }
-  //       return edge;
-  //     })
-  //   );
-  // }, [text, labelXY, setEdges]);
+    if (edge) {
+      if (edge.label) {
+        setText(edge.label);
+      }
+
+      if (edge.labelPosition) {
+        setLabelXY(edge.labelPosition);
+      }
+    }
+  }, [id]);
 
   const handleBlur = () => {
     if (text.length === 0) setText('Clique para editar');
@@ -59,18 +57,23 @@ export default function EditableEdgeLabel({ sourceX, sourceY, targetX, targetY, 
       x: prev.x + (dragEndPosition.x - dragStartPosition.x),
       y: prev.y + (dragEndPosition.y - dragStartPosition.y)
     }));
-    onTest(id, text);
   }
 
-  // useEffect(() => {
-  //   if (text !== 'Clique para editar') {
-  //     setEdges((oldEdges) => {
-  //       oldEdges.map((edge) => {
-  //         console.log(edge);
-  //       })
-  //     })
-  //   }
-  // }, [text, labelXY])
+  useEffect(() => {
+    if (labelXY) {
+      setEdges((edges) =>
+        edges.map((edge) =>
+          edge.id === id
+            ? {
+                ...edge,
+                label: text,
+                labelPosition: labelXY,
+              }
+            : edge
+        )
+      );
+    }
+  }, [labelXY, text, id, setEdges]);
 
   return (
     <EdgeLabelRenderer>
