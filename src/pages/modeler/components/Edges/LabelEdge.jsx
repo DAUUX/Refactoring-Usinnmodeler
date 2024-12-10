@@ -5,8 +5,8 @@ export default function EditableEdgeLabel({ sourceX, sourceY, targetX, targetY, 
   const [text, setText] = useState('Clique para editar'); // Texto padrão
   const [isEditing, setIsEditing] = useState(false);
   const [labelXY, setLabelXY] = useState({
-    x: (sourceX + targetX) / 2,
-    y: (sourceY + targetY) / 2 + (Math.abs(targetY - sourceY) < 20 ? -20 : sourceY < targetY ? -20 : 20)
+    x: 0,
+    y: 0
   });
   const [dragStartPosition, setDragStartPosition] = useState({ x: 0, y: 0 });
   const [dragEndPosition, setDragEndPosition] = useState({ x: 0, y: 0 });
@@ -80,7 +80,7 @@ export default function EditableEdgeLabel({ sourceX, sourceY, targetX, targetY, 
       <div
         style={{
           position: 'absolute',
-          transform: `translate(-50%, -50%) translate(${labelXY.x}px,${labelXY.y}px)`,
+          transform: `translate(-50%, -50%) translate(${labelXY.x + ((sourceX + targetX) / 2)}px,${labelXY.y + (sourceY + targetY) / 2 + (Math.abs(targetY - sourceY) < 20 ? -20 : sourceY < targetY ? -20 : 20)}px)`,
           fontSize: 12,
           pointerEvents: 'all',
           background: '#DFDFDF',
