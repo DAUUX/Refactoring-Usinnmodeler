@@ -17,8 +17,8 @@ function ButtonLanguage(props) {
                 }
 
             <ul className="dropdown-menu dropdown-menu-lg-end" aria-labelledby="dropdownMenuButton">
-                <li><button className="dropdown-item" onClick={(e) => {e.preventDefault(); i18n.changeLanguage('ptBR')}}> PT-BR </button></li>
-                <li><button className="dropdown-item" onClick={(e) => {e.preventDefault(); i18n.changeLanguage('enUS')}}> EN-US </button> </li>
+                <li><button className="dropdown-item" onClick={(e) => {e.preventDefault(); i18n.changeLanguage('pt-BR')}}> PT-BR </button></li>
+                <li><button className="dropdown-item" onClick={(e) => {e.preventDefault(); i18n.changeLanguage('en-US')}}> EN-US </button> </li>
             </ul>
         
         </div>
