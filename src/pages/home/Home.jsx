@@ -9,12 +9,15 @@ import NomeUsinn from "../../assets/icons/Logo_USINN_Positiva.png";
 import Funcap from "../../assets/icons/funcap.svg";
 import LogoUFC from "../../assets/icons/logoUFC.svg";
 import Logotipo from "../../assets/icons/logotipo.svg";
+import { useTranslation } from 'react-i18next';
+import ButtonLanguage from "../../components/ButtonLanguage";
 
 import Slides from "./Slides";
 import BasicCard from "./BasicCard";
 import { useEffect, useState } from "react";
 
 export default function Home() {
+  const { t } = useTranslation()
 
   const [title, setTitle] = useState(' EXPERIÊNCIA COMPLETA')
   const [hambOpen, setHmabOpen] = useState(false)
@@ -74,7 +77,7 @@ export default function Home() {
                   aria-label="ir para seção, saiba mais sobre o usinn"
                   role="menuitem"
                 >
-                  Sobre o USINN
+                  {t('Sobre o USINN')}
                 </a>
               </li>
               <li className="nav-item" role="none">
@@ -110,6 +113,9 @@ export default function Home() {
             </ul>
             <ul className="fs-5 p-0 m-0 d-flex align-items-center list-inline" role="menu">
               <li role="none">
+                <ButtonLanguage />
+              </li>
+              <li role="none">
                 <Link
                   to="/cadastro"
                   className={`${styles.underline} text-decoration-none text-white me-3`}
@@ -141,8 +147,8 @@ export default function Home() {
             </h1>
 
             <p className="my-4 text-center h2">
-              Modele a interação e a navegação de sistemas interativos <br />
-              com foco na usabilidade.
+              {t('Modele a interação e a navegação de sistemas interativos')} <br />
+              {t('com foco na usabilidade.')}
             </p>
 
             <Link
