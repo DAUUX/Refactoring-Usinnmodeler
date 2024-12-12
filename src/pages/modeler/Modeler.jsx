@@ -12,6 +12,7 @@ import ExportDiagramModal from "../../components/ExportDiagramModal";
 import Spinner from "../../components/Spinner";
 import Notifications from "../../components/Notifications";
 import { useSocket } from "../../services/SocketContext";
+import { Modal } from 'bootstrap';
 
 function Modeler(props) {
     const socket = useSocket()
@@ -194,6 +195,11 @@ function Modeler(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [diagram, diagramSVG])
 
+    const openSharedModal = () => {
+        const modal = new Modal(`#${shareModalId}`)          
+        modal.show();
+    }
+
     return (
         <main id="modelerPage" className="container-fluid px-0 flex-fill d-flex flex-column bg-white h-100">
             
@@ -213,7 +219,7 @@ function Modeler(props) {
                         <div className="d-flex justify-content-end align-items-center pt-3 pb-1 py-lg-0">
                             <span>
                                 {id && owner &&
-                                    <button data-bs-toggle="modal" data-bs-target={`#${shareModalId}`} className="btn btn-light btn-sm order-last text-primary me-4" title="Compartilhar">
+                                    <button data-bs-target={`#${shareModalId}`} className="btn btn-light btn-sm order-last text-primary me-4" title="Compartilhar" onClick={openSharedModal}>
                                         Compartilhar <i className="bi bi-share-fill fs-7"></i>
                                     </button>
                                 }

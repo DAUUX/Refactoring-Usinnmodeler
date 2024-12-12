@@ -15,17 +15,18 @@ export default function Notification() {
   },[]);
 
   const [nameDiagrams, setNameDiagrams] = useState([]);
-  const [updateTrigger, setUpdateTrigger] = useState(false);
   const [loading, setLoading] = useState(true);
   const socket = useSocket();
   const audioRef = useRef(new Audio(SoundNotification));
+
+  useEffect(() => {getNotifications();},[])
 
   useEffect(() => {
     if (!socket) return;
 
     socket.on('notification_received', async (data) => {
       try {
-        setUpdateTrigger(prev => !prev)
+        getNotifications()
         audioRef.current.pause();
         audioRef.current.currentTime = 0;
         await audioRef.current.play();
@@ -36,7 +37,7 @@ export default function Notification() {
 
     socket.on('notification_refresh', async (data) => {
       try {
-        setUpdateTrigger(prev => !prev)
+        getNotifications()
       } catch (error) {
         console.log('Erro na ação com a notificação')
       }
@@ -64,10 +65,6 @@ export default function Notification() {
     }
     setLoading(false)
   };
-  
-  useEffect(() => {
-    getNotifications();
-  }, [updateTrigger]);
 
   return (
     <div id="documentsPage" className="flex-fill h-100">

@@ -99,7 +99,6 @@ const NotificationItem = ({ item, onDelete, onModal }) => {
 
 export default function Notification() {
   const [notifications, setNotifications] = useState([]);
-  const [updateTrigger, setUpdateTrigger] = useState(false);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
   const [selectedNotificationId, setSelectedNotificationId] = useState(null);
@@ -109,6 +108,9 @@ export default function Notification() {
   const navigate = useNavigate()
 
   const { id } = useParams()
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {getNotifications();},[])
 
   const handleDelete = async (id) => {
     try {
@@ -120,7 +122,9 @@ export default function Notification() {
         navigate("/dashboard/notification");
       }
 
-      setUpdateTrigger(prev => !prev);
+      setNotifications((prevNotifications) =>
+        prevNotifications.filter((notification) => notification.id !== id)
+      );
 
       Toast('success', "A notificação foi excluída com sucesso!", "delete");
 
@@ -142,7 +146,7 @@ export default function Notification() {
 
     socket.on('notification_received', async (data) => {
       try {
-        setUpdateTrigger(prev => !prev)
+        getNotifications()
         audioRef.current.pause();
         audioRef.current.currentTime = 0;
         await audioRef.current.play();
@@ -153,7 +157,7 @@ export default function Notification() {
 
     socket.on('notification_refresh', async (data) => {
       try {
-        setUpdateTrigger(prev => !prev)
+        getNotifications()
       } catch (error) {
         console.log('Erro na ação com a notificação')
       }
@@ -163,12 +167,8 @@ export default function Notification() {
       socket.off('notification_received');
       socket.off('notification_refresh');
     };
-  }, [socket]);
-
-  useEffect(() => {
-    getNotifications();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [updateTrigger]);
+  }, [socket]);
 
   const getNotifications = async () => {
     setLoading(true)
@@ -181,13 +181,11 @@ export default function Notification() {
       if (error === "TypeError: Cannot read properties of undefined (reading 'status')") {
         Toast('error', "Falha na conexão ao servidor", "errorServer");
       }else if(error === "Nenhuma notificação encontrada"){
-        Toast('error', error, "errorCircle");
         navigate('/dashboard/notification')
       }else {
         Toast('error', error, "errorCircle");
       }
     }
-
     setLoading(false)
   };  
 

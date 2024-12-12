@@ -11,17 +11,18 @@ function Notifications({ iconColor }) {
 
   const [notifications, setNotifications] = useState([]);
   const [countNotify, setCountNotific] = useState(0);
-  const [updateTrigger, setUpdateTrigger] = useState(false);
   const [selectedNotificationId, setSelectedNotificationId] = useState(null);
   const audioRef = useRef(new Audio(SoundNotification));
   const [mouseHover, setMouseHover] = useState(false);
+
+  useEffect(() => {getNotifications();},[])
 
   useEffect(() => {
     if (!socket) return;
 
     socket.on('notification_received', async (data) => {
         try {
-          setUpdateTrigger(prev => !prev);
+          getNotifications()
           audioRef.current.pause();
           audioRef.current.currentTime = 0;
           await audioRef.current.play();
@@ -32,7 +33,7 @@ function Notifications({ iconColor }) {
 
     socket.on('notification_refresh', async (data) => {
         try {
-          setUpdateTrigger(prev => !prev);
+          getNotifications()
         } catch (err) {
           console.error('Erro ao contar notificações:', err);
         }
@@ -95,7 +96,6 @@ function Notifications({ iconColor }) {
       const changeRead = reader === 1 ? 0 : 1;
       await api.put(`notification/${id}`, { read: changeRead });
       await socket.emit('update_notification', user_id);
-      setUpdateTrigger(prev => !prev);
     } catch (error) {
       if (error === "TypeError: Cannot read properties of undefined (reading 'status')") {
         Toast('error', "Falha na conexão ao servidor", "errorServer");
@@ -112,7 +112,10 @@ function Notifications({ iconColor }) {
       const user_id = JSON.parse(localStorage.getItem('user')).id;
       await api.delete(`notification/${id}`);
       await socket.emit('update_notification', user_id);
-      setUpdateTrigger(prev => !prev);
+
+      setNotifications((prevNotifications) =>
+        prevNotifications.filter((notification) => notification.id !== id)
+      );
 
       Toast('success', "A notificação foi excluída com sucesso!", "delete");
     } catch (error) {
@@ -123,10 +126,6 @@ function Notifications({ iconColor }) {
       }
     }
   };
-
-  useEffect(() => {
-    getNotifications();
-  }, [updateTrigger]);
 
   const openDeleteModal = (id) => {
     setSelectedNotificationId(id);
