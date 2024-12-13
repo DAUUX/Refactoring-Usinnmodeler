@@ -4,8 +4,10 @@ import { Toast } from "../Toast";
 import api from "../../services/api";
 import AddUsersToInvite from "../AddUsersToInvite";
 import { avatarOptions } from '../../Consts';
+import { useSocket } from "../../services/SocketContext";
 
 function ShareDiagramModal(props) {
+    const socket = useSocket()
 
     const [loading, setLoading]         = useState(false);
     const [readerLink, setReaderLink]   = useState('');
@@ -82,7 +84,25 @@ function ShareDiagramModal(props) {
             editor: editorLink
         }
         try {            
-            await api.post(`share/${props.diagram_id}/inviteLink`, {link, usersInvited});  
+            const collaborator_id = JSON.parse(localStorage.getItem('user')).id
+            const collaborator_name = JSON.parse(localStorage.getItem('user')).name
+
+            const res = await api.get(`diagrams/${props.diagram_id}`);
+            const {name} = res.data
+
+            const params = new URLSearchParams();
+            params.append('emails', usersInvited.map(user => user.email));     
+            const response = await api.get(`user/idForEmail?${params.toString()}`);
+            let user_ids = response.data.filter(id => id !== collaborator_id);
+            
+            await api.post(`share/${props.diagram_id}/inviteLink`, {link, usersInvited});
+            
+            const collaborators = await api.get(`collaboration/${props.diagram_id}`)
+            const existing_collaborators = collaborators.data.collaborators.map(collaborator => collaborator.collaborator_id);
+            user_ids = user_ids.filter(id => !existing_collaborators.includes(id));
+
+            await api.post('notification', {user_id: user_ids, diagram_id: props.diagram_id, diagram_name: name, type: 1, message: `"${collaborator_name}" compartilhou o diagrama: "${name}". Cheque seu e-mail!`})
+            await socket.emit('send_notification', user_ids);
             
             Toast('success', 'Diagrama compartilhado com sucesso!', "share");
             setUsers([]);
@@ -146,11 +166,19 @@ function ShareDiagramModal(props) {
 
     async function updatePermission(user_id, updation) {
         try{
+            const collaborator_name = JSON.parse(localStorage.getItem('user')).name
+            const res = await api.get(`diagrams/${props.diagram_id}`);
+            const {name} = res.data
+
             if(updation === "StopShare"){
-                await api.delete(`/collaboration/${props.diagram_id}/${user_id}`);   
+                await api.delete(`/collaboration/${props.diagram_id}/${user_id}`);
+                await api.post('notification', {user_id: user_id, diagram_id: props.diagram_id, diagram_name: name, type: 1, message: `"${collaborator_name}" parou de compartilhar o diagrama: "${name}"`})     
+                await socket.emit('send_notification', user_id);    
                 getAllCollaborations();                
             } else {
-                await  api.put(`/collaboration/${props.diagram_id}/${user_id}`, {updation});
+                await api.put(`/collaboration/${props.diagram_id}/${user_id}`, {updation});
+                await api.post('notification', {user_id: user_id, diagram_id: props.diagram_id, diagram_name: name, type: 1, message: `"${collaborator_name}" deu permissão de ${updation === '1' ? 'leitor' : 'editor'} no: "${name}"`})   
+                await socket.emit('send_notification', user_id);
             }         
         } catch(error) {
             if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
@@ -197,7 +225,7 @@ function ShareDiagramModal(props) {
                             <AddUsersToInvite key={id} addUser={addUser} id={id} visibleButton={componentes.length > 1} onDelete={removerComponente} wasInvited={wasInvited}/> 
                         ))}
                         
-                        <div className="text-end">
+                        <div className="text-end outline-black">
                             <button title="Adicionar E-mail" disabled={loading} className="btn text-primary border border-primary py-2 px-3" type="button" onClick={adicionarComponente}> + </button>  
                         </div>
                         {(collaborators.length > 0) && 
@@ -229,7 +257,7 @@ function ShareDiagramModal(props) {
                             ))}
                         </div>}
                     </div>
-                    <div className="modal-footer d-flex justify-content-between">
+                    <div className="modal-footer d-flex justify-content-between outline-black">
                         <button title="Copiar link" disabled={loading} className="btn text-primary border-dark px-4" type="button" onClick={copy}> {!copied? 'Copiar link' : 'Copiado'}  </button>
                         <button title="Enviar" disabled={loading} className="btn bg-primary text-white px-4 px-sm-5" type="button" onClick={inviteLink}> Enviar </button>                       
                     </div>

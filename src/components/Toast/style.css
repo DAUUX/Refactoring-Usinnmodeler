@@ -30,8 +30,8 @@
 }
 
 .toast-close:hover {
-    background: #959595;
-    color: #ffffff !important;
+    background: #959595 !important;
+    color: #fff !important;
 }
 
 .toast-progressbar {

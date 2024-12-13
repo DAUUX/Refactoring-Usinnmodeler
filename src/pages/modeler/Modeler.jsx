@@ -10,8 +10,12 @@ import logo from "../../assets/icons/usinn-logo-min.png";
 import UserProfile from "../../components/UserProfile";
 import ExportDiagramModal from "../../components/ExportDiagramModal";
 import Spinner from "../../components/Spinner";
+import Notifications from "../../components/Notifications";
+import { useSocket } from "../../services/SocketContext";
+import { Modal } from 'bootstrap';
 
 function Modeler(props) {
+    const socket = useSocket()
 
     useEffect(() => {
         document.title = 'Diagrama - USINN Modeler';
@@ -86,6 +90,20 @@ function Modeler(props) {
 
             window.history.replaceState(null, name, `/modeler/${id}/${slugify(response.data.name)}`);
 
+            const resDiagram = await api.get(`diagrams/${id}`);  
+            const {user_id} = resDiagram.data;
+
+            const my_id = JSON.parse(localStorage.getItem('user')).id
+            const collaborator_name = JSON.parse(localStorage.getItem('user')).name;
+
+            const resCollab = await api.get(`collaboration/${id}`)
+            const user_ids = resCollab.data.collaborators.map(collaborator => collaborator.collaborator_id);
+            user_ids.push(user_id);
+            const filtered_user_ids = user_ids.filter(id => id !== my_id);
+            
+            await api.post('notification', {user_id: filtered_user_ids, diagram_id: id, diagram_name: name, type: 2, message: `"${collaborator_name}" editou o ${owner ? 'diagrama compartilhado com você' : 'seu diagrama'}: "${name}"`})
+            await socket.emit('send_notification', filtered_user_ids);
+
             Toast('success', 'Diagrama salvo com sucesso!', "checkCircle");
         
         } catch (error) {
@@ -110,10 +128,32 @@ function Modeler(props) {
         try {
             
             const data = {name};
+            const res = await api.get(`diagrams/${id}`);  
+            const {user_id} = res.data
+            const nameAntes = res.data.name
             
             const response = await api.put(`diagrams/rename/${id}`, data);
 
             window.history.replaceState(null, name, `/modeler/${id}/${slugify(response.data.name)}`);
+
+            if(!owner && nameAntes !== name){
+                const collaborator_name = JSON.parse(localStorage.getItem('user')).name;
+                
+                await api.post('notification', {user_id: user_id, diagram_id: id, diagram_name: name, type: 2, message: `"${collaborator_name}" alterou o nome do seu diagrama: "${nameAntes}" para "${name}"`})
+                await socket.emit('send_notification', user_id);
+            }else if(owner && nameAntes !== name){
+
+                const my_id = JSON.parse(localStorage.getItem('user')).id
+                    const collaborator_name = JSON.parse(localStorage.getItem('user')).name;
+
+                    const res = await api.get(`collaboration/${id}`)
+                    const user_ids = res.data.collaborators.map(collaborator => collaborator.collaborator_id);
+                    user_ids.push(user_id);
+                    const filtered_user_ids = user_ids.filter(id => id !== my_id);
+
+                await api.post('notification', {user_id: filtered_user_ids, diagram_id: id, diagram_name: name, type: 2, message: `"${collaborator_name}" alterou o nome do diagrama compartilhado: "${nameAntes}" para "${name}"`})
+                await socket.emit('send_notification', filtered_user_ids);
+            }
 
             Toast('success', 'Diagrama salvo com sucesso!', "checkCircle");
 
@@ -155,31 +195,41 @@ function Modeler(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [diagram, diagramSVG])
 
+    const openSharedModal = () => {
+        const modal = new Modal(`#${shareModalId}`)          
+        modal.show();
+    }
+
     return (
         <main id="modelerPage" className="container-fluid px-0 flex-fill d-flex flex-column bg-white h-100">
             
 
             <nav id="modelerNavbar" className="navbar navbar-expand-lg bg-primary ">
-                <div className="container-fluid px-lg-5">
-                    <button className="navbar-toggler bg-light me-3 me-lg-0" type="button" data-bs-toggle="collapse" data-bs-target="#modelerNavbarToggle" aria-controls="modelerNavbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <form onSubmit={rename} className="d-flex me-auto" role="search" >
-						<Link to="/dashboard" className="d-flex justify-content-center align-items-center"> <img src={logo} alt="logo USINN" /> </Link>
-                        <input value={name} onChange={(e) => {setName(e.target.value)}} onBlur={rename} className="form-control py-0 px-2 text-white" type="text" id="nameInput" name="name" autoComplete="name" />
-                    </form>
+                <div className="container-fluid ps-lg-4 pe-lg-3">
+                    <div className="d-flex align-items-center">
+                        <button className="navbar-toggler bg-light me-3 me-lg-0" type="button" data-bs-toggle="collapse" data-bs-target="#modelerNavbarToggle" aria-controls="modelerNavbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                            <span className="navbar-toggler-icon"></span>
+                        </button>
+                        <form onSubmit={rename} className="d-flex align-items-center flex-grow-1" role="search" >
+                            <Link to="/dashboard" className="d-flex align-items-center"> <img src={logo} className="m-auto" alt="logo USINN" /> </Link>
+                            <input value={name} onChange={(e) => {setName(e.target.value)}} onBlur={rename} className="form-control py-0 ms-3 px-2 text-white flex-grow-1" type="text" id="nameInput" name="name" autoComplete="name" />
+                        </form>
+                    </div>
                     <div className="collapse navbar-collapse justify-content-end" id="modelerNavbarToggle">
-                        <div className="d-flex align-items-center py-3 py-lg-0">
+                        <div className="d-flex justify-content-end align-items-center pt-3 pb-1 py-lg-0">
                             <span>
                                 {id && owner &&
-                                    <button data-bs-toggle="modal" data-bs-target={`#${shareModalId}`} className="btn btn-light btn-sm order-last text-primary me-4" title="Compartilhar">
+                                    <button data-bs-target={`#${shareModalId}`} className="btn btn-light btn-sm order-last text-primary me-4" title="Compartilhar" onClick={openSharedModal}>
                                         Compartilhar <i className="bi bi-share-fill fs-7"></i>
                                     </button>
                                 }
                             </span>
                             
                             <span>
-                                <UserProfile textColor = "white"/>
+                                <div className="d-flex align-items-center gap-2">
+                                    <Notifications iconColor={'text-white'}/>
+                                    <UserProfile textColor = "white"/>
+                                </div>
                             </span>
                         </div>
                     </div>

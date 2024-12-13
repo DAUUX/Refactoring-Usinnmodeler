@@ -7,6 +7,8 @@ import Spinner from "../../components/Spinner";
 import UpdateProfile from "../updateProfile/UpdateProfile";
 import ChangePassword from "../change_password/ChangePassword";
 import Inicio from "./inicio/Inicio";
+import Notification from "./notification"
+import NotificationDiagram from "./notification/NotificationDiagram.jsx"
 
 function Dashboard() {
 
@@ -21,6 +23,8 @@ function Dashboard() {
             <Routes>
                 <Route path="/" element={<Inicio />} />
                 <Route path={`documentos/*`} element={<Documents/>} />
+                <Route path={`notification`} element={<Notification/>} />
+                <Route path={`notification/:id`} element={<NotificationDiagram />}/>
                 <Route path={`atualizarperfil`} element={<UpdateProfile/>} />
                 <Route path={`atualizarsenha`} element={<ChangePassword/>} />
             </Routes>

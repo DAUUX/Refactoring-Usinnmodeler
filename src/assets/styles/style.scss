@@ -52,6 +52,25 @@ body {
 	height: 1em;
 }
 
+.no-arrow::after {
+  display: none !important;
+}
+
+//-----------------------ACESSIBILIDADE---------------------------
+
+*.btn.dropdown-toggle{
+	border: 0 !important;
+}
+
+.outline-white :focus-visible:not(input[type="password"], .btn-close){
+  outline: 2px #ffffff solid !important;
+}
+
+.outline-black :focus-visible:not(input[type="password"], .btn-close){
+	outline: 2px #000000 solid !important;
+}
+
+
 a, button:not(.splide__pagination__page), input:not([type="checkbox"]), select, .btn {
 	min-height: 44px !important;
 	min-width: 44px !important;

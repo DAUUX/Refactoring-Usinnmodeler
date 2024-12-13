@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faKey } from '@fortawesome/free-solid-svg-icons';
 
 import PasswordConfirmation from "../../components/PasswordConfirmationModal";
+import Notifications from "../../components/Notifications";
 
 function ChangePassword() {
 
@@ -82,13 +83,16 @@ function ChangePassword() {
         <main id="changePassword" className={`flex-fill h-100`}>
             
             
-            <nav className="navbar navbar-expand-lg bg-white p-3 justify-content-between w-100">{/* Perfil user */}
-                        <div className="container-fluid">
-                            <div className="mb-0 h4">
-                                <b>Atualizar Senha</b>
-                            </div>
-                            <UserProfile/>
-                        </div>
+            <nav className="navbar navbar-expand-lg bg-white p-3 px-1 px-sm-3 justify-content-between w-100">{/* Perfil user */}
+                <div className="container-fluid">
+                    <div className="mb-0 h4">
+                        <b>Atualizar Senha</b>
+                    </div>
+                    <div className="d-flex align-items-center gap-2 ms-auto">
+                        <Notifications/>
+                        <UserProfile/>
+                    </div>
+                </div>
             </nav>
 
             <div className="container p-0">
@@ -136,9 +140,9 @@ function ChangePassword() {
                             </div>
 
 
-                            <div className="d-flex justify-content-center gap-5">
+                            <div className="d-flex justify-content-center gap-5 px-0">
                                 
-                                <div className="text-center mt-2">
+                                <div className="text-center mt-2 outline-black">
                                     <Link className="text-decoration-none btn text-primary fw-bold px-4 px-sm-5 border-dark" to="/dashboard" >Cancelar</Link>
                                 </div>
                                 

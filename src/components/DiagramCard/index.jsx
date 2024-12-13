@@ -44,7 +44,7 @@ function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram,
                     <span>Modificado {elapsedTime(lastModified) > 0 ? `há ${elapsedTime(lastModified)} dias` : "hoje"}</span>
                 </div>
 
-                <div className="dropdown ms-auto d-flex">  
+                <div className="dropdown ms-auto d-flex ps-3 outline-white">  
                     <FavoriteDiagram diagram_id={id} favorited={favorited} onFavoritedClick={()=>{
                         onDiagramFavorited()
                     }}/>                            
@@ -53,7 +53,7 @@ function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram,
                         <i className="bi bi-three-dots-vertical mt-1"></i>
                     </button>
                         
-                    <ul className="dropdown-menu">
+                    <ul className="dropdown-menu outline-black">
                         <li>
                             <button className="dropdown-item" onClick={(e)=> {e.stopPropagation(); e.preventDefault(); onRenameDiagram(id)}}> <i className="bi bi-pencil"></i> Renomear</button>
                         </li>

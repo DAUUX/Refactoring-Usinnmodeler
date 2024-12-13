@@ -5,11 +5,55 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Toast } from '../Toast';
 import api from '../../services/api';
 import { slugify } from '../../Helpers';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useSocket } from '../../services/SocketContext';
 
 function DashboardMenu({menuOpen, setMenuOpen, onCreateDiagram}) {
+    const socket = useSocket()
 
     const navigate   = useNavigate();
+    const [updateTrigger, setUpdateTrigger] = useState(false)
+    const [countNotific, setCountNotific] = useState(0)
+
+    useEffect(() => {
+        if (!socket) return;
+    
+        socket.on('notification_received_dashboard', async (data) => {
+            try {
+                setUpdateTrigger(prev => !prev);
+            } catch (err) {
+              console.error('Erro ao reproduzir o áudio:', err);
+            }
+        });
+
+        socket.on('notification_refresh_dashboard', async (data) => {
+            try {
+            setUpdateTrigger(prev => !prev)
+            } catch (error) {
+            console.log('Erro na ação com a notificação')
+            }
+        })
+    
+        return () => {
+          socket.off('notification_received_dashboard');
+          socket.off('notification_refresh_dashboard');
+        };
+        
+      }, [socket]);
+
+    const getCountNotification = async () => {
+        try {
+            const user_id = JSON.parse(localStorage.getItem('user')).id
+            const res = await api.get(`notification/count/${user_id}`)
+            setCountNotific(res.data.count)
+        } catch (error) {
+            console.log('ocorreu um erro ao contar as notificações', error)
+        }
+    }
+
+    useEffect(() => {
+        getCountNotification()
+    },[updateTrigger])
 
     const menuItems = [
         {
@@ -21,6 +65,10 @@ function DashboardMenu({menuOpen, setMenuOpen, onCreateDiagram}) {
             name: 'Documentos',
             path: '/documentos',
             icon: 'bi-file-earmark'
+        },{
+            name: 'Notificações',
+            path: '/notification',
+            icon: 'bi-bell'
         }
     ]
 
@@ -76,16 +124,19 @@ function DashboardMenu({menuOpen, setMenuOpen, onCreateDiagram}) {
 
             <ul className="nav flex-column w-100">
                 {
-                    menuItems.map(item=>{
-                        return  (
-                            <li className={`nav-item ${(pathname.split("/")[2] ? "/"+pathname.split("/")[2] : '') === item.path ? 'active' : ''}`} key={item.name}>
-                                <Link to={`${route}${item.path}`} className="text-white d-block fs-5 text-decoration-none px-4 py-4" onClick={() => setMenuOpen(false)}> 
-                                    <i className={`bi ${item.icon} me-2`}></i>  {item.name} 
-                                </Link>
-                            </li>
-                        )
-                    })
-                }                
+                    menuItems.map(item => (
+                        <li className={`nav-item ${(pathname.split("/")[2] ? "/"+pathname.split("/")[2] : '') === item.path ? 'active' : ''}`} key={item.name}>
+                            <Link to={`${route}${item.path}`} className="text-white d-block fs-5 text-decoration-none px-4 py-4" onClick={() => setMenuOpen(false)}> 
+                                <i className={`bi ${item.icon} me-2`}></i>  {item.name} 
+                                {item.name === 'Notificações' && countNotific > 0 &&
+                                    <span className='bg-danger text-white p-1 px-2 rounded-2 fs-6 float-end'>{
+                                        countNotific > 99 ? '99+' : countNotific
+                                    }</span>
+                                }
+                            </Link>
+                        </li>
+                    ))
+                }          
             </ul>
 
             <Link to="/#Tutorial" target="_blank" className="text-white d-block fw-bold text-decoration-none mt-auto mb-4"> Assista ao tutorial</Link>

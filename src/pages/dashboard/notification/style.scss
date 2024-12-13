@@ -1,0 +1,63 @@
+@import "../../../assets/styles/variables";
+
+#notification {
+  .not-item {
+    min-height: 50px;
+    button {
+      &:hover {
+        background-color: #ffffff;
+        color: $primary !important;
+      }
+      &:focus:not(:hover) {
+        background-color: $primary;
+        color: #ffffff;
+      }
+      &:not(:focus) {
+        color: #000000 !important;
+      }
+    }
+    &:hover,
+    &:focus {
+      background-color: $primary !important;
+      color: #ffffff !important;
+      button {
+        color: #ffffff !important;
+        &:hover {
+          color: $primary !important;
+        }
+      }
+    }
+    &:focus button {
+      color: #ffffff !important;
+    }
+
+    &:nth-last-of-type(2) {
+      border-bottom: 0 !important;
+    }
+  }
+  .btn-group {
+    background-color: rgba(0, 0, 0, 0.1);
+    button {
+      border: 2px transparent solid;
+      &:not(.active):focus {
+        border: 2px #000000 solid;
+      }
+      &.active:focus {
+        border: 2px #ffffff solid;
+      }
+    }
+  }
+  a {
+    &:focus,
+    &:hover {
+      background-color: $primary;
+      color: #ffffff;
+    }
+  }
+  .reader {
+    background-color: rgba(0, 0, 0, 0.1) !important;
+  }
+  .cursor-default {
+    cursor: default !important;
+  }
+}

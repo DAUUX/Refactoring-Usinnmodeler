@@ -39,11 +39,6 @@
 
 //------------------------------------ACESSIBILIDADE---------------------------
 
-//ficar visivel quando está navegando com o tab
-:is(.btn, button, .underline):focus:not(:hover) {
-  outline: 2px black solid !important;
-}
-
 //ver melhor onde o mouse está nos links
 .underline:hover {
   text-decoration: underline !important;

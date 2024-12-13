@@ -9,6 +9,7 @@ import * as Yup from 'yup';
 import api from "../../services/api";
 import { Toast } from '../../components/Toast';
 import moment from "moment";
+import Notifications from "../../components/Notifications";
 
 function UpdateProfile() {
 
@@ -121,13 +122,16 @@ function UpdateProfile() {
         <main id="update" className={`flex-fill h-100 pb-5`}>
             
             
-            <nav className="navbar navbar-expand-lg bg-white p-3 justify-content-between w-100">
-                        <div className="container-fluid">
-                            <div className="mb-0 h4">
-                                <b>Atualizar Perfil</b>
-                            </div>
-                            <UserProfile/>
-                        </div>
+            <nav className="navbar navbar-expand-lg bg-white p-3 px-1 px-sm-3 justify-content-between w-100">
+                <div className="container-fluid">
+                    <div className="mb-0 h4">
+                        <b>Atualizar Perfil</b>
+                    </div>
+                    <div className="d-flex align-items-center gap-2 ms-auto">
+                        <Notifications/>
+                        <UserProfile/>
+                    </div>
+                </div>
             </nav>
 
             <div className="container px-0 px-sm-0">
@@ -241,7 +245,7 @@ function UpdateProfile() {
 
                             <div className="d-flex justify-content-center px-0 gap-4">
                                 
-                                <div className="text-center mt-2">
+                                <div className="text-center mt-2 outline-black">
                                     <Link className="text-decoration-none btn text-primary fw-bold px-4 px-sm-5 border-dark" to="/dashboard" >Cancelar</Link>
                                 </div>
                                 
@@ -260,7 +264,7 @@ function UpdateProfile() {
                     
                         <div className="d-flex flex-column align-items-center">
                             <img className="mb-4 img-fluid"src={avatarOptions[imgAvatar]} alt=""></img>
-                            <div className="d-flex justify-content-between ">
+                            <div className="d-flex justify-content-between outline-black">
                                 {avatarOptions.map((item, index) => 
                                     <button key={index} onClick={(e)=> {setImgAvatar(index)}} className="btn rounded-circle p-0 mx-1 mx-lg-3" ><img className="img-fluid" src={item} alt=""/></button>
                                 )}
