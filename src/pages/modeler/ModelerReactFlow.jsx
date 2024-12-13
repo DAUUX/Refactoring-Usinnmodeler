@@ -37,6 +37,8 @@ import './index.css';
 import { useParams } from 'react-router-dom';
 import api from '../../services/api';
 import { Toast } from '../../components/Toast';
+import useHistory from '../../hooks/useHistory';
+import useKeyBindings from '../../hooks/useKeyBindings';
 
 const getId = () => `id-${uuidv4()}`;
 
@@ -51,6 +53,8 @@ const ModelerReactFlow = () => {
   const {currentEdge, setCurrentEdge } = useModeler();
   const [anchorPosition, setAnchorPosition] = useState(null);
   const [nameDiagram, setNameDiagram] = useState('');
+
+  const { addNode, removeNode, addEdge, removeEdge, undo, redo } = useHistory()
 
   const { id } = useParams();
 
@@ -103,6 +107,8 @@ const ModelerReactFlow = () => {
     }, 1000);
   };
 
+  useKeyBindings({removeNode, undo, redo, removeEdge, addNode})
+
   useEffect(() => {
     const wrapper = reactFlowWrapper.current;
 
@@ -154,11 +160,11 @@ const ModelerReactFlow = () => {
     (connection) => {
       const edge = { ...connection, type: currentEdge };
 
-      setEdges((eds) => addEdge(edge, eds));
+      addEdge(edge)
       setCurrentEdge("");
     },
 
-    [setEdges, currentEdge],
+    [addEdge, currentEdge],
   );
 
   const isValidConnection = (connection) => {
@@ -403,11 +409,14 @@ const ModelerReactFlow = () => {
         };
       }
 
-      setNodes((nds) => [...nds, newNode]);
+      //setNodes((nds) => [...nds, newNode]);
+      if (newNode) addNode(newNode);
     },
     [reactFlowInstance],
   );
 
+
+  //Nodes on DELET
   const onNodesDelete = (nodesToBeDeleted) => {
     const presentationUnity = nodesToBeDeleted.find(nd => nd.type === "presentation-unity" || nd.type === "presentation-unity-acessible");
     if(presentationUnity){
@@ -433,6 +442,7 @@ const ModelerReactFlow = () => {
         });
         setNodesOnDele(otherNodes);
       }
+      
     }
   }
 
@@ -522,7 +532,6 @@ const ModelerReactFlow = () => {
               maxZoom={4}
               connectionMode={ConnectionMode.Strict}
               className="react-flow-subflows-example"
-              onNodesDelete={onNodesDelete}
             >
               <Controls />
               <MiniMap zoomable pannable nodeClassName={nodeClassName} />
