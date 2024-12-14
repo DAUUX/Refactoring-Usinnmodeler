@@ -57,8 +57,8 @@ const Navbar = ({onDownload, onSave, name}) => {
             </span>
         )}
             
-        <IconButton color="inherit">
-            <SaveIcon style={{color: 'white'}} onClick={() => onSave(value)}/>
+        <IconButton color="inherit" onClick={() => onSave(value)}>
+            <SaveIcon style={{color: 'white'}} />
         </IconButton>
 
         <IconButton color="inherit" onClick={() => onDownload()}>

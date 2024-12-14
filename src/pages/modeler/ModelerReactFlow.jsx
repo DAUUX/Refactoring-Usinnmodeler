@@ -54,22 +54,23 @@ const ModelerReactFlow = () => {
   const [anchorPosition, setAnchorPosition] = useState(null);
   const [nameDiagram, setNameDiagram] = useState('');
 
-  const { addNode, removeNode, addEdge, removeEdge, undo, redo } = useHistory()
+  const { addNode, removeNode, addEdge, removeEdge, undo, redo, duplicarNode, addToHistory, recordMove } = useHistory()
 
   const { id } = useParams();
 
   const { getNodes } = useReactFlow();
   
   useEffect(() => {
-    console.log(nodes, '------', edges)
+    //console.log(nodes, '------', edges)
   }, [nodes])
+
+  
   useEffect(() => {
     if(!!id){
       try {
         const getDiagram = async () => {
           const res = await api.get(`/diagrams/${id}`);
           const {data} = res;
-          console.log(data.name);
           setNameDiagram(data.name);
           const graph = JSON.parse(data.data);
           setNodes(graph.nodes);
@@ -84,6 +85,7 @@ const ModelerReactFlow = () => {
     }
   }, []);
 
+  
   useEffect(() => {
     if (Array.isArray(nodesOnDelete)) {
       setNodes((prevNodes) => {
@@ -93,6 +95,7 @@ const ModelerReactFlow = () => {
       console.error('nodesOnDelete não é um array:', nodesOnDelete);
     }
   }, [nodesOnDelete]);
+
 
   const handleContextMenu = (event) => {
     event.preventDefault(); 
@@ -107,7 +110,9 @@ const ModelerReactFlow = () => {
     }, 1000);
   };
 
-  useKeyBindings({removeNode, undo, redo, removeEdge, addNode})
+
+  useKeyBindings({removeNode, undo, redo, removeEdge, addNode, duplicarNode, addToHistory})
+
 
   useEffect(() => {
     const wrapper = reactFlowWrapper.current;
@@ -123,6 +128,7 @@ const ModelerReactFlow = () => {
     };
   }, []);
 
+
   const edgeTypes = useMemo(
       () => ({
         'transition': Transition,
@@ -134,6 +140,7 @@ const ModelerReactFlow = () => {
       }),
     [],
   );
+
 
   const nodeTypes = useMemo(
     () => ({
@@ -151,10 +158,12 @@ const ModelerReactFlow = () => {
     [],
   );
 
+
   const onDragOver = useCallback((event) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = 'move';
   }, []);
+
 
   const onConnect = useCallback(
     (connection) => {
@@ -166,6 +175,7 @@ const ModelerReactFlow = () => {
 
     [addEdge, currentEdge],
   );
+
 
   const isValidConnection = (connection) => {
     
@@ -285,11 +295,27 @@ const ModelerReactFlow = () => {
     return sourceClause && targetClause
   };
 
+
+  const onNodeDragStart = (event, node) => {
+    recordMove({
+        id: node.id,
+        position: node.position,
+        previousPosition: node.position, // Captura a posição inicial
+    });
+};
+
+
   const onNodeDragStop = (event, node) => {
+        recordMove({
+        id: node.id,
+        position: node.position,
+        previousPosition: node.position, // Captura a posição inicial
+    });
+
+
     setNodes((nodes) => {
       const currentNodes =  nodes.map((item) => {
         if (item.id === node.id) {
-          
           
           const updatedNode = nodes.find((targetNode) => {
             const { width, height, type, id } = targetNode;
@@ -307,7 +333,6 @@ const ModelerReactFlow = () => {
             ) {
               return true;
             }
-  
             return false;
           });
   
@@ -324,7 +349,6 @@ const ModelerReactFlow = () => {
             };
           }
         }
-  
         return item;
       });
 
@@ -339,10 +363,11 @@ const ModelerReactFlow = () => {
           node.type !== 'presentation-unity' &&
           node.type !== 'presentation-unity-acessible'
       );
-    
+
       return [...presentationNodes, ...otherNodes];
     });
   };
+
 
   const onDrop = useCallback(
     (event) => {
@@ -360,7 +385,7 @@ const ModelerReactFlow = () => {
         x: event.clientX,
         y: event.clientY,
       });
-  
+
       let newNode = {
         id: getId(),
         type,
@@ -408,7 +433,6 @@ const ModelerReactFlow = () => {
           },
         };
       }
-
       //setNodes((nds) => [...nds, newNode]);
       if (newNode) addNode(newNode);
     },
@@ -416,37 +440,8 @@ const ModelerReactFlow = () => {
   );
 
 
-  //Nodes on DELET
-  const onNodesDelete = (nodesToBeDeleted) => {
-    const presentationUnity = nodesToBeDeleted.find(nd => nd.type === "presentation-unity" || nd.type === "presentation-unity-acessible");
-    if(presentationUnity){
-      nodes.map(nd => {
-        if(nd.parentId === presentationUnity.id) {
-          delete nd.parentId
-          delete nd.extent
-        }
-      })
-      
-      if(presentationUnity.type === "presentation-unity"){
-        const otherNodes = nodesToBeDeleted.filter(nd => nd.type !== "presentation-unity").map(nd => {
-          delete nd.parentId
-          delete nd.extent
-          return nd
-        });
-        setNodesOnDele(otherNodes);
-      }else {
-        const otherNodes = nodesToBeDeleted.filter(nd => nd.type !== "presentation-unity-acessible").map(nd => {
-          delete nd.parentId
-          delete nd.extent
-          return nd
-        });
-        setNodesOnDele(otherNodes);
-      }
-      
-    }
-  }
-
   const nodeClassName = (node) => node.type;
+
 
   const onDownload = () => {
     
@@ -482,6 +477,7 @@ const ModelerReactFlow = () => {
     }).then(downloadImage);
   }
 
+
   const onSave = async (name) => {
     try {
       
@@ -493,7 +489,6 @@ const ModelerReactFlow = () => {
         })
         Toast('success', 'Diagrama editado com sucesso.')
       }else {
-        console.log('asdfo[aisjdfasdiofk')
         const res = await api.post('diagrams', {
           name,
           nodes,
@@ -507,6 +502,7 @@ const ModelerReactFlow = () => {
         Toast('error', 'Não foi possivel criar diagrama.')
     }
   }
+
 
   return (
     <>
@@ -524,6 +520,7 @@ const ModelerReactFlow = () => {
               onInit={setReactFlowInstance}
               onDrop={onDrop}
               onDragOver={onDragOver}
+              onNodeDragStart={onNodeDragStart}
               onNodeDragStop={onNodeDragStop}
               isValidConnection={isValidConnection}
               nodeTypes={nodeTypes}

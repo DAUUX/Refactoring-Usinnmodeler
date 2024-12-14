@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useReactFlow } from "reactflow";
 import { v4 as uuid } from "uuid";
 
-export default function useKeyBindings({ removeNode, undo, redo, removeEdge, addNode }) {
+export default function useKeyBindings({ removeNode, undo, redo, removeEdge, addNode, duplicarNode, addToHistory }) {
 const { setNodes, getNodes, getEdges } = useReactFlow();
 const copiedDataRef = useRef({ node: null, children: [] }); // Ref para armazenar o nó e seus filhos copiados
 
@@ -51,42 +51,7 @@ useEffect(() => {
         
             if (!selectedNode) return;
         
-            setNodes((prevNodes) => {
-                const newNodes = [...prevNodes.map((node) =>
-                    node.selected ? { ...node, selected: false } : node
-                )];
-        
-                const duplicatedNode = {
-                    ...selectedNode,
-                    id: uuid(),
-                    position: {
-                        x: selectedNode?.position?.x + 40,
-                        y: selectedNode?.position?.y + 40,
-                    },
-                    selected: true,
-                };
-        
-                newNodes.push(duplicatedNode);
-        
-                // Se o tipo do nó for "presentation-unity" ou "presentation-unity-acessible", duplica os filhos
-                if (selectedNode.type === "presentation-unity" || selectedNode.type === "presentation-unity-acessible") {
-                    const childNodes = prevNodes.filter((node) => node.parentId === selectedNode.id);
-                    const duplicatedChildren = childNodes.map((childNode) => ({
-                        ...childNode,
-                        id: uuid(), // Novo ID para cada filho duplicado
-                        position: {
-                            x: childNode?.position?.x,
-                            y: childNode?.position?.y,
-                        },
-                        parentId: duplicatedNode.id, // Associa os filhos ao novo nó duplicado
-                        selected: false,
-                    }));
-        
-                    newNodes.push(...duplicatedChildren);
-                }
-        
-                return newNodes;
-            });
+            duplicarNode(selectedNode)
             break;
         }
         
@@ -106,7 +71,7 @@ useEffect(() => {
         }
 
 
-        case e.ctrlKey && key === "x": { //* Cortar Elemento
+        case e.ctrlKey && key === "x": { //* Cortar Elemento 
             e.preventDefault();
             
             const selectedNode = getNodes().find((node) => node.selected);
@@ -129,53 +94,71 @@ useEffect(() => {
         
                     return newNodes;
                 });
+        
+                // Adiciona ao histórico a remoção do nó
+                addToHistory({
+                    action: "removeNode",
+                    data: selectedNode,
+                    ...(children.length > 0 && { children }),  // Inclui os filhos, se houver
+                });
             }
             break;
         }
-
         
+
         case e.ctrlKey && key === "v": { //* Colar Elemento
-        e.preventDefault();
+            e.preventDefault();
+            
+            setNodes((prevNodes) => {
+                // Acessa a versão mais recente de copiedData usando o useRef
+                const { node, children } = copiedDataRef.current;
         
-        setNodes((prevNodes) => {
-            // Acessa a versão mais recente de copiedData usando o useRef
-            const { node, children } = copiedDataRef.current;
-
-            if (!node) return prevNodes; // Verifica se há algo copiado
-
-            const newNode = {
-            ...node,
-            id: uuid(), // Gera um novo ID para o nó ou aresta copiada
-            position: {
-                x: node.position?.x + 40, // Desloca a posição para evitar sobreposição
-                y: node.position?.y + 40,
-            },
-            selected: true, // Marca o nó ou aresta como selecionado
-            };
-
-            // Adiciona o nó copiado à lista de nós
-            const newNodes = [...prevNodes, newNode];
-
-            // Se o tipo do nó for "presentation-unity" ou "presentation-unity-acessible", cola os filhos também
-            if (node.type === "presentation-unity" || node.type === "presentation-unity-acessible") {
-            const duplicatedChildren = children.map((childNode) => ({
-                ...childNode,
-                id: uuid(),
-                position: {
-                x: childNode.position?.x , // Desloca a posição para evitar sobreposição
-                y: childNode.position?.y,
-                },
-                parentId: newNode.id, // Atribui o novo ID do nó copiado como parentId
-                selected: false,
-            }));
-
-            newNodes.push(...duplicatedChildren);
-            }
-
-            return newNodes;
-        });
-        break;
+                if (!node) return prevNodes; // Verifica se há algo copiado
+        
+                const newNode = {
+                    ...node,
+                    id: uuid(), // Gera um novo ID para o nó copiado
+                    position: {
+                        x: node.position?.x + 40, // Desloca a posição para evitar sobreposição
+                        y: node.position?.y + 40,
+                    },
+                    selected: true, // Marca o nó como selecionado
+                };
+        
+                // Adiciona o nó copiado à lista de nós
+                const newNodes = [...prevNodes, newNode];
+        
+                let duplicatedChildren = []; // Inicializa a variável para armazenar os filhos duplicados
+        
+                // Se o tipo do nó for "presentation-unity" ou "presentation-unity-acessible", cola os filhos também
+                if (node.type === "presentation-unity" || node.type === "presentation-unity-acessible") {
+                    duplicatedChildren = children.map((childNode) => ({
+                        ...childNode,
+                        id: uuid(),
+                        position: {
+                            x: childNode.position?.x, // Desloca a posição para evitar sobreposição
+                            y: childNode.position?.y,
+                        },
+                        parentId: newNode.id, // Atribui o novo ID do nó copiado como parentId
+                        selected: false,
+                    }));
+        
+                    newNodes.push(...duplicatedChildren);
+                }
+        
+                // Adiciona ao histórico a adição do nó e seus filhos (se houver)
+                addToHistory({
+                    action: "addNode",
+                    data: newNode,
+                    ...(duplicatedChildren.length > 0 && { children: duplicatedChildren }), // Inclui os filhos, se houver
+                });
+        
+                return newNodes;
+            });
+            break;
         }
+        
+        
 
         default:
         break;
