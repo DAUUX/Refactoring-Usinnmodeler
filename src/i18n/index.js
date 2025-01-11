@@ -16,7 +16,7 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: navigator.language,
+    lng: 'en-US',
     interpolation: {
       escapeValue: false,
     }

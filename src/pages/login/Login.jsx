@@ -7,9 +7,11 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useEffect, useState } from "react";
 import './style.scss'
+import { useTranslation } from 'react-i18next';
 
 export default function Login() {
 
+	const { t } = useTranslation()
 	useEffect(() => {
     document.title = 'Login - USINN Modeler';
   	},[]);
@@ -24,8 +26,8 @@ export default function Login() {
 		},
    
 		validationSchema: Yup.object({
-			email: Yup.string().email('Endereço de e-mail inválido').required('E-mail é obrigatório'),
-			password: Yup.string().min(8, 'Senha deve ter no mínimo 8 caracteres').required('Senha é obrigatória'),
+			email: Yup.string().email(() => t('Endereço de e-mail inválido')).required(() => t('E-mail é obrigatório')),
+			password: Yup.string().min(8, () => t('Senha deve ter no mínimo 8 caracteres')).required(() => t('Senha é obrigatória')),
 		}),
    
 		onSubmit: async values => {
@@ -101,7 +103,7 @@ export default function Login() {
 							className={`form-control ${formik.touched.password && formik.errors.password ? 'is-invalid' : '' }`}
 							type={showPassword ? "text" : "password"}
 							name="password"
-							placeholder="Senha*"
+							placeholder={t("Senha")+"*"}
 						/>
 								<i onClick={togglePasswordVisibility}
 								className={`bi bi-${showPassword ? 'eye-fill': 'eye-slash-fill'} icon ${formik.touched.password && formik.errors.password ? 'eyeicon-active': ''}`}
@@ -109,16 +111,16 @@ export default function Login() {
 
 						{formik.touched.password && formik.errors.password ? (<strong className="invalid-feedback m-0 p-0 pt-1"> {formik.errors.password}</strong>) : null}
 
-						<Link className="mt-2 float-end text-primary d-flex align-items-center" to="/request-change">Esqueceu sua senha?</Link>
+						<Link className="mt-2 float-end text-primary d-flex align-items-center" to="/request-change">{t("Esqueceu sua senha?")}</Link>
 
 					</div> 
 
 					<button className="btn btn-primary btn-lg" type="submit">
-						<Spinner className="spinner-border spinner-border-sm me-2" isLoading={formik.isSubmitting}  /> ACESSAR
+						<Spinner className="spinner-border spinner-border-sm me-2" isLoading={formik.isSubmitting}  /> {t("ACESSAR")}
 					</button>
 
 					<div className="col-12 text-center mt-5">
-						<p> Não tem conta ainda? <Link className="fw-bold text-primary" to="/cadastro">Registre-se</Link> </p>
+						<p> {t("Não tem conta ainda?")} <Link className="fw-bold text-primary" to="/cadastro">{t("Registre-se")}</Link> </p>
 					</div>
 
 				</form>
