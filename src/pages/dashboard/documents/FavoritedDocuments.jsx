@@ -7,8 +7,10 @@ import { Modal } from "bootstrap";
 import ShareDiagramModal from "../../../components/ShareDiagramModal";
 import RemoveDiagramModal from "../../../components/RemoveDiagramModal";
 import RenameDiagramModal from "../../../components/RenameDiagramModal";
+import { useTranslation } from 'react-i18next';
 
 function FavoritedDocuments() {
+    const { t } = useTranslation();
 
     useEffect(() => {
         document.title = 'Meus favoritos - USINN Modeler';
@@ -97,7 +99,7 @@ function FavoritedDocuments() {
 
                 {
                     diagrams.length === 0 && !loading &&(
-                        <h4 className="text-center mt-5">Ainda não há diagramas favoritados</h4>
+                        <h4 className="text-center mt-5">{t("Ainda não há diagramas favoritados")}</h4>
                     )
                 }
                

@@ -3,9 +3,11 @@ import UserProfile from "../../../components/UserProfile";
 import MyDocuments  from "./MyDocuments";
 import SharedDocuments from "./SharedDocuments";
 import FavoritedDocuments from "./FavoritedDocuments";
-import './style.scss'
+import { useTranslation } from 'react-i18next';
+import './style.scss';
 
 function Documents() {
+    const { t } = useTranslation();
 
     const route = "/dashboard/documentos"
     const { pathname } = useLocation()
@@ -15,7 +17,7 @@ function Documents() {
             <nav className="navbar navbar-expand-lg bg-white p-3 justify-content-between">
                 <div className="container-fluid">
                     <div className="mb-0 h4">
-                        <b>Documentos</b>
+                        <b>{t("Documentos")}</b>
                     </div>
                     <UserProfile/>
                 </div>
@@ -25,17 +27,17 @@ function Documents() {
                 <ul className="nav nav-tabs bold flex-column flex-sm-row px-3 gap-3">
                     <li className={`nav-item ${pathname === route ? 'active' : ''}`}>
                         <Link to={route} className="d-flex align-items-center text-dark d-block text-decoration-none px-2">
-                            Meus documentos
+                            {t("Meus documentos")}
                         </Link> 
                     </li>
                     <li className={`nav-item ${pathname === route+'/favoritos' ? 'active' : ''}`}>
                         <Link to={`${route}/favoritos`} className="d-flex align-items-center text-dark d-block text-decoration-none px-2">
-                            Meus favoritos
+                            {t("Meus favoritos")} 
                         </Link> 
                     </li>
                     <li className={`nav-item ${pathname === route+'/compartilhados' ? 'active' : ''}`}>
                         <Link to={`${route}/compartilhados`} className="d-flex align-items-center text-dark d-block text-decoration-none px-2">
-                            Compartilhados comigo
+                            {t("Compartilhados comigo")} 
                         </Link> 
                     </li>
                 </ul>

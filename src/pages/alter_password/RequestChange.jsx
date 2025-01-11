@@ -6,10 +6,11 @@ import { faKey } from "@fortawesome/free-solid-svg-icons";
 import { Toast } from "../../components/Toast";
 import api from "../../services/api";
 import Spinner from "../../components/Spinner";
-
+import { useTranslation } from 'react-i18next';
 import usinnModeler from "../../assets/icons/usinn-logo-horiz.png";
 
 export default function RequestChange() {
+  const { t } = useTranslation();
 
   useEffect(() => {
     document.title = 'Recuperar Senha - USINN Modeler';
@@ -57,8 +58,8 @@ export default function RequestChange() {
           <div>
             <div className="text-center mb-4" >
               <FontAwesomeIcon icon={faKey} className="mb-2 mb-sm-5 p-3 bg-white rounded-circle" size="3x" color="#007BFF" />
-              <h1 id="region" className="h2">Esqueceu sua senha?</h1>
-              <p>Não se preocupe, enviaremos as instruções de recuperação.</p>
+              <h1 id="region" className="h2">{t("Esqueceu sua senha?")}</h1>
+              <p>{t("Não se preocupe, enviaremos as instruções de recuperação.")}</p>
             </div>
 
             <form className={`row m-0 justify-content-center`} onSubmit={handleSubmit}>
@@ -70,7 +71,7 @@ export default function RequestChange() {
                   className={`form-control`}
                   type="email"
                   name="email"
-                  placeholder="Digite seu endereço de e-mail"
+                  placeholder={t("Digite seu endereço de e-mail")}
                   autoComplete="email"
                 />
               </div>
@@ -78,13 +79,13 @@ export default function RequestChange() {
               <div className="col-12 d-grid gap-2 mt-2">
                 <button className="btn btn-primary btn-lg" type="submit" disabled={loading}>
                   <Spinner className="spinner-border spinner-border-sm me-2" isLoading={loading}/>
-                    Enviar
+                  {t("Enviar")}
                 </button>
               </div>
 
             </form>
             <div className="col-12 text-center pt-5">
-                <Link className="text-reset text-decoration-none fw-bold h5" to="/login" > <i className="bi bi-arrow-left"></i> Voltar para login</Link>
+                <Link className="text-reset text-decoration-none fw-bold h5" to="/login" > <i className="bi bi-arrow-left"></i> {t("Voltar para login")}</Link>
             </div>
           </div>
         ) : (
@@ -93,12 +94,12 @@ export default function RequestChange() {
         <div className="text-center" style={{ marginTop: "-10px", marginBottom: "100px" }}>
           <div>
             <FontAwesomeIcon className="pb-2 pb-sm-5" icon={faEnvelope} size="3x" color="#007BFF"/>
-            <h1 className="h2"> Cheque seu E-mail </h1>
-            <p>Enviamos um link para recuperação de senha.</p>
+            <h1 className="h2"> {t("Cheque seu E-mail")} </h1>
+            <p>{t("Enviamos um link para recuperação de senha.")}</p>
           </div>
 
           <div className="col-12 text-center pt-5">
-              <Link className="text-reset text-decoration-none fw-bold h5" to="/login" > <i className="bi bi-arrow-left"></i> Voltar para login</Link>
+              <Link className="text-reset text-decoration-none fw-bold h5" to="/login" > <i className="bi bi-arrow-left"></i> {t("Voltar para login")}</Link>
           </div>
         </div>
         )}
