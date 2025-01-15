@@ -179,7 +179,7 @@ const ModelerReactFlow = () => {
     if(nodeSource.type === "close-point") {
       sourceClause = false
     }
-
+ 
     if(nodeTarget.type === "close-point") {
       targetClause = currentEdge === "navigation"
     }
