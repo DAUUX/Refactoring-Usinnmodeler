@@ -9,6 +9,7 @@ import ReactFlow, {
   useReactFlow,
   getNodesBounds,
   getViewportForBounds,
+  reconnectEdge,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import Sidebar from './components/Sidebar';
@@ -150,6 +151,12 @@ const ModelerReactFlow = () => {
     event.dataTransfer.dropEffect = 'move';
   }, []);
 
+  const onReconnect = useCallback(
+    (oldEdge, newConnection) =>
+      setEdges((els) => reconnectEdge(oldEdge, newConnection, els)),
+    [],
+  );
+
   const onConnect = useCallback(
     (connection) => {
       const edge = { ...connection, type: currentEdge };
@@ -165,15 +172,20 @@ const ModelerReactFlow = () => {
     
     const nodeSource = nodes.find(nd => nd.id === connection.source);
     const nodeTarget = nodes.find(nd => nd.id === connection.target);
+    
+    console.log("cuurentEdge antes", currentEdge);
+    const edge = edges.find(ed => (ed.source === nodeSource.id && ed.target === nodeTarget.id))
+    // if (edge) setCurrentEdge(edge.type);
+    console.log("cuurentEdge", currentEdge);
 
     if(!nodeSource || !nodeTarget) return false;
-    if(currentEdge.length === 0) return false; 
+    if(!edge) return false; 
 
     let sourceClause = false;
     let targetClause = false;
     
     if(nodeSource.type === "open-point") {
-      sourceClause = currentEdge === "navigation";
+      sourceClause = edge.type === "navigation";
     }
 
     if(nodeTarget.type === "open-point") {
@@ -185,95 +197,95 @@ const ModelerReactFlow = () => {
     }
 
     if(nodeTarget.type === "close-point") {
-      targetClause = currentEdge === "navigation"
+      targetClause = edge.type === "navigation"
     }
 
     if(nodeSource.type === "user-action") {
       sourceClause = 
-        currentEdge === "transition" || 
-        currentEdge === "cancel-transition" ||
-        currentEdge === "navigation"
+      edge.type === "transition" || 
+      edge.type === "cancel-transition" ||
+      edge.type === "navigation"
     }
 
     if(nodeTarget.type === "user-action") {
       targetClause = 
-        currentEdge === "transition" || 
-        currentEdge === "sucess-feedback" || 
-        currentEdge === "unsucess-feedback" || 
-        currentEdge === "query-data" ||
-        currentEdge === "cancel-transition" ||
-        currentEdge === "navigation"
+      edge.type === "transition" || 
+      edge.type === "sucess-feedback" || 
+      edge.type === "unsucess-feedback" || 
+      edge.type === "query-data" ||
+      edge.type === "cancel-transition" ||
+      edge.type === "navigation"
     }
 
     if(nodeSource.type === 'sistem-process') {
-      sourceClause = currentEdge === 'sucess-feedback' ||
-      currentEdge === 'unsucess-feedback' ||
-      currentEdge === 'query-data' ||
-      currentEdge === 'cancel-transition' ||
-      currentEdge === "navigation"
+      sourceClause = edge.type === 'sucess-feedback' ||
+      edge.type === 'unsucess-feedback' ||
+      edge.type === 'query-data' ||
+      edge.type === 'cancel-transition' ||
+      edge.type === "navigation"
     }
 
     if(nodeTarget.type === 'sistem-process') {
       targetClause = 
-        currentEdge === "transition" || 
-        currentEdge === "query-data" ||
-        currentEdge === "navigation"
+        edge.type === "transition" || 
+        edge.type === "query-data" ||
+        edge.type === "navigation"
     }
 
     if(nodeSource.type === 'alert-content') {
-      sourceClause = currentEdge === 'sucess-feedback' ||
-      currentEdge === 'unsucess-feedback' ||
-      currentEdge === 'transition' ||
-      currentEdge === 'cancel-transition' ||
-      currentEdge === "navigation"
+      sourceClause = edge.type === 'sucess-feedback' ||
+      edge.type === 'unsucess-feedback' ||
+      edge.type === 'transition' ||
+      edge.type === 'cancel-transition' ||
+      edge.type === "navigation"
     }
 
     if(nodeTarget.type === 'alert-content') {
-      targetClause = currentEdge === 'sucess-feedback' ||
-      currentEdge === 'unsucess-feedback' ||
-      currentEdge === 'transition' ||
-      currentEdge === 'cancel-transition' ||
-      currentEdge === "navigation"  
+      targetClause = edge.type === 'sucess-feedback' ||
+      edge.type === 'unsucess-feedback' ||
+      edge.type === 'transition' ||
+      edge.type === 'cancel-transition' ||
+      edge.type === "navigation"  
     }
 
     if(nodeSource.type === 'data-colection') {
-      sourceClause = currentEdge === 'query-data'
+      sourceClause = edge.type === 'query-data'
     }
 
     if(nodeTarget.type === 'data-colection') {
-      targetClause = currentEdge === 'query-data'
+      targetClause = edge.type === 'query-data'
     }
 
     if(nodeSource.type === "obg-user-action") {
       sourceClause = 
-        currentEdge === "transition" || 
-        currentEdge === "cancel-transition" ||
-        currentEdge === "navigation"
+        edge.type === "transition" || 
+        edge.type === "cancel-transition" ||
+        edge.type === "navigation"
     }
 
     if(nodeTarget.type === "obg-user-action") {
       targetClause = 
-        currentEdge === "transition" || 
-        currentEdge === "sucess-feedback" || 
-        currentEdge === "unsucess-feedback" || 
-        currentEdge === "query-data" ||
-        currentEdge === "cancel-transition" ||
-        currentEdge === "navigation"
+        edge.type === "transition" || 
+        edge.type === "sucess-feedback" || 
+        edge.type === "unsucess-feedback" || 
+        edge.type === "query-data" ||
+        edge.type === "cancel-transition" ||
+        edge.type === "navigation"
     }
 
     if(nodeSource.type === 'progress-indicator') {
-      sourceClause = currentEdge === 'sucess-feedback' ||
-      currentEdge === 'unsucess-feedback' ||
-      currentEdge === 'query-data' ||
-      currentEdge === 'cancel-transition' ||
-      currentEdge === "navigation"
+      sourceClause = edge.type === 'sucess-feedback' ||
+      edge.type === 'unsucess-feedback' ||
+      edge.type === 'query-data' ||
+      edge.type === 'cancel-transition' ||
+      edge.type === "navigation"
     }
 
     if(nodeTarget.type === 'progress-indicator') {
       targetClause = 
-        currentEdge === "transition" || 
-        currentEdge === "query-data" ||
-        currentEdge === "navigation"
+        edge.type === "transition" || 
+        edge.type === "query-data" ||
+        edge.type === "navigation"
     }
 
     return sourceClause && targetClause
@@ -510,6 +522,7 @@ const ModelerReactFlow = () => {
               edges={edges}
               onNodesChange={onNodesChange}
               onEdgesChange={onEdgesChange}
+              onReconnect={onReconnect}
               onConnect={onConnect}
               onInit={setReactFlowInstance}
               onDrop={onDrop}
