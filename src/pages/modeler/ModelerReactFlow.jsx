@@ -192,7 +192,8 @@ const ModelerReactFlow = () => {
       sourceClause = 
         currentEdge === "transition" || 
         currentEdge === "cancel-transition" ||
-        currentEdge === "navigation"
+        currentEdge === "navigation" ||
+        currentEdge === "query-data"
     }
 
     if(nodeTarget.type === "user-action") {
@@ -216,8 +217,7 @@ const ModelerReactFlow = () => {
     if(nodeTarget.type === 'sistem-process') {
       targetClause = 
         currentEdge === "transition" || 
-        currentEdge === "query-data" ||
-        currentEdge === "navigation"
+        currentEdge === "query-data"
     }
 
     if(nodeSource.type === 'alert-content') {
@@ -272,8 +272,7 @@ const ModelerReactFlow = () => {
     if(nodeTarget.type === 'progress-indicator') {
       targetClause = 
         currentEdge === "transition" || 
-        currentEdge === "query-data" ||
-        currentEdge === "navigation"
+        currentEdge === "query-data"
     }
 
     return sourceClause && targetClause

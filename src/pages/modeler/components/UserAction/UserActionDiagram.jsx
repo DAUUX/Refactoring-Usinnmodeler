@@ -115,7 +115,7 @@ function UserActionDiagram({ data }) {
         id='user-action-source-left'
       />
       <TypeNavigations 
-        edges={['transition', 'cancel-transition', 'navigation']} 
+        edges={['transition', 'cancel-transition', 'navigation', 'query-data']} 
         onClose={() => handleClose()}
         open={openNavigation}
         anchor={anchorEl}
