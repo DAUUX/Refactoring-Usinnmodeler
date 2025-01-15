@@ -54,11 +54,9 @@ function Notifications({ iconColor }) {
       setCountNotific(resCount.data.count)
       setNotifications(res.data);
     } catch (error) {
-      if (error === "TypeError: Cannot read properties of undefined (reading 'status')") {
-        Toast('error', "Falha na conexão ao servidor", "errorServer");
-      } else {
-        Toast('error', error, "errorCircle");
-      }
+
+      Toast('error', error, "errorCircle");
+
     }
   }
 
@@ -97,11 +95,9 @@ function Notifications({ iconColor }) {
       await api.put(`notification/${id}`, { read: changeRead });
       await socket.emit('update_notification', user_id);
     } catch (error) {
-      if (error === "TypeError: Cannot read properties of undefined (reading 'status')") {
-        Toast('error', "Falha na conexão ao servidor", "errorServer");
-      } else {
-        Toast('error', error, "errorCircle");
-      }
+
+      Toast('error', error, "errorCircle");
+      
     }
   };
 
@@ -119,11 +115,9 @@ function Notifications({ iconColor }) {
 
       Toast('success', "A notificação foi excluída com sucesso!", "delete");
     } catch (error) {
-      if (error === "TypeError: Cannot read properties of undefined (reading 'status')") {
-        Toast('error', "Falha na conexão ao servidor", "errorServer");
-      } else {
-        Toast('error', "Ocorreu um erro ao deletar a notificação! Tente novamente", "errorCircle");
-      }
+
+      Toast('error', "Ocorreu um erro ao deletar a notificação! Tente novamente", "errorCircle");
+      
     }
   };
 
@@ -190,7 +184,7 @@ function Notifications({ iconColor }) {
           <p className="h5 p-5 text-nowrap">Não há notificações</p>
         )}
       </div>
-      <div className="modal fade show" id="ConfirmRemoveNotificationModal" tabIndex="-1" aria-hidden="true" data-bs-backdrop="true" data-bs-keyboard="true">
+      <div className="modal fade show" id="ConfirmRemoveNotificationModal" tabIndex="-1" data-bs-backdrop="true" data-bs-keyboard="true">
         <div className="modal-dialog modal-md modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-body text-center px-4 pb-4">

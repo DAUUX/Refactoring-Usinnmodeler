@@ -28,16 +28,39 @@ function Modeler(props) {
     const [owner, setOwner]           = useState(false);
     const [created, setCreated]       = useState(false);
     const [shareModalId]              = useState('ShareDiagramModal');
-    const [oculteManipulationIcons, setOculteManipulationIcons] = useState(false);
+    const [oculteManipulationIcons, setOculteManipulationIcons] = useState(true);
 
     const { id } = useParams();
     const navigate = useNavigate();
 
-    async function validPermissionForEdit() {        
-        let user_id = JSON.parse(localStorage.getItem('user')).id;
-        const diagram = await api.get(`/collaboration/${id}/${user_id}`);
-        const collaboratorPermission = diagram.data.permission;
-        collaboratorPermission === 1 ? setOculteManipulationIcons(true) : setOculteManipulationIcons(false);
+    useEffect(() => {
+        if (!socket) return;
+    
+        socket.on('component_refresh', async (data) => {
+          try {
+            validPermissionForEdit();
+          } catch (error) {
+            console.log('Erro ao atualizar componente')
+          }
+        })
+    
+        return () => {
+          socket.off('component_refresh');
+        };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [socket]);
+
+    async function validPermissionForEdit() {      
+        try {
+            let user_id = JSON.parse(localStorage.getItem('user')).id;
+            const diagram = await api.get(`/collaboration/${id}/${user_id}`);
+            const collaboratorPermission = diagram.data.permission;
+            collaboratorPermission === 1 ? setOculteManipulationIcons(true) : setOculteManipulationIcons(false);
+        } catch (error) {
+            Toast('error', 'Você não tem permissão para acessar o diagrama', 'aviso')
+            navigate('/dashboard')
+        }  
+        
     }
 
     async function createDiagramEditor() {
@@ -67,12 +90,8 @@ function Modeler(props) {
 
         } catch (error) {
 
-            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-                Toast('error', "Falha na conexão ao servidor", "errorServer");
-            }
-            else{
-                Toast('error', error, "errorCircle");
-            }
+            Toast('error', error, "errorCircle");
+            
             navigate('/modeler');
             
         }
@@ -107,13 +126,8 @@ function Modeler(props) {
             Toast('success', 'Diagrama salvo com sucesso!', "checkCircle");
         
         } catch (error) {
-        
-            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-                Toast('error', "Falha na conexão ao servidor", "errorServer");
-            }
-            else{
-                Toast('error', error, "errorCircle");
-            }
+
+            Toast('error', error, "errorCircle");
         
         }
 
@@ -160,13 +174,8 @@ function Modeler(props) {
             document.getElementById('nameInput').blur()
         
         } catch (error) {
-        
-            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-                Toast('error', "Falha na conexão ao servidor", "errorServer");
-            }
-            else{
-                Toast('error', error, "errorCircle");
-            }
+
+            Toast('error', error, "errorCircle");
         
         }
     }

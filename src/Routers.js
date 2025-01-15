@@ -18,8 +18,8 @@ const Routers = () => {
     // forceRefresh para tentar corrigir problema onde o salvamento e atalhos do modeler não funcionam
     <BrowserRouter basename={process.env.REACT_APP_BASE_ROUTE}>
       <Routes>
-        <Route path="/modeler/:id?/:slug?" element={<SocketProvider><PrivateRoute element={<Modeler />} /></SocketProvider>} />
-        <Route path="/dashboard/*" element={<SocketProvider><PrivateRoute element={<Dashboard />} /></SocketProvider>} />
+        <Route path="/modeler/:id?/:slug?" element={<PrivateRoute element={<SocketProvider><Modeler /></SocketProvider>} />} />
+        <Route path="/dashboard/*" element={<PrivateRoute element={<SocketProvider><Dashboard /></SocketProvider>} />} />
         <Route path="/shared/:token" element={<SocketProvider><ShareRoute /></SocketProvider>} />
         <Route path="/" exact element={<Home />} />
         <Route path="/cadastro" exact element={<Register />} />

@@ -19,12 +19,7 @@ function ConfirmRemoveLoginModal({id}) {
         
         } catch (error) {
         
-            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-                Toast('error', "Falha na conexão ao servidor", "errorServer");
-            }
-            else{
-                Toast('error', error, "errorCircle");
-            }
+            Toast('error', error, "errorCircle");
         
         }
 
@@ -32,7 +27,7 @@ function ConfirmRemoveLoginModal({id}) {
     }
 
     return (
-        <div className="modal fade" id={id} tabIndex="-1" aria-hidden="true">
+        <div className="modal fade" id={id} tabIndex="-1">
             <div className="modal-dialog modal-md modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-body text-center px-4 pb-4">

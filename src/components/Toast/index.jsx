@@ -12,6 +12,8 @@ export function Toast(status, text, icons) {
         'success': '#FFFFFF',
         'error': '#FFFFFF'
     }
+
+    icons = text.toString() === "Falha na conexão ou servidor!" ? "errorWifi" : icons
     
     Swal.fire({
         iconHtml: `<span class="${icons}"></span>`,

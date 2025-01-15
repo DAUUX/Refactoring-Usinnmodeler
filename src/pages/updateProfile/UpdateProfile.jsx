@@ -41,7 +41,25 @@ function UpdateProfile() {
 				.min(3, 'O nome deve ter no mínimo 3 caracteres')
 				.max(100, 'O nome deve ter no máximo 100 caracteres')
 				.required('Nome é obrigatório'),
-			email: Yup.string().email('Endereço de e-mail inválido').max(255, 'O email deve ter no máximo 255 caracteres').required('E-mail é obrigatório'),
+			email: Yup.string().email('Endereço de e-mail inválido').max(255, 'O email deve ter no máximo 255 caracteres').required('E-mail é obrigatório').test(
+				'is-valid-domain',
+				'O domínio do e-mail é inválido',
+				async (value) => {
+					if (!value) return false;
+					const domain = value.split('@')[1];
+					if (!domain) return false;
+	
+					try {
+						const response = await fetch(
+							`https://dns.google/resolve?name=${domain}&type=MX`
+						);
+						const data = await response.json();
+						return !!data.Answer;
+					} catch (error) {
+						return false;
+					}
+				}
+			),
 			birthday: Yup.date()
 				.transform((value, currentValue) => { return moment(currentValue, 'DD/MM/YYYY', true).toDate() })
 				.typeError('Data é inválida')
@@ -64,12 +82,7 @@ function UpdateProfile() {
 				
 			} catch (error) {
 				
-				if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-                    Toast('error', "Falha na conexão ao servidor", "errorServer");
-                }
-                else{
-                    Toast('error', error, "aviso");
-                }
+                Toast('error', error, "aviso");
 				
 			}
    
@@ -90,12 +103,9 @@ function UpdateProfile() {
             formik.setFieldValue('role',role);
             setImgAvatar(avatar-1);
         } catch(error){
-            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-                Toast('error', "Falha na conexão ao servidor", "errorServer");
-            }
-            else{
-                Toast('error', error, "errorCircle");
-            }
+
+            Toast('error', error, "errorCircle");
+            
         }
         setLoadingOverlay(false);
     }

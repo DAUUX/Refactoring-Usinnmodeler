@@ -40,12 +40,9 @@ export default function AlterPassword(props) {
         navigate('/login');
         Toast('success', 'Senha alterada com sucesso!', "key");
       } catch (error) {
-        if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-          Toast('error', "Falha na conexão ao servidor", "errorServer");
-        }
-        else{
-            Toast('error', error, "aviso");
-        }
+
+        Toast('error', error, "aviso");
+      
       }
     },
   });
