@@ -155,17 +155,19 @@ const ModelerReactFlow = () => {
     (oldEdge, newConnection) => {
       setEdges((els) => reconnectEdge(oldEdge, newConnection, els));
       setCurrentEdge("");
-    }, 
-    
+    },
+
     [],
   );
 
   const onConnect = useCallback(
     (connection) => {
-      const edge = { ...connection, type: currentEdge, reconnectable: 'target'};
+      if (currentEdge) {
+        const edge = { ...connection, type: currentEdge, reconnectable: 'target' };
 
-      setEdges((eds) => addEdge(edge, eds));
-      setCurrentEdge("");
+        setEdges((eds) => addEdge(edge, eds));
+        setCurrentEdge("");
+      }
     },
 
     [setEdges, currentEdge],
@@ -178,10 +180,10 @@ const ModelerReactFlow = () => {
 
     let edge = {};
     if (currentEdge === "") {
-      edge = edges.find(ed => (ed.source === nodeSource.id && ed.target === nodeTarget.id) || (ed.source === nodeSource.id && ed.sourceHandle === connection.sourceHandle))
+      edge = edges.find(ed => (ed.source === nodeSource.id && ed.sourceHandle === connection.sourceHandle))
     }
     else {
-      edge = {"type": currentEdge};
+      edge = { "type": currentEdge };
     }
 
     if (!nodeSource || !nodeTarget) return false;
