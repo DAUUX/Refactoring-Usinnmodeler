@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { SmoothStepEdge } from 'reactflow';
 import ArrowHeadMarker from './ArrowHeadMarkerEnd';
 import LabelEdge from "./LabelEdge";
@@ -25,6 +25,9 @@ export default function Navigation(props) {
         sourceY={sourceY} 
         targetX={targetX} 
         targetY={targetY}
+        id={id}
+        sourcePosition={sourcePosition}
+        targetPosition={targetPosition}
       />
     </>
   );

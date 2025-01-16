@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { EdgeLabelRenderer } from 'reactflow';
+import { EdgeLabelRenderer, useReactFlow, getSmoothStepPath } from 'reactflow';
 
-export default function EditableEdgeLabel({ sourceX, sourceY, targetX, targetY }) {
+export default function EditableEdgeLabel({ sourceX, sourceY, targetX, targetY, id, sourcePosition, targetPosition }) {
+  const { setEdges } = useReactFlow();
   const [text, setText] = useState('Clique para editar'); // Texto padrão
   const [isEditing, setIsEditing] = useState(false);
 
@@ -16,7 +17,7 @@ export default function EditableEdgeLabel({ sourceX, sourceY, targetX, targetY }
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
-      if(text === 'Clique para editar') setText();
+      if (text === 'Clique para editar') setText();
       setIsEditing(false);
     }
   };
@@ -24,11 +25,48 @@ export default function EditableEdgeLabel({ sourceX, sourceY, targetX, targetY }
   const labelX = (sourceX + targetX) / 2;
   const labelY = (sourceY + targetY) / 2;
 
-  const offsetY = 
+  const offsetY =
     Math.abs(targetY - sourceY) < 20 ? -20 : sourceY < targetY ? -20 : 20;
+
+  const onEdgeClick = () => {
+    setEdges((edges) => edges.filter((edge) => edge.id !== id));
+  };
+
+  const [_, labelXButton, labelYButton] = getSmoothStepPath({
+    sourceX: sourceX,
+    sourceY: sourceY,
+    sourcePosition: sourcePosition,
+    targetX: targetX,
+    targetY: targetY,
+    targetPosition: targetPosition,
+  });
 
   return (
     <EdgeLabelRenderer>
+      <div 
+      className=''
+      style={{
+        position: 'absolute',
+        transform: `translate(-50%, -50%) translate(${labelXButton}px,${labelYButton}px)`,
+        zIndex: 10000,
+      }}>
+        <button
+        className=''
+          onClick={onEdgeClick}
+          style={{
+            width: '30px',
+            height: '30px',
+            borderRadius: '50%',
+            fontSize: '12px',
+            cursor: 'pointer',
+            zIndex: 10001,
+            pointerEvents: 'all',
+          }}
+        >
+          ×
+        </button>
+      </div>
+
       <div
         style={{
           position: 'absolute',
