@@ -10,6 +10,7 @@ import api from "../../services/api";
 import { Toast } from '../../components/Toast';
 import moment from "moment";
 import Notifications from "../../components/Notifications";
+import punycode from 'punycode';
 
 function UpdateProfile() {
 
@@ -44,21 +45,26 @@ function UpdateProfile() {
 			email: Yup.string().email('Endereço de e-mail inválido').max(255, 'O email deve ter no máximo 255 caracteres').required('E-mail é obrigatório').test(
 				'is-valid-domain',
 				'O domínio do e-mail é inválido',
-				async (value) => {
-					if (!value) return false;
-					const domain = value.split('@')[1];
-					if (!domain) return false;
-	
-					try {
-						const response = await fetch(
-							`https://dns.google/resolve?name=${domain}&type=MX`
-						);
-						const data = await response.json();
-						return !!data.Answer;
-					} catch (error) {
-						return false;
-					}
-				}
+                async (value) => {
+                    if (!value) return false;
+                    const domain = value.split('@')[1];
+                    if (!domain) return false;
+
+                    const decodedDomain = punycode.toUnicode(domain);
+                    const domainPattern = /^[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+                    if (!domainPattern.test(decodedDomain) || decodedDomain.includes('..')) return false;
+
+                    try {
+                        const response = await fetch(`https://dns.google/resolve?name=${decodedDomain}&type=MX`);
+                        if (!response.ok) return false;
+
+                        const data = await response.json();
+                        if (data.Status !== 0 || !data.Answer || data.Answer.length === 0) return false
+                        return true
+                    } catch (error) {
+                        return false;
+                    }
+                }
 			),
 			birthday: Yup.date()
 				.transform((value, currentValue) => { return moment(currentValue, 'DD/MM/YYYY', true).toDate() })
@@ -173,6 +179,7 @@ function UpdateProfile() {
                                 <input 
                                     disabled={formik.isSubmitting}
                                     onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
                                     onInput={(e) => formik.setFieldTouched(e.target.name, true, false)}
                                     value={formik.values.email}
                                     className={`form-control ${formik.touched.email && formik.errors.email ? 'is-invalid' : '' }`}

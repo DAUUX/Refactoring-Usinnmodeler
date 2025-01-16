@@ -9,6 +9,7 @@ import "./style.scss";
 import { roleOptions, genderOptions } from '../../Consts';
 import { useFormik } from "formik";
 import * as Yup from 'yup';
+import punycode from 'punycode';
 
 export default function Register() {
 
@@ -52,13 +53,18 @@ export default function Register() {
 					if (!value) return false;
 					const domain = value.split('@')[1];
 					if (!domain) return false;
+
+					const decodedDomain = punycode.toUnicode(domain);
+					const domainPattern = /^[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+					if (!domainPattern.test(decodedDomain) || decodedDomain.includes('..')) return false;
 	
 					try {
-						const response = await fetch(
-							`https://dns.google/resolve?name=${domain}&type=MX`
-						);
+						const response = await fetch(`https://dns.google/resolve?name=${decodedDomain}&type=MX`);
+						if (!response.ok) return false;
+
 						const data = await response.json();
-						return !!data.Answer;
+						if (data.Status !== 0 || !data.Answer || data.Answer.length === 0) return false
+						return true
 					} catch (error) {
 						return false;
 					}
@@ -105,7 +111,7 @@ export default function Register() {
 
 		// Atualiza o valor no formulário
 		formik.setFieldValue('birthday', formatted);
-};
+	};
 	
 	return (
 		<main id="register-page" className="flex-fill d-flex align-items-center register" aria-label="formulário de cadastro">    
@@ -139,6 +145,7 @@ export default function Register() {
 									<input 
 										disabled={formik.isSubmitting}
 										onChange={formik.handleChange}
+										onBlur={formik.handleBlur}
 										onInput={(e) => formik.setFieldTouched(e.target.name, true, false)}
 										value={formik.values.email}
 										className={`form-control ${formik.touched.email && formik.errors.email ? 'is-invalid' : '' }`}
