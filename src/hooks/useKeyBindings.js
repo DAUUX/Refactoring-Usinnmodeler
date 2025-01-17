@@ -142,8 +142,8 @@ export default function useKeyBindings({
 
 
     const handlePaste = useCallback(
-        (e) => {
-            pasteNode(copiedDataRef, mousePositionRef)
+        ( e, navbar = false) => {
+            pasteNode(copiedDataRef, mousePositionRef, navbar)
         },
         [pasteNode]
     );
@@ -199,6 +199,7 @@ export default function useKeyBindings({
         handleDelete,
         handleDuplicate,
         handleCopy,
+        handleRecort,
         handlePaste,
     };
 }

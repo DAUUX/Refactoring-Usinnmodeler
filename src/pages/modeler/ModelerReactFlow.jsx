@@ -133,7 +133,7 @@ const ModelerReactFlow = () => {
     return position;
 };
 
-  useKeyBindings({removeNode, undo, redo, removeEdge, addNode, duplicarNode, pasteNode, addToHistory,getMousePosition})
+  const { handleUndo, handleRedo, handleDelete, handleCopy, handleRecort, handlePaste } = useKeyBindings({removeNode, undo, redo, removeEdge, addNode, duplicarNode, pasteNode, addToHistory,getMousePosition})
 
 
   useEffect(() => {
@@ -523,10 +523,18 @@ const ModelerReactFlow = () => {
   }
 
 
-
   return (
     <>
-      <AppBarCustom onDownload={() => onDownload()} onSave={(name) => onSave(name)} name={nameDiagram}/>
+      <AppBarCustom 
+      onDownload={() => onDownload()} 
+      onSave={(name) => onSave(name)} 
+      handleUndo={() => handleUndo()} 
+      handleRedo={() => handleRedo()} 
+      handleDelete={() => handleDelete()} 
+      handleCopy={() => handleCopy()} 
+      handleRecort={() => handleRecort()} 
+      handlePaste={() => handlePaste(true,true)} 
+      name={nameDiagram}/>
       <div className="dndflow">
         <Sidebar />
         <>

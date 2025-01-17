@@ -1,0 +1,40 @@
+/* Container para os ícones */
+.icon-container {
+    position: relative;
+    display: inline-block;
+    margin-right: 10px; /* Distância entre os ícones */
+    text-align: center;
+
+}
+
+/* Estilo das tooltips */
+.tooltip {
+    visibility: hidden;
+    width: 100px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    top: 50px; /* Posiciona a tooltip mais abaixo do ícone */
+    left: 50%;
+    transform: translateX(-50%); /* Ajusta para centralizar a tooltip */
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+/* Tooltip para o texto 'Ctrl + C' com texto menor */
+.tooltip-small {
+    color:rgb(246, 115, 0);
+    font-size: 10px; /* Menor tamanho para o texto de "Ctrl + C" */
+    text-align: center;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
+
+/* Torna a tooltip visível quando o mouse passa sobre o ícone */
+.icon-container:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}

@@ -1,12 +1,22 @@
 import React, {useEffect, useState} from 'react';
-import { AppBar, Toolbar, IconButton } from '@mui/material';
-import SaveIcon from '@mui/icons-material/Save';
-import { TextField } from '@mui/material';
-import usinnModeler from "../../../../assets/icons/logo-min-blue.png";
-import DownloadIcon from '@mui/icons-material/Download';
 import { useNavigate } from 'react-router-dom';
+import usinnModeler from "../../../../assets/icons/logo-min-blue.png";
+import { AppBar, Toolbar, IconButton } from '@mui/material';
+import { TextField } from '@mui/material';
+import './index.css'
 
-const Navbar = ({onDownload, onSave, name}) => {
+// Icons
+import SaveIcon from '@mui/icons-material/Save';
+import DownloadIcon from '@mui/icons-material/Download';
+import UndoIcon from '@mui/icons-material/Undo';
+import RedoIcon from '@mui/icons-material/Redo';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import ContentCutIcon from '@mui/icons-material/ContentCut';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import ContentPasteIcon from '@mui/icons-material/ContentPaste';
+
+
+const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload, handleCopy, handleRecort, handlePaste}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState('Novo Diagrama');
   
@@ -32,6 +42,29 @@ const Navbar = ({onDownload, onSave, name}) => {
       setIsEditing(false);
     };
 
+
+   // Corrected useEffect for keydown
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      const key = e.key?.toLowerCase();
+      switch (true) {
+          case e.ctrlKey && key === "s":
+            e.preventDefault();
+            onSave(value);
+            break;
+          // Add more cases if needed
+          default:
+            break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [value, onSave]);
   return (
     <AppBar position="static" color="default" style={{background: '#A9A9A9'}}>
       <Toolbar>
@@ -56,14 +89,65 @@ const Navbar = ({onDownload, onSave, name}) => {
             {value}
             </span>
         )}
-            
-        <IconButton color="inherit" onClick={() => onSave(value)}>
-            <SaveIcon style={{color: 'white'}} />
+          
+          
+          <div className="icon-bar">
+    <div className="icon-container">
+        <IconButton color="inherit" className="icon-button" onClick={() => handleUndo()}>
+            <UndoIcon />
         </IconButton>
+        <div className="tooltip" style={{textAlign: 'center'}}>Desfazer <br/> <p className='tooltip-small'>Ctrl + Z</p></div>
+    </div>
 
-        <IconButton color="inherit" onClick={() => onDownload()}>
-            <DownloadIcon style={{color: 'white'}} />
+    <div className="icon-container">
+        <IconButton color="inherit" className="icon-button" onClick={() => handleRedo()}>
+            <RedoIcon />
         </IconButton>
+        <div className="tooltip" style={{textAlign: 'center'}}>Refazer  <br/> <p className='tooltip-small'>Ctrl + Shift + Z</p></div>
+    </div>
+
+    <div className="icon-container">
+        <IconButton color="inherit" className="icon-button" onClick={() => onSave(value)}>
+            <SaveIcon />
+        </IconButton>
+        <div className="tooltip" style={{textAlign: 'center'}}>Salvar <br/> <p className='tooltip-small'>Ctrl + S</p></div>
+    </div>
+
+    <div className="icon-container">
+        <IconButton color="inherit" className="icon-button" onClick={() => handleDelete()}>
+            <DeleteOutlineIcon />
+        </IconButton>
+        <div className="tooltip" style={{textAlign: 'center'}}>Excluir<br /><p className='tooltip-small'>Backspace</p></div>
+    </div>
+
+    <div className="icon-container">
+        <IconButton color="inherit" className="icon-button" onClick={() => handleRecort()}>
+            <ContentCutIcon />
+        </IconButton>
+        <div className="tooltip" style={{textAlign: 'center'}}>Cortar<br /><p className='tooltip-small'>Ctrl + X</p></div>
+    </div>
+
+    <div className="icon-container">
+        <IconButton color="inherit" className="icon-button" onClick={() => handleCopy()}>
+            <ContentCopyIcon />
+        </IconButton>
+        <div className="tooltip" style={{textAlign: 'center'}}>Copiar<br /><p className='tooltip-small'>Ctrl + C</p></div>
+    </div>
+
+    <div className="icon-container">
+        <IconButton color="inherit" className="icon-button" onClick={() => handlePaste()}>
+            <ContentPasteIcon />
+        </IconButton>
+        <div className="tooltip " style={{textAlign: 'center'}}>Colar<br /><p className='tooltip-small'>Ctrl + V</p></div>
+    </div>
+
+    <div className="icon-container">
+        <IconButton color="inherit" className="icon-button" onClick={() => onDownload()}>
+            <DownloadIcon />
+        </IconButton>
+        <div className="tooltip" style={{textAlign: 'center'}}>Baixar</div>
+    </div>
+</div>
 
       </Toolbar>
     </AppBar>

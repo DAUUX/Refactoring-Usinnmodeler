@@ -12,14 +12,14 @@ export default function useHistory() {
     const addToHistory = useCallback(
         (newState) => {
           // Garante que history é sempre um array válido
-          const newHistory = Array.isArray(history) ? [...history] : [];
-          
-          // Garante que não há problemas de índice
-          const validIndex = currentIndex.current >= 0 ? currentIndex.current + 1 : 0;
-          
-          const slicedHistory = newHistory.slice(0, validIndex); // Corta até o índice correto
-          slicedHistory.push(newState);
-          
+            const newHistory = Array.isArray(history) ? [...history] : [];
+            
+            // Garante que não há problemas de índice
+            const validIndex = currentIndex.current >= 0 ? currentIndex.current + 1 : 0;
+            
+            const slicedHistory = newHistory.slice(0, validIndex); // Corta até o índice correto
+            slicedHistory.push(newState);
+            
           setHistory(slicedHistory); // Atualiza o histórico
           currentIndex.current = validIndex; // Atualiza o índice de forma segura
         },
@@ -365,11 +365,11 @@ export default function useHistory() {
                 });
             }
         },
-        [addToHistory, setNodes, setEdges, setNodes, getNodes]
+        [addToHistory, setNodes, setEdges, getNodes]
     ); //* Duplica Nó
     
     const pasteNode = useCallback(
-        (copiedDataRef, mousePositionRef, shouldAddToHistory = true) => {
+        (copiedDataRef, mousePositionRef, NavBar = false) => {
             const { node, children, edges } = copiedDataRef.current;
             if (!node) {
                 console.warn("Nenhum dado copiado disponível para colar.");
@@ -377,6 +377,11 @@ export default function useHistory() {
             }
 
             const position = mousePositionRef.current;
+
+            if(NavBar){
+                position.x = node.positionAbsolute.x + 50
+                position.y = node.positionAbsolute.y + 50
+            }
 
             // Gera um novo ID para o nó principal
             const newNodeId = uuid();
