@@ -1,6 +1,5 @@
 import React, { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import ReactFlow, {
-  addEdge,
   useNodesState,
   useEdgesState,
   Controls,
@@ -53,8 +52,10 @@ const ModelerReactFlow = () => {
   const {currentEdge, setCurrentEdge } = useModeler();
   const [anchorPosition, setAnchorPosition] = useState(null);
   const [nameDiagram, setNameDiagram] = useState('');
+  const [initialPosition, setInitialPosition] = useState(null)
 
-  const { addNode, removeNode, addEdge, removeEdge, undo, redo, duplicarNode, addToHistory, recordMove } = useHistory()
+
+  const { addNode, removeNode, addEdge, removeEdge, enterPresentationUnit, exitPresentationUnit, undo, redo, duplicarNode,pasteNode, addToHistory } = useHistory()
 
   const { id } = useParams();
 
@@ -83,7 +84,7 @@ const ModelerReactFlow = () => {
         Toast('error', 'Não foi possivel recuperar diagrama');
       }
     }
-  }, []);
+  }, [id, setEdges, setNodes]);
 
   
   useEffect(() => {
@@ -94,7 +95,7 @@ const ModelerReactFlow = () => {
     } else {
       console.error('nodesOnDelete não é um array:', nodesOnDelete);
     }
-  }, [nodesOnDelete]);
+  }, [nodesOnDelete, setNodes]);
 
 
   const handleContextMenu = (event) => {
@@ -110,8 +111,29 @@ const ModelerReactFlow = () => {
     }, 1000);
   };
 
+  const getMousePosition = (event) => {
+    if (!reactFlowWrapper.current || !reactFlowInstance) {
+    return null;
+    }
 
-  useKeyBindings({removeNode, undo, redo, removeEdge, addNode, duplicarNode, addToHistory})
+    // Obtém os limites do React Flow
+    const reactFlowBounds = reactFlowWrapper.current?.getBoundingClientRect()
+
+    // check if the dropped element is valid
+    if (!reactFlowInstance || !reactFlowBounds) {
+    return;
+    }
+    
+    // Projeta a posição do mouse relativa ao fluxo
+    const position = reactFlowInstance.screenToFlowPosition({
+      x: event.clientX,
+      y: event.clientY
+  });
+
+    return position;
+};
+
+  useKeyBindings({removeNode, undo, redo, removeEdge, addNode, duplicarNode, pasteNode, addToHistory,getMousePosition})
 
 
   useEffect(() => {
@@ -296,21 +318,27 @@ const ModelerReactFlow = () => {
   };
 
 
-  const onNodeDragStart = (event, node) => {
-    recordMove({
-        id: node.id,
-        position: node.position,
-        previousPosition: node.position, // Captura a posição inicial
-    });
+  const onNodeDragStart = (event, node) => {  
+    console.log("Example Object:", JSON.stringify(node, null, 2));
+
+  setInitialPosition(node.position);
 };
 
 
   const onNodeDragStop = (event, node) => {
-        recordMove({
-        id: node.id,
-        position: node.position,
-        previousPosition: node.position, // Captura a posição inicial
-    });
+
+    if (
+      initialPosition &&
+      (initialPosition.x !== node.position.x || initialPosition.y !== node.position.y)
+  ) {
+      // Salva no histórico apenas se a posição mudou
+      addToHistory({
+          action: "movedNode",
+          data: { id: node.id, position: node.position },
+          previousPosition: initialPosition,
+      });
+  }
+  setInitialPosition(null);
 
 
     setNodes((nodes) => {
@@ -337,16 +365,7 @@ const ModelerReactFlow = () => {
           });
   
           if (updatedNode) {
-            const { id, position: { x, y } } = updatedNode;
-            return {
-              ...node,
-              parentId: id,
-              extent: 'parent',
-              position: {
-                x: node.position.x - x,
-                y: node.position.y - y,
-              },
-            };
+            return enterPresentationUnit(node, updatedNode)
           }
         }
         return item;
@@ -436,7 +455,7 @@ const ModelerReactFlow = () => {
       //setNodes((nds) => [...nds, newNode]);
       if (newNode) addNode(newNode);
     },
-    [reactFlowInstance],
+    [addNode, nodes, reactFlowInstance, setNodes],
   );
 
 
@@ -504,6 +523,7 @@ const ModelerReactFlow = () => {
   }
 
 
+
   return (
     <>
       <AppBarCustom onDownload={() => onDownload()} onSave={(name) => onSave(name)} name={nameDiagram}/>
@@ -551,15 +571,7 @@ const ModelerReactFlow = () => {
           >
             <Button 
               onClick={() => {
-                setNodes(nodes.map(nd => {
-                  if(!!(nd.parentId) && !!(nd.extent) && nd.selected) {
-                    delete nd.parentId
-                    delete nd.extent
-                    nd.position.y = nd.position.y+200
-                    return nd;
-                  }
-                  return nd;
-                }))
+                exitPresentationUnit()
               }}
               sx={{
                 fontSize: 12,       
