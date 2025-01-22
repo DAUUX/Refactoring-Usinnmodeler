@@ -46,17 +46,12 @@ const ModelerReactFlow = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
-  const [nodesOnDelete, setNodesOnDele] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
   const {currentEdge, setCurrentEdge } = useModeler();
   const [anchorPosition, setAnchorPosition] = useState(null);
   const [nameDiagram, setNameDiagram] = useState('');
   const [initialPosition, setInitialPosition] = useState(null)
-
-
-  const { addNode, removeNode, addEdge, removeEdge, enterPresentationUnit, exitPresentationUnit, undo, redo, duplicarNode,pasteNode, addToHistory } = useHistory()
-
   const { id } = useParams();
 
   const { getNodes } = useReactFlow();
@@ -67,49 +62,48 @@ const ModelerReactFlow = () => {
 
   
   useEffect(() => {
-    if(!!id){
-      try {
-        const getDiagram = async () => {
+    if (!!id) {
+      const getDiagram = async () => {
+        try {
           const res = await api.get(`/diagrams/${id}`);
-          const {data} = res;
+          const { data } = res;
           setNameDiagram(data.name);
           const graph = JSON.parse(data.data);
-          setNodes(graph.nodes);
-          setEdges(graph.edges);
-        }
   
-        getDiagram();
-        
-      } catch (error) {
-        Toast('error', 'Não foi possivel recuperar diagrama');
-      }
+          // Atualiza os nós desmarcando-os
+          setNodes(
+            graph.nodes.map((node) => ({
+              ...node,
+              selected: false, // Define 'selected' como false para todos os nós
+            }))
+          );
+  
+          setEdges(graph.edges); // Define as arestas diretamente
+        } catch (error) {
+          Toast("error", "Não foi possível recuperar o diagrama");
+        }
+      };
+  
+      getDiagram();
     }
   }, [id, setEdges, setNodes]);
-
   
+  
+
   useEffect(() => {
-    if (Array.isArray(nodesOnDelete)) {
-      setNodes((prevNodes) => {
-        return  [...new Set([...prevNodes, ...nodesOnDelete])]
-      });
-    } else {
-      console.error('nodesOnDelete não é um array:', nodesOnDelete);
+    const wrapper = reactFlowWrapper.current;
+
+    if (wrapper) {
+      wrapper.addEventListener('contextmenu', handleContextMenu);
     }
-  }, [nodesOnDelete, setNodes]);
 
+    return () => {
+      if (wrapper) {
+        wrapper.removeEventListener('contextmenu', handleContextMenu);
+      }
+    };
+  }, []);
 
-  const handleContextMenu = (event) => {
-    event.preventDefault(); 
-    setAnchorPosition({
-      top: event.clientY,
-      left: event.clientX,
-    });
-    setOpen(true);
-
-    setTimeout(() => {
-      setOpen(false);
-    }, 1000);
-  };
 
   const getMousePosition = (event) => {
     if (!reactFlowWrapper.current || !reactFlowInstance) {
@@ -133,22 +127,23 @@ const ModelerReactFlow = () => {
     return position;
 };
 
-  const { handleUndo, handleRedo, handleDelete, handleCopy, handleRecort, handlePaste } = useKeyBindings({removeNode, undo, redo, removeEdge, addNode, duplicarNode, pasteNode, addToHistory,getMousePosition})
+  const { addNode, removeNode, addEdge, removeEdge, enterPresentationUnit, exitPresentationUnit, undo, redo, duplicarNode,pasteNode, addToHistory, copyNode } = useHistory()
+
+  const { handleUndo, handleRedo, handleDelete, handleCopy, handleCut, handlePaste } = useKeyBindings({removeNode, undo, redo, removeEdge, addNode, copyNode, duplicarNode, pasteNode, addToHistory,getMousePosition})
 
 
-  useEffect(() => {
-    const wrapper = reactFlowWrapper.current;
+  const handleContextMenu = (event) => {
+    event.preventDefault(); 
+    setAnchorPosition({
+      top: event.clientY,
+      left: event.clientX,
+    });
+    setOpen(true);
 
-    if (wrapper) {
-      wrapper.addEventListener('contextmenu', handleContextMenu);
-    }
-
-    return () => {
-      if (wrapper) {
-        wrapper.removeEventListener('contextmenu', handleContextMenu);
-      }
-    };
-  }, []);
+    setTimeout(() => {
+      setOpen(false);
+    }, 1000);
+  };
 
 
   const edgeTypes = useMemo(
@@ -195,7 +190,7 @@ const ModelerReactFlow = () => {
       setCurrentEdge("");
     },
 
-    [addEdge, currentEdge],
+    [addEdge, currentEdge, setCurrentEdge],
   );
 
 
@@ -318,8 +313,7 @@ const ModelerReactFlow = () => {
   };
 
 
-  const onNodeDragStart = (event, node) => {  
-    console.log("Example Object:", JSON.stringify(node, null, 2));
+  const onNodeDragStart = (event, node) => { 
 
   setInitialPosition(node.position);
 };
@@ -459,9 +453,6 @@ const ModelerReactFlow = () => {
   );
 
 
-  const nodeClassName = (node) => node.type;
-
-
   const onDownload = () => {
     
     function downloadImage(dataUrl) {
@@ -523,6 +514,9 @@ const ModelerReactFlow = () => {
   }
 
 
+  
+  const nodeClassName = (node) => node.type;
+
   return (
     <>
       <AppBarCustom 
@@ -532,7 +526,7 @@ const ModelerReactFlow = () => {
       handleRedo={() => handleRedo()} 
       handleDelete={() => handleDelete()} 
       handleCopy={() => handleCopy()} 
-      handleRecort={() => handleRecort()} 
+      handleRecort={() => handleCut()} 
       handlePaste={() => handlePaste(true,true)} 
       name={nameDiagram}/>
       <div className="dndflow">

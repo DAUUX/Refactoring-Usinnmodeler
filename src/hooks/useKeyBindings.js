@@ -6,6 +6,7 @@ export default function useKeyBindings({
     undo,
     redo,
     removeEdge,
+    copyNode,
     duplicarNode,
     pasteNode,
     getMousePosition,
@@ -40,58 +41,35 @@ export default function useKeyBindings({
 
 
     const handleDelete = useCallback(() => {
-        const selectedNode = getNodes().find((node) => node.selected);
-        if (selectedNode) {
-        removeNode(selectedNode);
-        return;
+        const selectedNodes = getNodes().filter((node) => node.selected);
+
+        if (selectedNodes.length === 1) {
+            removeNode(selectedNodes[0]);
+        } else if (selectedNodes.length > 1) {
+            removeNode(selectedNodes);
+        }else{
+            const selectedEdge = getEdges().find((edge) => edge.selected);
+            if (selectedEdge) {
+            removeEdge(selectedEdge);
+            }
         }
+        
 
 
 
-        const selectedEdge = getEdges().find((edge) => edge.selected);
-        if (selectedEdge) {
-        removeEdge(selectedEdge);
-        }
+
     }, [getNodes, getEdges, removeNode, removeEdge]);
 
 
-    const handleRecort = useCallback(() => {
-        const selectedNode = getNodes().find((node) => node.selected);
-        if (selectedNode) {
-        const children =
-            selectedNode.type === "presentation-unity" ||
-            selectedNode.type === "presentation-unity-acessible"
-            ? getNodes().filter((node) => node.parentId === selectedNode.id)
-            : [];
+    const handleCut = useCallback(() => {
+        const selectedNodes = getNodes().filter((node) => node.selected);
 
-        const connectedEdges = getEdges().filter(
-            (edge) =>
-            edge.source === selectedNode.id || edge.target === selectedNode.id
-        );
-
-        const childEdges = getEdges().filter((edge) =>
-            children.some(
-            (child) => child.id === edge.source || child.id === edge.target
-            )
-        );
-
-        const copiedEdges = [...connectedEdges, ...childEdges].map((edge) => ({
-            ...edge,
-            source: children.find((child) => child.id === edge.source)
-            ? edge.source
-            : edge.source === selectedNode.id
-            ? selectedNode.id
-            : edge.source,
-            target: children.find((child) => child.id === edge.target)
-            ? edge.target
-            : edge.target === selectedNode.id
-            ? selectedNode.id
-            : edge.target,
-        }));
-        removeNode(selectedNode, children, true)
-        copiedDataRef.current = { node: selectedNode, children, edges: copiedEdges };
-        }
-    }, [getNodes, getEdges, removeNode]);
+        if (selectedNodes.length === 1) {
+            copiedDataRef.current = copyNode(selectedNodes[0], true);
+        } else if (selectedNodes.length > 1) {
+            copiedDataRef.current = copyNode(selectedNodes,true);
+        };
+    }, [getNodes, copyNode]);
 
 
     const handleDuplicate = useCallback(() => {
@@ -103,43 +81,16 @@ export default function useKeyBindings({
 
 
     const handleCopy = useCallback(() => {
-        const selectedNode = getNodes().find((node) => node.selected);
-        if (selectedNode) {
-        const children =
-            selectedNode.type === "presentation-unity" ||
-            selectedNode.type === "presentation-unity-acessible"
-            ? getNodes().filter((node) => node.parentId === selectedNode.id)
-            : [];
+        const selectedNodes = getNodes().filter((node) => node.selected);
 
-        const connectedEdges = getEdges().filter(
-            (edge) =>
-            edge.source === selectedNode.id || edge.target === selectedNode.id
-        );
-
-        const childEdges = getEdges().filter((edge) =>
-            children.some(
-            (child) => child.id === edge.source || child.id === edge.target
-            )
-        );
-
-        const copiedEdges = [...connectedEdges, ...childEdges].map((edge) => ({
-            ...edge,
-            source: children.find((child) => child.id === edge.source)
-            ? edge.source
-            : edge.source === selectedNode.id
-            ? selectedNode.id
-            : edge.source,
-            target: children.find((child) => child.id === edge.target)
-            ? edge.target
-            : edge.target === selectedNode.id
-            ? selectedNode.id
-            : edge.target,
-        }));
-
-        copiedDataRef.current = { node: selectedNode, children, edges: copiedEdges };
-        }
-    }, [getNodes, getEdges]);
-
+        if (selectedNodes.length === 1) {
+            copiedDataRef.current = copyNode(selectedNodes[0]);
+        } else if (selectedNodes.length > 1) {
+            copiedDataRef.current = copyNode(selectedNodes);
+        };
+        
+    }, [copyNode, getNodes]);
+    
 
     const handlePaste = useCallback(
         ( e, navbar = false) => {
@@ -176,7 +127,7 @@ export default function useKeyBindings({
             break;
             case e.ctrlKey && key === "x":
             e.preventDefault();
-            handleRecort();
+            handleCut();
             break
             case e.ctrlKey && key === "v":
             e.preventDefault();
@@ -191,7 +142,7 @@ export default function useKeyBindings({
         return () => {
         document.removeEventListener("keydown", handleKeyDown);
         };
-    }, [handleUndo, handleRedo, handleDelete, handleDuplicate, handleCopy, handlePaste, handleRecort]);
+    }, [handleUndo, handleRedo, handleDelete, handleDuplicate, handleCopy, handlePaste, handleCut]);
 
     return {
         handleUndo,
@@ -199,7 +150,7 @@ export default function useKeyBindings({
         handleDelete,
         handleDuplicate,
         handleCopy,
-        handleRecort,
+        handleCut,
         handlePaste,
     };
 }
