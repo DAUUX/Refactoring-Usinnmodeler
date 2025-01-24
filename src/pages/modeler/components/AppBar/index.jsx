@@ -76,7 +76,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
     };
   }, [value, onSave]);
   return (
-    <AppBar position="static" >
+    <AppBar position="static" style={{marginBottom: "2px"}} >
       <Toolbar className='d-flex flex-column bg-primary p-0'>
         
       <div className='up-funcions d-flex align-items-center justify-content-between w-100 px-4'>
@@ -136,7 +136,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
                 <div className="tooltip" style={{textAlign: 'center'}}>Salvar <br/> <p className='tooltip-small'>Ctrl + S</p></div>
             </div>
 
-            <div className="icon-container d-flex align-items-center ps-3 pe-3">
+            <div className="icon-container d-flex align-items-center ps-3 pe-3" onClick={() => onDownload()} style={{cursor: 'pointer'}}>
               <img 
                         src={exportDiagramIcon} 
                         alt="Exportar" 
@@ -145,7 +145,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
                 <p className='' style={{ color: 'black', marginBottom:'0px' }}>Exportar diagrama</p>
             </div>
 
-            <div className="icon-container-NoBorder d-flex align-items-center ps-4 pe-1" onClick={() => handleUndo()} style={{cursor: 'pointer'}}>
+            <div className="icon-container-NoBorder d-flex align-items-center ps-3 pe-1" onClick={() => handleUndo()} style={{cursor: 'pointer'}}>
               <img 
                 src={RedoIcon} 
                 alt="Refazer" 
@@ -156,7 +156,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
             </div>
 
 
-            <div className="icon-container d-flex align-items-center pe-2" onClick={() => handleRedo()} style={{cursor: 'pointer'}}>
+            <div className="icon-container d-flex align-items-center ps-3 pe-1" onClick={() => handleRedo()} style={{cursor: 'pointer'}}>
               <img 
                 src={UndoIcon} 
                 alt="Desfazer" 
@@ -264,12 +264,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
                 />
             </div>
 
-            <div className="icon-container-NoBorder ps-3">
-                <IconButton color="back" className="icon-button" onClick={() => onDownload()}>
-                    <DownloadIcon />
-                </IconButton>
-                <div className="tooltip" style={{textAlign: 'center'}}>Baixar</div>
-            </div>
+
               
           </div>
 

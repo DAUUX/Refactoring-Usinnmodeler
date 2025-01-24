@@ -6,6 +6,8 @@
 
 /* Container para os ícones */
 .icon-container {
+    padding-top: 10px;
+    padding-bottom: 10px;
     border-right: 1px solid #d3d3d3; /* Borda cinza clara entre os elementos */
     padding-right: 30px;
     text-align: center;
@@ -13,7 +15,16 @@
     display: inline-block;
     text-align: center;
     height: 100%;
+
+    user-select: none; /* Desativa a seleção de texto */
+    -webkit-user-select: none; /* Compatibilidade adicional */
+    -ms-user-select: none; /* Compatibilidade adicional */
 }
+
+.icon-container:active {
+    background-color: rgba(100, 100, 100, 0.068); /* Cor de fundo enquanto o elemento está sendo clicado */
+}
+
 
 .icon-container-NoBorder {
     padding: 0px;
@@ -22,6 +33,19 @@
     display: inline-block;
     text-align: center;
     height: 100%;
+    
+    user-select: none; /* Desativa a seleção de texto */
+    -webkit-user-select: none; /* Compatibilidade adicional */
+    -ms-user-select: none; /* Compatibilidade adicional */
+
+}
+
+.icon-container-NoBorder:focus {
+    outline: none; /* Garante que a borda de foco não apareça */
+}
+
+.icon-container-NoBorder:active {
+    background-color: rgba(100, 100, 100, 0.068); /* Cor de fundo enquanto o elemento está sendo clicado */
 }
 
 /* Estilo das tooltips */
@@ -39,6 +63,7 @@
     transform: translateX(-50%); /* Ajusta para centralizar a tooltip */
     opacity: 0;
     transition: opacity 0.3s;
+    z-index: 999;
 }
 
 /* Tooltip para o texto 'Ctrl + C' com texto menor */
@@ -64,11 +89,12 @@
 
 
 /* Adiciona rolagem horizontal apenas para telas pequenas */
-@media (max-width: 1468px) {
+@media (max-width: 1100px) {
     .down-funcions-bar {
         overflow-x: auto; /* Permite rolagem horizontal */
         overflow-y: hidden; /* Evita rolagem vertical */
         white-space: nowrap; /* Mantém os itens em linha */
+        display: flex;
     }
 }
 
