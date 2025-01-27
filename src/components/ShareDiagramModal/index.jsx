@@ -4,8 +4,10 @@ import { Toast } from "../Toast";
 import api from "../../services/api";
 import AddUsersToInvite from "../AddUsersToInvite";
 import { avatarOptions } from '../../Consts';
+import { useTranslation } from 'react-i18next';
 
 function ShareDiagramModal(props) {
+	const { t } = useTranslation();
 
     const [loading, setLoading]         = useState(false);
     const [readerLink, setReaderLink]   = useState('');
@@ -187,7 +189,7 @@ function ShareDiagramModal(props) {
             <div className="modal-dialog modal-lg modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h4 className="modal-title" id="ShareDiagramModalLabel">Compartilhar diagrama</h4>
+                        <h4 className="modal-title" id="ShareDiagramModalLabel">{t('Compartilhar diagrama')} </h4>
                         <button id="closeModal" type="button" className="btn-close p-0" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div className="modal-body p-2 p-sm-4" id="modal-compartilhar">
@@ -202,7 +204,7 @@ function ShareDiagramModal(props) {
                         </div>
                         {(collaborators.length > 0) && 
                         <div >
-                            <h5>Compartilhado com</h5>
+                            <h5>{t('Compartilhado com')}</h5>
                             <br/>
                             {collaborators.map((collaborator, index) => (                                
                                 <div className="row mb-3" key={index}>  
@@ -215,14 +217,14 @@ function ShareDiagramModal(props) {
                                     <div className="col">
                                         <select className="form-select" onChange={(e)=>{updatePermission(collaborator.id, e.target.value)}}>
                                             {collaborator.permission === 1 ? 
-                                                <option value={1}>Leitor</option> : 
-                                                <option value={2}>Editor</option>
+                                                <option value={1}>{t('Leitor')}</option> : 
+                                                <option value={2}>{t('Editor')}</option>
                                             }
                                             {collaborator.permission === 1 ? 
-                                                <option value={2}>Editor</option> : 
-                                                <option value={1}>Leitor</option>
+                                                <option value={2}>{t('Editor')}</option> : 
+                                                <option value={1}>{t('Leitor')}</option>
                                             }
-                                            <option value={"StopShare"}>Parar compartilhamento</option>
+                                            <option value={"StopShare"}>{t('Parar compartilhamento')}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -230,8 +232,8 @@ function ShareDiagramModal(props) {
                         </div>}
                     </div>
                     <div className="modal-footer d-flex justify-content-between">
-                        <button title="Copiar link" disabled={loading} className="btn text-primary border-dark px-4" type="button" onClick={copy}> {!copied? 'Copiar link' : 'Copiado'}  </button>
-                        <button title="Enviar" disabled={loading} className="btn bg-primary text-white px-4 px-sm-5" type="button" onClick={inviteLink}> Enviar </button>                       
+                        <button title="Copiar link" disabled={loading} className="btn text-primary border-dark px-4" type="button" onClick={copy}> {!copied? t('Copiar link') : t('Copiado')}  </button>
+                        <button title="Enviar" disabled={loading} className="btn bg-primary text-white px-4 px-sm-5" type="button" onClick={inviteLink}> {t('Enviar')} </button>                       
                     </div>
                 </div>
             </div>

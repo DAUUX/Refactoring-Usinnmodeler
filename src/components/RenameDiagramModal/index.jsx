@@ -5,14 +5,15 @@ import Spinner from "../Spinner";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { Modal } from "bootstrap";
+import { useTranslation } from 'react-i18next';
 
 function Rename({id, diagram_id, onDiagramRenamed}) {
+	const { t } = useTranslation();
 
     useEffect(()=>{
         document.getElementById(id).addEventListener('show.bs.modal', event => {
             formik.resetForm()
         });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
     const modalRef = useRef(null);
@@ -25,9 +26,9 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
    
 		validationSchema: Yup.object({
 			name: Yup.string()
-				.min(3, 'O nome deve ter no mínimo 3 caracteres')
-				.max(255, 'O nome deve ter no máximo 100 caracteres')
-				.required('Nome é obrigatório')
+				.min(3, t('O nome deve ter no mínimo 3 caracteres'))
+				.max(255, t('O nome deve ter no máximo 100 caracteres'))
+				.required(t('Nome é obrigatório'))
 		}),
    
 		onSubmit: async values => {
@@ -66,7 +67,7 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title" id="RenameDiagramModalLabel">Renomear diagrama</h5>
+                        <h5 className="modal-title" id="RenameDiagramModalLabel">{t('Renomear diagrama')}</h5>
                         <button id="closeModal" type="button" className="btn-close p-0 " data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form noValidate="" onSubmit={formik.handleSubmit}>
@@ -80,7 +81,7 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
                                 className="form-control" 
                                 type="text" 
                                 name="name" 
-                                placeholder="Novo nome"
+                                placeholder={t('Novo nome')}
                                 autoComplete="name"
                                 />
 
@@ -88,7 +89,7 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
                         </div>
                         <div className="modal-footer">
                             <button type="submit" className="btn btn-primary" disabled={formik.isSubmitting}>
-                                <Spinner className="spinner-border spinner-border-sm me-2" isLoading={formik.isSubmitting}  /> Salvar
+                                <Spinner className="spinner-border spinner-border-sm me-2" isLoading={formik.isSubmitting}  /> {t('Salvar')}
                             </button>
                         </div>
                     </form>

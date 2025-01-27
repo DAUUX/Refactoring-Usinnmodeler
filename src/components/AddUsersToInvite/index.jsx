@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from 'react-i18next';
 
-function AddUsersToInvite(props) {
+function AddUsersToInvite(props) {    
+    const { t } = useTranslation();
     const [email, setEmail]             = useState('');    
     const [permission, setPermission]   = useState(1);   
     const [id, setId]                   = useState(null); 
@@ -28,8 +30,8 @@ function AddUsersToInvite(props) {
             </span>
             <span className="col-4 col-sm-3 col-lg-4">
                 <select name="permissão" className="form-select" onChange={(e)=>{setPermission(e.target.value)}}>
-                    <option value={1}>Leitor</option>
-                    <option value={2}>Editor</option>
+                    <option value={1}>{t('Leitor')}</option>
+                    <option value={2}>{t('Editor')}</option>
                 </select>
             </span>
             <span className="col-2 col-lg-1 d-flex justify-content-end">

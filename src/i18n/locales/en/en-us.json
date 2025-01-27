@@ -130,6 +130,16 @@
         "Li e aceito os": "I have read and accept the",
         "CRIAR CONTA": "CREATE ACCOUNT",
         "Editar Perfil - USINN Modeler": "Edit Profile - USINN Modeler",
-        "Atualizar Perfil": "Update Profile"
+        "Atualizar Perfil": "Update Profile",
+        "Salvar": "Save",
+        "Renomear diagrama": "Rename diagram",
+        "Novo nome": "New name",
+        "Compartilhar diagrama": "Share diagram",
+         "Compartilhado com":  "Shared with",
+         "Leitor": "Reader",
+         "Editor": "Editor",
+         "Parar compartilhamento": "Stop sharing",
+         "Copiar link": "Copy link",
+         "Copiado": "Copied"
     }
 }
