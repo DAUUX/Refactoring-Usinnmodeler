@@ -33,12 +33,9 @@ function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
                 onConfirmLoginRemoved();
                 closeModal(); // Fechar Modal
             } catch (error) {
-                if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-                    Toast('error', "Falha na conexão ao servidor", "errorServer");
-                }
-                else{
-                    Toast('error', error, "errorCircle");
-                }
+
+                Toast('error', error, "errorCircle");
+
             }
             setLoading(false);
             setSubmitting(false);
@@ -74,7 +71,7 @@ function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
 
 
     return (
-        <div className="modal DeleteAccountModal" id={id} tabIndex="-1" aria-labelledby="RemoveLoginModal" aria-hidden="true" ref={modalRef}>
+        <div className="modal DeleteAccountModal" id={id} tabIndex="-1" aria-labelledby="RemoveLoginModal" ref={modalRef}>
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header">
@@ -94,6 +91,7 @@ function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
                                 placeholder="Insira sua senha"
                                 type={showPassword ? "text" : "password"}
                                 name="password"
+                                autoComplete={!showPassword && "new-password webauthn"}
                             />
                             <div className="">
                                 <i onClick={togglePasswordVisibility}

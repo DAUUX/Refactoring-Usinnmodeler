@@ -65,12 +65,9 @@ function ChangePassword() {
             Toast('success', 'Os dados foram atualizados com sucesso!', "key");
             logoutUser()
         } catch (error) {
-            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-                Toast('error', "Falha na conexão ao servidor", "errorServer");
-            }
-            else{
-                Toast('error', error, "aviso");
-            }
+
+            Toast('error', error, "aviso");
+            
         } finally {
             setLoadingOverlay(false); // Fecha a tela de carregamento
             setPasswordValues(null); // Limpa os valores para seguranca

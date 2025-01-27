@@ -20,6 +20,23 @@ function ShareDiagramModal(props) {
     const [wasInvited, setWasInvited]       = useState(false);    
     const [compID, setCompID] = useState(1)
 
+    useEffect(() => {
+        if (!socket) return;
+    
+        socket.on('component_refresh', async (data) => {
+          try {
+            await getAllCollaborations(data.diagram_id);
+          } catch (error) {
+            console.log('Erro ao atualizar componente')
+          }
+        })
+    
+        return () => {
+          socket.off('component_refresh');
+        };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [socket]);
+
     const adicionarComponente = () => {
         setComponentes([...componentes, compID]);        
         setCompID(compID + 1) 
@@ -109,13 +126,9 @@ function ShareDiagramModal(props) {
             setComponentes([0]);
             setWasInvited(!wasInvited);
         } catch (error) {
-        
-            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-                Toast('error', "Falha na conexão ao servidor", "errorServer");
-            }
-            else{
-                Toast('error', error, "aviso");
-            }       
+
+            Toast('error', error, "aviso");
+      
         }
                 
         setLoading(false);
@@ -137,30 +150,23 @@ function ShareDiagramModal(props) {
             
         
         } catch (error) {
-        
-            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-                Toast('error', "Falha na conexão ao servidor", "errorServer");
-            }
-            else{
-                Toast('error', error, "errorCircle");
-            }
-        
+
+            Toast('error', error, "errorCircle");
+
         }
 
         setLoading(false);
     }
 
-    async function getAllCollaborations() {        
+    async function getAllCollaborations(diagram_id) {   
+        
+        diagram_id = diagram_id === undefined ? props.diagram_id : diagram_id 
+        
         try{
-            const res = await api.get(`/collaboration/${props.diagram_id}/getAllCollaborationWithName`);
+            const res = await api.get(`/collaboration/${diagram_id}/getAllCollaborationWithName`);
             setCollaborators(res.data.usersInviteds); 
         } catch(error) {
-            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-                Toast('error', "Falha na conexão ao servidor", "errorServer");
-            }
-            else{
-                Toast('error', error, "errorCircle");
-            }
+            Toast('error', error, "errorCircle");      
         }
     }
 
@@ -181,12 +187,9 @@ function ShareDiagramModal(props) {
                 await socket.emit('send_notification', user_id);
             }         
         } catch(error) {
-            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-                Toast('error', "Falha na conexão ao servidor", "errorServer");
-            }
-            else{
-                Toast('error', error, "errorCircle");
-            }
+
+            Toast('error', error, "errorCircle");
+            
         }
     }
 

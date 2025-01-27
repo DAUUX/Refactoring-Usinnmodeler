@@ -7,8 +7,10 @@ import { Modal } from "bootstrap";
 import ShareDiagramModal from "../../../components/ShareDiagramModal";
 import RemoveDiagramModal from "../../../components/RemoveDiagramModal";
 import RenameDiagramModal from "../../../components/RenameDiagramModal";
+import { useSocket } from "../../../services/SocketContext"
 
 function Documents_inicio() {
+    const socket = useSocket()
 
     let [diagrams, setDiagrams] = useState([]);
     let [loading, setLoading] = useState(true);
@@ -50,6 +52,23 @@ function Documents_inicio() {
         const modal = new Modal('#RenameDiagramModal')          
         modal.show();
     }
+
+    useEffect(() => {
+        if (!socket) return;
+    
+        socket.on('component_refresh', async (data) => {
+          try {
+            await getDiagrams()
+          } catch (error) {
+            console.log('Erro ao atualizar componente')
+          }
+        })
+    
+        return () => {
+          socket.off('component_refresh');
+        };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [socket]);
     
     // Variável com os quatro primeiros diagramas
     const resultcardRecentes = diagrams.length !== 0;

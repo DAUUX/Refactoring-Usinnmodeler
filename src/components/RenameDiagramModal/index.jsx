@@ -66,13 +66,8 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
                 onDiagramRenamed()
             
             } catch (error) {
-            
-                if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-                    Toast('error', "Falha na conexão ao servidor", "errorServer");
-                }
-                else{
-                    Toast('error', error, "errorCircle");
-                }
+
+                Toast('error', error, "errorCircle");
             
             }
    
@@ -81,7 +76,7 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
 	});
 	
     return (
-        <div className="modal" id={id} tabIndex="-1" aria-labelledby="RenameDiagramModalLabel" ref={modalRef} aria-hidden="true">
+        <div className="modal" id={id} tabIndex="-1" aria-labelledby="RenameDiagramModalLabel" ref={modalRef}>
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header">

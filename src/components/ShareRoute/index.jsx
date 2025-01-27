@@ -26,22 +26,17 @@ const ShareRoute = (props) => {
                 await api.post('notification', {user_id: diagram.user_id, diagram_id: diagram.id, diagram_name: diagram.name, type: 1, message: `"${name}" se tornou um colaborado do diagrama: "${diagram.name}"`})
 
                 if (socket?.connected) {
-                    await socket.emit('send_notification', diagram.user_id);
+                    await socket.emit('send_notification', diagram.user_id, diagram.id);
                 } else {
-                    socket.once('connect', () => {
-                        socket.emit('send_notification', diagram.user_id);
+                    socket.once('connect', async () => {
+                        await socket.emit('send_notification', diagram.user_id, diagram.id);
                     });
                 }
             }        
 
         } catch (error) {
-        
-            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-                Toast('error', "Falha na conexão ao servidor", "errorServer");
-            }
-            else{
-                Toast('error', error, "errorCircle");
-            }
+
+            Toast('error', error, "errorCircle");
         
         }
 
@@ -54,11 +49,19 @@ const ShareRoute = (props) => {
             if (socket.connected) {
                 setIsSocketReady(true);
             } else {
+                const timeout = setTimeout(() => {
+                    if (!socket.connected) {
+                        Toast('error', 'Falha na conexão ou servidor!', "errorWifi");
+                        navigate('/login')
+                    }
+                }, 2000);
                 socket.once('connect', () => {
+                    clearTimeout(timeout);
                     setIsSocketReady(true);
                 });
             }
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [socket]);
 
     useEffect(() => {

@@ -30,14 +30,9 @@ function UserProfile(props) {
 
 
         } catch (error) {
-            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-                Toast('error', "Falha na conexão ao servidor", "errorServer");
-            }
-            else{
-                Toast('error', error, "errorCircle");
-            }
-            localStorage.removeItem('user');
-            localStorage.removeItem('token');
+            
+            Toast('error', error, "errorCircle");
+            
         }
         
     }
@@ -55,11 +50,12 @@ function UserProfile(props) {
     function logout() {
         localStorage.removeItem('user');
         localStorage.removeItem('token');
-        navigate(`/`);
+        navigate(`/login`);
     }
 
     useEffect(()=>{
         getUserData();
+     // eslint-disable-next-line react-hooks/exhaustive-deps
      },[])
     
     return (
