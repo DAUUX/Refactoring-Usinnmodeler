@@ -158,7 +158,7 @@ const ModelerReactFlow = () => {
 
   const onConnect = useCallback(
     (connection) => {
-      const edge = { ...connection, type: currentEdge, reconnectable: 'target'};
+      const edge = { ...connection, type: currentEdge, reconnectable: 'target', label: "Clique para editar", labelPosition: {x: null, y: null} };
 
       setEdges((eds) => addEdge(edge, eds));
       setCurrentEdge("");
