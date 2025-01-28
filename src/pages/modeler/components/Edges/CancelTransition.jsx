@@ -28,6 +28,8 @@ export default function CancelTransition(props) {
         targetX={targetX} 
         targetY={targetY}
         id={id}
+        sourcePosition={sourcePosition}
+        targetPosition={targetPosition}
       />
       <IconPosition 
         sourceX={sourceX}

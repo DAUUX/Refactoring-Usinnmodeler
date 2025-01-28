@@ -1,5 +1,5 @@
 import React from 'react';
-import { getStraightPath, SmoothStepEdge } from 'reactflow';
+import { SmoothStepEdge } from 'reactflow';
 import ArrowHeadMarker from './ArrowHeadMarkerEnd';
 import IconPosition from "./IconPosition";
 import MessageIcon from '@mui/icons-material/Message';
@@ -7,12 +7,6 @@ import LabelEdge from "./LabelEdge";
 
 export default function FeedbackSucess(props) {
   const { sourceX, sourceY, targetX, targetY, id, sourcePosition, targetPosition } = props;
-  const [edgePath] = getStraightPath({
-    sourceX,
-    sourceY,
-    targetX,
-    targetY,
-  });
 
   return (
     <>
@@ -34,6 +28,8 @@ export default function FeedbackSucess(props) {
         targetX={targetX} 
         targetY={targetY}
         id={id}
+        sourcePosition={sourcePosition}
+        targetPosition={targetPosition}
       />
       <IconPosition 
         sourceX={sourceX}

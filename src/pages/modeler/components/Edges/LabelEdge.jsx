@@ -1,32 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { EdgeLabelRenderer, useReactFlow, useEdges } from 'reactflow';
+import React, { useState } from 'react';
+import { EdgeLabelRenderer, useReactFlow, getSmoothStepPath } from 'reactflow';
 
-export default function EditableEdgeLabel({ sourceX, sourceY, targetX, targetY, id }) {
+export default function EditableEdgeLabel({ sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition }) {
+  const { setEdges } = useReactFlow();
   const [text, setText] = useState('Clique para editar'); // Texto padrão
   const [isEditing, setIsEditing] = useState(false);
-  const [labelXY, setLabelXY] = useState({
-    x: 0,
-    y: 0
-  });
-  const [dragStartPosition, setDragStartPosition] = useState({ x: 0, y: 0 });
-  const [dragEndPosition, setDragEndPosition] = useState({ x: 0, y: 0 });
-
-  const { setEdges } = useReactFlow()
-  const edges = useEdges();
-
-  useEffect(() => {
-    const edge = edges.find((edge) => edge.id === id);
-
-    if (edge) {
-      if (edge.label) {
-        setText(edge.label);
-      }
-
-      if (edge.labelPosition) {
-        setLabelXY(edge.labelPosition);
-      }
-    }
-  }, [id]);
 
   const handleBlur = () => {
     if (text.length === 0) setText('Clique para editar');
@@ -44,43 +22,36 @@ export default function EditableEdgeLabel({ sourceX, sourceY, targetX, targetY, 
     }
   };
 
-  const handleDrag = (e) => {
-    setDragEndPosition({ x: e.clientX, y: e.clientY });
-  }
+  const labelX = (sourceX + targetX) / 2;
+  const labelY = (sourceY + targetY) / 2;
 
-  const handleDragStart = (e) => {
-    setDragStartPosition({ x: e.clientX, y: e.clientY });
-  }
+  const offsetY =
+    Math.abs(targetY - sourceY) < 20 ? -20 : sourceY < targetY ? -20 : 20;
 
-  const handleDragEnd = (e) => {
-    setLabelXY((prev) => ({
-      x: prev.x + (dragEndPosition.x - dragStartPosition.x),
-      y: prev.y + (dragEndPosition.y - dragStartPosition.y)
-    }));
-  }
-
-  useEffect(() => {
-    if (labelXY) {
-      setEdges((edges) =>
-        edges.map((edge) =>
-          edge.id === id
-            ? {
-                ...edge,
-                label: text,
-                labelPosition: labelXY,
-              }
-            : edge
-        )
-      );
-    }
-  }, [labelXY, text, id, setEdges]);
+  const [_, labelXButton, labelYButton] = getSmoothStepPath({
+    sourceX: sourceX,
+    sourceY: sourceY,
+    sourcePosition: sourcePosition,
+    targetX: targetX,
+    targetY: targetY,
+    targetPosition: targetPosition,
+  });
 
   return (
     <EdgeLabelRenderer>
+      <div 
+      className=''
+      style={{
+        position: 'absolute',
+        transform: `translate(-50%, -50%) translate(${labelXButton}px,${labelYButton}px)`,
+        zIndex: 10000,
+      }}>
+      </div>
+
       <div
         style={{
           position: 'absolute',
-          transform: `translate(-50%, -50%) translate(${labelXY.x + ((sourceX + targetX) / 2)}px,${labelXY.y + (sourceY + targetY) / 2 + (Math.abs(targetY - sourceY) < 20 ? -20 : sourceY < targetY ? -20 : 20)}px)`,
+          transform: `translate(-50%, -50%) translate(${labelX}px,${labelY + offsetY}px)`,
           fontSize: 12,
           pointerEvents: 'all',
           background: '#DFDFDF',
@@ -96,10 +67,6 @@ export default function EditableEdgeLabel({ sourceX, sourceY, targetX, targetY, 
           textAlign: 'center',
           zIndex: 9999
         }}
-        onDrag={handleDrag}
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
-        draggable="true"
         className="nodrag nopan"
         onClick={handleClick}
       >

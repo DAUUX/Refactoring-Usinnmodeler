@@ -32,6 +32,8 @@ export default function FeedbackUnsucess(props) {
         targetX={targetX} 
         targetY={targetY}
         id={id}
+        sourcePosition={sourcePosition}
+        targetPosition={targetPosition}
       /> 
       <IconPosition 
         sourceX={sourceX}

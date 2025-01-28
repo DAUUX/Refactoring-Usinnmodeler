@@ -49,28 +49,28 @@ const ModelerReactFlow = () => {
   const [nodesOnDelete, setNodesOnDele] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
-  const {currentEdge, setCurrentEdge } = useModeler();
+  const { currentEdge, setCurrentEdge } = useModeler();
   const [anchorPosition, setAnchorPosition] = useState(null);
   const [nameDiagram, setNameDiagram] = useState('');
 
   const { id } = useParams();
 
   const { getNodes } = useReactFlow();
-  
+
   useEffect(() => {
-    if(!!id){
+    if (!!id) {
       try {
         const getDiagram = async () => {
           const res = await api.get(`/diagrams/${id}`);
-          const {data} = res;
+          const { data } = res;
           setNameDiagram(data.name);
           const graph = JSON.parse(data.data);
           setNodes(graph.nodes);
           setEdges(graph.edges);
         }
-  
+
         getDiagram();
-        
+
       } catch (error) {
         Toast('error', 'Não foi possivel recuperar diagrama');
       }
@@ -80,7 +80,7 @@ const ModelerReactFlow = () => {
   useEffect(() => {
     if (Array.isArray(nodesOnDelete)) {
       setNodes((prevNodes) => {
-        return  [...new Set([...prevNodes, ...nodesOnDelete])]
+        return [...new Set([...prevNodes, ...nodesOnDelete])]
       });
     } else {
       console.error('nodesOnDelete não é um array:', nodesOnDelete);
@@ -88,7 +88,7 @@ const ModelerReactFlow = () => {
   }, [nodesOnDelete]);
 
   const handleContextMenu = (event) => {
-    event.preventDefault(); 
+    event.preventDefault();
     setAnchorPosition({
       top: event.clientY,
       left: event.clientX,
@@ -115,30 +115,30 @@ const ModelerReactFlow = () => {
   }, []);
 
   const edgeTypes = useMemo(
-      () => ({
-        'transition': Transition,
-        'navigation': NavigationDescription, 
-        'sucess-feedback': FeedbackSucess, 
-        'unsucess-feedback': FeedbackUnsucess, 
-        'cancel-transition': CancelTransition, 
-        'query-data': QueryData 
-      }),
+    () => ({
+      'transition': Transition,
+      'navigation': NavigationDescription,
+      'sucess-feedback': FeedbackSucess,
+      'unsucess-feedback': FeedbackUnsucess,
+      'cancel-transition': CancelTransition,
+      'query-data': QueryData
+    }),
     [],
   );
 
   const nodeTypes = useMemo(
     () => ({
-        "open-point": OpenPointDiagram,
-        "close-point": ClosePointDiagram,
-        "sistem-process": SistemProcessDiagram,
-        "user-action": UserActionDiagram,
-        "alert-content": AlertContentDiagram,
-        "obg-user-action": ObrigatoryUserActionDiagram,
-        "progress-indicator": ProgressIndicatorDiagram,
-        "data-colection": DataColectionDiagram,
-        "presentation-unity": PresentationUnity,
-        "presentation-unity-acessible": PresentationUnityAcessibleDiagram
-      }),
+      "open-point": OpenPointDiagram,
+      "close-point": ClosePointDiagram,
+      "sistem-process": SistemProcessDiagram,
+      "user-action": UserActionDiagram,
+      "alert-content": AlertContentDiagram,
+      "obg-user-action": ObrigatoryUserActionDiagram,
+      "progress-indicator": ProgressIndicatorDiagram,
+      "data-colection": DataColectionDiagram,
+      "presentation-unity": PresentationUnity,
+      "presentation-unity-acessible": PresentationUnityAcessibleDiagram
+    }),
     [],
   );
 
@@ -148,14 +148,17 @@ const ModelerReactFlow = () => {
   }, []);
 
   const onReconnect = useCallback(
-    (oldEdge, newConnection) =>
-      setEdges((els) => reconnectEdge(oldEdge, newConnection, els)),
+    (oldEdge, newConnection) => {
+      setEdges((els) => reconnectEdge(oldEdge, newConnection, els));
+      setCurrentEdge("");
+    }, 
+    
     [],
   );
 
   const onConnect = useCallback(
     (connection) => {
-      const edge = { ...connection, type: currentEdge, label: "Clique para editar", labelPosition: {x: null, y: null} };
+      const edge = { ...connection, type: currentEdge, reconnectable: 'target'};
 
       setEdges((eds) => addEdge(edge, eds));
       setCurrentEdge("");
@@ -165,121 +168,124 @@ const ModelerReactFlow = () => {
   );
 
   const isValidConnection = (connection) => {
-    
+
     const nodeSource = nodes.find(nd => nd.id === connection.source);
     const nodeTarget = nodes.find(nd => nd.id === connection.target);
-    
-    console.log("cuurentEdge antes", currentEdge);
-    const edge = edges.find(ed => (ed.source === nodeSource.id && ed.target === nodeTarget.id))
-    // if (edge) setCurrentEdge(edge.type);
-    console.log("cuurentEdge", currentEdge);
 
-    if(!nodeSource || !nodeTarget) return false;
-    if(!edge) return false; 
+    let edge = {};
+    if (currentEdge === "") {
+      edge = edges.find(ed => (ed.source === nodeSource.id && ed.target === nodeTarget.id) || (ed.source === nodeSource.id && ed.sourceHandle === connection.sourceHandle))
+    }
+    else {
+      edge = {"type": currentEdge};
+    }
+
+    if (!nodeSource || !nodeTarget) return false;
+    if (!edge) return false;
 
     let sourceClause = false;
     let targetClause = false;
-    
-    if(nodeSource.type === "open-point") {
+
+    if (nodeSource.type === "open-point") {
       sourceClause = edge.type === "navigation";
     }
 
-    if(nodeTarget.type === "open-point") {
+    if (nodeTarget.type === "open-point") {
       targetClause = false;
     }
 
-    if(nodeSource.type === "close-point") {
+    if (nodeSource.type === "close-point") {
       sourceClause = false
     }
- 
-    if(nodeTarget.type === "close-point") {
+
+    if (nodeTarget.type === "close-point") {
       targetClause = edge.type === "navigation"
     }
 
-    if(nodeSource.type === "user-action") {
-      sourceClause = 
-      edge.type === "transition" || 
-      edge.type === "cancel-transition" ||
-      edge.type === "navigation"
+    if (nodeSource.type === "user-action") {
+      sourceClause =
+        edge.type === "transition" ||
+        edge.type === "cancel-transition" ||
+        edge.type === "navigation"
     }
 
-    if(nodeTarget.type === "user-action") {
-      targetClause = 
-      edge.type === "transition" || 
-      edge.type === "sucess-feedback" || 
-      edge.type === "unsucess-feedback" || 
-      edge.type === "query-data" ||
-      edge.type === "cancel-transition" ||
-      edge.type === "navigation"
+    if (nodeTarget.type === "user-action") {
+      targetClause =
+        edge.type === "transition" ||
+        edge.type === "sucess-feedback" ||
+        edge.type === "unsucess-feedback" ||
+        edge.type === "query-data" ||
+        edge.type === "cancel-transition" ||
+        edge.type === "navigation"
     }
 
-    if(nodeSource.type === 'sistem-process') {
+    if (nodeSource.type === 'sistem-process') {
       sourceClause = edge.type === 'sucess-feedback' ||
-      edge.type === 'unsucess-feedback' ||
-      edge.type === 'query-data' ||
-      edge.type === 'cancel-transition' ||
-      edge.type === "navigation"
+        edge.type === 'unsucess-feedback' ||
+        edge.type === 'query-data' ||
+        edge.type === 'cancel-transition' ||
+        edge.type === "navigation"
     }
 
-    if(nodeTarget.type === 'sistem-process') {
-      targetClause = 
-        edge.type === "transition" || 
+    if (nodeTarget.type === 'sistem-process') {
+      targetClause =
+        edge.type === "transition" ||
         edge.type === "query-data" ||
         edge.type === "navigation"
     }
 
-    if(nodeSource.type === 'alert-content') {
+    if (nodeSource.type === 'alert-content') {
       sourceClause = edge.type === 'sucess-feedback' ||
-      edge.type === 'unsucess-feedback' ||
-      edge.type === 'transition' ||
-      edge.type === 'cancel-transition' ||
-      edge.type === "navigation"
+        edge.type === 'unsucess-feedback' ||
+        edge.type === 'transition' ||
+        edge.type === 'cancel-transition' ||
+        edge.type === "navigation"
     }
 
-    if(nodeTarget.type === 'alert-content') {
+    if (nodeTarget.type === 'alert-content') {
       targetClause = edge.type === 'sucess-feedback' ||
-      edge.type === 'unsucess-feedback' ||
-      edge.type === 'transition' ||
-      edge.type === 'cancel-transition' ||
-      edge.type === "navigation"  
+        edge.type === 'unsucess-feedback' ||
+        edge.type === 'transition' ||
+        edge.type === 'cancel-transition' ||
+        edge.type === "navigation"
     }
 
-    if(nodeSource.type === 'data-colection') {
+    if (nodeSource.type === 'data-colection') {
       sourceClause = edge.type === 'query-data'
     }
 
-    if(nodeTarget.type === 'data-colection') {
+    if (nodeTarget.type === 'data-colection') {
       targetClause = edge.type === 'query-data'
     }
 
-    if(nodeSource.type === "obg-user-action") {
-      sourceClause = 
-        edge.type === "transition" || 
+    if (nodeSource.type === "obg-user-action") {
+      sourceClause =
+        edge.type === "transition" ||
         edge.type === "cancel-transition" ||
         edge.type === "navigation"
     }
 
-    if(nodeTarget.type === "obg-user-action") {
-      targetClause = 
-        edge.type === "transition" || 
-        edge.type === "sucess-feedback" || 
-        edge.type === "unsucess-feedback" || 
+    if (nodeTarget.type === "obg-user-action") {
+      targetClause =
+        edge.type === "transition" ||
+        edge.type === "sucess-feedback" ||
+        edge.type === "unsucess-feedback" ||
         edge.type === "query-data" ||
         edge.type === "cancel-transition" ||
         edge.type === "navigation"
     }
 
-    if(nodeSource.type === 'progress-indicator') {
+    if (nodeSource.type === 'progress-indicator') {
       sourceClause = edge.type === 'sucess-feedback' ||
-      edge.type === 'unsucess-feedback' ||
-      edge.type === 'query-data' ||
-      edge.type === 'cancel-transition' ||
-      edge.type === "navigation"
+        edge.type === 'unsucess-feedback' ||
+        edge.type === 'query-data' ||
+        edge.type === 'cancel-transition' ||
+        edge.type === "navigation"
     }
 
-    if(nodeTarget.type === 'progress-indicator') {
-      targetClause = 
-        edge.type === "transition" || 
+    if (nodeTarget.type === 'progress-indicator') {
+      targetClause =
+        edge.type === "transition" ||
         edge.type === "query-data" ||
         edge.type === "navigation"
     }
@@ -289,16 +295,16 @@ const ModelerReactFlow = () => {
 
   const onNodeDragStop = (event, node) => {
     setNodes((nodes) => {
-      const currentNodes =  nodes.map((item) => {
+      const currentNodes = nodes.map((item) => {
         if (item.id === node.id) {
-          
-          
+
+
           const updatedNode = nodes.find((targetNode) => {
             const { width, height, type, id } = targetNode;
             const { x, y } = targetNode.position;
-            
-            if(node.extent === 'parent') return false;
-            if(node.type === "presentation-unity" || node.type === "presentation-unity-acessible") return false;
+
+            if (node.extent === 'parent') return false;
+            if (node.type === "presentation-unity" || node.type === "presentation-unity-acessible") return false;
             if (
               (type === "presentation-unity" || type === "presentation-unity-acessible") &&
               node.position.x > x &&
@@ -309,10 +315,10 @@ const ModelerReactFlow = () => {
             ) {
               return true;
             }
-  
+
             return false;
           });
-  
+
           if (updatedNode) {
             const { id, position: { x, y } } = updatedNode;
             return {
@@ -326,7 +332,7 @@ const ModelerReactFlow = () => {
             };
           }
         }
-  
+
         return item;
       });
 
@@ -335,13 +341,13 @@ const ModelerReactFlow = () => {
           node.type === 'presentation-unity' ||
           node.type === 'presentation-unity-acessible'
       );
-    
+
       const otherNodes = currentNodes.filter(
         (node) =>
           node.type !== 'presentation-unity' &&
           node.type !== 'presentation-unity-acessible'
       );
-    
+
       return [...presentationNodes, ...otherNodes];
     });
   };
@@ -349,20 +355,20 @@ const ModelerReactFlow = () => {
   const onDrop = useCallback(
     (event) => {
       event.preventDefault();
-  
+
       const type = event.dataTransfer.getData('application/reactflow');
 
       if (typeof type === 'undefined' || !type) {
         return;
       }
-      
+
       setNodes((nds) => nds.map(nd => ({ ...nd, selected: false })));
-  
+
       const position = reactFlowInstance.screenToFlowPosition({
         x: event.clientX,
         y: event.clientY,
       });
-  
+
       let newNode = {
         id: getId(),
         type,
@@ -372,7 +378,7 @@ const ModelerReactFlow = () => {
         },
         dragging: true,
       };
-  
+
       if (
         type === 'user-action' ||
         type === 'alert-content' ||
@@ -381,7 +387,7 @@ const ModelerReactFlow = () => {
       ) {
         newNode.data.name = '';
       }
-      
+
       const parentNode = nodes.find((targetNode) => {
         const { width, height, type, id } = targetNode;
         const { x, y } = targetNode.position;
@@ -418,22 +424,22 @@ const ModelerReactFlow = () => {
 
   const onNodesDelete = (nodesToBeDeleted) => {
     const presentationUnity = nodesToBeDeleted.find(nd => nd.type === "presentation-unity" || nd.type === "presentation-unity-acessible");
-    if(presentationUnity){
+    if (presentationUnity) {
       nodes.map(nd => {
-        if(nd.parentId === presentationUnity.id) {
+        if (nd.parentId === presentationUnity.id) {
           delete nd.parentId
           delete nd.extent
         }
       })
-      
-      if(presentationUnity.type === "presentation-unity"){
+
+      if (presentationUnity.type === "presentation-unity") {
         const otherNodes = nodesToBeDeleted.filter(nd => nd.type !== "presentation-unity").map(nd => {
           delete nd.parentId
           delete nd.extent
           return nd
         });
         setNodesOnDele(otherNodes);
-      }else {
+      } else {
         const otherNodes = nodesToBeDeleted.filter(nd => nd.type !== "presentation-unity-acessible").map(nd => {
           delete nd.parentId
           delete nd.extent
@@ -447,10 +453,10 @@ const ModelerReactFlow = () => {
   const nodeClassName = (node) => node.type;
 
   const onDownload = () => {
-    
+
     function downloadImage(dataUrl) {
       const a = document.createElement('a');
-    
+
       a.setAttribute('download', 'usin-modeler.png');
       a.setAttribute('href', dataUrl);
       a.click();
@@ -486,15 +492,20 @@ const ModelerReactFlow = () => {
 
   const onSave = async (name) => {
     try {
-      
-      if(id) {
+
+      if (id) {
         const res = await api.put(`diagrams/${id}`, {
           name,
           nodes,
           edges
         })
         Toast('success', 'Diagrama editado com sucesso.')
+<<<<<<< HEAD
       }else {
+=======
+      } else {
+        console.log('asdfo[aisjdfasdiofk')
+>>>>>>> 7ad713ce7e2580cb03affc154408adfafd1584ca
         const res = await api.post('diagrams', {
           name,
           nodes,
@@ -502,15 +513,15 @@ const ModelerReactFlow = () => {
         })
         Toast('success', 'Diagrama criado com sucesso.')
       }
-  
+
     } catch (error) {
-        Toast('error', 'Não foi possivel criar diagrama.')
+      Toast('error', 'Não foi possivel criar diagrama.')
     }
   }
 
   return (
     <>
-      <AppBarCustom onDownload={() => onDownload()} onSave={(name) => onSave(name)} name={nameDiagram}/>
+      <AppBarCustom onDownload={() => onDownload()} onSave={(name) => onSave(name)} name={nameDiagram} />
       <div className="dndflow">
         <Sidebar />
         <>
@@ -554,24 +565,24 @@ const ModelerReactFlow = () => {
               horizontal: 'left',
             }}
           >
-            <Button 
+            <Button
               onClick={() => {
                 setNodes(nodes.map(nd => {
-                  if(!!(nd.parentId) && !!(nd.extent) && nd.selected) {
+                  if (!!(nd.parentId) && !!(nd.extent) && nd.selected) {
                     delete nd.parentId
                     delete nd.extent
-                    nd.position.y = nd.position.y+200
+                    nd.position.y = nd.position.y + 200
                     return nd;
                   }
                   return nd;
                 }))
               }}
               sx={{
-                fontSize: 12,       
-                color: 'black',      
-                padding: '10px 20px', 
+                fontSize: 12,
+                color: 'black',
+                padding: '10px 20px',
               }}>
-                Desagrupar
+              Desagrupar
             </Button>
           </Popover>
         </>

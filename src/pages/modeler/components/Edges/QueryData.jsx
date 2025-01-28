@@ -32,6 +32,8 @@ export default function QueryData(props) {
         targetX={targetX} 
         targetY={targetY}
         id={id}
+        sourcePosition={sourcePosition}
+        targetPosition={targetPosition}
       />
       <IconPosition 
         sourceX={sourceX}
