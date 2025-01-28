@@ -58,9 +58,6 @@ const ModelerReactFlow = () => {
   const { getNodes } = useReactFlow();
 
   useEffect(() => {
-    console.log(nodes, '------', edges)
-  }, [nodes])
-  useEffect(() => {
     if (!!id) {
       try {
         const getDiagram = async () => {

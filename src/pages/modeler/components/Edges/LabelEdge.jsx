@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { EdgeLabelRenderer, useReactFlow, getSmoothStepPath } from 'reactflow';
 
-export default function EditableEdgeLabel({ sourceX, sourceY, targetX, targetY, id, sourcePosition, targetPosition }) {
+export default function EditableEdgeLabel({ sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition }) {
   const { setEdges } = useReactFlow();
   const [text, setText] = useState('Clique para editar'); // Texto padrão
   const [isEditing, setIsEditing] = useState(false);
@@ -28,10 +28,6 @@ export default function EditableEdgeLabel({ sourceX, sourceY, targetX, targetY, 
   const offsetY =
     Math.abs(targetY - sourceY) < 20 ? -20 : sourceY < targetY ? -20 : 20;
 
-  const onEdgeClick = () => {
-    setEdges((edges) => edges.filter((edge) => edge.id !== id));
-  };
-
   const [_, labelXButton, labelYButton] = getSmoothStepPath({
     sourceX: sourceX,
     sourceY: sourceY,
@@ -50,21 +46,6 @@ export default function EditableEdgeLabel({ sourceX, sourceY, targetX, targetY, 
         transform: `translate(-50%, -50%) translate(${labelXButton}px,${labelYButton}px)`,
         zIndex: 10000,
       }}>
-        <button
-        className=''
-          onClick={onEdgeClick}
-          style={{
-            width: '30px',
-            height: '30px',
-            borderRadius: '50%',
-            fontSize: '12px',
-            cursor: 'pointer',
-            zIndex: 10001,
-            pointerEvents: 'all',
-          }}
-        >
-          ×
-        </button>
       </div>
 
       <div
