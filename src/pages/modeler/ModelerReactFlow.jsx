@@ -486,10 +486,6 @@ const ModelerReactFlow = () => {
     }).then(downloadImage);
   }
 
-  const onTest = (id, newLabel) => {
-    console.log(id, newLabel);
-  }
-
   const onSave = async (name) => {
     try {
 
@@ -500,12 +496,7 @@ const ModelerReactFlow = () => {
           edges
         })
         Toast('success', 'Diagrama editado com sucesso.')
-<<<<<<< HEAD
-      }else {
-=======
       } else {
-        console.log('asdfo[aisjdfasdiofk')
->>>>>>> 7ad713ce7e2580cb03affc154408adfafd1584ca
         const res = await api.post('diagrams', {
           name,
           nodes,
