@@ -11,31 +11,49 @@ function Modelos_documentos({ refresh }) {
   async function getDiagrams() {
     setLoading(true);
     try {
-      const res = await api.get('/diagrams/diagramModels');
-      const diagramsData = res.data.diagrams;
+        // Faz a requisição para obter os diagramas
+        const res = await api.get('/diagrams/diagramModels');
+        const diagramsData = res.data.diagrams;
+
+        // Envia a requisição para obter as preferências do usuário
+        const diagramUser = await api.get(`/user/preferences`);
+
+        // Obtém os diagramas removidos do localStorage
+        const removedDiagrams = JSON.parse(localStorage.getItem("removedDiagrams")) || {};
+
+        // Mapeia os diagramas, ajustando o campo 'favorite' e 'favorited' com base nas preferências do usuário
+        const diagramsList = Object.keys(diagramsData).map(key => {
+            const diagram = diagramsData[key];
+
+            // Verifica se o diagrama tem uma preferência de 'favorited' ou 'oculto' do usuário
+            const userPreferences = diagramUser.data || {};
+            let favoriteStatus = userPreferences[key] ? userPreferences[key].favorited : false;
+            const ocultoStatus = userPreferences[key] ? userPreferences[key].oculto : false;
+
+            return {
+                id: key,
+                name: diagram.titulo,
+                updatedAt: diagram.updatedAt,
+                user_id: diagram.user_id,
+                diagram_svg: diagram.diagram_svg,
+                favorite: favoriteStatus, // Ajusta com base na preferência 'favorited'
+                diagram_data: diagram.diagram_data,
+                oculto_data: ocultoStatus, // Ajusta com base na preferência 'oculto'
+            };
+        });
   
-      const removedDiagrams = JSON.parse(localStorage.getItem("removedDiagrams")) || {};
+        // Filtra os diagramas removidos (eles não devem aparecer na lista)
+        const filteredDiagrams = diagramsList.filter(diagram => !removedDiagrams[diagram.id]);
   
-      // Mapeia os diagramas, ajustando o campo 'favorite' com base no localStorage
-      const diagramsList = Object.keys(diagramsData).map(key => ({
-        id: key,
-        name: diagramsData[key].titulo,
-        updatedAt: diagramsData[key].updatedAt,
-        user_id: diagramsData[key].user_id,
-        diagram_svg: diagramsData[key].diagram_svg,
-        favorite: diagramsData[key],
-        diagram_data: diagramsData[key].diagram_data
-      }));
-  
-      // Filtra diagramas que não estão marcados como removidos
-      const filteredDiagrams = diagramsList.filter(diagram => removedDiagrams[diagram.id] !== false);
-  
-      setDiagrams(filteredDiagrams);
+        // Atualiza o estado com os diagramas filtrados
+        setDiagrams(filteredDiagrams);
     } catch (error) {
-      Toast('error', error);
+        // Exibe uma mensagem de erro
+        Toast('error', error);
     }
     setLoading(false);
-  }
+}
+
   
 
   useEffect(() => {
@@ -78,6 +96,8 @@ function Modelos_documentos({ refresh }) {
                 <DiagramCard
                   id={diagram.id}
                   name={diagram.name}
+                  favorited_data={diagram.favorite}
+                  oculto_data={diagram.oculto_data}
                   diagram_data={diagram.diagram_data}
                   thumbnail={diagram.diagram_svg}
                   onRemoveDiagram={(id) => callRemoveDiagramModal(id)}

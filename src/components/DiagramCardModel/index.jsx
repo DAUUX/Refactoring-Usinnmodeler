@@ -9,30 +9,61 @@ import api from '../../services/api';
 import { Toast } from '../Toast';
 import { useEffect, useState } from 'react';
 
-function DiagramCard({id, name, description, thumbnail, onRemoveDiagram, diagram_data = ""}) {
+function DiagramCard({id, name, oculto_data, favorited_data,  description, thumbnail, onRemoveDiagram, diagram_data = ""}) {
 
     const navigate   = useNavigate();
-    const [favorited, setFavorited] = useState(false);
 
+    const [favorited, setFavorited] = useState(false);
+    const [oculto, setOculto] = useState(oculto_data);
 
     useEffect(() => {
-        const favoriteDiagrams = JSON.parse(localStorage.getItem("favoriteDiagrams")) || {};
-        setFavorited(favoriteDiagrams[id] || false); // Define com base no localStorage
-    }, [id]);
+        const storedValue = JSON.parse(localStorage.getItem("favorited_data"));
+        setFavorited(storedValue || favorited_data);
+    }, [favorited_data]);
+    
+    
+    
 
 
-    const toggleFavorite = () => {
+    const toggleFavorite = async () => {
         const newFavorite = !favorited;
-        setFavorited(newFavorite);
-
-        const favoriteDiagrams = JSON.parse(localStorage.getItem("favoriteDiagrams")) || {};
-        favoriteDiagrams[id] = newFavorite; 
-        localStorage.setItem("favoriteDiagrams", JSON.stringify(favoriteDiagrams));
-        // eslint-disable-next-line no-lone-blocks
-        {!favorited ? 
-            Toast("success", "Diagrama adicionado aos meus favoritos", "checkCircle"):
-            Toast("success","Diagrama removido dos meus favoritos", "checkCircle")}
+        let response = "";
+    
+        try {
+            response = await api.post(`/user/preferences`, {
+                dados: { [id]: { favorited: newFavorite ? "true" : "false", oculto: oculto ? "true" : "false" } }
+            });
+            console.log("API Response:", response.data);
+            setFavorited(newFavorite);
+        } catch (error) {
+            console.error("Erro ao atualizar favorito:", error);
+        }
+        
     };
+    
+    const SaveOcultar = async () => {
+        setOculto(true)
+        let response = "";
+    
+        try {
+            // Envia a requisição para ocultar
+            response = await api.post(`/user/preferences`, {
+                dados: {
+                    [id]: {
+                        favorited: favorited ? "true" : "false",
+                        oculto: "true"
+                    }
+                }
+            });
+    
+            // Exibe a mensagem de sucesso após a atualização
+            Toast("success", response.data, "checkCircle");
+        } catch (error) {
+            console.error("Erro ao ocultar:", error);
+            Toast("error", "Erro ao ocultar.", "error");
+        }
+    };
+    
 
     async function createNewDiagram() {
         const data = {name: name, diagram_data: diagram_data, diagram_svg: ""};
@@ -69,6 +100,7 @@ function DiagramCard({id, name, description, thumbnail, onRemoveDiagram, diagram
 
                         {favorited ? <img src={StarFill} alt="Filled Star" /> : <img src={Star} alt="Star" />}
 
+
                     </Link>
     
                     <button 
@@ -89,7 +121,8 @@ function DiagramCard({id, name, description, thumbnail, onRemoveDiagram, diagram
                                 onClick={(e) => { 
                                     e.stopPropagation(); 
                                     e.preventDefault(); 
-                                    onRemoveDiagram(id); 
+                                    onRemoveDiagram(id);
+                                    SaveOcultar() 
                                 }}
                             >
                                 Ocultar Template
