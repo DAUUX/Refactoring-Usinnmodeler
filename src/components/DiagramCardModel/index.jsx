@@ -9,7 +9,7 @@ import api from '../../services/api';
 import { Toast } from '../Toast';
 import { useEffect, useState } from 'react';
 
-function DiagramCard({id, name, oculto_data, favorited_data,  description, thumbnail, onRemoveDiagram, diagram_data = ""}) {
+function DiagramCard({id, name, oculto_data, favorited_data,  description, thumbnail, onRemoveDiagram, diagram_data = "",refresh}) {
 
     const navigate   = useNavigate();
 
@@ -22,32 +22,39 @@ function DiagramCard({id, name, oculto_data, favorited_data,  description, thumb
     }, [favorited_data]);
     
     
-    
-
-
     const toggleFavorite = async () => {
-        const newFavorite = !favorited;
-        let response = "";
+        let newFavorite
+        if(favorited==="true"){
+            newFavorite = "false"
+        }else{
+            newFavorite = "true"
+        }
     
         try {
-            response = await api.post(`/user/preferences`, {
-                dados: { [id]: { favorited: newFavorite ? "true" : "false", oculto: oculto ? "true" : "false" } }
+            await api.post(`/user/preferences`, {
+                dados: { [id]: { favorited: newFavorite==="true" ? "true" : "false", oculto: oculto==="true" ? "true" : "false" } }
             });
-            console.log("API Response:", response.data);
+            if (newFavorite === "true"){
+                Toast("success", "Diagrama adicionado aos meus favoritos", "checkCircle");
+            }else{
+                Toast("success", "Diagrama removido aos meus favoritos", "checkCircle");
+            }
             setFavorited(newFavorite);
+            refresh()
         } catch (error) {
+            Toast('error', "Erro ao Favoritar");
             console.error("Erro ao atualizar favorito:", error);
         }
         
     };
     
     const SaveOcultar = async () => {
+        refresh()
         setOculto(true)
-        let response = "";
-    
+        oculto_data = "true"
         try {
             // Envia a requisição para ocultar
-            response = await api.post(`/user/preferences`, {
+            await api.post(`/user/preferences`, {
                 dados: {
                     [id]: {
                         favorited: favorited ? "true" : "false",
@@ -57,9 +64,8 @@ function DiagramCard({id, name, oculto_data, favorited_data,  description, thumb
             });
     
             // Exibe a mensagem de sucesso após a atualização
-            Toast("success", response.data, "checkCircle");
+            Toast("success", "Diagrama oculto.", "checkCircle");
         } catch (error) {
-            console.error("Erro ao ocultar:", error);
             Toast("error", "Erro ao ocultar.", "error");
         }
     };
@@ -98,7 +104,7 @@ function DiagramCard({id, name, oculto_data, favorited_data,  description, thumb
                             e.preventDefault(); 
                             toggleFavorite()}}>
 
-                        {favorited ? <img src={StarFill} alt="Filled Star" /> : <img src={Star} alt="Star" />}
+                        {favorited==="true" ? <img src={StarFill} alt="Filled Star" /> : <img src={Star} alt="Star" />}
 
 
                     </Link>
@@ -121,7 +127,6 @@ function DiagramCard({id, name, oculto_data, favorited_data,  description, thumb
                                 onClick={(e) => { 
                                     e.stopPropagation(); 
                                     e.preventDefault(); 
-                                    onRemoveDiagram(id);
                                     SaveOcultar() 
                                 }}
                             >

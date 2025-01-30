@@ -7,17 +7,25 @@ import { Modal } from "bootstrap";
 import ShareDiagramModal from "../../../components/ShareDiagramModal";
 import RemoveDiagramModal from "../../../components/RemoveDiagramModal";
 import RenameDiagramModal from "../../../components/RenameDiagramModal";
+import Modelos_documentos from "../inicio/Modelos_documentos";
 
 function FavoritedDocuments() {
 
     useEffect(() => {
         document.title = 'Meus favoritos - USINN Modeler';
-      },[]);
+    },[]);
 
     let [diagrams, setDiagrams] = useState([]);
     let [loading, setLoading] = useState(true);
 
     const [selectedId, setSelectedId] = useState(null);
+
+    const [refreshModels, setRefreshModels] = useState(false);
+    function forceRefresh() {
+        setRefreshModels(!refreshModels); 
+    }
+    
+    const {resultcardModels, cardModels} = Modelos_documentos({ refresh: refreshModels, forceRefresh:forceRefresh, onlyFavorited:"true"});
     
     async function getDiagrams() {
         setLoading(true);
@@ -36,7 +44,7 @@ function FavoritedDocuments() {
     }
 
     useEffect(()=>{
-       getDiagrams();
+        getDiagrams();
     },[])
 
     function callShareDiagramModal(id) {
@@ -94,6 +102,19 @@ function FavoritedDocuments() {
                         })
                     )                    
                 }
+
+
+                {resultcardModels && (
+                    <div className="px-md-0 mt-5 resultcardModels">
+                        <div className="d-flex justify-content-between">
+                            <h3 className="ps-4">Modelos favoritados</h3>
+                        </div>
+                        <div >
+                            {cardModels}
+                        </div>
+                    </div>
+                )}
+                
 
                 {
                     diagrams.length === 0 && !loading &&(

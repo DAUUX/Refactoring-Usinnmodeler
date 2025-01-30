@@ -3,7 +3,8 @@ import { useState } from "react";
 import UserProfile from "../../../components/UserProfile";
 import Documents_inicio from './Documents_inicio'
 import Modelos_documentos from './Modelos_documentos'
-
+import { Toast } from "../../../components/Toast";
+import api from "../../../services/api";
 import './style.scss'
 
 function Inicio(){
@@ -17,11 +18,12 @@ function Inicio(){
         setRefreshModels(!refreshModels); 
     }
 
-    const {resultcardModels, cardModels} = Modelos_documentos({ refresh: refreshModels });
+    const {resultcardModels, cardModels} = Modelos_documentos({ refresh: refreshModels, forceRefresh:forceRefresh });
     
     const Data = JSON.parse(localStorage.getItem('user'));
-    function clearRemovedDiagrams() {
-        localStorage.removeItem("removedDiagrams");
+    async function clearRemovedDiagrams() {
+        await api.delete("/user/preferences")
+        Toast("success", "Diagramas Recuperados com sucesso.", "checkCircle");
         forceRefresh(); 
     }
 
