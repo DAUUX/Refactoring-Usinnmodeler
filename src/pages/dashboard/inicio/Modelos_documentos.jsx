@@ -82,7 +82,7 @@ function Modelos_documentos({ refresh, forceRefresh, onlyFavorited="false" }) {
   const resultcardModels = diagrams.length !== 0;
 
   const cardModels = (
-    <div className="container-fluid px-4">
+    <div className="container-fluid">
       <div className="row">
         {loading && (
           <div className="col-12 d-flex mt-5 justify-content-center">

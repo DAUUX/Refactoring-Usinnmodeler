@@ -8,6 +8,7 @@ import ShareDiagramModal from "../../../components/ShareDiagramModal";
 import RemoveDiagramModal from "../../../components/RemoveDiagramModal";
 import RenameDiagramModal from "../../../components/RenameDiagramModal";
 import Modelos_documentos from "../inicio/Modelos_documentos";
+import './style.scss'
 
 function FavoritedDocuments() {
 
@@ -105,11 +106,11 @@ function FavoritedDocuments() {
 
 
                 {resultcardModels && (
-                    <div className="px-md-0 mt-5 resultcardModels">
+                    <div className="ps-0 pe-0 mt-5 mt-5">
                         <div className="d-flex justify-content-between">
                             <h3 className="ps-4">Modelos favoritados</h3>
                         </div>
-                        <div >
+                        <div className="ps-0">
                             {cardModels}
                         </div>
                     </div>
@@ -117,11 +118,11 @@ function FavoritedDocuments() {
                 
 
                 {
-                    diagrams.length === 0 && !loading &&(
+                    diagrams.length === 0 && !loading && !resultcardModels &&(
                         <h4 className="text-center mt-5">Ainda não há diagramas favoritados</h4>
                     )
                 }
-               
+                
             </div>
 
             <ShareDiagramModal id="ShareDiagramModal" diagram_id={selectedId} />

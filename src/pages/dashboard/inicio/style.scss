@@ -1,7 +1,8 @@
-.resultcardModels{
 
+.resultcardModels{
     width: min-content; 
     width: 100%;
+
 
     .options-dropdown{
         border-radius: 10px;
@@ -34,6 +35,12 @@
     }
 }
 
+.resultcardModels-cards{
+  padding-left: 1em;
+  padding-right: 0.5em;
+}
+
+
 .cols-diagram {
     display: flex;
     flex-wrap: wrap; /* Permite que os itens quebrem linha quando necessário */
@@ -48,6 +55,12 @@
     }
   }
 
+  @media (max-width:750px){
+    .resultcardModels-cards{
+      padding-left: 1em;
+      padding-right: 0.8em;
+    }
+  }
   
   @media (min-width: 1068px) {
     .cols-diagram {

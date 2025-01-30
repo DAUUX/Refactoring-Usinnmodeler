@@ -57,7 +57,7 @@ function DiagramCard({id, name, oculto_data, favorited_data,  description, thumb
             await api.post(`/user/preferences`, {
                 dados: {
                     [id]: {
-                        favorited: favorited ? "true" : "false",
+                        favorited: favorited_data==="true" ? "true" : "false",
                         oculto: "true"
                     }
                 }
