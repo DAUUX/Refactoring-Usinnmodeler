@@ -109,11 +109,11 @@ export default function useKeyBindings({
             e.preventDefault();
             handleUndo();
             break;
-            case e.ctrlKey && e.shiftKey && key === "z":
+            case (e.ctrlKey && e.shiftKey && key === "z") || (e.ctrlKey && key === "y"):
             e.preventDefault();
             handleRedo();
             break;
-            case key === "delete" || key === "backspace":
+            case key === "delete":
             e.preventDefault();
             handleDelete();
             break;
