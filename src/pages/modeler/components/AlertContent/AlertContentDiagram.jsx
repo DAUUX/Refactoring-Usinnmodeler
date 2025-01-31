@@ -70,7 +70,7 @@ function AlertContentDiagram({ data, selected }) {
       height: '100%',
     }}>
       <Grid container justifyContent={"space-between"} flexDirection={"row"}>
-        <Grid item xs={10}>
+        <Grid item xs={15}>
           <textarea 
             ref={textareaRef}
             id="text-input-user-action-diagram" 
