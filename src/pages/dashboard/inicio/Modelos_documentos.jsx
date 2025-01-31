@@ -6,10 +6,8 @@ import api from "../../../services/api";
 
 function Modelos_documentos({ refresh, forceRefresh, onlyFavorited="false" }) {
   let [diagrams, setDiagrams] = useState([]);
-  let [loading, setLoading] = useState(true);
 
   async function getDiagrams() {
-  setLoading(true);
   try {
     // Faz a requisição para obter os diagramas
     const res = await api.get('/diagrams/diagramModels');
@@ -62,7 +60,6 @@ function Modelos_documentos({ refresh, forceRefresh, onlyFavorited="false" }) {
     // Exibe uma mensagem de erro
     Toast('error', error);
   }
-  setLoading(false);
 }
 
 
@@ -84,13 +81,8 @@ function Modelos_documentos({ refresh, forceRefresh, onlyFavorited="false" }) {
   const cardModels = (
     <div className="container-fluid">
       <div className="row">
-        {loading && (
-          <div className="col-12 d-flex mt-5 justify-content-center">
-            <Spinner className="spinner-border me-2" isLoading={loading} />
-          </div>
-        )}
 
-        {diagrams.length > 0 && !loading && (
+        {diagrams.length > 0  && (
           <div
             className="cols-diagram"
             style={{
@@ -127,7 +119,7 @@ function Modelos_documentos({ refresh, forceRefresh, onlyFavorited="false" }) {
             ))}
           </div>
         )}
-        {diagrams.length === 0 && !loading && (
+        {diagrams.length === 0 && (
           <h4 className="text-center mt-5">Ainda não há diagramas</h4>
         )}
       </div>
