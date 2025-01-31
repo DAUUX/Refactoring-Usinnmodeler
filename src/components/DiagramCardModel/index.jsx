@@ -75,9 +75,11 @@ function DiagramCard({id, name, oculto_data, favorited_data,  description, thumb
         const data = {name: name, diagram_data: diagram_data, diagram_svg: ""};
             try {
             const res = await api.post('diagrams', data);
-            const {id, name} = res.data;
-            navigate(`/modeler/${id}/${slugify(name)}`);
+            console.log(res)
+            const {id} = res.data.message;
+            navigate(`/modeler/${id}`);
             } catch (error) {
+                console.log(error)
                 Toast('error',error);
             }
     }
