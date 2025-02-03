@@ -1,6 +1,5 @@
 import React, { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import ReactFlow, {
-  addEdge,
   useNodesState,
   useEdgesState,
   Controls,
@@ -38,6 +37,8 @@ import './index.css';
 import { useParams } from 'react-router-dom';
 import api from '../../services/api';
 import { Toast } from '../../components/Toast';
+import useHistory from '../../hooks/useHistory';
+import useKeyBindings from '../../hooks/useKeyBindings';
 
 const getId = () => `id-${uuidv4()}`;
 
@@ -46,59 +47,49 @@ const ModelerReactFlow = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
-  const [nodesOnDelete, setNodesOnDele] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
   const { currentEdge, setCurrentEdge } = useModeler();
   const [anchorPosition, setAnchorPosition] = useState(null);
   const [nameDiagram, setNameDiagram] = useState('');
-
+  const [initialPosition, setInitialPosition] = useState(null)
   const { id } = useParams();
 
   const { getNodes } = useReactFlow();
 
   useEffect(() => {
+    //console.log(nodes, '------', edges)
+  }, [nodes])
+
+  
+  useEffect(() => {
     if (!!id) {
-      try {
-        const getDiagram = async () => {
+      const getDiagram = async () => {
+        try {
           const res = await api.get(`/diagrams/${id}`);
           const { data } = res;
           setNameDiagram(data.name);
           const graph = JSON.parse(data.data);
-          setNodes(graph.nodes);
-          setEdges(graph.edges);
+  
+          // Atualiza os nós desmarcando-os
+          setNodes(
+            graph.nodes.map((node) => ({
+              ...node,
+              selected: false, // Define 'selected' como false para todos os nós
+            }))
+          );
+  
+          setEdges(graph.edges); // Define as arestas diretamente
+        } catch (error) {
+          Toast("error", "Não foi possível recuperar o diagrama");
         }
-
-        getDiagram();
-
-      } catch (error) {
-        Toast('error', 'Não foi possivel recuperar diagrama');
-      }
+      };
+  
+      getDiagram();
     }
-  }, []);
-
-  useEffect(() => {
-    if (Array.isArray(nodesOnDelete)) {
-      setNodes((prevNodes) => {
-        return [...new Set([...prevNodes, ...nodesOnDelete])]
-      });
-    } else {
-      console.error('nodesOnDelete não é um array:', nodesOnDelete);
-    }
-  }, [nodesOnDelete]);
-
-  const handleContextMenu = (event) => {
-    event.preventDefault();
-    setAnchorPosition({
-      top: event.clientY,
-      left: event.clientX,
-    });
-    setOpen(true);
-
-    setTimeout(() => {
-      setOpen(false);
-    }, 1000);
-  };
+  }, [id, setEdges, setNodes]);
+  
+  
 
   useEffect(() => {
     const wrapper = reactFlowWrapper.current;
@@ -114,6 +105,48 @@ const ModelerReactFlow = () => {
     };
   }, []);
 
+
+  const getMousePosition = (event) => {
+    if (!reactFlowWrapper.current || !reactFlowInstance) {
+    return null;
+    }
+
+    // Obtém os limites do React Flow
+    const reactFlowBounds = reactFlowWrapper.current?.getBoundingClientRect()
+
+    // check if the dropped element is valid
+    if (!reactFlowInstance || !reactFlowBounds) {
+    return;
+    }
+    
+    // Projeta a posição do mouse relativa ao fluxo
+    const position = reactFlowInstance.screenToFlowPosition({
+      x: event.clientX,
+      y: event.clientY
+  });
+
+    return position;
+};
+
+  const { addNode, removeNode, addEdge, removeEdge, enterPresentationUnit, exitPresentationUnit, undo, redo, duplicarNode,pasteNode, addToHistory, copyNode } = useHistory()
+
+  const { handleUndo, handleRedo, handleDelete, handleCopy, handleCut, handlePaste } = useKeyBindings({removeNode, undo, redo, removeEdge, addNode, copyNode, duplicarNode, pasteNode, addToHistory,getMousePosition})
+
+
+  const handleContextMenu = (event) => {
+    event.preventDefault(); 
+    setAnchorPosition({
+      top: event.clientY,
+      left: event.clientX,
+    });
+    setOpen(true);
+
+    setTimeout(() => {
+      setOpen(false);
+    }, 1000);
+  };
+
+
   const edgeTypes = useMemo(
     () => ({
       'transition': Transition,
@@ -125,6 +158,7 @@ const ModelerReactFlow = () => {
     }),
     [],
   );
+
 
   const nodeTypes = useMemo(
     () => ({
@@ -141,6 +175,7 @@ const ModelerReactFlow = () => {
     }),
     [],
   );
+
 
   const onDragOver = useCallback((event) => {
     event.preventDefault();
@@ -160,12 +195,13 @@ const ModelerReactFlow = () => {
     (connection) => {
       const edge = { ...connection, type: currentEdge, reconnectable: 'target', label: "Clique para editar", labelPosition: {x: null, y: null} };
 
-      setEdges((eds) => addEdge(edge, eds));
+      addEdge(edge)
       setCurrentEdge("");
     },
 
-    [setEdges, currentEdge],
+    [addEdge, currentEdge, setCurrentEdge],
   );
+
 
   const isValidConnection = (connection) => {
 
@@ -293,12 +329,34 @@ const ModelerReactFlow = () => {
     return sourceClause && targetClause
   };
 
+
+  const onNodeDragStart = (event, node) => { 
+
+  setInitialPosition(node.position);
+};
+
+
   const onNodeDragStop = (event, node) => {
+
+    if (
+      initialPosition &&
+      (initialPosition.x !== node.position.x || initialPosition.y !== node.position.y)
+  ) {
+      // Salva no histórico apenas se a posição mudou
+      addToHistory({
+          action: "movedNode",
+          data: { id: node.id, position: node.position },
+          previousPosition: initialPosition,
+      });
+  }
+  setInitialPosition(null);
+
+
     setNodes((nodes) => {
       const currentNodes = nodes.map((item) => {
         if (item.id === node.id) {
-
-
+          
+          
           const updatedNode = nodes.find((targetNode) => {
             const { width, height, type, id } = targetNode;
             const { x, y } = targetNode.position;
@@ -315,24 +373,15 @@ const ModelerReactFlow = () => {
             ) {
               return true;
             }
-
+  
             return false;
           });
 
           if (updatedNode) {
-            const { id, position: { x, y } } = updatedNode;
-            return {
-              ...node,
-              parentId: id,
-              extent: 'parent',
-              position: {
-                x: node.position.x - x,
-                y: node.position.y - y,
-              },
-            };
+            return enterPresentationUnit(node, updatedNode)
           }
         }
-
+  
         return item;
       });
 
@@ -348,9 +397,11 @@ const ModelerReactFlow = () => {
           node.type !== 'presentation-unity-acessible'
       );
 
+
       return [...presentationNodes, ...otherNodes];
     });
   };
+
 
   const onDrop = useCallback(
     (event) => {
@@ -368,6 +419,7 @@ const ModelerReactFlow = () => {
         x: event.clientX,
         y: event.clientY,
       });
+
 
       let newNode = {
         id: getId(),
@@ -416,41 +468,12 @@ const ModelerReactFlow = () => {
           },
         };
       }
-
-      setNodes((nds) => [...nds, newNode]);
+      //setNodes((nds) => [...nds, newNode]);
+      if (newNode) addNode(newNode);
     },
-    [reactFlowInstance],
+    [addNode, nodes, reactFlowInstance, setNodes],
   );
 
-  const onNodesDelete = (nodesToBeDeleted) => {
-    const presentationUnity = nodesToBeDeleted.find(nd => nd.type === "presentation-unity" || nd.type === "presentation-unity-acessible");
-    if (presentationUnity) {
-      nodes.map(nd => {
-        if (nd.parentId === presentationUnity.id) {
-          delete nd.parentId
-          delete nd.extent
-        }
-      })
-
-      if (presentationUnity.type === "presentation-unity") {
-        const otherNodes = nodesToBeDeleted.filter(nd => nd.type !== "presentation-unity").map(nd => {
-          delete nd.parentId
-          delete nd.extent
-          return nd
-        });
-        setNodesOnDele(otherNodes);
-      } else {
-        const otherNodes = nodesToBeDeleted.filter(nd => nd.type !== "presentation-unity-acessible").map(nd => {
-          delete nd.parentId
-          delete nd.extent
-          return nd
-        });
-        setNodesOnDele(otherNodes);
-      }
-    }
-  }
-
-  const nodeClassName = (node) => node.type;
 
   const onDownload = () => {
 
@@ -486,18 +509,19 @@ const ModelerReactFlow = () => {
     }).then(downloadImage);
   }
 
+
   const onSave = async (name) => {
     try {
 
       if (id) {
-        const res = await api.put(`diagrams/${id}`, {
+          await api.put(`diagrams/${id}`, {
           name,
           nodes,
           edges
         })
         Toast('success', 'Diagrama editado com sucesso.')
-      } else {
-        const res = await api.post('diagrams', {
+      }else {
+          await api.post('diagrams', {
           name,
           nodes,
           edges
@@ -510,9 +534,22 @@ const ModelerReactFlow = () => {
     }
   }
 
+
+  
+  const nodeClassName = (node) => node.type;
+
   return (
     <>
-      <AppBarCustom onDownload={() => onDownload()} onSave={(name) => onSave(name)} name={nameDiagram} />
+      <AppBarCustom 
+      onDownload={() => onDownload()} 
+      onSave={(name) => onSave(name)} 
+      handleUndo={() => handleUndo()} 
+      handleRedo={() => handleRedo()} 
+      handleDelete={() => handleDelete()} 
+      handleCopy={() => handleCopy()} 
+      handleRecort={() => handleCut()} 
+      handlePaste={() => handlePaste(true,true)} 
+      name={nameDiagram}/>
       <div className="dndflow">
         <Sidebar />
         <>
@@ -527,6 +564,7 @@ const ModelerReactFlow = () => {
               onInit={setReactFlowInstance}
               onDrop={onDrop}
               onDragOver={onDragOver}
+              onNodeDragStart={onNodeDragStart}
               onNodeDragStop={onNodeDragStop}
               isValidConnection={isValidConnection}
               nodeTypes={nodeTypes}
@@ -535,7 +573,6 @@ const ModelerReactFlow = () => {
               maxZoom={4}
               connectionMode={ConnectionMode.Strict}
               className="react-flow-subflows-example"
-              onNodesDelete={onNodesDelete}
             >
               <Controls />
               <MiniMap zoomable pannable nodeClassName={nodeClassName} />
@@ -558,15 +595,7 @@ const ModelerReactFlow = () => {
           >
             <Button
               onClick={() => {
-                setNodes(nodes.map(nd => {
-                  if (!!(nd.parentId) && !!(nd.extent) && nd.selected) {
-                    delete nd.parentId
-                    delete nd.extent
-                    nd.position.y = nd.position.y + 200
-                    return nd;
-                  }
-                  return nd;
-                }))
+                exitPresentationUnit()
               }}
               sx={{
                 fontSize: 12,

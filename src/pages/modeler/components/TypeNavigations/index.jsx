@@ -100,7 +100,11 @@ function TypeNavigations({close, anchor, edges}) {
         return(
             <Grid container flexDirection={'column'}>
                 {
-                    edges.map(edge => edgeTypes[edge])
+                    edges.map((edge, index) => (
+                        <div key={index}>
+                            {edgeTypes[edge]}
+                        </div>
+                    ))
                 }
             </Grid>
         );

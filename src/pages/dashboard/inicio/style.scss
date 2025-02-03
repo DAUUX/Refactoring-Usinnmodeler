@@ -1,0 +1,70 @@
+
+.resultcardModels{
+    width: min-content; 
+    width: 100%;
+
+
+    .options-dropdown{
+        border-radius: 10px;
+        margin-top: -10px;
+        border:none
+    }
+
+    .options-dropdown .bi-three-dots{
+        margin-top: -5px;
+        margin-bottom: 10px;
+    }
+
+    .options-dropdown:hover,
+    .options-dropdown:focus,
+    .options-dropdown{
+    border: none; 
+    }
+
+    .dropdown-models {
+        z-index: 1000;
+        background: white; /* Torna o fundo visível */
+        padding: 10px;
+        border: 1px solid #ccc; /* Adiciona uma borda */
+        position: absolute;
+        width: 150px;
+        margin-left: -110px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Adiciona sombra para destacar */
+        border-radius: 5px;
+
+    }
+}
+
+.resultcardModels-cards{
+  padding-left: 1em;
+  padding-right: 0.5em;
+}
+
+
+.cols-diagram {
+    display: flex;
+    flex-wrap: wrap; /* Permite que os itens quebrem linha quando necessário */
+  }
+  .row-components{
+    padding-right: 0px;
+  }
+
+  @media (min-width: 750px) {
+    .cols-diagram .row-components{
+        padding-right: 24px;
+    }
+  }
+
+  @media (max-width:750px){
+    .resultcardModels-cards{
+      padding-left: 1em;
+      padding-right: 0.8em;
+    }
+  }
+  
+  @media (min-width: 1068px) {
+    .cols-diagram {
+      flex-wrap: nowrap; /* Mantém os itens na mesma linha em telas médias e maiores */
+    }
+  }
+  
