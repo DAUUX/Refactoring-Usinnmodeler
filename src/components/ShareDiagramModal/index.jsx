@@ -148,7 +148,7 @@ function ShareDiagramModal(props) {
         try{
             if(updation === "StopShare"){
                 await api.delete(`/collaboration/${props.diagram_id}/${user_id}`);   
-                getAllCollaborations();                
+                getAllCollaborations();       
             } else {
                 await  api.put(`/collaboration/${props.diagram_id}/${user_id}`, {updation});
             }         
@@ -184,7 +184,7 @@ function ShareDiagramModal(props) {
 
     return (
         <div className="modal fade" id={props.id} tabIndex="-1" aria-labelledby="ShareDiagramModalLabel">
-            <div className="modal-dialog modal-lg modal-dialog-centered">
+            <div className="modal-dialog modal-lg modal-dialog-centered text-dark">
                 <div className="modal-content">
                     <div className="modal-header">
                         <h4 className="modal-title" id="ShareDiagramModalLabel">Compartilhar diagrama</h4>

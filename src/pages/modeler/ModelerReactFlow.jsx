@@ -52,15 +52,18 @@ const ModelerReactFlow = () => {
   const { currentEdge, setCurrentEdge } = useModeler();
   const [anchorPosition, setAnchorPosition] = useState(null);
   const [nameDiagram, setNameDiagram] = useState('');
-  const [initialPosition, setInitialPosition] = useState(null)
+  const [initialPosition, setInitialPosition] = useState(null);  
+  const [oculteManipulationIcons, setOculteManipulationIcons] = useState(false);
   const { id } = useParams();
 
   const { getNodes } = useReactFlow();
 
-  useEffect(() => {
-    //console.log(nodes, '------', edges)
-  }, [nodes])
-
+  async function validPermissionForEdit() {        
+    let user_id = JSON.parse(localStorage.getItem('user')).id;
+    const diagram = await api.get(`/collaboration/${id}/${user_id}`);
+    const collaboratorPermission = diagram.data.permission;
+    collaboratorPermission === 1 ? setOculteManipulationIcons(true) : setOculteManipulationIcons(false);
+}
   
   useEffect(() => {
     if (!!id) {
@@ -70,7 +73,8 @@ const ModelerReactFlow = () => {
           const { data } = res;
           setNameDiagram(data.name);
           const graph = JSON.parse(data.data);
-  
+          
+          validPermissionForEdit();
           // Atualiza os nós desmarcando-os
           setNodes(
             graph.nodes.map((node) => ({
@@ -549,9 +553,13 @@ const ModelerReactFlow = () => {
       handleCopy={() => handleCopy()} 
       handleRecort={() => handleCut()} 
       handlePaste={() => handlePaste(true,true)} 
-      name={nameDiagram}/>
+      name={nameDiagram}
+      oculteManipulationIconsForReader={oculteManipulationIcons}
+      diagram_id={id}/>
       <div className="dndflow">
-        <Sidebar />
+        <div hidden={oculteManipulationIcons}>
+          <Sidebar/>
+        </div>
         <>
           <div className="reactflow-wrapper" ref={reactFlowWrapper}>
             <ReactFlow
