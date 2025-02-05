@@ -27,7 +27,6 @@
 
 
 .icon-container-NoBorder {
-    padding: 0px;
     text-align: center;
     position: relative;
     display: inline-block;
@@ -37,7 +36,6 @@
     user-select: none; /* Desativa a seleção de texto */
     -webkit-user-select: none; /* Compatibilidade adicional */
     -ms-user-select: none; /* Compatibilidade adicional */
-
 }
 
 .icon-container-NoBorder:focus {
@@ -80,11 +78,32 @@
     visibility: visible;
     opacity: 1;
     left: 45%;
+    animation: fadeInOut 1s ease-in-out forwards;
+
 }
 
 .icon-container-NoBorder:hover .tooltip {
     visibility: visible;
     opacity: 1;
+    animation: fadeInOut 1s ease-in-out forwards;
+
+}
+
+/* Animação */
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        visibility: hidden;
+    }
 }
 
 
@@ -93,8 +112,17 @@
     .down-funcions-bar {
         overflow-x: auto; /* Permite rolagem horizontal */
         overflow-y: hidden; /* Evita rolagem vertical */
-        white-space: nowrap; /* Mantém os itens em linha */
         display: flex;
+    }
+
+    .tooltip {
+        position: fixed;
+        top: 90%; /* Posiciona a tooltip mais abaixo do ícone */
+        left: 52% !important;
+        padding: 0%;
+        margin: 0%;
+        align-items: center;
+        scale: 120%;
     }
 }
 

@@ -2,7 +2,6 @@ import React, { useState, useRef, useCallback, useEffect, useMemo } from 'react'
 import ReactFlow, {
   useNodesState,
   useEdgesState,
-  Controls,
   ConnectionMode,
   MiniMap,
   useReactFlow,
@@ -128,7 +127,7 @@ const ModelerReactFlow = () => {
     return position;
 };
 
-  const { addNode, removeNode, addEdge, removeEdge, enterPresentationUnit, exitPresentationUnit, undo, redo, duplicarNode,pasteNode, addToHistory, copyNode } = useHistory()
+  const { addNode, removeNode, addEdge, removeEdge, enterPresentationUnit, exitPresentationUnit, undo, redo, duplicarNode,pasteNode, addToHistory, copyNode,selectAll ,deselectAll } = useHistory()
 
   const { handleUndo, handleRedo, handleDelete, handleCopy, handleCut, handlePaste } = useKeyBindings({removeNode, undo, redo, removeEdge, addNode, copyNode, duplicarNode, pasteNode, addToHistory,getMousePosition})
 
@@ -541,6 +540,8 @@ const ModelerReactFlow = () => {
   return (
     <>
       <AppBarCustom 
+      selectAll={() => selectAll()}
+      deselectAll={() => deselectAll()}
       onDownload={() => onDownload()} 
       onSave={(name) => onSave(name)} 
       handleUndo={() => handleUndo()} 
@@ -550,6 +551,7 @@ const ModelerReactFlow = () => {
       handleRecort={() => handleCut()} 
       handlePaste={() => handlePaste(true,true)} 
       name={nameDiagram}/>
+
       <div className="dndflow">
         <Sidebar />
         <>
@@ -571,10 +573,10 @@ const ModelerReactFlow = () => {
               edgeTypes={edgeTypes}
               minZoom={0.2}
               maxZoom={4}
+              deleteKeyCode={null}
               connectionMode={ConnectionMode.Strict}
               className="react-flow-subflows-example"
             >
-              <Controls />
               <MiniMap zoomable pannable nodeClassName={nodeClassName} />
             </ReactFlow>
           </div>

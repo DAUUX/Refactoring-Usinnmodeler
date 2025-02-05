@@ -610,6 +610,23 @@ export default function useHistory() {
         );
     }, [setNodes]); //* Movimenta o Nó
     
+    const selectAll = useCallback(() => {
+        setNodes((nodes) =>
+        nodes.map((node) => ({ ...node, selected: true }))
+        );
+        setEdges((edges) =>
+        edges.map((edge) => ({ ...edge, selected: true }))
+        );
+    }, [setNodes, setEdges]);
+    
+    const deselectAll = useCallback(() => {
+        setNodes((nodes) =>
+        nodes.map((node) => ({ ...node, selected: false }))
+        );
+        setEdges((edges) =>
+        edges.map((edge) => ({ ...edge, selected: false }))
+        );
+    }, [setNodes, setEdges]);
 
     const recordMove = useCallback(
         (nodeData) => {
@@ -724,6 +741,9 @@ export default function useHistory() {
         },[getEdges, getNodes, removeNode]
     );
 
+    
+
+
     const undo = useCallback(() => {
         const canUndo = currentIndex.current > -1;
         if (canUndo) {
@@ -813,5 +833,5 @@ export default function useHistory() {
     }, [addEdge, addNode, enterPresentationUnit, exitPresentationUnit, history, movedNode, removeEdge, removeNode]);
        //* Ctrl + shift + Z Refazer
 
-    return { addNode, removeNode, addEdge, removeEdge, enterPresentationUnit, exitPresentationUnit, duplicarNode,pasteNode, undo, redo, addToHistory, recordMove, copyNode };
+    return { addNode, removeNode, addEdge, removeEdge, enterPresentationUnit, exitPresentationUnit, duplicarNode,pasteNode, undo, redo, addToHistory, recordMove, copyNode, selectAll, deselectAll};
 }
