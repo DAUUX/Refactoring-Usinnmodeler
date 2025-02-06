@@ -92,6 +92,7 @@ function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
                                 type={showPassword ? "text" : "password"}
                                 name="password"
                                 autoComplete={!showPassword && "new-password webauthn"}
+                                aria-label="campo para confirmar a senha"
                             />
                             <div className="">
                                 <i onClick={togglePasswordVisibility}

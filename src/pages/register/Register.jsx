@@ -137,6 +137,7 @@ export default function Register() {
 										name="name" 
 										placeholder="Nome completo*"
 										autoComplete="name"
+										aria-label="campo do nome"
 									/>
 									{formik.touched.name && formik.errors.name ? (<strong className="invalid-feedback d-block"> {formik.errors.name}</strong>) : null}
 								</div>
@@ -153,6 +154,7 @@ export default function Register() {
 										name="email" 
 										placeholder="E-mail*"
 										autoComplete="email"
+										aria-label="campo do e-mail"
 									/>
 									{formik.touched.email && formik.errors.email ? (<strong className="invalid-feedback d-block"> {formik.errors.email}</strong>) : null}
 								</div>
@@ -167,6 +169,7 @@ export default function Register() {
 										type={showPassword ? "text" : "password"}
 										name="password" 
 										placeholder="Senha*"
+										aria-label="campo da senha"
 									/>
 									<div className="">
 										<i onClick={togglePasswordVisibility} className={`bi bi-${showPassword ? 'eye-fill': 'eye-slash-fill'} icon ${formik.touched.password && formik.errors.password ? 'reyeicon-active': ''}`}
@@ -186,6 +189,7 @@ export default function Register() {
 										type="text" 
 										name="birthday" 
 										placeholder="Data de nascimento*"
+										aria-label="campo da data de nascimento"
 									/>
 									{formik.touched.birthday && formik.errors.birthday ? (<strong className="invalid-feedback d-block"> {formik.errors.birthday}</strong>) : null}
 								</div>
@@ -199,6 +203,7 @@ export default function Register() {
 										name="gender" 
 										placeholder="Gênero*"
 										title="seu gênero"
+										aria-label="campo para selecionar o seu gênero"
 									>
 										<option value="" disabled hidden> Gênero* </option>
 
@@ -221,6 +226,7 @@ export default function Register() {
 												name="role"
 												placeholder="Perfil"
 												title="seu perfil"
+												aria-label="campo para selecionar seu perfil"
 											>
 												<option value="" disabled hidden> Perfil* </option>
 												{ roleOptions.map((item, index) => 
@@ -241,6 +247,7 @@ export default function Register() {
 												name="company"
 												placeholder="Organização*"
 												autoComplete="organization"
+												aria-label="campo da organização"
 											/>
 											{formik.touched.company && formik.errors.company ? (<strong className="invalid-feedback position-absolute"> {formik.errors.company}</strong>) : null}
 										</div>

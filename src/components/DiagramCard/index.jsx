@@ -49,7 +49,7 @@ function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram,
                         onDiagramFavorited()
                     }}/>                            
                     
-                    <button className="btn p-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button className="btn p-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Abrir mais opções para o diagrama">
                         <i className="bi bi-three-dots-vertical mt-1"></i>
                     </button>
                         

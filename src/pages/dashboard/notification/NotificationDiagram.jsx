@@ -78,11 +78,11 @@ const NotificationItem = ({ item, onDelete, onModal }) => {
       <p className="w-100 text-break m-0 ps-2 pe-3">{item.message}</p>
 
       <div className={`d-flex ${isHovered ? 'visible' : 'invisible'}`}>
-        <button className="btn btn-default p-0 text-white" onClick={() => handleRead(item.id, item.read)}>
+        <button className="btn btn-default p-0 text-white" onClick={() => handleRead(item.id, item.read)} aria-label={item.read === 0 ? 'botão para marcar a notificação como lida' : 'botão para marcar a notificação como não lida'}>
           <i className={`bi ${item.read === 0 ? 'bi-envelope-open' : 'bi bi-envelope'}`}></i>
         </button>
         <button
-          className="btn btn-default p-0 text-white" onClick={() => {onDelete(); onModal();}}>
+          className="btn btn-default p-0 text-white" onClick={() => {onDelete(); onModal();}} aria-label="botão para excluir a notificação">
           <i className="bi bi-trash"></i>
         </button>
       </div>

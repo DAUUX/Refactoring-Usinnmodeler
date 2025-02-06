@@ -114,6 +114,7 @@ function ChangePassword() {
                                     type={showPassword1 ? "text" : "password"}
                                     name="password" 
                                     placeholder="Senha*"
+                                    aria-label="campo para a nova senha"
                                 />
 
                                 <i onClick={() => setShowPassword1(!showPassword1)} className={`bi bi-${showPassword1 ? 'eye-fill': 'eye-slash-fill'} icon ${formik.touched.password && formik.errors.password ? 'icon-active': ''}`}/>
@@ -131,6 +132,7 @@ function ChangePassword() {
                                     type={showPassword2 ? "text" : "password"}
                                     name="confirmPassword" 
                                     placeholder="Confirmar Senha*"
+                                    aria-label="campo para confirmar a nova senha"
                                 />
                                 <i onClick={() => setShowPassword2(!showPassword2)} className={`bi bi-${showPassword2 ? 'eye-fill': 'eye-slash-fill'} icon ${formik.touched.confirmPassword && formik.errors.confirmPassword ? 'icon-active': ''}`}/>
                                 {formik.touched.confirmPassword && formik.errors.confirmPassword ? (<div className="invalid-feedback d-block"> {formik.errors.confirmPassword}</div>) : null}
