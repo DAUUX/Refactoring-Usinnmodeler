@@ -37,6 +37,11 @@ const IconContainer = () => {
         <div className="custom-tooltip">
 
       <div className="tooltip-content" >
+      {activeCarousel !== "ajuda" && (
+        <div className="return-button ps-2" onClick={() => setActiveCarousel("ajuda")} >
+          <i class="bi bi-list"></i>
+        </div>
+      )}
         <div className="close-button pe-2" onClick={() => setShowTooltip(false)+setActiveCarousel("ajuda")} >
           <i className="bi bi-x-lg"></i>
         </div>

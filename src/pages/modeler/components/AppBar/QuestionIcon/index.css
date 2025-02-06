@@ -64,6 +64,14 @@
     color: rgb(0, 0, 0);
 }
 
+.return-button {
+    position: absolute;
+    top: -20px;
+    left: 5px;
+    cursor: pointer;
+    color: rgb(0, 0, 0);
+}
+
 .carousel {
     margin-top: 20px;
     color: rgb(0, 0, 0);
