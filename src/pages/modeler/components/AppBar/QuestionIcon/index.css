@@ -1,0 +1,156 @@
+.icon-container {
+    position: relative; /* Para que o tooltip seja posicionado em relação a este container */
+    justify-content: center;
+}
+
+.custom-tooltip {
+    position: fixed; /* Mantém o tooltip fixo na tela */
+    top: 160px;
+    z-index: 1000; /* Garante que o tooltip fique acima de outros elementos */
+    color: rgb(0, 0, 0);
+    border: 2px solid #13528E;
+    background-color: #FFFF;
+    padding: 10px;
+    padding-inline: 0px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    height: auto;
+    transform: scale(0.95); /* Inicia um pouco menor */
+    animation: fadeInScale 0.1s ease-out forwards; /* Aplica a animação */
+}
+
+/* Criando uma versão do tooltip que ficará atrás */
+.custom-tooltip.secondary {
+    z-index: 999; /* Menor que o primeiro tooltip para ficar atrás */
+    top: 165px; /* Ligeiramente deslocado para criar efeito de sobreposição */
+    opacity: 0.7; /* Levemente transparente para destacar o primeiro */
+}
+
+@keyframes fadeInScale {
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.custom-tooltip::before {
+    content: '';
+    position: absolute;
+    top: -15px; /* Ajuste a posição da setinha para cima */
+    left: 50%; /* Centraliza a setinha horizontalmente */
+    transform: translateX(-50%);
+    border-width: 8px; /* Define o tamanho do triângulo */
+    border-style: solid;
+    border-color: transparent transparent white transparent; /* Define a cor branca */
+    filter: drop-shadow(0 -2px 0 #13528E); /* Adiciona bordas azuis ao triângulo */
+    z-index: 1;
+}
+
+
+.tooltip-content {
+    position: relative;
+}
+
+.close-button {
+    position: absolute;
+    top: -20px;
+    right: 5px;
+    cursor: pointer;
+    color: rgb(0, 0, 0);
+}
+
+.return-button {
+    position: absolute;
+    top: -20px;
+    left: 5px;
+    cursor: pointer;
+    color: rgb(0, 0, 0);
+}
+
+.carousel {
+    margin-top: 20px;
+    color: rgb(0, 0, 0);
+}
+
+.carousel-item {
+    text-align: center;
+    padding-inline: 40px;
+}
+.carousel-item p {
+    text-align:justify;
+}
+
+#carouselExample {
+    height: 10em;
+}
+
+#buttoncarousel {
+    margin-left: -10px;
+    margin-right: -10px;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    color: rgb(0, 0, 0);
+}
+
+
+
+.menu-container {
+    width: 100%;
+}
+
+.menu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.menu-item:hover {
+    background-color: #13538e18;
+    border-radius: 5px;
+}
+
+.menu-item span {
+    flex-grow: 1;
+    left: 0%px;
+}
+
+.menu-item i {
+    margin-left: 0px;
+}
+
+@media (max-width: 1100px) {
+    .custom-tooltip {
+        right: 0%; /* Define o ponto de referência no meio */
+        top: 165px; /* Ajusta a posição vertical */
+        padding: 0;
+        margin: 0;
+    }
+
+    .custom-tooltip::before {
+        border-color: transparent; /* Mantém o triângulo da tooltip */
+    }
+}
+
+
+@media (max-width: 800px) {
+    .custom-tooltip {
+        left: 50%; /* Define o ponto de referência no meio */
+        top: 210px; /* Ajusta a posição vertical */
+        transform: translateX(-50%); /* Move o tooltip para que fique centralizado */
+        padding: 0;
+        margin: 0;
+        animation: none; /* Aplica a animação */
+    }
+
+    .custom-tooltip::before {
+        border-color: transparent; /* Mantém o triângulo da tooltip */
+    }
+}
