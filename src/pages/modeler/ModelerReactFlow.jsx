@@ -55,20 +55,29 @@ const ModelerReactFlow = () => {
   const [initialPosition, setInitialPosition] = useState(null);  
   const [oculteManipulationIcons, setOculteManipulationIcons] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
+  const [diagramId, setDiagramId] = useState('');
   const { id } = useParams();
 
   const { getNodes } = useReactFlow();
 
   async function validPermissionForEdit() {        
-    let user_id = JSON.parse(localStorage.getItem('user')).id;
-    const diagram = await api.get(`/collaboration/${id}/${user_id}`);
+    let userId = JSON.parse(localStorage.getItem('user')).id;
+    const diagram = await api.get(`/collaboration/${diagramId}/${userId}`);
     const collaboratorPermission = diagram.data.permission;
     collaboratorPermission === 1 ? setOculteManipulationIcons(true) : setOculteManipulationIcons(false);
   }
 
+  useEffect(()=>{
+    
+    if (id != null){
+      setDiagramId(id);
+    }
+  }, [id])
+
   function checkIsOwner(ownerId){
-    let user_id = JSON.parse(localStorage.getItem('user')).id;
-    if(user_id === ownerId){
+    let userId = JSON.parse(localStorage.getItem('user')).id;
+    if(userId === ownerId){
+      
       setIsOwner(true);
     } else{
       setIsOwner(false);
@@ -76,10 +85,10 @@ const ModelerReactFlow = () => {
   }
   
   useEffect(() => {
-    if (!!id) {
+    if (!!diagramId) {
       const getDiagram = async () => {
         try {
-          const res = await api.get(`/diagrams/${id}`);
+          const res = await api.get(`/diagrams/${diagramId}`);
           const { data } = res;
           checkIsOwner(data.user_id)
           setNameDiagram(data.name);
@@ -102,7 +111,7 @@ const ModelerReactFlow = () => {
   
       getDiagram();
     }
-  }, [id, setEdges, setNodes]);
+  }, [diagramId, setEdges, setNodes]);
   
   
 
@@ -528,19 +537,20 @@ const ModelerReactFlow = () => {
   const onSave = async (name) => {
     try {
 
-      if (id) {
-          await api.put(`diagrams/${id}`, {
+      if (diagramId) {
+          await api.put(`diagrams/${diagramId}`, {
           name,
           nodes,
           edges
         })
         Toast('success', 'Diagrama editado com sucesso.')
       }else {
-          await api.post('diagrams', {
+          const diagram = await api.post('diagrams', {
           name,
           nodes,
           edges
         })
+       setDiagramId(diagram.data.message.id)
         Toast('success', 'Diagrama criado com sucesso.')
       }
 
@@ -567,7 +577,7 @@ const ModelerReactFlow = () => {
       name={nameDiagram}
       oculteManipulationIconsForReader={oculteManipulationIcons}
       isOwner={isOwner}
-      diagram_id={id}/>
+      diagram_id={diagramId}/>
       <div className="dndflow">
         <div hidden={oculteManipulationIcons}>
           <Sidebar/>
