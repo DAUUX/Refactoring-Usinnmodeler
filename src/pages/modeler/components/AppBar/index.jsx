@@ -27,7 +27,7 @@ import desagrupar from '../../../../assets/icons/toolbar-desagrupar-icon.svg'
 import ShareDiagramModal from '../../../../components/ShareDiagramModal';
 
 
-const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload, handleCopy, handleRecort, handlePaste, oculteManipulationIconsForReader, diagram_id}) => {
+const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload, handleCopy, handleRecort, handlePaste, oculteManipulationIconsForReader, isOwner, diagram_id}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState('Novo Diagrama');
   const [shareModalId] = useState('ShareDiagramModal');
@@ -121,7 +121,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
         <div className=" justify-content-end" id="modelerNavbarToggle">
             <div className="d-flex align-items-center py-3 py-lg-0">
                 <span>
-                    {diagram_id && !oculteManipulationIconsForReader &&
+                    {diagram_id && isOwner &&
                         <button data-bs-toggle="modal" data-bs-target={`#${shareModalId}`} className="btn btn-light btn-sm order-last text-primary me-4" title="Compartilhar">
                             Compartilhar <i className="bi bi-share-fill fs-7"></i>
                         </button>

@@ -52,6 +52,7 @@ function ShareDiagramModal(props) {
             setOpen(false);
             setUsers([]);
             setComponentes([0]);
+            getAllCollaborations();
         });
         
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -54,6 +54,7 @@ const ModelerReactFlow = () => {
   const [nameDiagram, setNameDiagram] = useState('');
   const [initialPosition, setInitialPosition] = useState(null);  
   const [oculteManipulationIcons, setOculteManipulationIcons] = useState(false);
+  const [isOwner, setIsOwner] = useState(false);
   const { id } = useParams();
 
   const { getNodes } = useReactFlow();
@@ -63,7 +64,16 @@ const ModelerReactFlow = () => {
     const diagram = await api.get(`/collaboration/${id}/${user_id}`);
     const collaboratorPermission = diagram.data.permission;
     collaboratorPermission === 1 ? setOculteManipulationIcons(true) : setOculteManipulationIcons(false);
-}
+  }
+
+  function checkIsOwner(ownerId){
+    let user_id = JSON.parse(localStorage.getItem('user')).id;
+    if(user_id === ownerId){
+      setIsOwner(true);
+    } else{
+      setIsOwner(false);
+    }
+  }
   
   useEffect(() => {
     if (!!id) {
@@ -71,6 +81,7 @@ const ModelerReactFlow = () => {
         try {
           const res = await api.get(`/diagrams/${id}`);
           const { data } = res;
+          checkIsOwner(data.user_id)
           setNameDiagram(data.name);
           const graph = JSON.parse(data.data);
           
@@ -555,6 +566,7 @@ const ModelerReactFlow = () => {
       handlePaste={() => handlePaste(true,true)} 
       name={nameDiagram}
       oculteManipulationIconsForReader={oculteManipulationIcons}
+      isOwner={isOwner}
       diagram_id={id}/>
       <div className="dndflow">
         <div hidden={oculteManipulationIcons}>
