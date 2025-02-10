@@ -135,6 +135,7 @@ function Notifications({ iconColor }) {
         id="dropdownMenuButton1"
         data-bs-toggle="dropdown"
         aria-expanded="false"
+        aria-label="Abrir notificações"
       >
         <i className={`bi bi-bell fs-3 ${iconColor}`}></i>
 
@@ -168,10 +169,10 @@ function Notifications({ iconColor }) {
               <p className="w-100 text-start text-truncate m-0 ps-2 pe-3">{item.message}</p>
               {mouseHover === item.id ? (
                 <span className="d-flex fs-6">
-                  <button className="btn btn-default p-0 px-2 text-white" onClick={(e) => handleRead(e, item.id, item.read)}>
+                  <button className="btn btn-default p-0 px-2 text-white" onClick={(e) => handleRead(e, item.id, item.read)} aria-label={item.read === 0 ? 'botão para marcar a notificação como lida' : 'botão para marcar a notificação como não lida'}>
                     <i className={`bi ${item.read === 0 ? 'bi-envelope-open' : 'bi bi-envelope'}`}></i>
                   </button>
-                  <button className="btn btn-default p-0 px-2 text-white" onClick={(e) => {e.stopPropagation(); openDeleteModal(item.id)}}>
+                  <button className="btn btn-default p-0 px-2 text-white" onClick={(e) => {e.stopPropagation(); openDeleteModal(item.id)}} aria-label="botão para deletar a notificação">
                     <i className="bi bi-trash"></i>
                   </button>
                 </span>

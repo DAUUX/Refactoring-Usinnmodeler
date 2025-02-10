@@ -1,3 +1,5 @@
+@import "../../assets/styles/variables";
+
 #dashboard {
 
     #dashboard-menu {
@@ -12,12 +14,25 @@
     
         .nav .nav-item {
             .bi {transition: width 300ms, margin 30ms;}
+            a{
+                color: white;
+                border: 1px $primary solid;      
+            }   
             &:hover, &.active {
-                background-color: #4898e4;
+                background-color: white;  
+                a{
+                    color: $primary;
+                } 
                 .bi {
                     margin: 0 !important;
                     width: 0;
                     visibility: hidden;
+                }
+            }
+            &.active {
+                a{
+                    border-top: white;
+                    border-bottom: white;
                 }
             }
         }

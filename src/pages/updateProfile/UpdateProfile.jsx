@@ -171,6 +171,7 @@ function UpdateProfile() {
                                     name="name" 
                                     placeholder="Nome completo*"
                                     autoComplete="name"
+                                    aria-label="campo do nome"
                                 />
                                 {formik.touched.name && formik.errors.name ? (<div className="invalid-feedback d-block"> {formik.errors.name}</div>) : null}
                             </div>
@@ -187,6 +188,7 @@ function UpdateProfile() {
                                     name="email" 
                                     placeholder="E-mail*"
                                     autoComplete="email"
+                                    aria-label="campo dp e-mail"
                                 />
                                 {formik.touched.email && formik.errors.email ? (<div className="invalid-feedback d-block"> {formik.errors.email}</div>) : null}
                             </div>
@@ -201,6 +203,7 @@ function UpdateProfile() {
                                     type="text" 
                                     name="birthday" 
                                     placeholder="Data de nascimento*"
+                                    aria-label="campo da data de nascimento"
                                 />
                                 {formik.touched.birthday && formik.errors.birthday ? (<div className="invalid-feedback d-block"> {formik.errors.birthday}</div>) : null}
                             </div>
@@ -213,6 +216,7 @@ function UpdateProfile() {
                                     className={`form-select ${formik.touched.gender && formik.errors.gender ? 'is-invalid' : '' }${formik.values.gender === '' ? ' is-empty': ''}`} 
                                     name="gender" 
                                     placeholder="Gênero*"
+                                    aria-label="selecione seu gênero"
                                 >
                                     <option value="" disabled hidden> Gênero* </option>
 
@@ -234,6 +238,7 @@ function UpdateProfile() {
                                             className={`form-select ${formik.touched.role && formik.errors.role ? 'is-invalid' : ''}${formik.values.role === '' ? ' is-empty': ''}`}
                                             name="role"
                                             placeholder="Perfil"
+                                            aria-label="selecione seu perfil"
                                         >
                                             <option value="" disabled hidden> Perfil </option>
                                             { roleOptions.map((item, index) => 
@@ -254,6 +259,7 @@ function UpdateProfile() {
                                             name="company"
                                             placeholder="Organização"
                                             autoComplete="organization"
+                                            aria-label="campo da organização"
                                         />
                                         {formik.touched.company && formik.errors.company ? (<div className="invalid-feedback d-block"> {formik.errors.company}</div>) : null}
                                     </div>
@@ -283,7 +289,7 @@ function UpdateProfile() {
                             <img className="mb-4 img-fluid"src={avatarOptions[imgAvatar]} alt=""></img>
                             <div className="d-flex justify-content-between outline-black">
                                 {avatarOptions.map((item, index) => 
-                                    <button key={index} onClick={(e)=> {setImgAvatar(index)}} className="btn rounded-circle p-0 mx-1 mx-lg-3" ><img className="img-fluid" src={item} alt=""/></button>
+                                    <button key={index} onClick={(e)=> {setImgAvatar(index)}} className="btn rounded-circle p-0 mx-1 mx-lg-3" aria-label={`Escolher o avatar ${index + 1}`} ><img className="img-fluid" src={item} alt=""/></button>
                                 )}
                             </div>
                         </div>
