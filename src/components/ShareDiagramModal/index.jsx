@@ -52,7 +52,6 @@ function ShareDiagramModal(props) {
             setOpen(false);
             setUsers([]);
             setComponentes([0]);
-            getAllCollaborations();
         });
         
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -149,10 +148,10 @@ function ShareDiagramModal(props) {
         try{
             if(updation === "StopShare"){
                 await api.delete(`/collaboration/${props.diagram_id}/${user_id}`);   
-                getAllCollaborations();       
             } else {
                 await  api.put(`/collaboration/${props.diagram_id}/${user_id}`, {updation});
-            }         
+            }     
+            getAllCollaborations();           
         } catch(error) {
             if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
                 Toast('error', "Falha na conexão ao servidor", "errorServer");
@@ -215,14 +214,14 @@ function ShareDiagramModal(props) {
                                     </div>
                                     <div className="col">
                                         <select className="form-select" onChange={(e)=>{updatePermission(collaborator.id, e.target.value)}}>
-                                            {collaborator.permission === 1 ? 
-                                                <option value={1}>Leitor</option> : 
-                                                <option value={2}>Editor</option>
-                                            }
-                                            {collaborator.permission === 1 ? 
-                                                <option value={2}>Editor</option> : 
+                                                <option value="" hidden>
+                                                    {collaborator.permission === 1 ? 
+                                                        <option value={1}>Leitor</option> : 
+                                                        <option value={2}>Editor</option>
+                                                    }
+                                                </option>
+                                                <option value={2}>Editor</option>  
                                                 <option value={1}>Leitor</option>
-                                            }
                                             <option value={"StopShare"}>Parar compartilhamento</option>
                                         </select>
                                     </div>
