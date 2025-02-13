@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import usinnModeler from "../../assets/icons/usinn-logo-horiz.png";
 import { Link, useNavigate } from "react-router-dom";
 import Spinner from "../../components/Spinner";
@@ -8,10 +9,15 @@ import "./style.scss";
 import { roleOptions, genderOptions } from '../../Consts';
 import { useFormik } from "formik";
 import * as Yup from 'yup';
-import { useEffect } from "react";
+import punycode from 'punycode';
 
 export default function Register() {
 
+	const [showPassword, setShowPassword] = useState(false);
+
+	const togglePasswordVisibility = () => {
+	  setShowPassword(!showPassword);
+	};
 	let DateTenYears = new Date();
 	DateTenYears.setFullYear((new Date()).getFullYear() - 10);
 
@@ -40,7 +46,30 @@ export default function Register() {
 				.min(3, 'O nome deve ter no mínimo 3 caracteres')
 				.max(100, 'O nome deve ter no máximo 100 caracteres')
 				.required('Nome é obrigatório'),
-			email: Yup.string().email('Endereço de e-mail inválido').max(255, 'O email deve ter no máximo 255 caracteres').required('E-mail é obrigatório'),
+			email: Yup.string().email('Endereço de e-mail inválido').max(255, 'O email deve ter no máximo 255 caracteres').required('E-mail é obrigatório').test(
+				'is-valid-domain',
+				'O domínio do e-mail é inválido',
+				async (value) => {
+					if (!value) return false;
+					const domain = value.split('@')[1];
+					if (!domain) return false;
+
+					const decodedDomain = punycode.toUnicode(domain);
+					const domainPattern = /^[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+					if (!domainPattern.test(decodedDomain) || decodedDomain.includes('..')) return false;
+	
+					try {
+						const response = await fetch(`https://dns.google/resolve?name=${decodedDomain}&type=MX`);
+						if (!response.ok) return false;
+
+						const data = await response.json();
+						if (data.Status !== 0 || !data.Answer || data.Answer.length === 0) return false
+						return true
+					} catch (error) {
+						return false;
+					}
+				}
+			),
 			password: Yup.string().min(8, 'Senha deve ter no mínimo 8 caracteres').required('Senha é obrigatória'),
 			birthday: Yup.date()
 				.transform((value, currentValue) => { return moment(currentValue, 'DD/MM/YYYY', true).toDate() })
@@ -55,8 +84,8 @@ export default function Register() {
 		}),
    
 		onSubmit: async values => {
-   
-			try {
+			
+			try {				
 				
 				await api.post('signup', {...values, birthday: moment(values.birthday, 'DD/MM/YYYY', true).format('YYYY-MM-DD')});
 				
@@ -65,13 +94,8 @@ export default function Register() {
 				navigate('/login');
 				
 			} catch (error) {
-				
-				if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-					Toast('error', "Falha na conexão ao servidor", "errorServer");
-				}
-				else{
-					Toast('error', error, "aviso");
-				}
+
+				Toast('error', error, "aviso");
 				
 			}
 		},
@@ -87,10 +111,10 @@ export default function Register() {
 
 		// Atualiza o valor no formulário
 		formik.setFieldValue('birthday', formatted);
-};
+	};
 	
 	return (
-		<main id="register-page" className="flex-fill d-flex align-items-center" aria-label="formulário de cadastro">    
+		<main id="register-page" className="flex-fill d-flex align-items-center register" aria-label="formulário de cadastro">    
 			<div className="container py-5 py-sm-0">
 
 				<div className="pb-3 d-flex justify-content-center align-items-center" aria-hidden="true">
@@ -99,8 +123,7 @@ export default function Register() {
 				</div>
 
 				<div id="content" className="row position-relative justify-content-center mt-5">
-					<div className="col-12 col-md-8 col-lg-4">
-						<form className="row" noValidate="" onSubmit={formik.handleSubmit}>
+						<form className="row m-auto mt-5 col-12 col-md-8 col-lg-4" noValidate="" onSubmit={formik.handleSubmit}>
 								
 								<div className="col-12 mb-3">
 									<input 
@@ -122,6 +145,7 @@ export default function Register() {
 									<input 
 										disabled={formik.isSubmitting}
 										onChange={formik.handleChange}
+										onBlur={formik.handleBlur}
 										onInput={(e) => formik.setFieldTouched(e.target.name, true, false)}
 										value={formik.values.email}
 										className={`form-control ${formik.touched.email && formik.errors.email ? 'is-invalid' : '' }`}
@@ -133,17 +157,22 @@ export default function Register() {
 									{formik.touched.email && formik.errors.email ? (<strong className="invalid-feedback d-block"> {formik.errors.email}</strong>) : null}
 								</div>
 
-								<div className="col-12 mb-3">
+								<div className="col-12 mb-3 " style={{ position: 'relative' }}>
 									<input 
 										disabled={formik.isSubmitting}
 										onChange={formik.handleChange}
 										onInput={(e) => formik.setFieldTouched(e.target.name, true, false)}
 										value={formik.values.password}
 										className={`form-control ${formik.touched.password && formik.errors.password ? 'is-invalid' : '' }`}
-										type="password" 
+										type={showPassword ? "text" : "password"}
 										name="password" 
 										placeholder="Senha*"
 									/>
+									<div className="">
+										<i onClick={togglePasswordVisibility} className={`bi bi-${showPassword ? 'eye-fill': 'eye-slash-fill'} icon ${formik.touched.password && formik.errors.password ? 'reyeicon-active': ''}`}
+										></i>
+									</div>
+
 									{formik.touched.password && formik.errors.password ? (<strong className="invalid-feedback d-block"> {formik.errors.password}</strong>) : null}
 								</div>
 
@@ -251,7 +280,6 @@ export default function Register() {
 								</div>
 
 						</form>
-					</div>
 				</div>
 			</div>
 		</main>

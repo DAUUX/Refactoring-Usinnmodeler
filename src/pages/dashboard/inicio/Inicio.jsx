@@ -6,8 +6,15 @@ import Modelos_documentos from './Modelos_documentos'
 import { Toast } from "../../../components/Toast";
 import api from "../../../services/api";
 import './style.scss'
+import Notifications from "../../../components/Notifications"
+import { useEffect } from "react";
 
 function Inicio(){
+
+    useEffect(() => {
+        document.title = 'Início - USINN Modeler';
+    },[]);
+
     const { resultcardRecentes, cardRecentes } = Documents_inicio();
 
     const [modalOptions, setModalOptions] = useState(false);
@@ -32,18 +39,19 @@ function Inicio(){
     
     <div id="inicioPage" className="flex-fill ">
     
-        <nav className="navbar navbar-expand-lg p-3 justify-content-end ">    
-                
-                <div className="h3 text-center pt-2 w-100">
-                    <b>Seja bem-vindo(a), {Data.name}!</b>
-                </div> 
-                
-                <div className="d-flex ">
-                    <UserProfile />
+        <nav className="navbar navbar-expand-lg p-3 px-1 px-sm-3 justify-content-end">     
+            <div className="container-fluid">
+                <div className="d-flex align-items-center gap-2 ms-auto">
+                    <Notifications/>
+                    <UserProfile/>
                 </div>
+            </div>
         </nav>
 
         <nav className="container-fluid pt-0 pt-md-2">
+            <div className="h4 text-center text-break">
+                <b>Seja bem-vindo(a), {Data.name}!</b>
+            </div>
             {resultcardModels && (
                 <div className="px-md-0 mt-5 resultcardModels">
                     <div className="d-flex justify-content-between">

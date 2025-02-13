@@ -1,0 +1,68 @@
+@import "../../assets/styles/variables";
+
+#dropdown-notification {
+  .dropdown-menu {
+    transform: translateX(-90%);
+    max-height: 60svh;
+    overflow-y: auto;
+    background-color: #ffffff;
+    z-index: 1020 !important;
+    div {
+      max-width: 450px;
+      button {
+        &:hover {
+          background-color: #ffffff;
+          color: $primary !important;
+        }
+        &:focus:not(:hover) {
+          background-color: $primary;
+          color: #ffffff;
+        }
+        &:not(:focus) {
+          color: #000000 !important;
+        }
+      }
+      &:hover,
+      &:focus {
+        background-color: $primary !important;
+        color: #ffffff !important;
+        button {
+          color: #ffffff !important;
+          &:hover {
+            color: $primary !important;
+          }
+        }
+      }
+      &:focus button {
+        color: #ffffff !important;
+      }
+    }
+    .reader {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: $gray-900;
+    }
+    @media (max-width: 840px) {
+      transform: translateX(-50%);
+      max-width: 350px;
+    }
+    @media (max-width: 610px) {
+      max-width: 250px;
+    }
+  }
+  #countNotific {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 0.7rem;
+    height: 20px;
+    width: 20px;
+  }
+  .cursor-default {
+    cursor: default !important;
+  }
+}

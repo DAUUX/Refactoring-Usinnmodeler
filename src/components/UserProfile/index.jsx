@@ -30,14 +30,9 @@ function UserProfile(props) {
 
 
         } catch (error) {
-            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-                Toast('error', "Falha na conexão ao servidor", "errorServer");
-            }
-            else{
-                Toast('error', error, "errorCircle");
-            }
-            localStorage.removeItem('user');
-            localStorage.removeItem('token');
+            
+            Toast('error', error, "errorCircle");
+            
         }
         
     }
@@ -55,32 +50,26 @@ function UserProfile(props) {
     function logout() {
         localStorage.removeItem('user');
         localStorage.removeItem('token');
-        navigate(`/`);
+        navigate(`/login`);
     }
 
     useEffect(()=>{
         getUserData();
+     // eslint-disable-next-line react-hooks/exhaustive-deps
      },[])
     
     return (
-        
-            <div className="dropdown d-flex">
+            <div className={`dropdown d-flex ${props.textColor === "white" ? 'outline-white' : 'outline-black'}`}>
 
-                <div id="profileImg" className="text-uppercase"> <img className="mb-4 img-fluid"src={avatarOptions[user.avatar-1]} alt=""></img> </div>
+                <div id="profileImg" className="d-flex align-items-center"> <img className="img-fluid"src={avatarOptions[user.avatar-1]} alt=""></img> </div>
                 
-                {props.textColor === "white" ? 
-                    <button className="btn px-2 pe-0 dropdown-toggle text-white" id="dropdownMenuButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">  
-                        <b> {user.name} </b> 
-                    </button>
-                : 
-                    <button className="btn px-2 pe-0 dropdown-toggle" id="dropdownMenuButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">  
-                        <b> {user.name} </b> 
-                    </button>
-                }
+                <button className={`btn px-2 pe-0 dropdown-toggle d-flex align-items-center ${props.textColor === "white" && 'text-white'}`} id="dropdownMenuButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">  
+                    <b className="text-truncate d-inline-block">{user.name}</b>
+                </button>  
 
             <ul className="dropdown-menu dropdown-menu-lg-end" aria-labelledby="dropdownMenuButton">
-                <li><Link className="dropdown-item" to="/dashboard/atualizarperfil"> Atualizar Perfil </Link></li>
-                <li><Link className="dropdown-item" to="/dashboard/atualizarsenha"> Redefinir Senha </Link></li>
+                <li><Link className="dropdown-item d-flex align-items-center" to="/dashboard/atualizarperfil"> Atualizar Perfil </Link></li>
+                <li><Link className="dropdown-item d-flex align-items-center" to="/dashboard/atualizarsenha"> Redefinir Senha </Link></li>
                 <li><button className="dropdown-item" onClick={callRemoveLoginModal}> Excluir Perfil </button></li>
                 <li><button className="dropdown-item" onClick={logout}> Sair </button> </li>
             </ul>

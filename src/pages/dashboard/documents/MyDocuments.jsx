@@ -25,12 +25,9 @@ function MyDocuments() {
             const res = await api.get(`diagrams`);
             setDiagrams(res.data.diagrams);
         } catch(error){
-            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-                Toast('error', "Falha na conexão ao servidor", "errorServer");
-            }
-            else{
-                Toast('error', error, "errorCircle");
-            }
+
+            Toast('error', error, "errorCircle");
+            
         }
         setLoading(false);
     }
@@ -85,6 +82,7 @@ function MyDocuments() {
                                         thumbnail={diagram.diagram_svg} 
                                         onShareDiagram={(id) => callShareDiagramModal(id)} 
                                         onRemoveDiagram={(id)=> callRemoveDiagramModal(id)} 
+                                        onRenameDiagram={(id)=> callRenameDiagramModal(id)} 
                                         favorited={diagram.favorite} 
                                         onDiagramFavorited={()=>{}}
                                     />                                                          

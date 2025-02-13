@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import { Toast } from "../../components/Toast";
 import api from "../../services/api";
@@ -6,10 +6,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faKey } from "@fortawesome/free-solid-svg-icons";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import "./style.scss";
 
 import usinnModeler from "../../assets/icons/usinn-logo-horiz.png";
 
 export default function AlterPassword(props) {
+
+  const [showPassword1, setShowPassword1] = useState(false);
+
+  const [showPassword2, setShowPassword2] = useState(false);
 
   useEffect(() => {
     document.title = 'Alterar Senha - USINN Modeler';
@@ -35,12 +40,9 @@ export default function AlterPassword(props) {
         navigate('/login');
         Toast('success', 'Senha alterada com sucesso!', "key");
       } catch (error) {
-        if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-          Toast('error', "Falha na conexão ao servidor", "errorServer");
-        }
-        else{
-            Toast('error', error, "aviso");
-        }
+
+        Toast('error', error, "aviso");
+      
       }
     },
   });
@@ -61,30 +63,35 @@ export default function AlterPassword(props) {
         </div>
 
         <form className={`row m-0 justify-content-center`} onSubmit={formik.handleSubmit}>
-          <div className="col-12 mb-3">
+          <div className="col-12 mb-3" style={{ position: 'relative' }}>
             <input
               autoFocus
               onChange={formik.handleChange}
               onBlur={formik.handleBlur} // Esta linha garante que o campo seja marcado como "tocado" para mostrar os erros ao usuário
               value={formik.values.novaSenha}
               className={`form-control ${formik.touched.novaSenha && formik.errors.novaSenha ? "is-invalid" : ""}`}
-              type="password"
+              type={showPassword1 ? "text" : "password"}
               placeholder="Nova senha"
               name="novaSenha"
             />
+
+						<i onClick={() => setShowPassword1(!showPassword1)} className={`bi bi-${showPassword1 ? 'eye-fill': 'eye-slash-fill'} icon ${formik.touched.novaSenha && formik.errors.novaSenha ? 'icon-active': ''}`}></i>
+
             {formik.touched.novaSenha && formik.errors.novaSenha ? (<strong className="invalid-feedback d-block">{formik.errors.novaSenha}</strong>) : null}
           </div>
 
-          <div className="col-12 mb-3">
+          <div className="col-12 mb-3" style={{ position: 'relative' }}>
             <input
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.confirmarSenha}
               className={`form-control ${formik.touched.confirmarSenha && formik.errors.confirmarSenha ? "is-invalid" : "" }`}
-              type="password"
+              type={showPassword2 ? "text" : "password"}
               placeholder="Confirme a nova senha"
               name="confirmarSenha"
             />
+
+            <i onClick={() => setShowPassword2(!showPassword2)} className={`bi bi-${showPassword2 ? 'eye-fill': 'eye-slash-fill'} icon ${formik.touched.confirmarSenha && formik.errors.confirmarSenha ? 'icon-active': ''}`}></i>
             {formik.touched.confirmarSenha && formik.errors.confirmarSenha ? (<strong className="invalid-feedback d-block">{formik.errors.confirmarSenha}</strong>) : null}
           </div>
 

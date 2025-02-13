@@ -43,10 +43,12 @@ function mxToolbar(container)
 		section.classList.add('Section');
 		section.classList.add('border-bottom');
 		section.classList.add('border-end');
-		section.classList.add('p-3');
+		section.classList.add('ps-3');
 		section.id = "Section" + index;
 
 		span.classList.add('text-primary');
+		span.classList.add('d-flex');
+		span.classList.add('align-items-center');
 
 		div1.classList.add('ExpandButtons');
 		div1.classList.add('d-flex');
@@ -56,7 +58,6 @@ function mxToolbar(container)
 		div2.classList.add('Hidden');
 
 		button.classList.add('border-0');
-		button.classList.add('ps-2');
 		button.classList.add("bg-white");
 
 		iconButton.src = "../../../images/icons/arrow-down.png";

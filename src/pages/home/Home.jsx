@@ -42,7 +42,7 @@ export default function Home() {
   return (
     <>
       <header className={`position-absolute w-100 ${hambOpen && 'border-bottom border-white'}`}>
-        <nav className="navbar navbar-expand-lg navbar-light bg-primary py-1 px-3 px-lg-5">
+        <nav className="navbar navbar-expand-lg navbar-light bg-primary py-1 px-3 px-lg-5 outline-white">
           <button
             className="navbar-toggler bg-light my-2"
             type="button"
@@ -297,7 +297,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className={`${styles.backgroundMembers}`}>
+          <div className={`${styles.backgroundMembers} outline-white`}>
             <Slides />
           </div>
         </section>
