@@ -125,7 +125,7 @@ function DashboardMenu({menuOpen, setMenuOpen, onCreateDiagram}) {
                 {
                     menuItems.map(item => (
                         <li className={`nav-item ${(pathname.split("/")[2] ? "/"+pathname.split("/")[2] : '') === item.path ? 'active' : ''}`} key={item.name}>
-                            <Link to={`${route}${item.path}`} className="text-white d-block fs-5 text-decoration-none px-4 py-4" onClick={() => setMenuOpen(false)}> 
+                            <Link to={`${route}${item.path}`} className="d-block fs-5 text-decoration-none px-4 py-4" onClick={() => setMenuOpen(false)}> 
                                 <i className={`bi ${item.icon} me-2`}></i>  {item.name} 
                                 {item.name === 'Notificações' && countNotific > 0 &&
                                     <span className='bg-danger text-white p-1 px-2 rounded-2 fs-6 float-end'>{

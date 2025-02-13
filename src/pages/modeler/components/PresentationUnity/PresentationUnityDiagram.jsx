@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { NodeResizer, useReactFlow } from 'reactflow';
+import { NodeResizer } from 'reactflow';
 
 function Subflow({ id, data, selected }) {
   const [isEditing, setIsEditing] = useState(false); 
   const [text, setText] = useState('Unidade de apresentação'); 
-  const { getNode, setNodes } = useReactFlow();
 
   const handleBlur = () => {
     if (text.length > 50 || text.length < 2)  {

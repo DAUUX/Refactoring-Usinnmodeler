@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import usinnModeler from "../../../../assets/icons/usinn-logo-big.png";
 import { AppBar, Toolbar } from '@mui/material';
 import { TextField } from '@mui/material';
-import ReactFlow, { useReactFlow } from 'reactflow';
+import { useReactFlow } from 'reactflow';
 import './index.css'
 
 
@@ -25,10 +25,11 @@ import agrupar from '../../../../assets/icons/toolbar-agrupar-icon.svg'
 import desagrupar from '../../../../assets/icons/toolbar-desagrupar-icon.svg'
 import QuestionIcon from './QuestionIcon';
 import ShareDiagramModal from '../../../../components/ShareDiagramModal';
+import Notifications from "../../../../components/Notifications"
 
 
 const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload, handleCopy, handleRecort, handlePaste, deselectAll, selectAll, oculteManipulationIconsForReader, isOwner, diagram_id}) => {
-  const { zoomIn, zoomOut, fitView, setInteractive } = useReactFlow();
+  const { zoomIn, zoomOut, fitView } = useReactFlow();
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState('Novo Diagrama');
   const [shareModalId] = useState('ShareDiagramModal');
@@ -129,8 +130,11 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
                     }
                 </span>
                 
-                <span className='user-profile text-clor-white' color='white' style={{ color: 'white' }}>
-                    <UserProfile textColor = "white"/>
+                <span>
+                  <div className="d-flex align-items-center gap-2">
+                      <Notifications iconColor={'text-white'}/>
+                      <UserProfile textColor = "white"/>
+                  </div>
                 </span>
             </div>
         </div>

@@ -10,7 +10,7 @@ function ProgressIndicatorDiagram({ data, selected }) {
 
   const [name, setName] = useState(data.name)
   const textareaRef = useRef(null);
-  const [minDimensions, setMinDimensions] = useState({ minWidth: 180, minHeight: 55 });
+  const [, setMinDimensions] = useState({ minWidth: 180, minHeight: 55 });
   
   const [ultimaseta, setUltimaseta] = React.useState("sucess-feedback"); // Estado elevado
   const { setCurrentEdge } = useModeler(); // Supondo que useModeler esteja disponível

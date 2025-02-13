@@ -9,6 +9,7 @@ import logo from "../../assets/icons/usinn-logo-min.png";
 import UserProfile from "../../components/UserProfile";
 import ExportDiagramModal from "../../components/ExportDiagramModal";
 import Spinner from "../../components/Spinner";
+import Notifications from "../../components/Notifications"
 
 function Modeler(props) {
     const [loadingOverlay, setLoadingOverlay] = useState(false);
@@ -169,6 +170,7 @@ function Modeler(props) {
                         </span>
                         
                         <span>
+                            <Notifications iconColor = "white"/>
                             <UserProfile textColor = "white"/>
                         </span>
                     </div>

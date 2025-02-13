@@ -46,7 +46,7 @@ const ModelerReactFlow = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl,] = useState(null);
   const [open, setOpen] = useState(false);
   const { currentEdge, setCurrentEdge } = useModeler();
   const [anchorPosition, setAnchorPosition] = useState(null);
@@ -110,6 +110,7 @@ const ModelerReactFlow = () => {
   
       getDiagram();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [diagramId, setEdges, setNodes]);
   
   

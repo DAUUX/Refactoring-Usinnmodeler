@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { NodeResizer, useReactFlow } from 'reactflow';
+import { NodeResizer } from 'reactflow';
 import Seta from "./seta.png";
 
 function Subflow({ id, data, selected }) {
   const [isEditing, setIsEditing] = useState(false); 
   const [text, setText] = useState('Unidade de apresentação'); 
-  const { getNode, setNodes } = useReactFlow();
 
   const handleBlur = () => {
     if (text.length > 50 || text.length < 2)  {
@@ -66,7 +65,7 @@ function Subflow({ id, data, selected }) {
                 style={{ position: 'absolute', top: 10, marginLeft: 10}}
                 onClick={handleClick}
               >
-                {text} <img width={20} src={Seta}/>
+                {text} <img width={20} src={Seta} alt="unidade de apresentação"/>
               </span>
             )}
             

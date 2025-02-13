@@ -15,7 +15,7 @@ function ObrigatoryUserActionDiagram({ data, selected }) {
   const [openNavigation, setOpenNavigation] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const textareaRef = useRef(null);
-  const [minDimensions, setMinDimensions] = useState({ minWidth: 200, minHeight: 60 });
+  const [, setMinDimensions] = useState({ minWidth: 200, minHeight: 60 });
   
   const [ultimaseta, setUltimaseta] = React.useState("navigation"); // Estado elevado
   const { setCurrentEdge } = useModeler(); // Supondo que useModeler esteja disponível

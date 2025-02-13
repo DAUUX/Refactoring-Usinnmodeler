@@ -10,7 +10,7 @@ function AlertContentDiagram({ data, selected }) {
 
   const [name, setName] = useState(data.name)
   const textareaRef = useRef(null);
-  const [minDimensions, setMinDimensions] = useState({ minWidth: 200, minHeight: 60 });
+  const [, setMinDimensions] = useState({ minWidth: 200, minHeight: 60 });
 
   const [ultimaseta, setUltimaseta] = React.useState("navigation"); 
   const { setCurrentEdge } = useModeler(); 

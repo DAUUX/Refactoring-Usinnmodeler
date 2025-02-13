@@ -25,6 +25,7 @@ export default function EditableEdgeLabel({ sourceX, sourceY, targetX, targetY, 
         setLabelXY(edge.labelPosition);
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const handleBlur = () => {
@@ -74,7 +75,7 @@ export default function EditableEdgeLabel({ sourceX, sourceY, targetX, targetY, 
     }
   }, [labelXY, text, id, setEdges]);
 
-  const [_, labelXButton, labelYButton] = getSmoothStepPath({
+  const [, labelXButton, labelYButton] = getSmoothStepPath({
     sourceX: sourceX,
     sourceY: sourceY,
     sourcePosition: sourcePosition,

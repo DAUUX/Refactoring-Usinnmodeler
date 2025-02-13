@@ -90,7 +90,7 @@ function DiagramCard({id, name, oculto_data, favorited_data,  description, thumb
             className="card text-reset text-decoration-none mw-25 overflow-hidden"
             id="diagram-card"
         >
-            <div className="card-header d-flex">
+            <div className="card-header d-flex pe-0">
                 <div className={`${description? "overflow-hidden d-flex flex-column align-items-start" : "overflow-hidden d-flex align-items-center cols"}`}>
                     <span className="fw-bold">{name}</span>
                     <span className="text-muted">{description}</span>
@@ -100,7 +100,7 @@ function DiagramCard({id, name, oculto_data, favorited_data,  description, thumb
                     className="dropdown ms-auto d-flex ps-3 align-items-center"
                     onClick={(e) => e.stopPropagation()} // Impede que o clique no dropdown afete o Link
                 >
-                    <Link className='pb-1' 
+                    <Link className='d-flex justify-content-center align-items-center' 
                         onClick={(e)=>{                                        
                             e.stopPropagation(); 
                             e.preventDefault(); 
