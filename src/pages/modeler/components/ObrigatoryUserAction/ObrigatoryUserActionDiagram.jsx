@@ -6,6 +6,8 @@ import './text-updater-node.css';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import TypeNavigations from '../TypeNavigations';
+import { useModeler } from "../../../../context/modelerContext";
+
 
 function ObrigatoryUserActionDiagram({ data, selected }) {
 
@@ -14,6 +16,9 @@ function ObrigatoryUserActionDiagram({ data, selected }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const textareaRef = useRef(null);
   const [minDimensions, setMinDimensions] = useState({ minWidth: 200, minHeight: 60 });
+  
+  const [ultimaseta, setUltimaseta] = React.useState("navigation"); // Estado elevado
+  const { setCurrentEdge } = useModeler(); // Supondo que useModeler esteja disponível
 
   useEffect(() => {
     if (!!data.name.trim()) {
@@ -71,16 +76,17 @@ function ObrigatoryUserActionDiagram({ data, selected }) {
       <Handle type="target" position={Position.Top} isConnectable id='sistem-process-target-top'/>
       <Handle type="target" position={Position.Right} isConnectable id='sistem-process-target-right'/>
       <Handle type="target" position={Position.Bottom} isConnectable id='sistem-process-target-bottom'/>
-      <Handle type="source" position={Position.Left} id='sistem-process-source-left' onClick={(e) => handleClick(e)} />
-      <Handle type="source" position={Position.Top} id='sistem-process-source-top' onClick={(e) => handleClick(e)}/>
-      <Handle type="source" position={Position.Right} id='sistem-process-source-right' onClick={(e) => handleClick(e)}/>
-      <Handle type="source" position={Position.Bottom} id='sistem-process-source-bottom' onClick={(e) => handleClick(e)}/>
+      <Handle type="source" position={Position.Left} id='sistem-process-source-left' onClick={(e) => handleClick(e)} onMouseEnter={(e) => {if (e.buttons === 0) {setCurrentEdge(ultimaseta);}}}/>
+      <Handle type="source" position={Position.Top} id='sistem-process-source-top' onClick={(e) => handleClick(e)} onMouseEnter={(e) => {if (e.buttons === 0) {setCurrentEdge(ultimaseta);}}}/>
+      <Handle type="source" position={Position.Right} id='sistem-process-source-right' onClick={(e) => handleClick(e)} onMouseEnter={(e) => {if (e.buttons === 0) {setCurrentEdge(ultimaseta);}}}/>
+      <Handle type="source" position={Position.Bottom} id='sistem-process-source-bottom' onClick={(e) => handleClick(e)} onMouseEnter={(e) => {if (e.buttons === 0) {setCurrentEdge(ultimaseta);}}}/>
       <TypeNavigations 
-        edges={['transition', 'cancel-transition', 'navigation']} 
+        edges={['navigation','transition', 'cancel-transition','query-data']} 
         onClose={() => handleClose()}
         open={openNavigation}
         anchor={anchorEl}
         close={() => handleClose()}
+        setUltimaseta={setUltimaseta}
       />
       <Grid container justifyContent={"space-between"} flexDirection={"row"}>
         <textarea 

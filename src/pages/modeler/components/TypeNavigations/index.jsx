@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React from 'react';
 import Popover from '@mui/material/Popover';
 import { Card, Grid} from '@mui/material';
@@ -7,19 +8,16 @@ import unsucessFeedback from "./unsucessFeedback.png"
 import sucessFeedback from "./sucessFeedback.png";
 import query from "./query.png";
 import cancel from "./cancel.png";
-import { useModeler } from "../../../../context/modelerContext";
 
-function TypeNavigations({close, anchor, edges}) {
+function TypeNavigations({ close, anchor, edges, setUltimaseta }) {
     const open = Boolean(anchor);
     const id = open ? 'simple-popover' : undefined;
 
-    const {setCurrentEdge} = useModeler();
-
     const onSelect = (typeEdge) => {
-        setCurrentEdge(typeEdge);
-        close();
-    }
-    
+        setUltimaseta(typeEdge); 
+        close(); 
+    };
+
     const edgeTypes = {
         'transition': 
             <Grid container justifyContent="space-between" alignItems="center" onClick={() => onSelect("transition")}>
@@ -123,7 +121,7 @@ function TypeNavigations({close, anchor, edges}) {
             TransitionProps={{
                 timeout: 1000,
             }}>
-           {renderPointer()}
+            {renderPointer()}
         </Popover>
     );
 }

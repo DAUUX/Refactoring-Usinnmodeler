@@ -187,7 +187,7 @@ const ModelerReactFlow = () => {
       setCurrentEdge("");
     }, 
     
-    [],
+    [setCurrentEdge, setEdges],
   );
 
   const onConnect = useCallback(
@@ -241,6 +241,7 @@ const ModelerReactFlow = () => {
       sourceClause =
         edge.type === "transition" ||
         edge.type === "cancel-transition" ||
+        edge.type === "query-data" ||
         edge.type === "navigation"
     }
 
@@ -255,18 +256,17 @@ const ModelerReactFlow = () => {
     }
 
     if (nodeSource.type === 'sistem-process') {
-      sourceClause = edge.type === 'sucess-feedback' ||
+      sourceClause = 
+        edge.type === 'sucess-feedback' ||
         edge.type === 'unsucess-feedback' ||
         edge.type === 'query-data' ||
-        edge.type === 'cancel-transition' ||
-        edge.type === "navigation"
+        edge.type === 'cancel-transition' 
     }
 
     if (nodeTarget.type === 'sistem-process') {
       targetClause =
         edge.type === "transition" ||
-        edge.type === "query-data" ||
-        edge.type === "navigation"
+        edge.type === "query-data"
     }
 
     if (nodeSource.type === 'alert-content') {
@@ -281,8 +281,7 @@ const ModelerReactFlow = () => {
       targetClause = edge.type === 'sucess-feedback' ||
         edge.type === 'unsucess-feedback' ||
         edge.type === 'transition' ||
-        edge.type === 'cancel-transition' ||
-        edge.type === "navigation"
+        edge.type === 'cancel-transition'
     }
 
     if (nodeSource.type === 'data-colection') {
@@ -297,6 +296,7 @@ const ModelerReactFlow = () => {
       sourceClause =
         edge.type === "transition" ||
         edge.type === "cancel-transition" ||
+        edge.type === "query-data" ||
         edge.type === "navigation"
     }
 
@@ -311,18 +311,17 @@ const ModelerReactFlow = () => {
     }
 
     if (nodeSource.type === 'progress-indicator') {
-      sourceClause = edge.type === 'sucess-feedback' ||
+      sourceClause = 
+      edge.type === 'sucess-feedback' ||
         edge.type === 'unsucess-feedback' ||
         edge.type === 'query-data' ||
-        edge.type === 'cancel-transition' ||
-        edge.type === "navigation"
+        edge.type === 'cancel-transition'
     }
 
     if (nodeTarget.type === 'progress-indicator') {
       targetClause =
         edge.type === "transition" ||
-        edge.type === "query-data" ||
-        edge.type === "navigation"
+        edge.type === "query-data"
     }
 
     return sourceClause && targetClause

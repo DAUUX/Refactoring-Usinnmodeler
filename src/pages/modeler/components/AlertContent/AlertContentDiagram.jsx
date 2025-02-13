@@ -4,13 +4,17 @@ import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import { Grid } from "@mui/material";
 import './text-updater-node.css';
 import TypeNavigations from '../TypeNavigations';
-
+import { useModeler } from "../../../../context/modelerContext";
 
 function AlertContentDiagram({ data, selected }) {
 
   const [name, setName] = useState(data.name)
   const textareaRef = useRef(null);
   const [minDimensions, setMinDimensions] = useState({ minWidth: 200, minHeight: 60 });
+
+  const [ultimaseta, setUltimaseta] = React.useState("navigation"); 
+  const { setCurrentEdge } = useModeler(); 
+
 
   useEffect(() => {
     if (!!data.name.trim()) {
@@ -92,16 +96,18 @@ function AlertContentDiagram({ data, selected }) {
       <Handle type="target" position={Position.Top} isConnectable id='alert-content-target-top'/>
       <Handle type="target" position={Position.Right} isConnectable id='alert-content-target-right'/>
       <Handle type="target" position={Position.Bottom} isConnectable id='alert-content-target-bottom'/>
-      <Handle type="source" position={Position.Left} id='alert-content-source-left' onClick={(e) => handleClick(e)} />
-      <Handle type="source" position={Position.Top} id='alert-content-source-top' onClick={(e) => handleClick(e)}/>
-      <Handle type="source" position={Position.Right} id='alert-content-source-right' onClick={(e) => handleClick(e)}/>
-      <Handle type="source" position={Position.Bottom} id='alert-content-source-bottom' onClick={(e) => handleClick(e)}/>
+      <Handle type="source" position={Position.Left} id='alert-content-source-left' onClick={(e) => handleClick(e)} onMouseEnter={(e) => {if (e.buttons === 0) {setCurrentEdge(ultimaseta);}}}/>
+      <Handle type="source" position={Position.Top} id='alert-content-source-top' onClick={(e) => handleClick(e)} onMouseEnter={(e) => {if (e.buttons === 0) {setCurrentEdge(ultimaseta);}}}/>
+      <Handle type="source" position={Position.Right} id='alert-content-source-right' onClick={(e) => handleClick(e)} onMouseEnter={(e) => {if (e.buttons === 0) {setCurrentEdge(ultimaseta);}}}/>
+      <Handle type="source" position={Position.Bottom} id='alert-content-source-bottom' onClick={(e) => handleClick(e)} onMouseEnter={(e) => {if (e.buttons === 0) {setCurrentEdge(ultimaseta);}}}/>
+
       <TypeNavigations 
         edges={['navigation','transition', 'unsucess-feedback', 'sucess-feedback', 'cancel-transition']} 
         onClose={() => handleClose()}
         open={openNavigation}
         anchor={anchorEl}
         close={() => handleClose()}
+        setUltimaseta={setUltimaseta}
       />
     </div>
   );

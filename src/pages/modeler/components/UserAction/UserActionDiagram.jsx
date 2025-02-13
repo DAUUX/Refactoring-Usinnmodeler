@@ -5,6 +5,8 @@ import { Grid } from "@mui/material";
 import './text-updater-node.css';
 import TypeNavigations from '../TypeNavigations';
 
+import { useModeler } from "../../../../context/modelerContext";
+
 
 function UserActionDiagram({ data, selected }) {
 
@@ -12,7 +14,11 @@ function UserActionDiagram({ data, selected }) {
   const [openNavigation, setOpenNavigation] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const textareaRef = useRef(null);
+
   const [minDimensions, setMinDimensions] = useState({ minWidth: 180, minHeight: 60 });
+  const [ultimaseta, setUltimaseta] = React.useState("navigation"); // Estado elevado
+  const { setCurrentEdge } = useModeler(); // Supondo que useModeler esteja disponível
+
 
   useEffect(() => {
     if (!!data.name.trim()) {
@@ -57,7 +63,7 @@ function UserActionDiagram({ data, selected }) {
       if(name.length === 0) setName('Ação do usuário')
     }
   };
-
+  
   return (
     <div className="text-updater-node"
     style={{
@@ -112,31 +118,36 @@ function UserActionDiagram({ data, selected }) {
         position={Position.Bottom}
         onClick={(e) => handleClick(e)} 
         id='user-action-source-bottom'
+        onMouseEnter={(e) => {if (e.buttons === 0) {setCurrentEdge(ultimaseta);}}}
       />
       <Handle
         type="source"
         position={Position.Right}
         onClick={(e) => handleClick(e)} 
         id='user-action-source-right'
+        onMouseEnter={(e) => {if (e.buttons === 0) {setCurrentEdge(ultimaseta);}}}
       />
       <Handle 
         type="source"
         position={Position.Top}
         onClick={(e) => handleClick(e)}
         id='user-action-source-top'
+        onMouseEnter={(e) => {if (e.buttons === 0) {setCurrentEdge(ultimaseta);}}}
       />
       <Handle 
         type="source"
         position={Position.Left} 
         onClick={(e) => handleClick(e)}
         id='user-action-source-left'
+        onMouseEnter={(e) => {if (e.buttons === 0) {setCurrentEdge(ultimaseta);}}}
       />
       <TypeNavigations 
-        edges={['transition', 'cancel-transition', 'navigation']} 
+        edges={['navigation','transition', 'cancel-transition', 'query-data']} 
         onClose={() => handleClose()}
         open={openNavigation}
         anchor={anchorEl}
         close={() => handleClose()}
+        setUltimaseta={setUltimaseta}
       />
     </div>
   );

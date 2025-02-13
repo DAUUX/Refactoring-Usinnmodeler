@@ -5,11 +5,17 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Handle, Position } from 'reactflow';
 import './text-updater-node.css';
 import TypeNavigations from '../TypeNavigations';
+import { useModeler } from "../../../../context/modelerContext";
+
+
 function DataColection({ data, id, selected }) {
   // Sincronizar o estado local com os dados fornecidos pelo React Flow
   const [name, setName] = useState(data.name || '');
   const [fields, setFields] = useState(data.fields || [{ name: '' }]);
   const [isEditing, setIsEditing] = useState(true);
+  
+  const [ultimaseta, setUltimaseta] = React.useState("query-data"); // Estado elevado
+  const { setCurrentEdge } = useModeler(); // Supondo que useModeler esteja disponível
 
   // Atualizar o nome no estado global do nó
   useEffect(() => {
@@ -73,16 +79,18 @@ function DataColection({ data, id, selected }) {
       <Handle type="target" position={Position.Top} isConnectable id='data-colection-target-top'/>
       <Handle type="target" position={Position.Right} isConnectable id='data-colection-target-right'/>
       <Handle type="target" position={Position.Bottom} isConnectable id='data-colection-target-bottom'/>
-      <Handle type="source" position={Position.Left} id='data-colection-source-left' onClick={(e) => handleClick(e)} />
-      <Handle type="source" position={Position.Top} id='data-colection-source-top' onClick={(e) => handleClick(e)}/>
-      <Handle type="source" position={Position.Right} id='data-colection-source-right' onClick={(e) => handleClick(e)}/>
-      <Handle type="source" position={Position.Bottom} id='data-colection-source-bottom' onClick={(e) => handleClick(e)}/>
+      <Handle type="source" position={Position.Left} id='data-colection-source-left' onClick={(e) => handleClick(e)} onMouseEnter={(e) => {if (e.buttons === 0) {setCurrentEdge(ultimaseta);}}}/>
+      <Handle type="source" position={Position.Top} id='data-colection-source-top' onClick={(e) => handleClick(e)} onMouseEnter={(e) => {if (e.buttons === 0) {setCurrentEdge(ultimaseta);}}}/>
+      <Handle type="source" position={Position.Right} id='data-colection-source-right' onClick={(e) => handleClick(e)} onMouseEnter={(e) => {if (e.buttons === 0) {setCurrentEdge(ultimaseta);}}}/>
+      <Handle type="source" position={Position.Bottom} id='data-colection-source-bottom' onClick={(e) => handleClick(e)} onMouseEnter={(e) => {if (e.buttons === 0) {setCurrentEdge(ultimaseta);}}}/>
       <TypeNavigations 
+
         edges={['query-data']} 
         onClose={() => handleClose()}
         open={openNavigation}
         anchor={anchorEl}
         close={() => handleClose()}
+        setUltimaseta={setUltimaseta}
       />
       <Box 
         sx={{ 
