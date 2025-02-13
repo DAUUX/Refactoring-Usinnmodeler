@@ -4,13 +4,16 @@ import { Grid } from "@mui/material";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import './text-updater-node.css';
 import TypeNavigations from '../TypeNavigations';
-
+import { useModeler } from "../../../../context/modelerContext";
 
 function ProgressIndicatorDiagram({ data, selected }) {
 
   const [name, setName] = useState(data.name)
   const textareaRef = useRef(null);
   const [minDimensions, setMinDimensions] = useState({ minWidth: 180, minHeight: 55 });
+  
+  const [ultimaseta, setUltimaseta] = React.useState("sucess-feedback"); // Estado elevado
+  const { setCurrentEdge } = useModeler(); // Supondo que useModeler esteja disponível
 
   useEffect(() => {
     if (!!data.name.trim()) {
@@ -72,16 +75,18 @@ function ProgressIndicatorDiagram({ data, selected }) {
       <Handle type="target" position={Position.Top} isConnectable id='progress-indicator-target-top'/>
       <Handle type="target" position={Position.Right} isConnectable id='progress-indicator-target-right'/>
       <Handle type="target" position={Position.Bottom} isConnectable id='progress-indicator-target-bottom'/>
-      <Handle type="source" position={Position.Left} id='progress-indicator-source-left' onClick={(e) => handleClick(e)} />
-      <Handle type="source" position={Position.Top} id='progress-indicator-source-top' onClick={(e) => handleClick(e)}/>
-      <Handle type="source" position={Position.Right} id='progress-indicator-source-right' onClick={(e) => handleClick(e)}/>
-      <Handle type="source" position={Position.Bottom} id='progress-indicator-source-bottom' onClick={(e) => handleClick(e)}/>
+      <Handle type="source" position={Position.Left} id='progress-indicator-source-left' onClick={(e) => handleClick(e)} onMouseEnter={(e) => {if (e.buttons === 0) {setCurrentEdge(ultimaseta);}}}/>
+      <Handle type="source" position={Position.Top} id='progress-indicator-source-top' onClick={(e) => handleClick(e)} onMouseEnter={(e) => {if (e.buttons === 0) {setCurrentEdge(ultimaseta);}}}/>
+      <Handle type="source" position={Position.Right} id='progress-indicator-source-right' onClick={(e) => handleClick(e)} onMouseEnter={(e) => {if (e.buttons === 0) {setCurrentEdge(ultimaseta);}}}/>
+      <Handle type="source" position={Position.Bottom} id='progress-indicator-source-bottom' onClick={(e) => handleClick(e)} onMouseEnter={(e) => {if (e.buttons === 0) {setCurrentEdge(ultimaseta);}}}/>
+
       <TypeNavigations 
-        edges={['query-data', 'unsucess-feedback', 'sucess-feedback', 'cancel-transition']} 
+        edges={['sucess-feedback', 'unsucess-feedback', 'cancel-transition','query-data']} 
         onClose={() => handleClose()}
         open={openNavigation}
         anchor={anchorEl}
         close={() => handleClose()}
+        setUltimaseta={setUltimaseta}
       />
       <Grid container justifyContent={"space-between"} flexDirection={"row"}>
         <Grid item xs={15}>
