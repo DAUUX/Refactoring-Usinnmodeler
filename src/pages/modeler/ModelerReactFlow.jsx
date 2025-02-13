@@ -51,25 +51,49 @@ const ModelerReactFlow = () => {
   const { currentEdge, setCurrentEdge } = useModeler();
   const [anchorPosition, setAnchorPosition] = useState(null);
   const [nameDiagram, setNameDiagram] = useState('');
-  const [initialPosition, setInitialPosition] = useState(null)
+  const [initialPosition, setInitialPosition] = useState(null);  
+  const [oculteManipulationIcons, setOculteManipulationIcons] = useState(false);
+  const [isOwner, setIsOwner] = useState(false);
+  const [diagramId, setDiagramId] = useState('');
   const { id } = useParams();
 
   const { getNodes } = useReactFlow();
 
-  useEffect(() => {
-    //console.log(nodes, '------', edges)
-  }, [nodes])
+  async function validPermissionForEdit() {        
+    let userId = JSON.parse(localStorage.getItem('user')).id;
+    const diagram = await api.get(`/collaboration/${diagramId}/${userId}`);
+    const collaboratorPermission = diagram.data.permission;
+    collaboratorPermission === 1 ? setOculteManipulationIcons(true) : setOculteManipulationIcons(false);
+  }
 
+  useEffect(()=>{
+    
+    if (id != null){
+      setDiagramId(id);
+    }
+  }, [id])
+
+  function checkIsOwner(ownerId){
+    let userId = JSON.parse(localStorage.getItem('user')).id;
+    if(userId === ownerId){
+      
+      setIsOwner(true);
+    } else{
+      setIsOwner(false);
+    }
+  }
   
   useEffect(() => {
-    if (!!id) {
+    if (!!diagramId) {
       const getDiagram = async () => {
         try {
-          const res = await api.get(`/diagrams/${id}`);
+          const res = await api.get(`/diagrams/${diagramId}`);
           const { data } = res;
+          checkIsOwner(data.user_id)
           setNameDiagram(data.name);
           const graph = JSON.parse(data.data);
-  
+          
+          validPermissionForEdit();
           // Atualiza os nós desmarcando-os
           setNodes(
             graph.nodes.map((node) => ({
@@ -86,7 +110,7 @@ const ModelerReactFlow = () => {
   
       getDiagram();
     }
-  }, [id, setEdges, setNodes]);
+  }, [diagramId, setEdges, setNodes]);
   
   
 
@@ -512,19 +536,20 @@ const ModelerReactFlow = () => {
   const onSave = async (name) => {
     try {
 
-      if (id) {
-          await api.put(`diagrams/${id}`, {
+      if (diagramId) {
+          await api.put(`diagrams/${diagramId}`, {
           name,
           nodes,
           edges
         })
         Toast('success', 'Diagrama editado com sucesso.')
       }else {
-          await api.post('diagrams', {
+          const diagram = await api.post('diagrams', {
           name,
           nodes,
           edges
         })
+       setDiagramId(diagram.data.message.id)
         Toast('success', 'Diagrama criado com sucesso.')
       }
 
@@ -540,20 +565,25 @@ const ModelerReactFlow = () => {
   return (
     <>
       <AppBarCustom 
-      selectAll={() => selectAll()}
-      deselectAll={() => deselectAll()}
-      onDownload={() => onDownload()} 
-      onSave={(name) => onSave(name)} 
-      handleUndo={() => handleUndo()} 
-      handleRedo={() => handleRedo()} 
-      handleDelete={() => handleDelete()} 
-      handleCopy={() => handleCopy()} 
-      handleRecort={() => handleCut()} 
-      handlePaste={() => handlePaste(true,true)} 
-      name={nameDiagram}/>
-
+        selectAll={() => selectAll()}
+        deselectAll={() => deselectAll()}
+        onDownload={() => onDownload()} 
+        onSave={(name) => onSave(name)} 
+        handleUndo={() => handleUndo()} 
+        handleRedo={() => handleRedo()} 
+        handleDelete={() => handleDelete()} 
+        handleCopy={() => handleCopy()} 
+        handleRecort={() => handleCut()} 
+        handlePaste={() => handlePaste(true,true)} 
+        name={nameDiagram}
+        oculteManipulationIconsForReader={oculteManipulationIcons}
+        isOwner={isOwner}
+        diagram_id={diagramId}
+      />
       <div className="dndflow">
-        <Sidebar />
+        <div hidden={oculteManipulationIcons}>
+          <Sidebar/>
+        </div>
         <>
           <div className="reactflow-wrapper" ref={reactFlowWrapper}>
             <ReactFlow

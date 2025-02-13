@@ -24,14 +24,14 @@ import exportDiagramIcon from '../../../../assets/icons/toolbar-export-icon.svg'
 import agrupar from '../../../../assets/icons/toolbar-agrupar-icon.svg'
 import desagrupar from '../../../../assets/icons/toolbar-desagrupar-icon.svg'
 import QuestionIcon from './QuestionIcon';
+import ShareDiagramModal from '../../../../components/ShareDiagramModal';
 
 
-const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload, handleCopy, handleRecort, handlePaste, deselectAll, selectAll}) => {
+const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload, handleCopy, handleRecort, handlePaste, deselectAll, selectAll, oculteManipulationIconsForReader, isOwner, diagram_id}) => {
   const { zoomIn, zoomOut, fitView, setInteractive } = useReactFlow();
-
-  
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState('Novo Diagrama');
+  const [shareModalId] = useState('ShareDiagramModal');
   
   const navigate = useNavigate()
 
@@ -94,7 +94,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
           />
           <div className='d-flex flex-column h4 mb-0'>
             <div className='mb-2'>
-              {isEditing ? (
+              {isEditing && !oculteManipulationIconsForReader ? (
                 <TextField
                   value={value}
                   onChange={handleChange}
@@ -119,14 +119,26 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
             >{"Documentos > Meus documentos"}</p>
           </div>
         </div>
-        <div className='user-profile text-clor-white' color='white' style={{ color: 'white' }}>
-          <UserProfile textColor="white" />
+        <div className=" justify-content-end" id="modelerNavbarToggle">
+            <div className="d-flex align-items-center py-3 py-lg-0">
+                <span>
+                    {diagram_id && isOwner &&
+                        <button data-bs-toggle="modal" data-bs-target={`#${shareModalId}`} className="btn btn-light btn-sm order-last text-primary me-4" title="Compartilhar">
+                            Compartilhar <i className="bi bi-share-fill fs-7"></i>
+                        </button>
+                    }
+                </span>
+                
+                <span className='user-profile text-clor-white' color='white' style={{ color: 'white' }}>
+                    <UserProfile textColor = "white"/>
+                </span>
+            </div>
         </div>
       </div>
 
           
 
-          <div className="down-funcions-bar w-100 " style={{ backgroundColor: 'white' }}>
+          <div className="down-funcions-bar w-100 " style={{ backgroundColor: 'white' }} hidden={oculteManipulationIconsForReader}>
 
             <div className="icon-container d-flex align-items-center pe-4" onClick={() => onSave(value)} style={{cursor: 'pointer', paddingLeft: '3em' }}>
                   <img 
@@ -264,7 +276,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
 
               <QuestionIcon/>
 
-
+            <ShareDiagramModal id={shareModalId} diagram_id={diagram_id} />
               
           </div>
 

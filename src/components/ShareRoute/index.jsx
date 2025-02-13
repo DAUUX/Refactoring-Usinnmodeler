@@ -29,7 +29,7 @@ const ShareRoute = (props) => {
         
         }
 
-        navigate(`/modeler${diagram.id ? '/'+diagram.id+'/'+slugify(diagram.name) : ''}`);
+        navigate(`/modeler${diagram.id ? '/'+diagram.id : ''}`);
 
     }
 
