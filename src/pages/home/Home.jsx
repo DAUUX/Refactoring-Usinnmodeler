@@ -144,14 +144,7 @@ export default function Home() {
               Modele a interação e a navegação de sistemas interativos <br />
               com foco na usabilidade.
             </p>
-
-            <Link
-              to="/login"
-              className={`${styles.btn} btn btn-light text-black rounded-pill`}
-              aria-label="ir para página de login do usinn"
-            >
-              COMECE A MODELAR
-            </Link>
+            
         </section>
 
         <section id="SobreUSINN" aria-labelledby="region2">

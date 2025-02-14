@@ -69,7 +69,7 @@ export default function Notification() {
       <nav className="navbar navbar-expand-lg bg-white p-3 px-1 px-sm-3 justify-content-between">
         <div className="container-fluid">
           <div className="mb-0 h4">
-            <b>Notificações</b>
+            <h1 className="h4 m-0">Notificações</h1>
           </div>
           <div className="d-flex align-items-center">
             <UserProfile />

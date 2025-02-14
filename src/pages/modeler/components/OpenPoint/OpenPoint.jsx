@@ -8,6 +8,7 @@ function OpenPoint() {
         component="img"
         height="25"
         image={openPoint}
+        alt="Ponto de Abertura"
       />
     </Card>
   );

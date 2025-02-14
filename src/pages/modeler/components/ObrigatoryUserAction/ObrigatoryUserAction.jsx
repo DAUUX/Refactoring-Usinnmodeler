@@ -9,6 +9,7 @@ function ObrigatoryUserAction() {
         component="img"
         height="30"
         image={obrigatoryUserAction}
+        alt="Ação do Usuário (Obrigatória)"
       />
     </Card>
   );

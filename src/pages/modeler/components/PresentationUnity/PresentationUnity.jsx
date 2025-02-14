@@ -9,6 +9,7 @@ function PresentationUnity() {
         component="img"
         height="30"
         image={presentationUnity}
+        alt="Unidade de Apresentação"
       />
     </Card>
   );

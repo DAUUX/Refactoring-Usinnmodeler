@@ -219,7 +219,7 @@ function ShareDiagramModal(props) {
             <div className="modal-dialog modal-lg modal-dialog-centered text-dark">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h4 className="modal-title" id="ShareDiagramModalLabel">Compartilhar diagrama</h4>
+                        <h3 className="modal-title h4" id="ShareDiagramModalLabel">Compartilhar diagrama</h3>
                         <button id="closeModal" type="button" className="btn-close p-0" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div className="modal-body p-2 p-sm-4" id="modal-compartilhar">
@@ -262,8 +262,8 @@ function ShareDiagramModal(props) {
                         </div>}
                     </div>
                     <div className="modal-footer d-flex justify-content-between outline-black">
-                        <button title="Copiar link" disabled={loading} className="btn text-primary border-dark px-4" type="button" onClick={copy}> {!copied? 'Copiar link' : 'Copiado'}  </button>
-                        <button title="Enviar" disabled={loading} className="btn bg-primary text-white px-4 px-sm-5" type="button" onClick={inviteLink}> Enviar </button>                       
+                        <button disabled={loading} className="btn text-primary border-dark px-4" type="button" onClick={copy}> {!copied? 'Copiar link' : 'Copiado'}  </button>
+                        <button disabled={loading} className="btn bg-primary text-white px-4 px-sm-5" type="button" onClick={inviteLink}> Enviar </button>                       
                     </div>
                 </div>
             </div>

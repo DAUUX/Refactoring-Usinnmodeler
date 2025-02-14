@@ -9,6 +9,7 @@ function SistemProcess() {
         component="img"
         height="25"
         image={processSistem}
+        alt="Processo do Sistema"
       />
     </Card>
   );

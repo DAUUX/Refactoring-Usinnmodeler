@@ -9,6 +9,7 @@ function ClosePoint() {
         component="img"
         height="25"
         image={openPoint}
+        alt="ponto de fechamento"
       />
     </Card>
   );

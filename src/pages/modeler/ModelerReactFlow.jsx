@@ -564,6 +564,7 @@ const ModelerReactFlow = () => {
 
   return (
     <>
+      <h1 class="visually-hidden">Página para criar e editar diagrama</h1>
       <AppBarCustom 
         selectAll={() => selectAll()}
         deselectAll={() => deselectAll()}

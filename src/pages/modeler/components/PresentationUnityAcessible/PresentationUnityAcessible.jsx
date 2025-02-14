@@ -9,6 +9,7 @@ function PresentationUnityAcessible() {
         component="img"
         height="30"
         image={presentationUnity}
+        alt="Unidade de Apresentação (Sempre Acessível)"
       />
     </Card>
   );

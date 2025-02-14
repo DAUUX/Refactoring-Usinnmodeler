@@ -35,7 +35,9 @@ function Dashboard() {
 
             <button 
                 onClick={()=> setMenuOpen(!menuOpen)}
-                className="btn btn-menu btn-primary rounded-circle shadow d-lg-none position-fixed border-white bottom-0 start-0 mb-4 ms-4">
+                className="btn btn-menu btn-primary rounded-circle shadow d-lg-none position-fixed border-white bottom-0 start-0 mb-4 ms-4"
+                aria-label={menuOpen ? 'esconder a barra lateral' : 'exibir a barra lateral'}
+            >
                 <i className={`bi bi-${menuOpen ? 'arrow-left' : 'arrow-right'}`}></i>
             </button>
 

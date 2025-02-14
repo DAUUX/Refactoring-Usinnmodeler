@@ -78,11 +78,11 @@ const NotificationItem = ({ item, onDelete, onModal }) => {
       <p className="w-100 text-break m-0 ps-2 pe-3">{item.message}</p>
 
       <div className={`d-flex ${isHovered ? 'visible' : 'invisible'}`}>
-        <button className="btn btn-default p-0 text-white" onClick={() => handleRead(item.id, item.read)}>
+        <button className="btn btn-default p-0 text-white" aria-label={item.read === 0 ? 'marcar como lida' : 'marcar como não lida'} onClick={() => handleRead(item.id, item.read)}>
           <i className={`bi ${item.read === 0 ? 'bi-envelope-open' : 'bi bi-envelope'}`}></i>
         </button>
         <button
-          className="btn btn-default p-0 text-white" onClick={() => {onDelete(); onModal();}}>
+          className="btn btn-default p-0 text-white" aria-label="apagar notificação" onClick={() => {onDelete(); onModal();}}>
           <i className="bi bi-trash"></i>
         </button>
       </div>
@@ -198,7 +198,7 @@ export default function Notification() {
       <nav className="navbar navbar-expand-lg bg-white p-3 pe-1 justify-content-between">
         <div className="container-fluid">
           <div className="mb-0 h4">
-            <b>Notificações</b>
+            <h1 className="h4 m-0">Notificações</h1>
           </div>
           <div className="d-flex align-items-center">
             <UserProfile />
@@ -229,7 +229,7 @@ export default function Notification() {
                 <div className="modal-content">
                   <div className="modal-body text-center px-4 pb-4">
                     <i className="bi bi-exclamation-triangle-fill mb-5 mt-3" style={{ fontSize: "60px" }}></i>
-                    <h4 className="mb-5">A notificação selecionada será excluída!</h4>
+                    <h2 className="mb-5 h4">A notificação selecionada será excluída!</h2>
                     <div className="d-flex justify-content-around">
                       <button className="btn btn-light text-primary border border-black px-4 px-sm-5" disabled={loading} data-bs-dismiss="modal">Cancelar</button>
                       <button

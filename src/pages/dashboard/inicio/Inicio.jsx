@@ -48,17 +48,18 @@ function Inicio(){
             </div>
         </nav>
 
-        <nav className="container-fluid pt-0 pt-md-2">
+        <main className="container-fluid pt-0 pt-md-2">
+            <h1 className="visually-hidden">Página inicial</h1>
             <div className="h4 text-center text-break">
                 <b>Seja bem-vindo(a), {Data.name}!</b>
             </div>
             {resultcardModels && (
                 <div className="px-md-0 mt-5 resultcardModels">
                     <div className="d-flex justify-content-between">
-                        <h3 className="ps-4">Modelos de Diagrama</h3>
+                        <h2 className="ps-4 h3">Modelos de Diagrama</h2>
                         <div className="pe-4">
-                            <button className="options-dropdown pe-1" onClick={()=>toggleModalOptions()}>
-                                <i class="bi bi-three-dots fs-1"></i>
+                            <button className="options-dropdown pe-1" aria-label="abrir e fechar opções para templates" onClick={()=>toggleModalOptions()}>
+                                <i className="bi bi-three-dots fs-1"></i>
                                 {modalOptions && (
                                 <div className="d-flex dropdown-models">
                                     <span onClick={()=>clearRemovedDiagrams()+toggleModalOptions()} onMouseLeave={()=>toggleModalOptions()}  className="">
@@ -78,10 +79,10 @@ function Inicio(){
             {resultcardRecentes && (
                 <div className="px-md-0 mt-5 resultcardModels">
                     <div className="d-flex justify-content-between">
-                        <h3 className="ps-4">Documentos recentes</h3>
+                        <h2 className="ps-4 h3">Documentos recentes</h2>
                         {!resultcardModels && (                        <div className="pe-4">
                                 <button className="options-dropdown pe-1" onClick={()=>toggleModalOptions()}>
-                                    <i class="bi bi-three-dots fs-1"></i>
+                                    <i className="bi bi-three-dots fs-1"></i>
                                     {modalOptions && (
                                     <div className="d-flex dropdown-models">
                                         <span onClick={()=>clearRemovedDiagrams()+toggleModalOptions()} onMouseLeave={()=>toggleModalOptions()}  className="">
@@ -98,15 +99,15 @@ function Inicio(){
                     </div>
                 </div>
             )}
-        </nav>
+        </main>
 
         {!resultcardModels && !resultcardRecentes &&(
             <div className="px-md-3 mt-5 resultcardModels">
                     <div className="d-flex justify-content-between">
-                    <h3 className="ps-4">Modelos de Diagrama</h3>
+                    <h2 className="ps-4 h3">Modelos de Diagrama</h2>
                     <div className="pe-4">
                         <button className="options-dropdown pe-1" onClick={()=>toggleModalOptions()}>
-                            <i class="bi bi-three-dots fs-1"></i>
+                            <i className="bi bi-three-dots fs-1"></i>
                             {modalOptions && (
                             <div className="d-flex dropdown-models">
                                 <span onClick={()=>clearRemovedDiagrams()+toggleModalOptions()} onMouseLeave={()=>toggleModalOptions()}  className="">

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { slugify } from "../../Helpers";
 import api from "../../services/api";
 import { Toast } from "../Toast";
 import { useSocket } from "../../services/SocketContext";

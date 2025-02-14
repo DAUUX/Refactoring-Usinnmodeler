@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import DiagramCard from "../../../components/DiagramCardModel";
-import Spinner from "../../../components/Spinner";
 import { Toast } from "../../../components/Toast";
 import api from "../../../services/api";
 
@@ -30,7 +29,6 @@ function Modelos_documentos({ refresh, forceRefresh, onlyFavorited="false" }) {
         const diagram = diagramsData[key];
         const userPreferences = diagramUser.data || {};
         const favoriteStatus = userPreferences[key]?.favorited || "false"; // Garante que sempre será "true" ou "false"
-        console.log(diagram.diagram_data)
         return {
           id: key,
           name: diagram.titulo,
@@ -67,6 +65,7 @@ function Modelos_documentos({ refresh, forceRefresh, onlyFavorited="false" }) {
 
   useEffect(() => {
     getDiagrams();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refresh]);
 
   function callRemoveDiagramModal(id) {

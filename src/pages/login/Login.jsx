@@ -63,6 +63,7 @@ export default function Login() {
 	return (
 		<main className="flex-fill d-flex align-items-center" aria-label="formulário de login">
 			<div className="container">
+				<h1 class="visually-hidden">Login</h1>
 
 				<div className="py-3 d-flex justify-content-center align-items-center" aria-hidden="true">
 					<img src={usinnModeler} alt="" />
@@ -83,6 +84,7 @@ export default function Login() {
 							name="email"
 							placeholder="E-mail*"
 							autoComplete="email"
+							aria-label="campo e-mail"
 						/>
 						{formik.touched.email && formik.errors.email ? (<strong className="invalid-feedback m-0 p-0 pt-1"> {formik.errors.email}</strong>) : null}
 					</div>
@@ -97,6 +99,7 @@ export default function Login() {
 							type={showPassword ? "text" : "password"}
 							name="password"
 							placeholder="Senha*"
+							aria-label="campo senha"
 						/>
 								<i onClick={togglePasswordVisibility}
 								className={`bi bi-${showPassword ? 'eye-fill': 'eye-slash-fill'} icon ${formik.touched.password && formik.errors.password ? 'eyeicon-active': ''}`}

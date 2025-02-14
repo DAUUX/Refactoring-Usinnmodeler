@@ -9,6 +9,7 @@ function ProgressIndicator() {
         component="img"
         height="30"
         image={progressIndicator}
+        alt="Indicador de Progresso"
       />
     </Card>
   );

@@ -83,7 +83,7 @@ function ChangePassword() {
             <nav className="navbar navbar-expand-lg bg-white p-3 px-1 px-sm-3 justify-content-between w-100">{/* Perfil user */}
                 <div className="container-fluid">
                     <div className="mb-0 h4">
-                        <b>Atualizar Senha</b>
+                        <h1 className="h4 m-0">Atualizar Senha</h1>
                     </div>
                     <div className="d-flex align-items-center gap-2 ms-auto">
                         <Notifications/>
@@ -114,6 +114,7 @@ function ChangePassword() {
                                     type={showPassword1 ? "text" : "password"}
                                     name="password" 
                                     placeholder="Senha*"
+                                    aria-label="campo da nova senha"
                                 />
 
                                 <i onClick={() => setShowPassword1(!showPassword1)} className={`bi bi-${showPassword1 ? 'eye-fill': 'eye-slash-fill'} icon ${formik.touched.password && formik.errors.password ? 'icon-active': ''}`}/>
@@ -131,6 +132,7 @@ function ChangePassword() {
                                     type={showPassword2 ? "text" : "password"}
                                     name="confirmPassword" 
                                     placeholder="Confirmar Senha*"
+                                    aria-label="campo para confirmar nova senha"
                                 />
                                 <i onClick={() => setShowPassword2(!showPassword2)} className={`bi bi-${showPassword2 ? 'eye-fill': 'eye-slash-fill'} icon ${formik.touched.confirmPassword && formik.errors.confirmPassword ? 'icon-active': ''}`}/>
                                 {formik.touched.confirmPassword && formik.errors.confirmPassword ? (<div className="invalid-feedback d-block"> {formik.errors.confirmPassword}</div>) : null}

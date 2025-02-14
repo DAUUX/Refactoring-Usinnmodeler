@@ -9,6 +9,7 @@ function UserAction() {
         component="img"
         height="30"
         image={userAction}
+        alt="Ação do Usuário"
       />
     </Card>
   );

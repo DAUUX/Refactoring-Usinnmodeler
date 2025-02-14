@@ -29,7 +29,7 @@ export default function Sidebar() {
           aria-controls="panel1-content"
           id="panel1-header"
         >
-          <Typography color={"#1082EC"}>Elementos de navegação</Typography>
+          <Typography color={"#13528E"}>Elementos de navegação</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Grid container spacing={2} alignItems="center" justifyContent="space-between">
@@ -64,7 +64,7 @@ export default function Sidebar() {
           aria-controls="panel1-content"
           id="panel1-header"
         >
-          <Typography color={"#1082EC"}>Elementos de interação</Typography>
+          <Typography color={"#13528E"}>Elementos de interação</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Grid container spacing={2} alignItems="center" mb={2} justifyContent="space-between" >
@@ -91,7 +91,7 @@ export default function Sidebar() {
           aria-controls="panel1-content"
           id="panel1-header"
         >
-          <Typography color={"#1082EC"}>Elementos de usabilidade</Typography>
+          <Typography color={"#13528E"}>Elementos de usabilidade</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Grid container spacing={2} alignItems="center" mb={2} justifyContent="space-between">

@@ -135,6 +135,7 @@ function Notifications({ iconColor }) {
         id="dropdownMenuButton1"
         data-bs-toggle="dropdown"
         aria-expanded="false"
+        aria-label="exibir ou esconder as notificações"
       >
         <i className={`bi bi-bell fs-3 ${iconColor}`}></i>
 
@@ -189,7 +190,7 @@ function Notifications({ iconColor }) {
           <div className="modal-content">
             <div className="modal-body text-center px-4 pb-4">
               <i className="bi bi-exclamation-triangle-fill mb-5 mt-3" style={{ fontSize: "60px" }}></i>
-              <h4 className="mb-5">A notificação selecionada será excluída!</h4>
+              <h2 className="mb-5 h4">A notificação selecionada será excluída!</h2>
               <div className="d-flex justify-content-around">
                 <button 
                   className="btn btn-light text-primary border border-black px-4 px-sm-5" 

@@ -9,6 +9,7 @@ function DataColection() {
         component="img"
         height="40"
         image={dataColection}
+        alt="Coleção de Dados e Query"
       />
     </Card>
   );

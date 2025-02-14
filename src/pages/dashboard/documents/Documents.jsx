@@ -16,7 +16,7 @@ function Documents() {
             <nav className="navbar navbar-expand-lg bg-white p-3 px-1 px-sm-3 justify-content-between">
                 <div className="container-fluid">
                     <div className="mb-0 h4">
-                        <b>Documentos</b>
+                        <h1 className="h4 m-0">Documentos</h1>
                     </div>
                     <div className="d-flex align-items-center ps-sm-4 gap-2 ms-auto">
                         <Notifications/>

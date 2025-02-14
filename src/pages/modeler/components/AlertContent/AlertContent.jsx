@@ -9,6 +9,7 @@ function AlertContent() {
         component="img"
         height="30"
         image={alertContent}
+        alt="Conteúdo de Alerta"
       />
     </Card>
   );

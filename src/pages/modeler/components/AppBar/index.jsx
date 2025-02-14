@@ -147,7 +147,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
             <div className="icon-container d-flex align-items-center pe-4" onClick={() => onSave(value)} style={{cursor: 'pointer', paddingLeft: '3em' }}>
                   <img 
                     src={SaveIcon} 
-                    alt="Salvar" 
+                    alt="Salvar diagrama" 
                     style={{ width: '24px', height: '24px', marginRight: '1em'}} 
                   />
                   
@@ -159,17 +159,17 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
 
             <div className="icon-container d-flex align-items-center ps-3 pe-3" onClick={() => onDownload()} style={{cursor: 'pointer'}}>
               <img 
-                        src={exportDiagramIcon} 
-                        alt="Exportar" 
-                        style={{ width: '20px', height: '20px', marginRight: '1em', marginBottom:'1px' }}     
-                />
-                <p className='' style={{ color: 'black', marginBottom:'0px' }}>Exportar diagrama</p>
+                src={exportDiagramIcon} 
+                alt="Exportar este diagrama" 
+                style={{ width: '20px', height: '20px', marginRight: '1em', marginBottom:'1px' }}     
+              />
+              <p className='' style={{ color: 'black', marginBottom:'0px' }}>Exportar diagrama</p>
             </div>
 
             <div className="icon-container-NoBorder d-flex align-items-center ps-3 pe-1" onClick={() => handleUndo()} style={{cursor: 'pointer'}}>
               <img 
                 src={RedoIcon} 
-                alt="Refazer" 
+                alt="Refazer ações" 
                 style={{ width: '24px', height: '24px', marginRight: '1em',padding:'1px' }} 
                 
               />
@@ -180,7 +180,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
             <div className="icon-container d-flex align-items-center ps-3 pe-1" onClick={() => handleRedo()} style={{cursor: 'pointer'}}>
               <img 
                 src={UndoIcon} 
-                alt="Desfazer" 
+                alt="Desfazer ações" 
                 style={{ width: '24px', height: '24px', marginRight: '1em',padding:'1px' }} 
                 
               />
@@ -190,7 +190,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
             <div className="icon-container-NoBorder d-flex align-items-center ps-3 pe-1" onClick={() => deselectAll()} style={{cursor: 'pointer'}} >
               <img 
                   src={agrupar} 
-                  alt="Agrupar" 
+                  alt="Selecionar tudo" 
                   style={{ width: '24px', height: '24px', marginRight: '1em',padding:'1px' }} 
                   
                 />
@@ -200,7 +200,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
             <div className="icon-container d-flex align-items-center ps-3 pe-1" onClick={() => selectAll()} style={{cursor: 'pointer'}}>
               <img 
                   src={desagrupar} 
-                  alt="Agrupar" 
+                  alt="Desmarcar tudo" 
                   style={{ width: '24px', height: '24px', marginRight: '1em',padding:'1px' }} 
                   
                 />
@@ -210,7 +210,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
             <div className="icon-container-NoBorder d-flex align-items-center ps-3 pe-1" onClick={() => handleDelete()} style={{cursor: 'pointer'}}>
               <img 
                   src={DeleteOutlineIcon} 
-                  alt="Excluir" 
+                  alt="Excluir componentes" 
                   style={{ width: '24px', height: '24px', marginRight: '1em',padding:'1px' }} 
                   
                 />
@@ -220,7 +220,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
             <div className="icon-container-NoBorder d-flex align-items-center ps-3 pe-1 " onClick={() => handleRecort()} style={{cursor: 'pointer'}}>
               <img 
                     src={ContentCutIcon} 
-                    alt="Cortar" 
+                    alt="Cortar componentes" 
                     style={{ width: '24px', height: '24px', marginRight: '1em',padding:'1px' }} 
                     
                   />
@@ -231,7 +231,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
             <div className="icon-container-NoBorder d-flex align-items-center ps-3 pe-1" onClick={() => handleCopy()} style={{cursor: 'pointer'}}>
               <img 
                       src={ContentCopyIcon} 
-                      alt="Copiar" 
+                      alt="Copiar componentes" 
                       style={{ width: '27px', height: '27px', marginRight: '1em' }} 
                       
               />
@@ -241,7 +241,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
             <div className="icon-container d-flex align-items-center ps-4 pe-4" onClick={() => handlePaste()} style={{cursor: 'pointer'}}>
               <img 
                         src={ContentPasteIcon} 
-                        alt="Colar" 
+                        alt="Colar componentes" 
                         style={{ width: '27px', height: '27px', marginBottom:'1px' }} 
                         
                 />
@@ -251,7 +251,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
             <div className="icon-container-NoBorder d-flex align-items-center ps-3 pe-1" onClick={() => fitView({ duration: 300 })} style={{cursor: 'pointer'}}>
               <img 
                         src={fitview} 
-                        alt="Ajustar visão" 
+                        alt="Ajustar o zoom" 
                         style={{ width: '20px', height: '20px', marginRight: '1em', marginBottom:'1px' }} 
                         
                 />
@@ -261,7 +261,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
             <div className="icon-container-NoBorder d-flex align-items-center ps-3 pe-1" onClick={() => zoomIn({ duration: 300 })} style={{cursor: 'pointer'}}>
               <img 
                         src={zoomIcon} 
-                        alt="Ampliar" 
+                        alt="Zoom in" 
                         style={{ width: '20px', height: '20px', marginRight: '1em', marginBottom:'1px' }} 
                         
                 />
@@ -271,7 +271,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
             <div className="icon-container d-flex align-items-center ps-3 pe-1" onClick={() => zoomOut({ duration: 300 })} style={{cursor: 'pointer'}}>
               <img 
                         src={zoomOutIcon} 
-                        alt="Diminuir" 
+                        alt="Zoom out" 
                         style={{ width: '20px', height: '20px', marginRight: '1em', marginBottom:'1px' }} 
                         
                 />

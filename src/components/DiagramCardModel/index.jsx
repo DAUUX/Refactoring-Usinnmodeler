@@ -1,5 +1,4 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { slugify } from '../../Helpers';
 import './style.scss';
 
 import StarFill from "../../assets/icons/star-fill.svg";
@@ -100,7 +99,7 @@ function DiagramCard({id, name, oculto_data, favorited_data,  description, thumb
                     className="dropdown ms-auto d-flex ps-3 align-items-center"
                     onClick={(e) => e.stopPropagation()} // Impede que o clique no dropdown afete o Link
                 >
-                    <Link className='d-flex justify-content-center align-items-center' 
+                    <button className='reset bg-transparent border-0 d-flex justify-content-center align-items-center' 
                         onClick={(e)=>{                                        
                             e.stopPropagation(); 
                             e.preventDefault(); 
@@ -109,13 +108,14 @@ function DiagramCard({id, name, oculto_data, favorited_data,  description, thumb
                         {favorited==="true" ? <img src={StarFill} alt="Filled Star" /> : <img src={Star} alt="Star" />}
 
 
-                    </Link>
+                    </button>
     
                     <button 
-                        className="btn px-2 pe-0 dropdown-toggle" 
+                        className="btn px-2 pe-0 dropdown-toggle outline-white" 
                         type="button" 
                         data-bs-toggle="dropdown" 
                         aria-expanded="false"
+                        aria-label="abrir e fechar opções do template"
                     >
                         <i className="bi bi-three-dots-vertical"></i>
                     </button>

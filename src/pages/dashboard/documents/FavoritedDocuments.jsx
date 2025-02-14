@@ -105,7 +105,7 @@ function FavoritedDocuments() {
                 {resultcardModels && (
                     <div className="ps-0 pe-0 mt-5 mt-5">
                         <div className="d-flex justify-content-between">
-                            <h3 className="ps-4">Modelos favoritados</h3>
+                            <h2 className="ps-4 h3">Modelos favoritados</h2>
                         </div>
                         <div className="ps-0">
                             {cardModels}

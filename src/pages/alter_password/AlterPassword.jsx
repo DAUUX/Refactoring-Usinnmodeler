@@ -73,6 +73,7 @@ export default function AlterPassword(props) {
               type={showPassword1 ? "text" : "password"}
               placeholder="Nova senha"
               name="novaSenha"
+              aria-label="campo nova senha"
             />
 
 						<i onClick={() => setShowPassword1(!showPassword1)} className={`bi bi-${showPassword1 ? 'eye-fill': 'eye-slash-fill'} icon ${formik.touched.novaSenha && formik.errors.novaSenha ? 'icon-active': ''}`}></i>
@@ -89,6 +90,7 @@ export default function AlterPassword(props) {
               type={showPassword2 ? "text" : "password"}
               placeholder="Confirme a nova senha"
               name="confirmarSenha"
+              aria-label="campo confirma nova senha"
             />
 
             <i onClick={() => setShowPassword2(!showPassword2)} className={`bi bi-${showPassword2 ? 'eye-fill': 'eye-slash-fill'} icon ${formik.touched.confirmarSenha && formik.errors.confirmarSenha ? 'icon-active': ''}`}></i>
