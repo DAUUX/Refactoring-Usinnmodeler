@@ -4,6 +4,7 @@ import usinnModeler from "../../../../assets/icons/usinn-logo-big.png";
 import { AppBar, Toolbar } from '@mui/material';
 import { TextField } from '@mui/material';
 import { useReactFlow } from 'reactflow';
+import { Modal } from 'bootstrap';
 import './index.css'
 
 
@@ -79,6 +80,12 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [value, onSave]);
+
+  const openSharedModal = () => {
+    const modal = new Modal(`#${shareModalId}`)          
+    modal.show();
+  }
+  
   return (
     <AppBar position="static" style={{marginBottom: "2px"}} >
       <Toolbar className='d-flex flex-column bg-primary p-0'>
@@ -92,6 +99,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
             alt="logo USINN"
             onClick={() => navigate('/dashboard')}
             style={{ marginRight: 20, width: '50px',cursor: 'pointer'  }} // Espaço entre a imagem e o texto
+            tabIndex="0"
           />
           <div className='d-flex flex-column h4 mb-0'>
             <div className='mb-2'>
@@ -103,20 +111,25 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
                   onBlur={handleBlur}
                   autoFocus
                   variant="standard"
+                  InputProps={{style: { color: 'white' }}}
+                  sx={{'& .MuiInput-underline:after': {borderBottomColor: 'white'}}}
                 />
               ) : (
                 <span
                   variant="h6"
                   sx={{ flexGrow: 1 }}
                   onClick={() => setIsEditing(true)}
+                  tabIndex="0"
                 >
                   {value}
                 </span>
               )}
             </div>
-            <p className='h6'
-            onClick={() => navigate('/dashboard/documentos')}
-            style={{ cursor: 'pointer'  }}
+            <p 
+              className='h6'
+              onClick={() => navigate('/dashboard/documentos')}
+              style={{ cursor: 'pointer'  }}
+              tabIndex="0"
             >{"Documentos > Meus documentos"}</p>
           </div>
         </div>
@@ -124,7 +137,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
             <div className="d-flex align-items-center py-3 py-lg-0">
                 <span>
                     {diagram_id && isOwner &&
-                        <button data-bs-toggle="modal" data-bs-target={`#${shareModalId}`} className="btn btn-light btn-sm order-last text-primary me-4" title="Compartilhar">
+                        <button data-bs-target={`#${shareModalId}`} className="btn btn-light btn-sm order-last text-primary me-4" title="Compartilhar" onClick={openSharedModal}>
                             Compartilhar <i className="bi bi-share-fill fs-7"></i>
                         </button>
                     }
@@ -144,7 +157,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
 
           <div className="down-funcions-bar w-100 " style={{ backgroundColor: 'white' }} hidden={oculteManipulationIconsForReader}>
 
-            <div className="icon-container d-flex align-items-center pe-4" onClick={() => onSave(value)} style={{cursor: 'pointer', paddingLeft: '3em' }}>
+            <div tabIndex="0" className="icon-container d-flex align-items-center pe-4" onClick={() => onSave(value)} style={{cursor: 'pointer', paddingLeft: '3em' }}>
                   <img 
                     src={SaveIcon} 
                     alt="Salvar diagrama" 
@@ -157,7 +170,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
                 </div>
             </div>
 
-            <div className="icon-container d-flex align-items-center ps-3 pe-3" onClick={() => onDownload()} style={{cursor: 'pointer'}}>
+            <div tabIndex="0" className="icon-container d-flex align-items-center ps-3 pe-3" onClick={() => onDownload()} style={{cursor: 'pointer'}}>
               <img 
                 src={exportDiagramIcon} 
                 alt="Exportar este diagrama" 
@@ -166,7 +179,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
               <p className='' style={{ color: 'black', marginBottom:'0px' }}>Exportar diagrama</p>
             </div>
 
-            <div className="icon-container-NoBorder d-flex align-items-center ps-3 pe-1" onClick={() => handleUndo()} style={{cursor: 'pointer'}}>
+            <div tabIndex="0" className="icon-container d-flex align-items-center ps-3 pe-1" onClick={() => handleUndo()} style={{cursor: 'pointer'}}>
               <img 
                 src={RedoIcon} 
                 alt="Refazer ações" 
@@ -177,7 +190,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
             </div>
 
 
-            <div className="icon-container d-flex align-items-center ps-3 pe-1" onClick={() => handleRedo()} style={{cursor: 'pointer'}}>
+            <div tabIndex="0" className="icon-container d-flex align-items-center ps-3 pe-1" onClick={() => handleRedo()} style={{cursor: 'pointer'}}>
               <img 
                 src={UndoIcon} 
                 alt="Desfazer ações" 
@@ -187,7 +200,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
               <div className="tooltip" style={{textAlign: 'center'}}>Refazer  <br/> <p className='tooltip-small'>Ctrl + Shift + Z</p></div>
             </div>
 
-            <div className="icon-container-NoBorder d-flex align-items-center ps-3 pe-1" onClick={() => deselectAll()} style={{cursor: 'pointer'}} >
+            <div tabIndex="0" className="icon-container d-flex align-items-center ps-3 pe-1" onClick={() => deselectAll()} style={{cursor: 'pointer'}} >
               <img 
                   src={agrupar} 
                   alt="Selecionar tudo" 
@@ -197,7 +210,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
                 <div className="tooltip" style={{textAlign: 'center', left:"25px"}}>Desmarcar Tudo</div>
             </div>
 
-            <div className="icon-container d-flex align-items-center ps-3 pe-1" onClick={() => selectAll()} style={{cursor: 'pointer'}}>
+            <div tabIndex="0" className="icon-container d-flex align-items-center ps-3 pe-1" onClick={() => selectAll()} style={{cursor: 'pointer'}}>
               <img 
                   src={desagrupar} 
                   alt="Desmarcar tudo" 
@@ -207,7 +220,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
                 <div className="tooltip" style={{textAlign: 'center', left:"25px"}}>Marcar Tudo</div>
             </div>
 
-            <div className="icon-container-NoBorder d-flex align-items-center ps-3 pe-1" onClick={() => handleDelete()} style={{cursor: 'pointer'}}>
+            <div tabIndex="0" className="icon-container d-flex align-items-center ps-3 pe-1" onClick={() => handleDelete()} style={{cursor: 'pointer'}}>
               <img 
                   src={DeleteOutlineIcon} 
                   alt="Excluir componentes" 
@@ -217,7 +230,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
                 <div className="tooltip" style={{textAlign: 'center', left:"25px"}}>Excluir<br /><p className='tooltip-small'>Delete</p></div>
             </div>
 
-            <div className="icon-container-NoBorder d-flex align-items-center ps-3 pe-1 " onClick={() => handleRecort()} style={{cursor: 'pointer'}}>
+            <div tabIndex="0" className="icon-container d-flex align-items-center ps-3 pe-1 " onClick={() => handleRecort()} style={{cursor: 'pointer'}}>
               <img 
                     src={ContentCutIcon} 
                     alt="Cortar componentes" 
@@ -228,7 +241,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
             </div>
 
 
-            <div className="icon-container-NoBorder d-flex align-items-center ps-3 pe-1" onClick={() => handleCopy()} style={{cursor: 'pointer'}}>
+            <div tabIndex="0" className="icon-container d-flex align-items-center ps-3 pe-1" onClick={() => handleCopy()} style={{cursor: 'pointer'}}>
               <img 
                       src={ContentCopyIcon} 
                       alt="Copiar componentes" 
@@ -238,7 +251,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
               <div className="tooltip" style={{textAlign: 'center'}}>Copiar<br /><p className='tooltip-small'>Ctrl + C</p></div>
             </div>
 
-            <div className="icon-container d-flex align-items-center ps-4 pe-4" onClick={() => handlePaste()} style={{cursor: 'pointer'}}>
+            <div tabIndex="0" className="icon-container d-flex align-items-center ps-4 pe-4" onClick={() => handlePaste()} style={{cursor: 'pointer'}}>
               <img 
                         src={ContentPasteIcon} 
                         alt="Colar componentes" 
@@ -248,7 +261,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
               <div className="tooltip " style={{textAlign: 'center'}}>Colar<br /><p className='tooltip-small'>Ctrl + V</p></div>
             </div>
 
-            <div className="icon-container-NoBorder d-flex align-items-center ps-3 pe-1" onClick={() => fitView({ duration: 300 })} style={{cursor: 'pointer'}}>
+            <div tabIndex="0" className="icon-container d-flex align-items-center ps-3 pe-1" onClick={() => fitView({ duration: 300 })} style={{cursor: 'pointer'}}>
               <img 
                         src={fitview} 
                         alt="Ajustar o zoom" 
@@ -258,7 +271,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
               <div className="tooltip " style={{textAlign: 'center'}}>Ajustar visão<br /></div>
             </div>
 
-            <div className="icon-container-NoBorder d-flex align-items-center ps-3 pe-1" onClick={() => zoomIn({ duration: 300 })} style={{cursor: 'pointer'}}>
+            <div tabIndex="0" className="icon-container d-flex align-items-center ps-3 pe-1" onClick={() => zoomIn({ duration: 300 })} style={{cursor: 'pointer'}}>
               <img 
                         src={zoomIcon} 
                         alt="Zoom in" 
@@ -268,7 +281,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
               <div className="tooltip " style={{textAlign: 'center'}}>Ampliar<br /></div>
             </div>
 
-            <div className="icon-container d-flex align-items-center ps-3 pe-1" onClick={() => zoomOut({ duration: 300 })} style={{cursor: 'pointer'}}>
+            <div tabIndex="0" className="icon-container d-flex align-items-center ps-3 pe-1" onClick={() => zoomOut({ duration: 300 })} style={{cursor: 'pointer'}}>
               <img 
                         src={zoomOutIcon} 
                         alt="Zoom out" 

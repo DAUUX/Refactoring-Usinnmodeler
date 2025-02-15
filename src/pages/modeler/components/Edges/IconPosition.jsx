@@ -25,31 +25,26 @@ export default function QuadrantIcon({ sourceX, sourceY, targetX, targetY, icon 
   let offsetX = 10; 
   let offsetY = 10;
 
-  console.log(quadrant);
   switch (quadrant) {
     case 'Quadrante I': 
-      console.log('Quadrante I'); 
       offsetX = -25; 
       offsetY = 15; 
       iconX = targetX + offsetX;
       iconY = targetY + offsetY;
       break;
     case 'Quadrante II': 
-      console.log('Quadrante II'); 
       offsetX = 40; 
       offsetY = 10;  
       iconX = targetX + offsetX - 30; 
       iconY = targetY + offsetY;
       break;
     case 'Quadrante III':
-      console.log('Quadrante III'); 
       offsetX = 30; 
       offsetY = -20; 
       iconX = targetX + offsetX - 30; 
       iconY = targetY + offsetY - 30;
       break;
     case 'Quadrante IV':
-      console.log('Quadrante IV');
       offsetX = -30; 
       offsetY = -15; 
       iconX = targetX + offsetX;

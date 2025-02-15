@@ -12,7 +12,6 @@ function SistemProcessDiagram() {
   const { setCurrentEdge } = useModeler(); // Supondo que useModeler esteja disponível
     
   const handleClick = (event) => {
-    console.log(event)
     setAnchorEl(event.currentTarget);
     setOpenNavigation(true)
   };

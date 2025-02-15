@@ -48,7 +48,6 @@ function ProgressIndicatorDiagram({ data, selected }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
     
   const handleClick = (event) => {
-    console.log(event);
     setAnchorEl(event.currentTarget);
     setOpenNavigation(true);
   };

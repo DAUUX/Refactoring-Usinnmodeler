@@ -33,15 +33,18 @@ import { toPng } from 'html-to-image';
 import { Button, Popover } from '@mui/material';
 import AppBarCustom from "./components/AppBar";
 import './index.css';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import api from '../../services/api';
 import { Toast } from '../../components/Toast';
 import useHistory from '../../hooks/useHistory';
 import useKeyBindings from '../../hooks/useKeyBindings';
+import { useSocket } from "../../services/SocketContext";
 
 const getId = () => `id-${uuidv4()}`;
 
 const ModelerReactFlow = () => {
+  const socket = useSocket()
+
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
@@ -56,14 +59,38 @@ const ModelerReactFlow = () => {
   const [isOwner, setIsOwner] = useState(false);
   const [diagramId, setDiagramId] = useState('');
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const { getNodes } = useReactFlow();
 
-  async function validPermissionForEdit() {        
-    let userId = JSON.parse(localStorage.getItem('user')).id;
-    const diagram = await api.get(`/collaboration/${diagramId}/${userId}`);
-    const collaboratorPermission = diagram.data.permission;
-    collaboratorPermission === 1 ? setOculteManipulationIcons(true) : setOculteManipulationIcons(false);
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on('component_refresh', async (data) => {
+      try {
+        validPermissionForEdit();
+      } catch (error) {
+        console.log('Erro ao atualizar componente')
+      }
+    })
+
+    return () => {
+      socket.off('component_refresh');
+    };
+// eslint-disable-next-line react-hooks/exhaustive-deps
+}, [socket]);
+
+  async function validPermissionForEdit() {     
+    try {
+      let userId = JSON.parse(localStorage.getItem('user')).id;
+      const diagram = await api.get(`/collaboration/${diagramId}/${userId}`);
+      const collaboratorPermission = diagram.data.permission;
+      collaboratorPermission === 1 ? setOculteManipulationIcons(true) : setOculteManipulationIcons(false);
+    } catch (error) {
+      Toast('error', 'Você não tem permissão para acessar o diagrama', 'aviso')
+      navigate('/dashboard')
+    }   
+    
   }
 
   useEffect(()=>{
@@ -104,7 +131,7 @@ const ModelerReactFlow = () => {
   
           setEdges(graph.edges); // Define as arestas diretamente
         } catch (error) {
-          Toast("error", "Não foi possível recuperar o diagrama");
+          Toast("error", error, "errorCircle");
         }
       };
   
@@ -532,6 +559,28 @@ const ModelerReactFlow = () => {
     }).then(downloadImage);
   }
 
+  const notificationUpdate = async (nomeAtual) => {
+    try {
+
+      const resDiagram = await api.get(`diagrams/${id}`);  
+      const {user_id} = resDiagram.data;
+
+      const my_id = JSON.parse(localStorage.getItem('user')).id
+      const collaborator_name = JSON.parse(localStorage.getItem('user')).name;
+
+      const resCollab = await api.get(`collaboration/${id}`)
+      const user_ids = resCollab.data.collaborators.map(collaborator => collaborator.collaborator_id);
+      user_ids.push(user_id);
+      const filtered_user_ids = user_ids.filter(id => id !== my_id);
+      
+      nomeAtual !== nameDiagram && await api.post('notification', {user_id: filtered_user_ids, diagram_id: diagramId, diagram_name: nomeAtual, type: 2, message: `"${collaborator_name}" alterou o nome do ${isOwner ? 'diagrama compartilhado com você' : 'seu diagrama'}: "${nameDiagram}" para "${nomeAtual}"`})
+      await api.post('notification', {user_id: filtered_user_ids, diagram_id: id, diagram_name: nameDiagram, type: 2, message: `"${collaborator_name}" editou o ${isOwner ? 'diagrama compartilhado com você' : 'seu diagrama'}: "${nameDiagram}"`})
+      await socket.emit('send_notification', filtered_user_ids);
+
+    } catch (error) {
+      Toast('error', error, "errorCircle")
+    }
+  }
 
   const onSave = async (name) => {
     try {
@@ -542,19 +591,21 @@ const ModelerReactFlow = () => {
           nodes,
           edges
         })
-        Toast('success', 'Diagrama editado com sucesso.')
+        notificationUpdate(name)
+        Toast('success', 'Diagrama editado com sucesso.', "checkCircle")
       }else {
           const diagram = await api.post('diagrams', {
           name,
           nodes,
           edges
         })
-       setDiagramId(diagram.data.message.id)
-        Toast('success', 'Diagrama criado com sucesso.')
+        setDiagramId(diagram.data.message.id)
+        Toast('success', 'Diagrama criado com sucesso.', "checkCircle")
+        navigate(`/modeler/${diagram.data.message.id}`)
       }
 
     } catch (error) {
-      Toast('error', 'Não foi possivel criar diagrama.')
+      Toast('error', error, "errorCircle")
     }
   }
 
@@ -564,7 +615,7 @@ const ModelerReactFlow = () => {
 
   return (
     <>
-      <h1 class="visually-hidden">Página para criar e editar diagrama</h1>
+      <h1 className="visually-hidden">Página para criar e editar diagrama</h1>
       <AppBarCustom 
         selectAll={() => selectAll()}
         deselectAll={() => deselectAll()}

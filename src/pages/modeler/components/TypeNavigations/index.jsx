@@ -119,7 +119,7 @@ function TypeNavigations({ close, anchor, edges, setUltimaseta }) {
                 horizontal: 'right',
             }}
             TransitionProps={{
-                timeout: 1000,
+                timeout: 200,
             }}>
             {renderPointer()}
         </Popover>

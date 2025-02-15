@@ -22,7 +22,7 @@ const IconContainer = () => {
   const [showTooltip, setShowTooltip] = useState(false);
   const [activeCarousel, setActiveCarousel] = useState("ajuda");
   return (
-    <div className="icon-container d-flex align-items-center ps-2 pe-2">
+    <div className="icon-container d-flex align-items-center ps-2 pe-2 outline-black">
       <button 
         className="btn" 
         onClick={() => setShowTooltip(!showTooltip)}
@@ -38,11 +38,11 @@ const IconContainer = () => {
 
       <div className="tooltip-content" >
       {activeCarousel !== "ajuda" && (
-        <div className="return-button ps-2" onClick={() => setActiveCarousel("ajuda")} >
-          <i class="bi bi-list"></i>
+        <div tabIndex="0" className="return-button ps-2" onClick={() => setActiveCarousel("ajuda")} onKeyDown={(e) => e.key === "Enter" && setActiveCarousel("ajuda")} >
+          <i className="bi bi-list"></i>
         </div>
       )}
-        <div className="close-button pe-2" onClick={() => setShowTooltip(false)+setActiveCarousel("ajuda")} >
+        <div tabIndex="0" className="close-button pe-2" onClick={() => setShowTooltip(false)+setActiveCarousel("ajuda")} onKeyDown={(e) => e.key === "Enter" && setShowTooltip(false)+setActiveCarousel("ajuda")}>
           <i className="bi bi-x-lg"></i>
         </div>
 
@@ -55,15 +55,15 @@ const IconContainer = () => {
             <div className="tooltip-menu">
               <h5>Ajuda - Elementos da Notação</h5>
               <div className="menu-container" style={{textAlign:"justify", paddingInline:"20px"}}>
-                <div className="menu-item p-1 m-1" onClick={() => setActiveCarousel("navegacao")}>
+                <div tabIndex="0" className="menu-item p-1 m-1" onClick={() => setActiveCarousel("navegacao")} onKeyDown={(e) => e.key === "Enter" && setActiveCarousel("navegacao")} >
                   <span className="">Elementos de Navegação</span>
                   <i className="bi bi-chevron-right mb-1"></i>
                 </div>
-                <div className="menu-item p-1 m-1" onClick={() => setActiveCarousel("interacao")}>
+                <div tabIndex="0" className="menu-item p-1 m-1" onClick={() => setActiveCarousel("interacao")} onKeyDown={(e) => e.key === "Enter" && setActiveCarousel("interacao")}>
                   <span>Elementos de Interação</span>
                   <i className="bi bi-chevron-right mb-1"></i>
                 </div>
-                <div className="menu-item p-1 m-1" onClick={() => setActiveCarousel("usabilidade")}>
+                <div tabIndex="0" className="menu-item p-1 m-1" onClick={() => setActiveCarousel("usabilidade")} onKeyDown={(e) => e.key === "Enter" && setActiveCarousel("usabilidade")}>
                   <span>Elementos de Usabilidade</span>
                   <i className="bi bi-chevron-right mb-1"></i>
                 </div>
@@ -119,10 +119,10 @@ const IconContainer = () => {
 
             </div>
             <button id="buttoncarousel" className="carousel-control-prev" type="button" data-bs-target="#carouselNavegacao" data-bs-slide="prev">
-              <i class="bi bi-chevron-left fs-2"></i>
+              <i className="bi bi-chevron-left fs-2"></i>
             </button>
             <button id="buttoncarousel" className="carousel-control-next" type="button" data-bs-target="#carouselNavegacao" data-bs-slide="next">
-              <i class="bi bi-chevron-right fs-2"></i>
+              <i className="bi bi-chevron-right fs-2"></i>
             </button>
           </div>
         )}
@@ -174,10 +174,10 @@ const IconContainer = () => {
 
             </div>
             <button id="buttoncarousel" className="carousel-control-prev" type="button" data-bs-target="#carouselInteracao" data-bs-slide="prev">
-              <i class="bi bi-chevron-left fs-2"></i>
+              <i className="bi bi-chevron-left fs-2"></i>
             </button>
             <button id="buttoncarousel" className="carousel-control-next" type="button" data-bs-target="#carouselInteracao" data-bs-slide="next">
-              <i class="bi bi-chevron-right fs-2"></i>
+              <i className="bi bi-chevron-right fs-2"></i>
             </button>
           </div>
         )}
@@ -249,10 +249,10 @@ const IconContainer = () => {
 
             </div>
             <button id="buttoncarousel" className="carousel-control-prev" type="button" data-bs-target="#carouselUsabilidade" data-bs-slide="prev">
-              <i class="bi bi-chevron-left fs-2"></i>
+              <i className="bi bi-chevron-left fs-2"></i>
             </button>
             <button id="buttoncarousel" className="carousel-control-next" type="button" data-bs-target="#carouselUsabilidade" data-bs-slide="next">
-              <i class="bi bi-chevron-right fs-2"></i>
+              <i className="bi bi-chevron-right fs-2"></i>
             </button>
           </div>
         )}

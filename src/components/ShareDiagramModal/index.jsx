@@ -179,8 +179,7 @@ function ShareDiagramModal(props) {
             if(updation === "StopShare"){
                 await api.delete(`/collaboration/${props.diagram_id}/${user_id}`);
                 await api.post('notification', {user_id: user_id, diagram_id: props.diagram_id, diagram_name: name, type: 1, message: `"${collaborator_name}" parou de compartilhar o diagrama: "${name}"`})     
-                await socket.emit('send_notification', user_id);    
-                getAllCollaborations();                
+                await socket.emit('send_notification', user_id);                  
             } else {
                 await api.put(`/collaboration/${props.diagram_id}/${user_id}`, {updation});
                 await api.post('notification', {user_id: user_id, diagram_id: props.diagram_id, diagram_name: name, type: 1, message: `"${collaborator_name}" deu permissão de ${updation === '1' ? 'leitor' : 'editor'} no: "${name}"`})   
@@ -252,8 +251,8 @@ function ShareDiagramModal(props) {
                                                         <option value={2}>Editor</option>
                                                     }
                                                 </option>
-                                                <option value={2}>Editor</option>  
                                                 <option value={1}>Leitor</option>
+                                                <option value={2}>Editor</option>  
                                             <option value={"StopShare"}>Parar compartilhamento</option>
                                         </select>
                                     </div>
