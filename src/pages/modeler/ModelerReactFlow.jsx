@@ -333,7 +333,8 @@ const ModelerReactFlow = () => {
       targetClause = edge.type === 'sucess-feedback' ||
         edge.type === 'unsucess-feedback' ||
         edge.type === 'transition' ||
-        edge.type === 'cancel-transition'
+        edge.type === 'cancel-transition' ||
+        edge.type === 'navigation'
     }
 
     if (nodeSource.type === 'data-colection') {
@@ -373,7 +374,8 @@ const ModelerReactFlow = () => {
     if (nodeTarget.type === 'progress-indicator') {
       targetClause =
         edge.type === "transition" ||
-        edge.type === "query-data"
+        edge.type === "query-data" ||
+        edge.type === 'navigation'
     }
 
     return sourceClause && targetClause

@@ -112,7 +112,7 @@ export default function EditableEdgeLabel({ sourceX, sourceY, targetX, targetY, 
           whiteSpace: isEditing ? 'nowrap' : 'normal',
           overflow: 'hidden',
           textAlign: 'center',
-          zIndex: 9999
+          zIndex: 99999
         }}
         onDrag={handleDrag}
         onDragStart={handleDragStart}

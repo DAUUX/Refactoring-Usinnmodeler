@@ -141,7 +141,7 @@ function DiagramCard({id, name, oculto_data, favorited_data,  description, thumb
     
             <div className="card-body p-3">
                 {thumbnail.includes('.svg') ? (
-                    <img className="w-100" src={`${process.env.REACT_APP_API_URL}${thumbnail}`} alt="Thumbnail do diagrama" />
+                    <img className="w-100" src={`${process.env.REACT_APP_API_URL}${thumbnail}`} alt={`Diagrama ${name}`} />
                 ) : null}
             </div>
         </Link>
