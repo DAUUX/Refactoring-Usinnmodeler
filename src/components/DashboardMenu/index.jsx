@@ -2,9 +2,9 @@ import './style.scss'
 import usinnModeler from "../../assets/icons/logo-usinn-white.png";
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Toast } from '../Toast';
+// import { Toast } from '../Toast';
 import api from '../../services/api';
-import { slugify } from '../../Helpers';
+// import { slugify } from '../../Helpers';
 import { useEffect, useState } from 'react';
 import { useSocket } from '../../services/SocketContext';
 
@@ -79,25 +79,31 @@ function DashboardMenu({menuOpen, setMenuOpen, onCreateDiagram}) {
     async function createNewDiagram(e) {
 
         e.preventDefault();
+        // return
+        navigate('/modeler');
+        // onCreateDiagram(true);
+        // const data = {name: 'Novo diagrama', diagram_data: '', diagram_svg: ''};
 
-        onCreateDiagram(true);
-        const data = {name: 'Novo diagrama', diagram_data: '', diagram_svg: ''};
-
-        try {
+        // try {
         
-            const res = await api.post('diagrams', data);
+        //     const res = await api.post('diagrams', data);
 
-            const {id, name} = res.data;
+        //     const {id, name} = res.data;
 
-            navigate(`/modeler/${id}/${slugify(name)}`);
+        //     history.push(`/modeler/${id}/${slugify(name)}`);
         
-        } catch (error) {
+        // } catch (error) {
         
-            Toast('error', error, "errorCircle");
+        //     if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
+        //         Toast('error', "Falha na conexão ao servidor", "errorServer");
+        //     }
+        //     else{
+        //         Toast('error', error, "errorCircle");
+        //     }
         
-        }
+        // }
 
-        onCreateDiagram(false);
+        // onCreateDiagram(false);
 
     } 
 

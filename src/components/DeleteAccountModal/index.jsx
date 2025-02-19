@@ -75,7 +75,7 @@ function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title" id="RemoveLoginModal">Excluir Perfil</h5>
+                        <h2 className="modal-title h5" id="RemoveLoginModal">Excluir Perfil</h2>
                         <button type="button" className="btn-close p-0" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form noValidate="" onSubmit={formik.handleSubmit}>
@@ -92,7 +92,7 @@ function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
                                 type={showPassword ? "text" : "password"}
                                 name="password"
                                 autoComplete={!showPassword && "new-password webauthn"}
-                                aria-label="campo para confirmar a senha"
+                                aria-label="campo de confirmação da senha para deletar a conta"
                             />
                             <div className="">
                                 <i onClick={togglePasswordVisibility}

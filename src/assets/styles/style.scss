@@ -52,6 +52,9 @@ body {
 	height: 1em;
 }
 
+svg.react-flow__edges.react-flow__container{
+	z-index: 10000 !important;
+  }
 .no-arrow::after {
   display: none !important;
 }

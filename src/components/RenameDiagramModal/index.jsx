@@ -96,7 +96,7 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
                                 name="name" 
                                 placeholder="Novo nome"
                                 autoComplete="name"
-                                aria-label="campo para renomear o nome do diagrama"
+                                aria-label="campo do novo nome para o diagrama"
                             />
 
                             {formik.touched.name && formik.errors.name ? (<div className="invalid-feedback d-block"> {formik.errors.name}</div>) : null}

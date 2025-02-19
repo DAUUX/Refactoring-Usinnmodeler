@@ -54,12 +54,12 @@ function PrivacyTerms() {
                         <h4>YouTube video widget</h4>
 
                         <p className="mb-0">YouTube é um serviço de visualização de conteúdo de vídeo fornecido pelo Google LLC que permite a este Site a incorporar conteúdo desse tipo em suas páginas.</p>
-                        <small>Mais informações: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Política de privacidade Youtube</a></small>
+                        <small>Mais informações: <a href="https://www.youtube.com/intl/ALL_br/howyoutubeworks/our-commitments/protecting-user-data/" target="_blank" rel="noopener noreferrer">Política de privacidade Youtube</a></small>
 
                         <h4 className="mt-2">Google Fonts</h4>
                         
                         <p className="mb-0">Google Fonts é um serviço de visualização de face de tipo fornecido pelo Google LLC que permite este Site a incorporar conteúdo desse tipo em suas páginas.</p>
-                        <small>Mais informações: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer"> Política de privacidade Google Fonts</a></small>
+                        <small>Mais informações: <a href="https://developers.google.com/fonts/faq/privacy" target="_blank" rel="noopener noreferrer"> Política de privacidade Google Fonts</a></small>
 
                         <h2 className="mt-3">Atualização dos termos de uso e política de privacidade</h2>
 

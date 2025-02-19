@@ -69,7 +69,7 @@ export default function RequestChange() {
                   name="email"
                   placeholder="Digite seu endereço de e-mail"
                   autoComplete="email"
-                  aria-label="campo do e-mail"
+                  aria-label="campo e-mail"
                 />
               </div>
 

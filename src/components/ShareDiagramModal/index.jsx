@@ -179,13 +179,13 @@ function ShareDiagramModal(props) {
             if(updation === "StopShare"){
                 await api.delete(`/collaboration/${props.diagram_id}/${user_id}`);
                 await api.post('notification', {user_id: user_id, diagram_id: props.diagram_id, diagram_name: name, type: 1, message: `"${collaborator_name}" parou de compartilhar o diagrama: "${name}"`})     
-                await socket.emit('send_notification', user_id);    
-                getAllCollaborations();                
+                await socket.emit('send_notification', user_id);                  
             } else {
                 await api.put(`/collaboration/${props.diagram_id}/${user_id}`, {updation});
                 await api.post('notification', {user_id: user_id, diagram_id: props.diagram_id, diagram_name: name, type: 1, message: `"${collaborator_name}" deu permissão de ${updation === '1' ? 'leitor' : 'editor'} no: "${name}"`})   
                 await socket.emit('send_notification', user_id);
-            }         
+            }       
+            getAllCollaborations();  
         } catch(error) {
 
             Toast('error', error, "errorCircle");
@@ -215,10 +215,10 @@ function ShareDiagramModal(props) {
 
     return (
         <div className="modal fade" id={props.id} tabIndex="-1" aria-labelledby="ShareDiagramModalLabel">
-            <div className="modal-dialog modal-lg modal-dialog-centered">
+            <div className="modal-dialog modal-lg modal-dialog-centered text-dark">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h4 className="modal-title" id="ShareDiagramModalLabel">Compartilhar diagrama</h4>
+                        <h3 className="modal-title h4" id="ShareDiagramModalLabel">Compartilhar diagrama</h3>
                         <button id="closeModal" type="button" className="btn-close p-0" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div className="modal-body p-2 p-sm-4" id="modal-compartilhar">
@@ -245,14 +245,14 @@ function ShareDiagramModal(props) {
                                     </div>
                                     <div className="col">
                                         <select className="form-select" onChange={(e)=>{updatePermission(collaborator.id, e.target.value)}}>
-                                            {collaborator.permission === 1 ? 
-                                                <option value={1}>Leitor</option> : 
-                                                <option value={2}>Editor</option>
-                                            }
-                                            {collaborator.permission === 1 ? 
-                                                <option value={2}>Editor</option> : 
+                                                <option value="" hidden>
+                                                    {collaborator.permission === 1 ? 
+                                                        <option value={1}>Leitor</option> : 
+                                                        <option value={2}>Editor</option>
+                                                    }
+                                                </option>
                                                 <option value={1}>Leitor</option>
-                                            }
+                                                <option value={2}>Editor</option>  
                                             <option value={"StopShare"}>Parar compartilhamento</option>
                                         </select>
                                     </div>
@@ -261,8 +261,8 @@ function ShareDiagramModal(props) {
                         </div>}
                     </div>
                     <div className="modal-footer d-flex justify-content-between outline-black">
-                        <button title="Copiar link" disabled={loading} className="btn text-primary border-dark px-4" type="button" onClick={copy}> {!copied? 'Copiar link' : 'Copiado'}  </button>
-                        <button title="Enviar" disabled={loading} className="btn bg-primary text-white px-4 px-sm-5" type="button" onClick={inviteLink}> Enviar </button>                       
+                        <button disabled={loading} className="btn text-primary border-dark px-4" type="button" onClick={copy}> {!copied? 'Copiar link' : 'Copiado'}  </button>
+                        <button disabled={loading} className="btn bg-primary text-white px-4 px-sm-5" type="button" onClick={inviteLink}> Enviar </button>                       
                     </div>
                 </div>
             </div>

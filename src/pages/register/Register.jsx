@@ -116,6 +116,7 @@ export default function Register() {
 	return (
 		<main id="register-page" className="flex-fill d-flex align-items-center register" aria-label="formulário de cadastro">    
 			<div className="container py-5 py-sm-0">
+				<h1 class="visually-hidden">Cadastro</h1>
 
 				<div className="pb-3 d-flex justify-content-center align-items-center" aria-hidden="true">
 					<img src={usinnModeler} alt="" />
@@ -137,7 +138,7 @@ export default function Register() {
 										name="name" 
 										placeholder="Nome completo*"
 										autoComplete="name"
-										aria-label="campo do nome"
+										aria-label="campo nome completo"
 									/>
 									{formik.touched.name && formik.errors.name ? (<strong className="invalid-feedback d-block"> {formik.errors.name}</strong>) : null}
 								</div>
@@ -154,7 +155,7 @@ export default function Register() {
 										name="email" 
 										placeholder="E-mail*"
 										autoComplete="email"
-										aria-label="campo do e-mail"
+										aria-label="campo e-mail"
 									/>
 									{formik.touched.email && formik.errors.email ? (<strong className="invalid-feedback d-block"> {formik.errors.email}</strong>) : null}
 								</div>
@@ -169,7 +170,7 @@ export default function Register() {
 										type={showPassword ? "text" : "password"}
 										name="password" 
 										placeholder="Senha*"
-										aria-label="campo da senha"
+										aria-label="campo senha"
 									/>
 									<div className="">
 										<i onClick={togglePasswordVisibility} className={`bi bi-${showPassword ? 'eye-fill': 'eye-slash-fill'} icon ${formik.touched.password && formik.errors.password ? 'reyeicon-active': ''}`}
@@ -189,7 +190,7 @@ export default function Register() {
 										type="text" 
 										name="birthday" 
 										placeholder="Data de nascimento*"
-										aria-label="campo da data de nascimento"
+										aria-label="campo data de nascimento"
 									/>
 									{formik.touched.birthday && formik.errors.birthday ? (<strong className="invalid-feedback d-block"> {formik.errors.birthday}</strong>) : null}
 								</div>
@@ -203,7 +204,7 @@ export default function Register() {
 										name="gender" 
 										placeholder="Gênero*"
 										title="seu gênero"
-										aria-label="campo para selecionar o seu gênero"
+										aria-label="selecione seu gênero"
 									>
 										<option value="" disabled hidden> Gênero* </option>
 
@@ -226,7 +227,7 @@ export default function Register() {
 												name="role"
 												placeholder="Perfil"
 												title="seu perfil"
-												aria-label="campo para selecionar seu perfil"
+												aria-label="selecione seu perfil"
 											>
 												<option value="" disabled hidden> Perfil* </option>
 												{ roleOptions.map((item, index) => 
@@ -247,7 +248,7 @@ export default function Register() {
 												name="company"
 												placeholder="Organização*"
 												autoComplete="organization"
-												aria-label="campo da organização"
+												aria-label="campo organização"
 											/>
 											{formik.touched.company && formik.errors.company ? (<strong className="invalid-feedback position-absolute"> {formik.errors.company}</strong>) : null}
 										</div>

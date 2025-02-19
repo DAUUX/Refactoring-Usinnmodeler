@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { slugify } from "../../Helpers";
 import api from "../../services/api";
 import { Toast } from "../Toast";
 import { useSocket } from "../../services/SocketContext";
@@ -40,7 +39,7 @@ const ShareRoute = (props) => {
         
         }
 
-        navigate(`/modeler${diagram.id ? '/'+diagram.id+'/'+slugify(diagram.name) : ''}`);
+        navigate(`/modeler${diagram.id ? '/'+diagram.id : ''}`);
 
     }
 

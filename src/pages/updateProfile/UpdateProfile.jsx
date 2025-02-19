@@ -141,7 +141,7 @@ function UpdateProfile() {
             <nav className="navbar navbar-expand-lg bg-white p-3 px-1 px-sm-3 justify-content-between w-100">
                 <div className="container-fluid">
                     <div className="mb-0 h4">
-                        <b>Atualizar Perfil</b>
+                        <h1 className="h4 m-0">Atualizar Perfil</h1>
                     </div>
                     <div className="d-flex align-items-center gap-2 ms-auto">
                         <Notifications/>
@@ -171,7 +171,7 @@ function UpdateProfile() {
                                     name="name" 
                                     placeholder="Nome completo*"
                                     autoComplete="name"
-                                    aria-label="campo do nome"
+                                    aria-label="campo nome"
                                 />
                                 {formik.touched.name && formik.errors.name ? (<div className="invalid-feedback d-block"> {formik.errors.name}</div>) : null}
                             </div>
@@ -188,7 +188,7 @@ function UpdateProfile() {
                                     name="email" 
                                     placeholder="E-mail*"
                                     autoComplete="email"
-                                    aria-label="campo dp e-mail"
+                                    aria-label="campo e-mail"
                                 />
                                 {formik.touched.email && formik.errors.email ? (<div className="invalid-feedback d-block"> {formik.errors.email}</div>) : null}
                             </div>
@@ -203,7 +203,7 @@ function UpdateProfile() {
                                     type="text" 
                                     name="birthday" 
                                     placeholder="Data de nascimento*"
-                                    aria-label="campo da data de nascimento"
+                                    aria-label="campo data de nascimento"
                                 />
                                 {formik.touched.birthday && formik.errors.birthday ? (<div className="invalid-feedback d-block"> {formik.errors.birthday}</div>) : null}
                             </div>
@@ -259,7 +259,7 @@ function UpdateProfile() {
                                             name="company"
                                             placeholder="Organização"
                                             autoComplete="organization"
-                                            aria-label="campo da organização"
+                                            aria-label="campo da sua organização"
                                         />
                                         {formik.touched.company && formik.errors.company ? (<div className="invalid-feedback d-block"> {formik.errors.company}</div>) : null}
                                     </div>
@@ -289,7 +289,7 @@ function UpdateProfile() {
                             <img className="mb-4 img-fluid"src={avatarOptions[imgAvatar]} alt=""></img>
                             <div className="d-flex justify-content-between outline-black">
                                 {avatarOptions.map((item, index) => 
-                                    <button key={index} onClick={(e)=> {setImgAvatar(index)}} className="btn rounded-circle p-0 mx-1 mx-lg-3" aria-label={`Escolher o avatar ${index + 1}`} ><img className="img-fluid" src={item} alt=""/></button>
+                                    <button aria-label={`escolher avatar ${index + 1}`} key={index} onClick={(e)=> {setImgAvatar(index)}} className="btn rounded-circle p-0 mx-1 mx-lg-3" ><img className="img-fluid" src={item} alt=""/></button>
                                 )}
                             </div>
                         </div>

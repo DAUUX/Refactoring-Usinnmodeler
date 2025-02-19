@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
-import { slugify } from '../../Helpers';
 import './style.scss';
 import api from "../../services/api";
 import FavoriteDiagram from "../../components/FavoriteDiagram";
@@ -37,7 +36,7 @@ function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram,
     }
     
     return (
-        <Link to={`/modeler/${id}/${slugify(name)}`} className="card text-reset text-decoration-none mw-25 overflow-hidden" id="diagram-card">
+        <Link to={`/modeler/${id}`} className="card text-reset text-decoration-none mw-25 overflow-hidden" id="diagram-card">
             <div className="card-header  d-flex pe-0">
                 <div className='overflow-hidden'>
                     <span className="fw-bold">{name}</span><br />
@@ -49,7 +48,7 @@ function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram,
                         onDiagramFavorited()
                     }}/>                            
                     
-                    <button className="btn p-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Abrir mais opções para o diagrama">
+                    <button className="btn p-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="abrir e fechar opções do diagrama">
                         <i className="bi bi-three-dots-vertical mt-1"></i>
                     </button>
                         
