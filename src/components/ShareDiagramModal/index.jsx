@@ -229,7 +229,7 @@ function ShareDiagramModal(props) {
                         ))}
                         
                         <div className="text-end outline-black">
-                            <button title="Adicionar E-mail" disabled={loading} className="btn text-primary border border-primary py-2 px-3" type="button" onClick={adicionarComponente}> + </button>  
+                            <button title="Adicionar E-mail" disabled={loading} className="btn text-primary border border-primary py-2 px-3" type="button" onClick={adicionarComponente} aria-label="botão para adicionar mais usuários"> + </button>  
                         </div>
                         {(collaborators.length > 0) && 
                         <div >
