@@ -4,8 +4,10 @@ import { useState } from "react";
 import { Toast } from "../Toast";
 import api from "../../services/api";
 import Spinner from "../Spinner";
+import { useTranslation } from 'react-i18next';
 
 function FavoriteDiagram ({favorited, diagram_id, onFavoritedClick}){
+    const { t } = useTranslation();
     const [favorite, setFavorite] = useState(favorited);
     const [loading, setLoading] = useState(false);
     
@@ -16,13 +18,13 @@ function FavoriteDiagram ({favorited, diagram_id, onFavoritedClick}){
         try {
             if(!favorite){
                 await api.post(`favorite/${diagram_id}`);
-                Toast("success", "Diagrama adicionado aos meus favoritos", "checkCircle");
+                Toast(t, "success", "Diagrama adicionado aos meus favoritos", "checkCircle");
 
                 setFavorite(!favorite);
 
             } else{
                 await api.delete(`/favorite/${diagram_id}`);
-                Toast("success","Diagrama removido dos meus favoritos", "checkCircle");
+                Toast(t, "success","Diagrama removido dos meus favoritos", "checkCircle");
 
                 setFavorite(!favorite);
 
@@ -31,10 +33,10 @@ function FavoriteDiagram ({favorited, diagram_id, onFavoritedClick}){
             onFavoritedClick();       
         } catch (error) {
             if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-                Toast('error', "Falha na conexão ao servidor", "errorServer");
+                Toast(t, 'error', "Falha na conexão ao servidor", "errorServer");
             }
             else{
-                Toast('error', error, "errorCircle");
+                Toast(t, 'error', error, "errorCircle");
             }       
             
         }      

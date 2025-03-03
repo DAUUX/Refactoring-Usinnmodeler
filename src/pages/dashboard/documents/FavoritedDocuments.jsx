@@ -28,10 +28,10 @@ function FavoritedDocuments() {
             setDiagrams(res.data.diagrams);
         } catch(error){
             if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-                Toast('error', "Falha na conexão ao servidor", "errorServer");
+                Toast(t, 'error', "Falha na conexão ao servidor", "errorServer");
             }
             else{
-                Toast('error', error, "aviso");
+                Toast(t, 'error', error, "aviso");
             }
         }
         setLoading(false);

@@ -37,10 +37,10 @@ export default function RequestChange() {
       // history.push('/sucesso'); // Você pode ou não redirecionar para outra página, dependendo de como deseja implementar isso.
     } catch (error) {
       if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-        Toast('error', "Falha na conexão ao servidor", "errorServer");
+        Toast(t, 'error', "Falha na conexão ao servidor", "errorServer");
       }
       else{
-          Toast('error', error, "errorCircle");
+          Toast(t, 'error', error, "errorCircle");
       }
     }
     setLoading(false);

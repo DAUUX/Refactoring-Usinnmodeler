@@ -42,17 +42,17 @@ export default function Login() {
 				localStorage.setItem('token', token);
 				localStorage.setItem('user', JSON.stringify({id, name, email}));
 	
-				Toast('success', 'Login realizado com sucesso!', "checkCircle");
+				Toast(t, 'success', 'Login realizado com sucesso!', "checkCircle");
 
 				navigate('/dashboard');
 	
 			} catch (error) {
 	
 				if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-					Toast('error', "Falha na conexão ao servidor", "errorServer");
+					Toast(t, 'error', "Falha na conexão ao servidor", "errorServer");
 				}
 				else{
-					Toast('error', error, "aviso");
+					Toast(t, 'error', error, "aviso");
 				}
 				
 			}

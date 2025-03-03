@@ -7,8 +7,10 @@ import { Modal } from "bootstrap";
 import ShareDiagramModal from "../../../components/ShareDiagramModal";
 import RemoveDiagramModal from "../../../components/RemoveDiagramModal";
 import RenameDiagramModal from "../../../components/RenameDiagramModal";
+import { useTranslation } from 'react-i18next';
 
 function Documents_inicio() {
+    const { t } = useTranslation();
 
     let [diagrams, setDiagrams] = useState([]);
     let [loading, setLoading] = useState(true);
@@ -21,7 +23,7 @@ function Documents_inicio() {
             const res = await api.get('/diagrams/recent?limit=4');
             setDiagrams(res.data.diagrams);
         } catch(error){
-            Toast('error', error);
+            Toast(t, 'error', error);
         }
         setLoading(false);
     }

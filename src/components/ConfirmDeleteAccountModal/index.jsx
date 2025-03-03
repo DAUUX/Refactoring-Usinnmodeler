@@ -2,8 +2,10 @@ import { React, useState } from "react";
 import { Toast } from "../Toast";
 import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 function ConfirmRemoveLoginModal({id}) {
+    const { t } = useTranslation();
 
     const [loading, setLoading] = useState(false);
     const navigate               = useNavigate();
@@ -14,16 +16,16 @@ function ConfirmRemoveLoginModal({id}) {
         try {
         
             await api.delete('user');
-            Toast('success', "Perfil removido com sucesso!", "checkCircle");
+            Toast(t, 'success', "Perfil removido com sucesso!", "checkCircle");
             navigate(`/login`);
         
         } catch (error) {
         
             if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-                Toast('error', "Falha na conexão ao servidor", "errorServer");
+                Toast(t, 'error', "Falha na conexão ao servidor", "errorServer");
             }
             else{
-                Toast('error', error, "errorCircle");
+                Toast(t, 'error', error, "errorCircle");
             }
         
         }
@@ -37,10 +39,10 @@ function ConfirmRemoveLoginModal({id}) {
                 <div className="modal-content">
                     <div className="modal-body text-center px-4 pb-4">
                         <i className="bi bi-exclamation-triangle-fill mb-5 mt-3" style={{'fontSize': '60px'}}></i>
-                        <h4 className="mb-5">Seu perfil será excluído !</h4>
+                        <h4 className="mb-5">{t("Seu perfil será excluído !")}</h4>
                         <div className="d-flex justify-content-around">
-                            <button className="btn btn-primary px-4 px-sm-5" disabled={loading} type="button" data-bs-dismiss="modal">Cancelar</button>
-                            <button className="btn btn-danger px-4 px-sm-5" disabled={loading} onClick={removeLogin} type="button" data-bs-dismiss="modal">Confirmar</button>
+                            <button className="btn btn-primary px-4 px-sm-5" disabled={loading} type="button" data-bs-dismiss="modal">{t("Cancelar")}</button>
+                            <button className="btn btn-danger px-4 px-sm-5" disabled={loading} onClick={removeLogin} type="button" data-bs-dismiss="modal">{t("Confirmar")}</button>
                         </div>
 
                     </div>

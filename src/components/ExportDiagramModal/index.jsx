@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import api from "../../services/api";
 import { Toast } from "../Toast";
-
+import { useTranslation } from 'react-i18next';
 
 function ExportDiagramModal({id, onExportDiagram, diagramSVG}) {
+    const { t } = useTranslation();
     const formatOptions = ["png", "jpeg", "webp", "pdf", "svg"];
     const [format, setFormat]   = useState();
 
@@ -61,16 +62,16 @@ function ExportDiagramModal({id, onExportDiagram, diagramSVG}) {
 
             }
 
-            Toast('success', 'Diagrama exportado com sucesso!', "checkCircle");
+            Toast(t, 'success', 'Diagrama exportado com sucesso!', "checkCircle");
 
         
         } catch (error) {
         
             if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-                Toast('error', "Falha na conexão ao servidor", "errorServer");
+                Toast(t, 'error', "Falha na conexão ao servidor", "errorServer");
             }
             else{
-                Toast('error', error, "errorCircle");
+                Toast(t, 'error', error, "errorCircle");
             }
         
         }
@@ -101,7 +102,7 @@ function ExportDiagramModal({id, onExportDiagram, diagramSVG}) {
             <div className="modal-dialog modal-sm modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title" id="ExportDiagramModalLabel">Exportar diagrama</h5>
+                        <h5 className="modal-title" id="ExportDiagramModalLabel">{t("Exportar diagrama")}</h5>
                         <button id="closeModal" type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div className="modal-body">                        
@@ -115,7 +116,7 @@ function ExportDiagramModal({id, onExportDiagram, diagramSVG}) {
                                     exportDiagram(e)
                                 }}
 							>
-								<option value="" disabled hidden> Formato </option>
+								<option value="" disabled hidden> {t("Formato")} </option>
 								{ formatOptions.map((item, index) => 
 									<option value={index+1} key={index} > {item.toLocaleUpperCase()} </option>
 								)}

@@ -6,9 +6,11 @@ import * as Yup from 'yup';
 import api from "../../services/api";
 import { Modal } from "bootstrap";
 import './style.scss';
+import { useTranslation } from 'react-i18next';
 
 
 function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
+    const { t } = useTranslation();
     const [loading, setLoading] = useState(false);
     const modalRef = useRef(null);
     const [showPassword, setShowPassword] = useState(false);
@@ -29,15 +31,15 @@ function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
             setLoading(true);
             try {
                 await api.post('user/check-password', values);
-                Toast('success', 'Senha confirmada!', "checkCircle");
+                Toast(t, 'success', 'Senha confirmada!', "checkCircle");
                 onConfirmLoginRemoved();
                 closeModal(); // Fechar Modal
             } catch (error) {
                 if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-                    Toast('error', "Falha na conexão ao servidor", "errorServer");
+                    Toast(t, 'error', "Falha na conexão ao servidor", "errorServer");
                 }
                 else{
-                    Toast('error', error, "errorCircle");
+                    Toast(t, 'error', error, "errorCircle");
                 }
             }
             setLoading(false);
@@ -78,7 +80,7 @@ function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title" id="RemoveLoginModal">Excluir Perfil</h5>
+                        <h5 className="modal-title" id="RemoveLoginModal">{t("Excluir Perfil")}</h5>
                         <button type="button" className="btn-close p-0" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form noValidate="" onSubmit={formik.handleSubmit}>
@@ -91,7 +93,7 @@ function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
                                 onBlur={formik.handleBlur}
                                 value={formik.values.password}
                                 className={`form-control ${formik.touched.password && formik.errors.password ? 'is-invalid' : ''}`}
-                                placeholder="Insira sua senha"
+                                placeholder={t("Insira sua senha")}
                                 type={showPassword ? "text" : "password"}
                                 name="password"
                             />
@@ -107,7 +109,7 @@ function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
                         </div>
                         <div className="modal-footer">
                             <button type="submit" className="btn btn-danger" disabled={formik.isSubmitting}>
-                                {loading && <Spinner className="spinner-border spinner-border-sm me-2" />} Excluir Perfil
+                                {loading && <Spinner className="spinner-border spinner-border-sm me-2" />} {t("Excluir Perfil")}
                             </button>
                         </div>
                     </form>

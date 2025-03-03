@@ -1,7 +1,7 @@
 import Swal from 'sweetalert2'
 import './style.css'
 
-export function Toast(status, text, icons) {
+export function Toast(t, status, text, icons) {
 
     let bgColors = {
         'success': '#00672E',
@@ -17,7 +17,7 @@ export function Toast(status, text, icons) {
         iconHtml: `<span class="${icons}"></span>`,
         showCloseButton: true,
         toast: true,
-        html: text,
+        html: t(text),
         color: colors[status],
         background: bgColors[status],
         position: 'top',

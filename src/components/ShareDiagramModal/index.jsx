@@ -76,7 +76,7 @@ function ShareDiagramModal(props) {
     async function inviteLink() {        
         let usersInvited = users.filter(item => item.email.trim() !== '');
         if(usersInvited.length <= 0){
-            return Toast('error', "Preencha o campo email", "errorCircle")
+            return Toast(t, 'error', "Preencha o campo email", "errorCircle")
         }
         setLoading(true);
         const link = {
@@ -86,17 +86,17 @@ function ShareDiagramModal(props) {
         try {            
             await api.post(`share/${props.diagram_id}/inviteLink`, {link, usersInvited});  
             
-            Toast('success', 'Diagrama compartilhado com sucesso!', "share");
+            Toast(t, 'success', 'Diagrama compartilhado com sucesso!', "share");
             setUsers([]);
             setComponentes([0]);
             setWasInvited(!wasInvited);
         } catch (error) {
         
             if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-                Toast('error', "Falha na conexão ao servidor", "errorServer");
+                Toast(t, 'error', "Falha na conexão ao servidor", "errorServer");
             }
             else{
-                Toast('error', error, "aviso");
+                Toast(t, 'error', error, "aviso");
             }       
         }
                 
@@ -121,10 +121,10 @@ function ShareDiagramModal(props) {
         } catch (error) {
         
             if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-                Toast('error', "Falha na conexão ao servidor", "errorServer");
+                Toast(t, 'error', "Falha na conexão ao servidor", "errorServer");
             }
             else{
-                Toast('error', error, "errorCircle");
+                Toast(t, 'error', error, "errorCircle");
             }
         
         }
@@ -138,10 +138,10 @@ function ShareDiagramModal(props) {
             setCollaborators(res.data.usersInviteds); 
         } catch(error) {
             if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-                Toast('error', "Falha na conexão ao servidor", "errorServer");
+                Toast(t, 'error', "Falha na conexão ao servidor", "errorServer");
             }
             else{
-                Toast('error', error, "errorCircle");
+                Toast(t, 'error', error, "errorCircle");
             }
         }
     }
@@ -156,10 +156,10 @@ function ShareDiagramModal(props) {
             }         
         } catch(error) {
             if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-                Toast('error', "Falha na conexão ao servidor", "errorServer");
+                Toast(t, 'error', "Falha na conexão ao servidor", "errorServer");
             }
             else{
-                Toast('error', error, "errorCircle");
+                Toast(t, 'error', error, "errorCircle");
             }
         }
     }

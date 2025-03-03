@@ -60,16 +60,16 @@ function UpdateProfile() {
                 await api.put('user', { ...values, birthday: moment(values.birthday, 'DD/MM/YYYY', true).format('YYYY-MM-DD'), avatar: imgAvatar + 1 });
 
 
-                Toast('success', 'Os dados foram atualizados com sucesso!', "user");
+                Toast(t, 'success', 'Os dados foram atualizados com sucesso!', "user");
 
 
             } catch (error) {
 
                 if (error === "TypeError: Cannot read properties of undefined (reading 'status')") {
-                    Toast('error', "Falha na conexão ao servidor", "errorServer");
+                    Toast(t, 'error', "Falha na conexão ao servidor", "errorServer");
                 }
                 else {
-                    Toast('error', error, "aviso");
+                    Toast(t, 'error', error, "aviso");
                 }
 
             }
@@ -92,10 +92,10 @@ function UpdateProfile() {
             setImgAvatar(avatar - 1);
         } catch (error) {
             if (error === "TypeError: Cannot read properties of undefined (reading 'status')") {
-                Toast('error', "Falha na conexão ao servidor", "errorServer");
+                Toast(t, 'error', "Falha na conexão ao servidor", "errorServer");
             }
             else {
-                Toast('error', error, "errorCircle");
+                Toast(t, 'error', error, "errorCircle");
             }
         }
         setLoadingOverlay(false);

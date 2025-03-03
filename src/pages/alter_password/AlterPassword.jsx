@@ -39,13 +39,13 @@ export default function AlterPassword(props) {
       try {
         await api.post('reset-password', { token, password: values.novaSenha });
         navigate('/login');
-        Toast('success', 'Senha alterada com sucesso!', "key");
+        Toast(t, 'success', 'Senha alterada com sucesso!', "key");
       } catch (error) {
         if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-          Toast('error', "Falha na conexão ao servidor", "errorServer");
+          Toast(t, 'error', "Falha na conexão ao servidor", "errorServer");
         }
         else{
-            Toast('error', error, "aviso");
+            Toast(t, 'error', error, "aviso");
         }
       }
     },

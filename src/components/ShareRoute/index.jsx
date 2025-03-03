@@ -3,8 +3,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { slugify } from "../../Helpers";
 import api from "../../services/api";
 import { Toast } from "../Toast";
+import { useTranslation } from 'react-i18next'
 
 const ShareRoute = (props) => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const { token } = useParams();
 
@@ -21,10 +23,10 @@ const ShareRoute = (props) => {
         } catch (error) {
         
             if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
-                Toast('error', "Falha na conexão ao servidor", "errorServer");
+                Toast(t, 'error', "Falha na conexão ao servidor", "errorServer");
             }
             else{
-                Toast('error', error, "errorCircle");
+                Toast(t, 'error', error, "errorCircle");
             }
         
         }
