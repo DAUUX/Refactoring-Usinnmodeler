@@ -173,6 +173,12 @@
          "Os dados foram atualizados com sucesso!" : "The data has been successfully updated!",
          "Login realizado com sucesso!" : "Login successfully!",
          "Diagrama salvo com sucesso!" : "Diagram successfully saved!",
-         "Cadastro realizado com sucesso!" : "Registration successfully!"
+         "Cadastro realizado com sucesso!" : "Registration successfully!",
+         "Teste": "Test",
+         "Orientadora": "Advisor",
+         "Desenvolvimento": "Development",
+         "Requisitos": "Requirements",
+         "Requisitos e Desenvolvimento": "Requirements and Development",
+         "Mudar idioma": "Switch language"
     }
 }
