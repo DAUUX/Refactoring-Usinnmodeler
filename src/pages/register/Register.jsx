@@ -11,6 +11,7 @@ import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import punycode from 'punycode';
+import ButtonLanguage from "../../components/ButtonLanguage";
 
 export default function Register() {
 	const { t } = useTranslation();
@@ -284,6 +285,7 @@ export default function Register() {
 					</form>
 				</div>
 			</div>
+			<ButtonLanguage />
 		</main>
 	);
 }

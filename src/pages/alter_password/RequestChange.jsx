@@ -8,6 +8,7 @@ import api from "../../services/api";
 import Spinner from "../../components/Spinner";
 import { useTranslation } from 'react-i18next';
 import usinnModeler from "../../assets/icons/usinn-logo-horiz.png";
+import ButtonLanguage from "../../components/ButtonLanguage";
 
 export default function RequestChange() {
   const { t } = useTranslation();
@@ -105,6 +106,7 @@ export default function RequestChange() {
         </div>
         )}
       </div>
+      <ButtonLanguage />
     </main>
   );
 }

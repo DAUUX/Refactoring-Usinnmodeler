@@ -113,9 +113,6 @@ export default function Home() {
             </ul>
             <ul className="fs-5 p-0 m-0 d-flex align-items-center list-inline" role="menu">
               <li role="none">
-                <ButtonLanguage />
-              </li>
-              <li role="none">
                 <Link
                   to="/cadastro"
                   className={`${styles.underline} text-decoration-none text-white me-3`}
@@ -366,6 +363,7 @@ export default function Home() {
           </div>
         </address>
       </footer>
+      <ButtonLanguage />
     </>
   );
 }

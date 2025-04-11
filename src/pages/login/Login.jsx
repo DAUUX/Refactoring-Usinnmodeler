@@ -8,6 +8,7 @@ import * as Yup from 'yup';
 import { useEffect, useState } from "react";
 import './style.scss'
 import { useTranslation } from 'react-i18next';
+import ButtonLanguage from "../../components/ButtonLanguage";
 
 export default function Login() {
 
@@ -128,6 +129,7 @@ export default function Login() {
 
 				</form>
 			</div>
+			<ButtonLanguage />
 		</main>
 	);
 }

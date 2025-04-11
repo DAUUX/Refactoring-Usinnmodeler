@@ -2,6 +2,7 @@ import './style.scss';
 import usinnModeler from "../../assets/icons/usinn-logo-horiz.png";
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import ButtonLanguage from '../../components/ButtonLanguage';
 
 function PrivacyTerms() {
     const { t } = useTranslation();
@@ -67,7 +68,7 @@ function PrivacyTerms() {
                 </div>
 
             </div>
-
+            <ButtonLanguage />
         </main>
 
     )
