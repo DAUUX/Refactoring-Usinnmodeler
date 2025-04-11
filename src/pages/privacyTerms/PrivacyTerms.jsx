@@ -7,7 +7,7 @@ function PrivacyTerms() {
     const { t } = useTranslation();
 
     useEffect(() => {
-        document.title = t('Termos de Privacidade - USINN Modeler');
+        document.title = t('Termos de Privacidade') + " - USINN Modeler";
     }, [t]);
 
     return (
@@ -60,7 +60,7 @@ function PrivacyTerms() {
 
                         <h2 className="mt-3">{t('Atualização dos termos de uso e política de privacidade')}</h2>
 
-                        <p className="fs-5">{t('Reservamo-nos o direito de atualizar estes termos de uso e política de privacidade a qualquer momento. A nova versão dos termos será publicada em nosso sistema e entrará em vigor imediatamente após a publicação.')}</p>
+                        <p className=" fs-5">{t('Reservamo-nos o direito de atualizar estes termos de uso e política de privacidade a qualquer momento. A nova versão dos termos será publicada em nosso sistema e entrará em vigor imediatamente após a publicação.')}</p>
 
                     </div>
 

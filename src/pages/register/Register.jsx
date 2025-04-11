@@ -10,6 +10,7 @@ import { roleOptions, genderOptions } from '../../Consts';
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
+import punycode from 'punycode';
 
 export default function Register() {
 	const { t } = useTranslation();
@@ -23,7 +24,7 @@ export default function Register() {
 	DateTenYears.setFullYear((new Date()).getFullYear() - 10);
 
 	useEffect(() => {
-		document.title = t('Cadastrar - USINN Modeler');
+		document.title = t('Cadastrar') + " - USINN Modeler";
 	}, [t]);
 
 	const navigate = useNavigate();
@@ -47,7 +48,30 @@ export default function Register() {
 				.min(3, t('O nome deve ter no mínimo 3 caracteres'))
 				.max(100, t('O nome deve ter no máximo 100 caracteres'))
 				.required(t('Nome é obrigatório')),
-			email: Yup.string().email(t('Endereço de e-mail inválido')).max(255, t('O email deve ter no máximo 255 caracteres')).required(t('E-mail é obrigatório')),
+				email: Yup.string().email(t('Endereço de e-mail inválido')).max(255, t('O email deve ter no máximo 255 caracteres')).required(t('E-mail é obrigatório')).test(
+				'is-valid-domain',
+				'O domínio do e-mail é inválido',
+				async (value) => {
+					if (!value) return false;
+					const domain = value.split('@')[1];
+					if (!domain) return false;
+
+					const decodedDomain = punycode.toUnicode(domain);
+					const domainPattern = /^[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+					if (!domainPattern.test(decodedDomain) || decodedDomain.includes('..')) return false;
+	
+					try {
+						const response = await fetch(`https://dns.google/resolve?name=${decodedDomain}&type=MX`);
+						if (!response.ok) return false;
+
+						const data = await response.json();
+						if (data.Status !== 0 || !data.Answer || data.Answer.length === 0) return false
+						return true
+					} catch (error) {
+						return false;
+					}
+				}
+			),
 			password: Yup.string().min(8, t('Senha deve ter no mínimo 8 caracteres')).required(t('Senha é obrigatória')),
 			birthday: Yup.date()
 				.transform((value, currentValue) => { return moment(currentValue, 'DD/MM/YYYY', true).toDate() })
@@ -95,10 +119,10 @@ export default function Register() {
 		// Atualiza o valor no formulário
 		formik.setFieldValue('birthday', formatted);
 	};
-
 	return (
 		<main id="register-page" className="flex-fill d-flex align-items-center register" aria-label={t('formulário de cadastro')}>
 			<div className="container py-5 py-sm-0">
+				<h1 class="visually-hidden">Cadastro</h1>
 
 				<div className="pb-3 d-flex justify-content-center align-items-center" aria-hidden="true">
 					<img src={usinnModeler} alt="" />
@@ -194,32 +218,34 @@ export default function Register() {
 								<div className="col-12 col-lg-6 mb-3">
 									<select
 										disabled={formik.isSubmitting}
-										onChange={(e) => { formik.handleChange(e); formik.setFieldTouched(e.target.name, true, false) }}
+										onChange={(e) => {formik.handleChange(e); formik.setFieldTouched(e.target.name, true, false)}}
 										value={formik.values.role}
-										className={`form-select ${formik.touched.role && formik.errors.role ? 'is-invalid' : ''}${formik.values.role === '' ? ' is-empty' : ''}`}
+										className={`form-select ${formik.touched.role && formik.errors.role ? 'is-invalid' : ''}${formik.values.role === '' ? ' is-empty': ''}`}
 										name="role"
-										placeholder={t('Perfil')}
+										placeholder={t('Perfil')+"*"}
 										title={t('seu perfil')}
+										aria-label="selecione seu perfil"
 									>
-										<option value="" disabled hidden>{t('Perfil')+"*"}</option>
-										{roleOptions.map((item, index) =>
-											<option value={index + 1} key={index}> {item} </option>
+										<option value="" disabled hidden> {t('Perfil')+"*"} </option>
+										{ roleOptions.map((item, index) => 
+											<option value={index+1} key={index} > {item} </option>
 										)}
 									</select>
 									{formik.touched.role && formik.errors.role ? (<strong className="invalid-feedback position-absolute"> {formik.errors.role}</strong>) : null}
 								</div>
 
 								<div className="col-12 col-lg-6 mb-3">
-									<input
+									<input 
 										disabled={formik.isSubmitting}
 										onChange={formik.handleChange}
 										onInput={(e) => formik.setFieldTouched(e.target.name, true, false)}
 										value={formik.values.company}
-										className={`form-control ${formik.touched.company && formik.errors.company ? 'is-invalid' : ''}`}
-										type="text"
+										className={`form-control ${formik.touched.company && formik.errors.company ? 'is-invalid' : '' }`}
+										type="text" 
 										name="company"
 										placeholder={t('Organização')+"*"}
 										autoComplete="organization"
+										aria-label="campo organização"
 									/>
 									{formik.touched.company && formik.errors.company ? (<strong className="invalid-feedback position-absolute"> {formik.errors.company}</strong>) : null}
 								</div>

@@ -8,18 +8,27 @@ import ShareDiagramModal from "../../../components/ShareDiagramModal";
 import RemoveDiagramModal from "../../../components/RemoveDiagramModal";
 import RenameDiagramModal from "../../../components/RenameDiagramModal";
 import { useTranslation } from 'react-i18next';
+import Modelos_documentos from "../inicio/Modelos_documentos";
+import './style.scss'
 
 function FavoritedDocuments() {
     const { t } = useTranslation();
 
     useEffect(() => {
-        document.title = 'Meus favoritos - USINN Modeler';
-      },[]);
+        document.title = t("Meus favoritos") + ' - USINN Modeler';
+    },[]);
 
     let [diagrams, setDiagrams] = useState([]);
     let [loading, setLoading] = useState(true);
 
     const [selectedId, setSelectedId] = useState(null);
+
+    const [refreshModels, setRefreshModels] = useState(false);
+    function forceRefresh() {
+        setRefreshModels(!refreshModels); 
+    }
+    
+    const {resultcardModels, cardModels} = Modelos_documentos({ refresh: refreshModels, forceRefresh:forceRefresh, onlyFavorited:"true"});
     
     async function getDiagrams() {
         setLoading(true);
@@ -38,7 +47,7 @@ function FavoritedDocuments() {
     }
 
     useEffect(()=>{
-       getDiagrams();
+        getDiagrams();
     },[])
 
     function callShareDiagramModal(id) {
@@ -97,12 +106,25 @@ function FavoritedDocuments() {
                     )                    
                 }
 
+
+                {resultcardModels && (
+                    <div className="ps-0 pe-0 mt-5 mt-5">
+                        <div className="d-flex justify-content-between">
+                            <h2 className="ps-4 h3">Modelos favoritados</h2>
+                        </div>
+                        <div className="ps-0">
+                            {cardModels}
+                        </div>
+                    </div>
+                )}
+                
+
                 {
-                    diagrams.length === 0 && !loading &&(
+                    diagrams.length === 0 && !loading && !resultcardModels &&(
                         <h4 className="text-center mt-5">{t("Ainda não há diagramas favoritados")}</h4>
                     )
                 }
-               
+                
             </div>
 
             <ShareDiagramModal id="ShareDiagramModal" diagram_id={selectedId} />

@@ -11,12 +11,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faKey } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
 import PasswordConfirmation from "../../components/PasswordConfirmationModal";
+import Notifications from "../../components/Notifications";
 
 function ChangePassword() {
     const { t } = useTranslation();
 
     useEffect(() => {
-        document.title = 'Atualizar Senha - USINN Modeler';
+        document.title = t("Atualizar Senha") + ' - USINN Modeler';
     },[]);
 
     const navigate = useNavigate();
@@ -83,13 +84,16 @@ function ChangePassword() {
         <main id="changePassword" className={`flex-fill h-100`}>
             
             
-            <nav className="navbar navbar-expand-lg bg-white p-3 justify-content-between w-100">{/* Perfil user */}
-                        <div className="container-fluid">
-                            <div className="mb-0 h4">
-                                <b>{t("Atualizar Senha")}</b>
-                            </div>
-                            <UserProfile/>
-                        </div>
+            <nav className="navbar navbar-expand-lg bg-white p-3 px-1 px-sm-3 justify-content-between w-100">{/* Perfil user */}
+                <div className="container-fluid">
+                    <div className="mb-0 h4">
+                        <h1 className="h4 m-0">{t("Atualizar Senha")}</h1>
+                    </div>
+                    <div className="d-flex align-items-center gap-2 ms-auto">
+                        <Notifications/>
+                        <UserProfile/>
+                    </div>
+                </div>
             </nav>
 
             <div className="container p-0">
@@ -114,6 +118,7 @@ function ChangePassword() {
                                     type={showPassword1 ? "text" : "password"}
                                     name="password" 
                                     placeholder={t("Senha")+'*'}
+                                    aria-label="campo da nova senha"
                                 />
 
                                 <i onClick={() => setShowPassword1(!showPassword1)} className={`bi bi-${showPassword1 ? 'eye-fill': 'eye-slash-fill'} icon ${formik.touched.password && formik.errors.password ? 'icon-active': ''}`}/>
@@ -131,15 +136,16 @@ function ChangePassword() {
                                     type={showPassword2 ? "text" : "password"}
                                     name="confirmPassword" 
                                     placeholder={t("Confirmar Senha")+'*'}
+                                    aria-label="campo para confirmar nova senha"
                                 />
                                 <i onClick={() => setShowPassword2(!showPassword2)} className={`bi bi-${showPassword2 ? 'eye-fill': 'eye-slash-fill'} icon ${formik.touched.confirmPassword && formik.errors.confirmPassword ? 'icon-active': ''}`}/>
                                 {formik.touched.confirmPassword && formik.errors.confirmPassword ? (<div className="invalid-feedback d-block"> {formik.errors.confirmPassword}</div>) : null}
                             </div>
 
 
-                            <div className="d-flex justify-content-center gap-5">
+                            <div className="d-flex justify-content-center gap-5 px-0">
                                 
-                                <div className="text-center mt-2">
+                                <div className="text-center mt-2 outline-black">
                                     <Link className="text-decoration-none btn text-primary fw-bold px-4 px-sm-5 border-dark" to="/dashboard" >{t("Cancelar")}</Link>
                                 </div>
                                 

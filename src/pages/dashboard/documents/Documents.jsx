@@ -4,7 +4,8 @@ import MyDocuments  from "./MyDocuments";
 import SharedDocuments from "./SharedDocuments";
 import FavoritedDocuments from "./FavoritedDocuments";
 import { useTranslation } from 'react-i18next';
-import './style.scss';
+import Notifications from "../../../components/Notifications"
+import './style.scss'
 
 function Documents() {
     const { t } = useTranslation();
@@ -14,12 +15,15 @@ function Documents() {
     
     return (
         <div id="documentsPage" className="flex-fill h-100">
-            <nav className="navbar navbar-expand-lg bg-white p-3 justify-content-between">
+            <nav className="navbar navbar-expand-lg bg-white p-3 px-1 px-sm-3 justify-content-between">
                 <div className="container-fluid">
                     <div className="mb-0 h4">
-                        <b>{t("Documentos")}</b>
+                        <h1 className="h4 m-0">{t("Documentos")}</h1>
                     </div>
-                    <UserProfile/>
+                    <div className="d-flex align-items-center ps-sm-4 gap-2 ms-auto">
+                        <Notifications/>
+                        <UserProfile/>
+                    </div>
                 </div>
             </nav>
             

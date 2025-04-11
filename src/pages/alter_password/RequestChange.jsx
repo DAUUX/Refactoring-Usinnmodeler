@@ -13,7 +13,7 @@ export default function RequestChange() {
   const { t } = useTranslation();
 
   useEffect(() => {
-    document.title = 'Recuperar Senha - USINN Modeler';
+    document.title = t("Recuperar Senha") + ' - USINN Modeler';
   },[]);
 
   const [email, setEmail] = useState("");
@@ -73,6 +73,7 @@ export default function RequestChange() {
                   name="email"
                   placeholder={t("Digite seu endereço de e-mail")}
                   autoComplete="email"
+                  aria-label="campo e-mail"
                 />
               </div>
 

@@ -98,7 +98,7 @@ function ExportDiagramModal({id, onExportDiagram, diagramSVG}) {
     }    
 
     return (
-        <div className="modal fade" id={id} tabIndex="-1" aria-labelledby="ExportDiagramModalLabel" aria-hidden="true">
+        <div className="modal fade" id={id} tabIndex="-1" aria-labelledby="ExportDiagramModalLabel">
             <div className="modal-dialog modal-sm modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header">

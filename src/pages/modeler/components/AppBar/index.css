@@ -1,0 +1,200 @@
+.down-funcions-bar {
+    border-top: 1px solid #d3d3d3; /* Borda cinza clara no topo */
+    display: flex;
+    align-items: center;
+}
+
+/* Container para os ícones */
+.icon-container {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-right: 1px solid #d3d3d3; /* Borda cinza clara entre os elementos */
+    padding-right: 30px;
+    text-align: center;
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    height: 100%;
+
+    user-select: none; /* Desativa a seleção de texto */
+    -webkit-user-select: none; /* Compatibilidade adicional */
+    -ms-user-select: none; /* Compatibilidade adicional */
+}
+
+.icon-container:active {
+    background-color: rgba(100, 100, 100, 0.068); /* Cor de fundo enquanto o elemento está sendo clicado */
+}
+
+
+.icon-container-NoBorder {
+    text-align: center;
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    height: 100%;
+    
+    user-select: none; /* Desativa a seleção de texto */
+    -webkit-user-select: none; /* Compatibilidade adicional */
+    -ms-user-select: none; /* Compatibilidade adicional */
+}
+
+.icon-container-NoBorder:focus {
+    outline: none; /* Garante que a borda de foco não apareça */
+}
+
+.icon-container-NoBorder:active {
+    background-color: rgba(100, 100, 100, 0.068); /* Cor de fundo enquanto o elemento está sendo clicado */
+}
+
+/* Estilo das tooltips */
+.tooltip {
+    background-color: #000000e4;
+    visibility: hidden;
+    width: 100px;
+    color: #ffffff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    top: 50px; /* Posiciona a tooltip mais abaixo do ícone */
+    left: 60%;
+    transform: translateX(-50%); /* Ajusta para centralizar a tooltip */
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 999;
+}
+
+/* Tooltip para o texto 'Ctrl + C' com texto menor */
+.tooltip-small {
+    color: rgb(246, 115, 0);
+    font-size: 11px; /* Menor tamanho para o texto de "Ctrl + C" */
+    text-align: center;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
+
+/* Torna a tooltip visível quando o mouse passa sobre o ícone */
+.icon-container:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+    left: 45%;
+    animation: fadeInOut 1s ease-in-out forwards;
+
+}
+
+.icon-container-NoBorder:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+    animation: fadeInOut 1s ease-in-out forwards;
+
+}
+
+/* Animação */
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+
+/* Adiciona rolagem horizontal apenas para telas pequenas */
+@media (max-width: 1100px) {
+    .down-funcions-bar {
+        overflow-x: auto; /* Permite rolagem horizontal */
+        overflow-y: hidden; /* Evita rolagem vertical */
+        display: flex;
+    }
+
+    .tooltip {
+        position: fixed;
+        top: 90%; /* Posiciona a tooltip mais abaixo do ícone */
+        left: 52% !important;
+        padding: 0%;
+        margin: 0%;
+        align-items: center;
+        scale: 120%;
+    }
+}
+
+
+.up-funcions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 16px; /* Espaçamento horizontal padrão */
+}
+
+/* Estilo para o título e imagem do logo */
+.title-diagram {
+    display: flex;
+    align-items: center;
+    margin: 20px 30px 10px 0; /* Superior, direita, inferior, esquerda */
+}
+
+.title-diagram img {
+    margin-right: 20px;
+    width: 50px; /* Largura padrão da imagem */
+    cursor: pointer;
+}
+
+/* Texto e documentos */
+.title-diagram .flex-column {
+    margin-bottom: 0;
+}
+
+.title-diagram .h4 {
+    margin-bottom: 8px; /* Ajuste de espaçamento entre os textos */
+}
+
+.title-diagram .h6 {
+    cursor: pointer;
+    font-size: 14px; /* Tamanho padrão do texto */
+}
+
+/* Perfil do usuário */
+.user-profile {
+    color: white; /* Cor padrão */
+    order: 0; /* Ordem padrão em telas grandes */
+}
+
+/* Estilo responsivo para telas menores */
+@media (max-width: 768px) {
+    .up-funcions {
+        flex-direction: column; /* Alinhar itens em coluna */
+        align-items: flex-start; /* Alinhar ao início */
+        padding-top: 10px; /* Reduzir padding geral */
+    }
+
+    .user-profile {
+        order: -1; /* Colocar o perfil acima do título em telas pequenas */
+        margin-bottom: 0px; /* Adicionar espaçamento abaixo */
+    }
+
+    .title-diagram {
+        margin: 0px; /* Reduzir margens */
+    }
+
+    .title-diagram img {
+        width: 20px; /* Reduzir largura da imagem */
+        margin-right: 10px; /* Ajustar espaçamento */
+    }
+
+    .title-diagram .h4 {
+        font-size: 16px; /* Diminuir tamanho do título */
+    }
+
+    .title-diagram .h6 {
+        font-size: 12px; /* Diminuir tamanho do subtítulo */
+    }
+}

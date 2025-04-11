@@ -7,19 +7,38 @@ import { Modal } from "bootstrap";
 import ShareDiagramModal from "../../../components/ShareDiagramModal";
 import RemoveDiagramModal from "../../../components/RemoveDiagramModal";
 import RenameDiagramModal from "../../../components/RenameDiagramModal";
+import { useSocket } from "../../../services/SocketContext";
 import { useTranslation } from 'react-i18next';
 
 function SharedDocuments() {
+    const socket = useSocket();
     const { t } = useTranslation();
 
     useEffect(() => {
-        document.title = 'Compartilhados comigo - USINN Modeler';
+        document.title = t("Compartilhados comigo") + ' - USINN Modeler';
     },[]);
 
     let [diagrams, setDiagrams] = useState([]);
     let [loading, setLoading] = useState(true);
 
     const [selectedId, setSelectedId] = useState(null);
+
+    useEffect(() => {
+        if (!socket) return;
+    
+        socket.on('component_refresh', async (data) => {
+          try {
+            getDiagrams();
+          } catch (error) {
+            console.log('Erro ao atualizar componente')
+          }
+        })
+    
+        return () => {
+          socket.off('component_refresh');
+        };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [socket]);
     
     async function getDiagrams() {
         setLoading(true);

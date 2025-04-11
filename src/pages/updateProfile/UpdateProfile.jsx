@@ -10,6 +10,8 @@ import api from "../../services/api";
 import { Toast } from '../../components/Toast';
 import moment from "moment";
 import { useTranslation } from 'react-i18next';
+import Notifications from "../../components/Notifications";
+import punycode from 'punycode';
 
 function UpdateProfile() {
     const { t } = useTranslation();
@@ -18,7 +20,7 @@ function UpdateProfile() {
     DateTenYears.setFullYear((new Date()).getFullYear() - 10);
 
     useEffect(() => {
-        document.title = t('Editar Perfil - USINN Modeler');
+        document.title = t('Editar Perfil') + " - USINN Modeler";
     }, [t]);
 
     const [loadingOverlay, setLoadingOverlay] = useState(false);
@@ -27,24 +29,47 @@ function UpdateProfile() {
 
     const formik = useFormik({
 
-        initialValues: {
-            name: '',
-            email: '',
-            birthday: '',
-            gender: '',
-            company: '',
-            role: ''
-        },
-
-        validationSchema: Yup.object({
-            name: Yup.string()
+		initialValues: {
+			name: '',
+ 			email: '',
+			birthday: '',
+			gender: '',
+			company: '',
+			role: ''
+		},
+   
+		validationSchema: Yup.object({
+			name: Yup.string()
                 .matches(/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/, { message: t('O nome só deve conter caracteres') })
                 .min(3, t('O nome deve ter no mínimo 3 caracteres'))
                 .max(100, t('O nome deve ter no máximo 100 caracteres'))
                 .required(t('Nome é obrigatório')),
-            email: Yup.string().email(t('Endereço de e-mail inválido')).max(255, t('O email deve ter no máximo 255 caracteres')).required(t('E-mail é obrigatório')),
-            birthday: Yup.date()
-                .transform((value, currentValue) => { return moment(currentValue, 'DD/MM/YYYY', true).toDate() })
+                email: Yup.string().email(t('Endereço de e-mail inválido')).max(255, t('O email deve ter no máximo 255 caracteres')).required(t('E-mail é obrigatório')).test(
+				'is-valid-domain',
+				'O domínio do e-mail é inválido',
+                async (value) => {
+                    if (!value) return false;
+                    const domain = value.split('@')[1];
+                    if (!domain) return false;
+
+                    const decodedDomain = punycode.toUnicode(domain);
+                    const domainPattern = /^[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+                    if (!domainPattern.test(decodedDomain) || decodedDomain.includes('..')) return false;
+
+                    try {
+                        const response = await fetch(`https://dns.google/resolve?name=${decodedDomain}&type=MX`);
+                        if (!response.ok) return false;
+
+                        const data = await response.json();
+                        if (data.Status !== 0 || !data.Answer || data.Answer.length === 0) return false
+                        return true
+                    } catch (error) {
+                        return false;
+                    }
+                }
+			),
+			birthday: Yup.date()
+				.transform((value, currentValue) => { return moment(currentValue, 'DD/MM/YYYY', true).toDate() })
                 .typeError(t('Data é inválida'))
                 .min(new Date(0, 0, 1), t('Data de nascimento inválida'))
                 .max(DateTenYears, t('Data de nascimento inválida'))
@@ -52,8 +77,7 @@ function UpdateProfile() {
             gender: Yup.number().integer(t('Valor é inválido')).min(1, t('Valor é inválido')).max(3, t('Valor é inválido')).required(t('Gênero é obrigatório')),
             role: Yup.number().integer(t('Valor é inválido')).required(t('O perfil é obrigatório')),
             company: Yup.string().max(100, t('A organização deve ter no máximo 100 caracteres')).required(t('A organização é obrigatória'))
-        }),
-
+		}),
         onSubmit: async values => {
             try {
 
@@ -121,12 +145,17 @@ function UpdateProfile() {
 
     return (
         <main id="update" className={`flex-fill h-100 pb-5`}>
-            <nav className="navbar navbar-expand-lg bg-white p-3 justify-content-between w-100">
+            
+            
+            <nav className="navbar navbar-expand-lg bg-white p-3 px-1 px-sm-3 justify-content-between w-100">
                 <div className="container-fluid">
                     <div className="mb-0 h4">
-                        <b>{t('Atualizar Perfil')}</b>
+                        <h1 className="h4 m-0">{t('Atualizar Perfil')}</h1>
                     </div>
-                    <UserProfile />
+                    <div className="d-flex align-items-center gap-2 ms-auto">
+                        <Notifications/>
+                        <UserProfile/>
+                    </div>
                 </div>
             </nav>
 
@@ -146,6 +175,7 @@ function UpdateProfile() {
                                     name="name"
                                     placeholder={t('Nome completo')+"*"}
                                     autoComplete="name"
+                                    aria-label="campo nome"
                                 />
                                 {formik.touched.name && formik.errors.name ? (<div className="invalid-feedback d-block"> {formik.errors.name}</div>) : null}
                             </div>
@@ -154,6 +184,7 @@ function UpdateProfile() {
                                 <input
                                     disabled={formik.isSubmitting}
                                     onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
                                     onInput={(e) => formik.setFieldTouched(e.target.name, true, false)}
                                     value={formik.values.email}
                                     className={`form-control ${formik.touched.email && formik.errors.email ? 'is-invalid' : ''}`}
@@ -161,6 +192,7 @@ function UpdateProfile() {
                                     name="email"
                                     placeholder={t('E-mail')+"*"}
                                     autoComplete="email"
+                                    aria-label="campo e-mail"
                                 />
                                 {formik.touched.email && formik.errors.email ? (<div className="invalid-feedback d-block"> {formik.errors.email}</div>) : null}
                             </div>
@@ -171,10 +203,11 @@ function UpdateProfile() {
                                     onChange={(e) => { formik.handleChange(e); maskBirth(e) }}
                                     onInput={(e) => formik.setFieldTouched(e.target.name, true, false)}
                                     value={formik.values.birthday}
-                                    className={`form-control ${formik.touched.birthday && formik.errors.birthday ? 'is-invalid' : ''}`}
-                                    type="text"
-                                    name="birthday"
+                                    className={`form-control ${formik.touched.birthday && formik.errors.birthday ? 'is-invalid' : '' }`}
+                                    type="text" 
+                                    name="birthday" 
                                     placeholder={t('Data de nascimento')+"*"}
+                                    aria-label="campo data de nascimento"
                                 />
                                 {formik.touched.birthday && formik.errors.birthday ? (<div className="invalid-feedback d-block"> {formik.errors.birthday}</div>) : null}
                             </div>
@@ -184,9 +217,10 @@ function UpdateProfile() {
                                     disabled={formik.isSubmitting}
                                     onChange={(e) => { formik.handleChange(e); formik.setFieldTouched(e.target.name, true, false) }}
                                     value={formik.values.gender}
-                                    className={`form-select ${formik.touched.gender && formik.errors.gender ? 'is-invalid' : ''}${formik.values.gender === '' ? ' is-empty' : ''}`}
-                                    name="gender"
+                                    className={`form-select ${formik.touched.gender && formik.errors.gender ? 'is-invalid' : '' }${formik.values.gender === '' ? ' is-empty': ''}`} 
+                                    name="gender" 
                                     placeholder={t('Gênero')+"*"}
+                                    aria-label="selecione seu gênero"
                                 >
                                     <option value="" disabled hidden> {t('Gênero')+"*"} </option>
                                     {genderOptions.map((item, index) =>
@@ -206,6 +240,7 @@ function UpdateProfile() {
                                             className={`form-select ${formik.touched.role && formik.errors.role ? 'is-invalid' : ''}${formik.values.role === '' ? ' is-empty' : ''}`}
                                             name="role"
                                             placeholder={t('Perfil')}
+                                            aria-label="selecione seu perfil"
                                         >
                                             <option value="" disabled hidden> {t('Perfil')} </option>
                                             {roleOptions.map((item, index) =>
@@ -226,6 +261,7 @@ function UpdateProfile() {
                                             name="company"
                                             placeholder={t('Organização')}
                                             autoComplete="organization"
+                                            aria-label="campo da sua organização"
                                         />
                                         {formik.touched.company && formik.errors.company ? (<div className="invalid-feedback d-block"> {formik.errors.company}</div>) : null}
                                     </div>
@@ -233,7 +269,8 @@ function UpdateProfile() {
                             </div>
 
                             <div className="d-flex justify-content-center px-0 gap-4">
-                                <div className="text-center mt-2">
+                                
+                                <div className="text-center mt-2 outline-black">
                                     <Link className="text-decoration-none btn text-primary fw-bold px-4 px-sm-5 border-dark" to="/dashboard" >{t('Cancelar')}</Link>
                                 </div>
 
@@ -248,10 +285,10 @@ function UpdateProfile() {
 
                     <div className="order-1 order-lg-2 col-12 col-lg-6 px-0 d-flex justify-content-center pb-5 pb-lg-0" id="avatares">
                         <div className="d-flex flex-column align-items-center">
-                            <img className="mb-4 img-fluid" src={avatarOptions[imgAvatar]} alt=""></img>
-                            <div className="d-flex justify-content-between ">
-                                {avatarOptions.map((item, index) =>
-                                    <button key={index} onClick={(e) => { setImgAvatar(index) }} className="btn rounded-circle p-0 mx-1 mx-lg-3" ><img className="img-fluid" src={item} alt="" /></button>
+                            <img className="mb-4 img-fluid"src={avatarOptions[imgAvatar]} alt=""></img>
+                            <div className="d-flex justify-content-between outline-black">
+                                {avatarOptions.map((item, index) => 
+                                    <button aria-label={`escolher avatar ${index + 1}`} key={index} onClick={(e)=> {setImgAvatar(index)}} className="btn rounded-circle p-0 mx-1 mx-lg-3" ><img className="img-fluid" src={item} alt=""/></button>
                                 )}
                             </div>
                         </div>

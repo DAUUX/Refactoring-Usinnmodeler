@@ -13,7 +13,7 @@ function MyDocuments() {
     const { t } = useTranslation();
 
     useEffect(() => {
-        document.title = 'Meus Documentos - USINN Modeler';
+        document.title = t("Meus Documentos") + ' - USINN Modeler';
     },[]);
 
     let [diagrams, setDiagrams] = useState([]);

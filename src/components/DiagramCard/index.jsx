@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
-import { slugify } from '../../Helpers';
 import './style.scss';
 import api from "../../services/api";
 import FavoriteDiagram from "../../components/FavoriteDiagram";
@@ -39,23 +38,23 @@ function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram,
     }
     
     return (
-        <Link to={`/modeler/${id}/${slugify(name)}`} className="card text-reset text-decoration-none mw-25 overflow-hidden" id="diagram-card">
+        <Link to={`/modeler/${id}`} className="card text-reset text-decoration-none mw-25 overflow-hidden" id="diagram-card">
             <div className="card-header  d-flex pe-0">
                 <div className='overflow-hidden'>
                     <span className="fw-bold">{name}</span><br />
                     <span>{t("Modificado")} {elapsedTime(lastModified) > 0 ? `${t("há")} ${elapsedTime(lastModified)} ${t("dias")}` : t("hoje")}</span>
                 </div>
 
-                <div className="dropdown ms-auto d-flex">  
+                <div className="dropdown ms-auto d-flex ps-3 outline-white">  
                     <FavoriteDiagram diagram_id={id} favorited={favorited} onFavoritedClick={()=>{
                         onDiagramFavorited()
                     }}/>                            
                     
-                    <button className="btn p-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button className="btn p-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="abrir e fechar opções do diagrama">
                         <i className="bi bi-three-dots-vertical mt-1"></i>
                     </button>
                         
-                    <ul className="dropdown-menu">
+                    <ul className="dropdown-menu outline-black">
                         <li>
                             <button className="dropdown-item" onClick={(e)=> {e.stopPropagation(); e.preventDefault(); onRenameDiagram(id)}}> <i className="bi bi-pencil"></i> {t("Renomear")}</button>
                         </li>

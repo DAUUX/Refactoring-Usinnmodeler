@@ -2,6 +2,10 @@ import axios from 'axios';
 
 const api = axios.create({
 	baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+		'content-type': 'application/json',
+		'accept': 'application/json',
+	} 
 });
 
 if (localStorage.token) api.defaults.headers.common['x-access-token'] = localStorage.getItem('token');
@@ -9,6 +13,10 @@ if (localStorage.token) api.defaults.headers.common['x-access-token'] = localSto
 api.interceptors.response.use(function (response) {
     return response;
 }, function (error) {
+
+    if (error.code === "ERR_NETWORK") {
+        return Promise.reject('Falha na conexão ou servidor!');
+    }
 
     if (error.response.status === 401 && window.location.pathname !== '/login') {
         window.location.replace('/login');

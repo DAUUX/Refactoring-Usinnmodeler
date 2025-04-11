@@ -2,18 +2,42 @@ import { useState } from "react";
 import { Toast } from "../Toast";
 import api from "../../services/api";
 import { useTranslation } from 'react-i18next';
+import { useSocket } from "../../services/SocketContext";
 
 function RemoveDiagramModal({id, diagram_id, onDiagramRemoved}) {
+    const socket = useSocket();
     const { t } = useTranslation();
+
     const [loading, setLoading]   = useState(false);
 
     async function removeDiagram() {
         setLoading(true);
 
         try {
-        
-            await api.delete(`diagrams/${diagram_id}`);
+            
+            const resDiagram = await api.get(`diagrams/${diagram_id}`)
+            const id_owner = resDiagram.data.user_id
+            const owner = id_owner === JSON.parse(localStorage.getItem('user')).id
 
+            await api.delete(`diagrams/${diagram_id}`)
+
+            const name_user = JSON.parse(localStorage.getItem('user')).name
+            const name_diagram = resDiagram.data.name
+            const resCollaborator = await api.get(`collaboration/${diagram_id}`)
+            const user_ids = resCollaborator.data.collaborators.map(collaborator => collaborator.collaborator_id)
+
+            if(owner){
+                
+                await api.post('notification', {user_id: user_ids, diagram_id: diagram_id, diagram_name: name_diagram, type: 3, message: `"${name_user}" deletou o diagrama compartilhado com você: "${name_diagram}"`})
+                await socket.emit('send_notification', user_ids);
+            
+            }else{
+                
+                await api.post('notification', {user_id: id_owner, diagram_id: diagram_id, diagram_name: name_diagram, type: 4, message: `"${name_user}" não colabora mais com o diagrama: "${name_diagram}"`})
+                await socket.emit('send_notification', id_owner);
+
+            }  
+    
             Toast(t, 'success', "O Diagrama foi excluído com sucesso", "delete");
 
             onDiagramRemoved();
@@ -33,7 +57,7 @@ function RemoveDiagramModal({id, diagram_id, onDiagramRemoved}) {
     }
 
     return (
-        <div className="modal fade" id={id} tabIndex="-1" aria-hidden="true">
+        <div className="modal fade" id={id} tabIndex="-1">
             <div className="modal-dialog modal-md modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-body text-center px-4 pb-4">

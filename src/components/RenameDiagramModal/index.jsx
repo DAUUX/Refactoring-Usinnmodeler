@@ -6,9 +6,11 @@ import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { Modal } from "bootstrap";
 import { useTranslation } from 'react-i18next';
+import { useSocket } from "../../services/SocketContext";
 
 function Rename({id, diagram_id, onDiagramRenamed}) {
-	const { t } = useTranslation();
+    const { t } = useTranslation();
+    const socket = useSocket();
 
     useEffect(()=>{
         document.getElementById(id).addEventListener('show.bs.modal', event => {
@@ -16,7 +18,7 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
         });
     },[])
 
-    const modalRef = useRef(null);
+    const modalRef = useRef(null); 
 
     const formik = useFormik({
 
@@ -34,18 +36,35 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
 		onSubmit: async values => {
    
             try {
+
+                const res = await api.get(`diagrams/${diagram_id}`);  
+                const {user_id, name} = res.data
             
                 await api.put(`diagrams/rename/${diagram_id}`, values);
                 Toast(t, 'success', 'Diagrama renomeado com sucesso!', "checkCircle");
                 
                 document.getElementById(id).click();
 
-                onDiagramRenamed()
+                if(name !== formik.values.name){
+                    const my_id = JSON.parse(localStorage.getItem('user')).id
+                    const collaborator_name = JSON.parse(localStorage.getItem('user')).name;
+                    const owner = my_id === user_id 
+
+                    const res = await api.get(`collaboration/${diagram_id}`)
+                    const user_ids = res.data.collaborators.map(collaborator => collaborator.collaborator_id);
+                    user_ids.push(user_id);
+                    const filtered_user_ids = user_ids.filter(id => id !== my_id);
+                    
+                    await api.post('notification', {user_id: filtered_user_ids, diagram_id: diagram_id, diagram_name: formik.values.name, type: 2, message: `"${collaborator_name}" alterou o nome do ${owner ? 'diagrama compartilhado com você' : 'seu diagrama'}: "${name}" para "${formik.values.name}"`})
+                    await socket.emit('send_notification', filtered_user_ids);
+                }
                 
                 if (modalRef.current) {
                     const modalInstance = Modal.getInstance(modalRef.current);
                     modalInstance.hide();
                 }
+
+                onDiagramRenamed()
             
             } catch (error) {
             
@@ -63,7 +82,7 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
 	});
 	
     return (
-        <div className="modal" id={id} tabIndex="-1" aria-labelledby="RenameDiagramModalLabel" ref={modalRef} aria-hidden="true">
+        <div className="modal" id={id} tabIndex="-1" aria-labelledby="RenameDiagramModalLabel" ref={modalRef}>
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header">
@@ -83,7 +102,8 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
                                 name="name" 
                                 placeholder={t('Novo nome')}
                                 autoComplete="name"
-                                />
+                                aria-label="campo do novo nome para o diagrama"
+                            />
 
                             {formik.touched.name && formik.errors.name ? (<div className="invalid-feedback d-block"> {formik.errors.name}</div>) : null}
                         </div>
