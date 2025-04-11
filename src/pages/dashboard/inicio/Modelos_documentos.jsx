@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import DiagramCard from "../../../components/DiagramCardModel";
 import { Toast } from "../../../components/Toast";
 import api from "../../../services/api";
+import { useTranslation } from 'react-i18next';
 
 function Modelos_documentos({ refresh, forceRefresh, onlyFavorited="false" }) {
+  const { t } = useTranslation();
   let [diagrams, setDiagrams] = useState([]);
 
   async function getDiagrams() {
@@ -56,7 +58,7 @@ function Modelos_documentos({ refresh, forceRefresh, onlyFavorited="false" }) {
     setDiagrams(filteredDiagrams);
   } catch (error) {
     // Exibe uma mensagem de erro
-    Toast('error', error);
+    Toast(t, 'error', error, "errorCircle");
   }
 }
 

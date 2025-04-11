@@ -25,7 +25,7 @@ function Documents_inicio() {
             const res = await api.get('/diagrams/recent?limit=4');
             setDiagrams(res.data.diagrams);
         } catch(error){
-            Toast(t, 'error', error);
+            Toast(t, 'error', error, "errorCircle");
         }
         setLoading(false);
     }

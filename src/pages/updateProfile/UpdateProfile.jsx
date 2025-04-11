@@ -93,7 +93,7 @@ function UpdateProfile() {
                     Toast(t, 'error', "Falha na conexão ao servidor", "errorServer");
                 }
                 else {
-                    Toast(t, 'error', error, "aviso");
+                    Toast(t, 'error', error, "errorCircle");
                 }
 
             }

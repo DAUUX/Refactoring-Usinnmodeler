@@ -60,7 +60,7 @@ export default function Notification() {
       setNameDiagrams(res.data);
     } catch (error) {
 
-      Toast('error', error, "errorCircle");
+      Toast(t, 'error', error, "errorCircle");
       
     }
     setLoading(false)

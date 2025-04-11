@@ -211,6 +211,13 @@
         "Todas as notificações foram lidas": "All notifications have been read",
         "marcar como lida": "mark as read",
         "marcar como não lida": "mark as unread",
-        "Diagrama": "Diagram"
+        "Diagrama": "Diagram",
+        "Erro ao Favoritar": "Error Favorited",
+        "Diagrama oculto.": "Hidden diagram.",
+        "Erro ao ocultar.": "Erro ao ocultar.",
+        "A notificação foi excluída com sucesso!": "The notification has been deleted successfully!",
+        "Ocorreu um erro ao deletar a notificação! Tente novamente": "An error occurred while deleting the notification! Please try again",
+        "Preencha o campo email": "Fill in the email field",
+        "Diagramas Recuperados com sucesso.": "Diagrams successfully retrieved."
     }
 }

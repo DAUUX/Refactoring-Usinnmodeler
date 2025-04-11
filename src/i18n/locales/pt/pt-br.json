@@ -211,6 +211,13 @@
         "Todas as notificações foram lidas": "Todas as notificações foram lidas",
         "marcar como lida": "marcar como lida",
         "marcar como não lida": "marcar como não lida",
-        "Diagrama": "Diagrama"
+        "Diagrama": "Diagrama",
+        "Erro ao Favoritar": "Erro ao Favoritar",
+        "Diagrama oculto.": "Diagrama oculto.",
+        "Erro ao ocultar.": "Erro ao ocultar.",
+        "A notificação foi excluída com sucesso!": "A notificação foi excluída com sucesso!",
+        "Ocorreu um erro ao deletar a notificação! Tente novamente": "Ocorreu um erro ao deletar a notificação! Tente novamente",
+        "Preencha o campo email": "Preencha o campo email",
+        "Diagramas Recuperados com sucesso.": "Diagramas Recuperados com sucesso."
     }
 }

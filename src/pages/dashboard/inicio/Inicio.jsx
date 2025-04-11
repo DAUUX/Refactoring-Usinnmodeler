@@ -32,7 +32,7 @@ function Inicio(){
     const Data = JSON.parse(localStorage.getItem('user'));
     async function clearRemovedDiagrams() {
         await api.delete("/user/preferences")
-        Toast("success", "Diagramas Recuperados com sucesso.", "checkCircle");
+        Toast(t, "success", "Diagramas Recuperados com sucesso.", "checkCircle");
         forceRefresh(); 
     }
 
