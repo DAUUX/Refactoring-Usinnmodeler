@@ -7,6 +7,11 @@ function ButtonLanguage() {
     const { t } = useTranslation();
     const [isOpen, setIsOpen] = useState(false);
 
+    const handleChangeLanguage = (lang) => {
+        i18n.changeLanguage(lang);
+        localStorage.setItem('language', lang);
+      };
+
     return (
         <div 
             style={{
@@ -35,10 +40,10 @@ function ButtonLanguage() {
                 </button>
                 <ul className="dropdown-menu dropdown-menu-lg-end" aria-labelledby="dropdownMenuButton">
                     <li>
-                        <button className="dropdown-item" onClick={(e) => { e.preventDefault(); i18n.changeLanguage('pt-BR'); }}>PT-BR</button>
+                        <button className="dropdown-item" onClick={() => handleChangeLanguage('pt-BR')}>PT-BR</button>
                     </li>
-                    <li>
-                        <button className="dropdown-item" onClick={(e) => { e.preventDefault(); i18n.changeLanguage('en-US'); }}>EN-US</button>
+                    <li>                       
+                        <button className="dropdown-item" onClick={() => handleChangeLanguage('en-US')}>EN-US</button>
                     </li>
                 </ul>
             </div>
