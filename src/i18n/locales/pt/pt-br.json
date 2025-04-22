@@ -218,6 +218,20 @@
         "A notificação foi excluída com sucesso!": "A notificação foi excluída com sucesso!",
         "Ocorreu um erro ao deletar a notificação! Tente novamente": "Ocorreu um erro ao deletar a notificação! Tente novamente",
         "Preencha o campo email": "Preencha o campo email",
-        "Diagramas Recuperados com sucesso.": "Diagramas Recuperados com sucesso."
+        "Diagramas Recuperados com sucesso.": "Diagramas Recuperados com sucesso.",
+        "Contato": "Contato",
+        "Email não cadastrado!": "Email não cadastrado!",
+        "O campo deve ser um email válido": "O campo deve ser um email válido",
+        "O email deve ter menos de 255 caracteres": "O email deve ter menos de 255 caracteres",
+        "O email com as instruções para recuperação de senha foi enviado": "O email com as instruções para recuperação de senha foi enviado",
+        "Masculino": "Masculino",
+        "Feminino": "Feminino",
+        "Prefiro não informar": "Prefiro não informar",
+        "Estudante": "Estudante",
+        "Pesquisador": "Pesquisador",
+        "Profissional": "Profissional",
+        "E-mail ou senha inválidos": "E-mail ou senha inválidos",
+        "A senha digitada não corresponde a senha cadastrada!": "A senha digitada não corresponde a senha cadastrada!",
+        "Não foi possível processar esta requisição": "Não foi possível processar esta requisição"
     }
 }

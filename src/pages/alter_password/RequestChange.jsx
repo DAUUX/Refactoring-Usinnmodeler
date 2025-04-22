@@ -31,11 +31,13 @@ export default function RequestChange() {
     setLoading(true);
     
     try {
-      // Simule a lógica de envio de email de redefinição de senha (substitua com sua lógica real)
-      await api.post("recover-password", { email });
-      // Redirecionamento após envio bem-sucedido (substitua com o caminho correto)
-      setEnviadoComSucesso(true);
-      // history.push('/sucesso'); // Você pode ou não redirecionar para outra página, dependendo de como deseja implementar isso.
+      if(email){
+        await api.post("recover-password", { email });
+        setEnviadoComSucesso(true);
+      }
+
+      Toast(t, 'error', "Preencha o campo email", "errorCircle");
+      
     } catch (error) {
       if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
         Toast(t, 'error', "Falha na conexão ao servidor", "errorServer");

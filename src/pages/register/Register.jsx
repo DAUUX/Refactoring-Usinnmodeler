@@ -208,7 +208,7 @@ export default function Register() {
 							>
 								<option value="" disabled hidden>{t('Gênero')+"*"}</option>
 								{genderOptions.map((item, index) =>
-									<option value={index + 1} key={index}> {item} </option>
+									<option value={index + 1} key={index}> {t(item)} </option>
 								)}
 							</select>
 							{formik.touched.gender && formik.errors.gender ? (<strong className="invalid-feedback d-block"> {formik.errors.gender}</strong>) : null}
@@ -229,7 +229,7 @@ export default function Register() {
 									>
 										<option value="" disabled hidden> {t('Perfil')+"*"} </option>
 										{ roleOptions.map((item, index) => 
-											<option value={index+1} key={index} > {item} </option>
+											<option value={index+1} key={index} > {t(item)} </option>
 										)}
 									</select>
 									{formik.touched.role && formik.errors.role ? (<strong className="invalid-feedback position-absolute"> {formik.errors.role}</strong>) : null}

@@ -351,7 +351,7 @@ export default function Home() {
 
         <address className="col-sm-auto col-md-5">
           <div className="d-flex flex-column pb-3">
-            <strong className="fs-5">Contato</strong>
+            <strong className="fs-5">{t("Contato")}</strong>
             <span>beatriz.marques@ufc.br</span>
           </div>
           

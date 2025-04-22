@@ -25,7 +25,7 @@ function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
             password: ''
         },
         validationSchema: Yup.object({
-            password: Yup.string().min(8, 'Senha deve ter no mínimo 8 caracteres').required('Senha é obrigatória'),
+            password: Yup.string().min(8, t('Senha deve ter no mínimo 8 caracteres')).required(t('Senha é obrigatória')),
         }),
         onSubmit: async (values, { setSubmitting }) => {
             setLoading(true);

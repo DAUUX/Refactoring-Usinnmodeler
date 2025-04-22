@@ -218,6 +218,20 @@
         "A notificação foi excluída com sucesso!": "The notification has been deleted successfully!",
         "Ocorreu um erro ao deletar a notificação! Tente novamente": "An error occurred while deleting the notification! Please try again",
         "Preencha o campo email": "Fill in the email field",
-        "Diagramas Recuperados com sucesso.": "Diagrams successfully retrieved."
+        "Diagramas Recuperados com sucesso.": "Diagrams successfully retrieved.",
+        "Contato": "Contact",
+        "Email não cadastrado!": "Email not registered!",
+        "O campo deve ser um email válido": "The field must be a valid email",
+        "O email deve ter menos de 255 caracteres": "Email must be less than 255 characters",
+        "O email com as instruções para recuperação de senha foi enviado": "Email with password recovery instructions has been sent",
+        "Masculino": "Male",
+        "Feminino": "Female",
+        "Prefiro não informar": "Prefer not to say",
+        "Estudante": "Student",
+        "Pesquisador": "Researcher",
+        "Profissional": "Professional",
+        "E-mail ou senha inválidos": "Invalid email or password",
+        "A senha digitada não corresponde a senha cadastrada!": "The password entered does not match the registered password!",
+        "Não foi possível processar esta requisição": "Unable to process this request"
     }
 }
