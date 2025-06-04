@@ -81,7 +81,7 @@ const NotificationItem = ({ item, onDelete, onModal }) => {
       <p className="w-100 text-break m-0 ps-2 pe-3">{item.message}</p>
 
       <div className={`d-flex ${isHovered ? 'visible' : 'invisible'}`}>
-        <button className="btn btn-default p-0 text-white" aria-label={item.read === 0 ? 'marcar como lida' : 'marcar como não lida'} onClick={() => handleRead(item.id, item.read)}>
+        <button className="btn btn-default p-0 text-white" aria-label={item.read === 0 ? t('marcar como lida') : t('marcar como não lida')} onClick={() => handleRead(item.id, item.read)}>
           <i className={`bi ${item.read === 0 ? 'bi-envelope-open' : 'bi bi-envelope'}`}></i>
         </button>
         <button
@@ -258,7 +258,7 @@ export default function Notification() {
             </div>
           ) : (
             <h1 className="h3 border border-black text-center py-5 bg-white rounded-bottom rounded-end rounded-lg">
-              {filter === 'read' ? 'Não há notificações lidas' : 'Todas as notificações foram lidas'}
+              {filter === 'read' ? t('Não há notificações lidas') : t('Todas as notificações foram lidas')}
             </h1>
           )
         )}

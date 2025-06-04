@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { NodeResizer } from 'reactflow';
 import Seta from "./seta.png";
+import { useTranslation } from 'react-i18next';
 
 function Subflow({ id, data, selected }) {
+  const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false); 
-  const [text, setText] = useState('Unidade de apresentação'); 
+  const [text, setText] = useState(t('Unidade de apresentação')); 
 
   const handleBlur = () => {
     if (text.length > 50 || text.length < 2)  {
-      setText('Unidade de apresentação')
+      setText(t('Unidade de apresentação'))
     }
     setIsEditing(false); 
   };
@@ -24,7 +26,7 @@ function Subflow({ id, data, selected }) {
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       if (text.length > 50 || text.length < 2)  {
-        setText('Unidade de apresentação')
+        setText(t('Unidade de apresentação'))
       }
       setIsEditing(false);
     }
@@ -88,7 +90,7 @@ function Subflow({ id, data, selected }) {
                 style={{ position: 'absolute', top: 10, marginLeft: 10}}
                 onClick={handleClick}
               >
-                {text} <img width={20} src={Seta} alt="unidade de apresentação"/>
+                {text} <img width={20} src={Seta} alt={t("Unidade de apresentação")}/>
               </span>
             )}
             

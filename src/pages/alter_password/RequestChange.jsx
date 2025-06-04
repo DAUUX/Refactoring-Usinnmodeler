@@ -31,8 +31,14 @@ export default function RequestChange() {
     setLoading(true);
     
     try {
+
       if(email){
-        await api.post("recover-password", { email });
+        const messages = {
+          "subject": t("Recuperação de senha"),
+          "body": t("Para redefinir sua senha de acesso ao USINN Modeler, entre no link abaixo e preencha o campo com a nova senha. Caso não tenha realizado esta solicitação, apenas ignore esta mensagem."),
+          "link": t("Link para redefinição de senha:")
+        }
+        await api.post("recover-password", { email, messages });
         setEnviadoComSucesso(true);
       }
 

@@ -12,6 +12,7 @@ import moment from "moment";
 import { useTranslation } from 'react-i18next';
 import Notifications from "../../components/Notifications";
 import punycode from 'punycode';
+import ButtonLanguage from "../../components/ButtonLanguage";
 
 function UpdateProfile() {
     const { t } = useTranslation();
@@ -224,7 +225,7 @@ function UpdateProfile() {
                                 >
                                     <option value="" disabled hidden> {t('Gênero')+"*"} </option>
                                     {genderOptions.map((item, index) =>
-                                        <option value={index + 1} key={index} > {item} </option>
+                                        <option value={index + 1} key={index} > {t(item)} </option>
                                     )}
                                 </select>
                                 {formik.touched.gender && formik.errors.gender ? (<div className="invalid-feedback d-block"> {formik.errors.gender}</div>) : null}
@@ -244,7 +245,7 @@ function UpdateProfile() {
                                         >
                                             <option value="" disabled hidden> {t('Perfil')} </option>
                                             {roleOptions.map((item, index) =>
-                                                <option value={index + 1} key={index} > {item} </option>
+                                                <option value={index + 1} key={index} > {t(item)} </option>
                                             )}
                                         </select>
                                         {formik.touched.role && formik.errors.role ? (<div className="invalid-feedback d-block"> {formik.errors.role}</div>) : null}
@@ -299,6 +300,7 @@ function UpdateProfile() {
             <div id="loadingOverlay" className={`${loadingOverlay ? 'open' : ''}`}>
                 <Spinner className="spinner-border spinner-border text-light" isLoading={loadingOverlay} />
             </div>
+        <ButtonLanguage />
         </main>
     )
 

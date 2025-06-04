@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { NodeResizer } from 'reactflow';
+import { useTranslation } from 'react-i18next';
 
 function Subflow({ id, data, selected }) {
+  const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false); 
-  const [text, setText] = useState('Unidade de apresentação'); 
+  const [text, setText] = useState(t('Unidade de apresentação')); 
 
   const handleBlur = () => {
     if (text.length > 50 || text.length < 2)  {
-      setText('Unidade de apresentação')
+      setText(t('Unidade de apresentação'))
     }
     setIsEditing(false); 
   };
@@ -23,7 +25,7 @@ function Subflow({ id, data, selected }) {
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       if (text.length > 50 || text.length < 2)  {
-        setText('Unidade de apresentação')
+        setText(t('Unidade de apresentação'))
       }
       setIsEditing(false);
     }
@@ -77,7 +79,7 @@ function Subflow({ id, data, selected }) {
                 onBlur={handleBlur}
                 value={text}
                 autoFocus
-                title='O número de caracteres deve ser entre 2 e 50'
+                title={t('O número de caracteres deve ser entre 2 e 50')}
                 style={{ position: 'absolute', top: 10, marginLeft: 10 }}
                 onKeyDown={handleKeyDown} 
               />

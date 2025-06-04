@@ -113,8 +113,14 @@ function ShareDiagramModal(props) {
             params.append('emails', usersInvited.map(user => user.email));     
             const response = await api.get(`user/idForEmail?${params.toString()}`);
             let user_ids = response.data.filter(id => id !== collaborator_id);
+
+            const messages = {
+                "subject": t("Link de diagrama compartilhado"),
+                "body": t("Você recebeu um convite para editar o diagrama de"),
+                "link": t("Link do diagrama:")
+              }
             
-            await api.post(`share/${props.diagram_id}/inviteLink`, {link, usersInvited});
+            await api.post(`share/${props.diagram_id}/inviteLink`, {link, usersInvited, messages});
             
             const collaborators = await api.get(`collaboration/${props.diagram_id}`)
             const existing_collaborators = collaborators.data.collaborators.map(collaborator => collaborator.collaborator_id);

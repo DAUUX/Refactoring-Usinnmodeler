@@ -5,6 +5,7 @@ import { Grid } from "@mui/material";
 import './text-updater-node.css';
 import TypeNavigations from '../TypeNavigations';
 import { useModeler } from "../../../../context/modelerContext";
+import { useTranslation } from 'react-i18next';
 
 function AlertContentDiagram({ data, selected }) {
 
@@ -14,6 +15,7 @@ function AlertContentDiagram({ data, selected }) {
 
   const [ultimaseta, setUltimaseta] = React.useState("navigation"); 
   const { setCurrentEdge } = useModeler(); 
+  const { t } = useTranslation();
 
 
   useEffect(() => {
@@ -60,7 +62,7 @@ function AlertContentDiagram({ data, selected }) {
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
-      if(name.length === 0) setName('Conteúdo de Alerta')
+      if(name.length === 0) setName(t('Conteúdo de Alerta'))
     }
   };
 
@@ -78,7 +80,7 @@ function AlertContentDiagram({ data, selected }) {
             ref={textareaRef}
             id="text-input-user-action-diagram" 
             spellCheck="false" 
-            placeholder="Conteúdo de Alerta" 
+            placeholder={t("Conteúdo de Alerta")}
             onChange={onChange} 
             name="text" 
             className="nodrag" 

@@ -17,7 +17,7 @@ function ButtonLanguage() {
             style={{
                 position: "fixed",
                 bottom: "20px", 
-                right: "20px",  // Ajuste conforme necessário
+                right: "20px",  
                 zIndex: 1000
             }}
         >

@@ -17,10 +17,10 @@ import BasicCard from "./BasicCard";
 import { useEffect, useState } from "react";
 
 export default function Home() {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
-  const [title, setTitle] = useState(' EXPERIÊNCIA COMPLETA')
-  const [hambOpen, setHmabOpen] = useState(false)
+  const [title, setTitle] = useState(' EXPERIÊNCIA COMPLETA');
+  const [hambOpen, setHmabOpen] = useState(false);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -295,7 +295,7 @@ export default function Home() {
             {t("Conheça nosso TIME")}
             </h1>
             <p className="fs-5">
-            {t("Somos alunos e professora da")} <abbr title="Universidade Federal do Ceará">UFC</abbr> - Campus de Russas.
+            {t("Somos alunos e professora da")} <abbr title={t("Universidade Federal do Ceará")}>UFC</abbr> - {t("Campus de Russas")}.
             </p>
           </div>
 
@@ -356,7 +356,7 @@ export default function Home() {
           </div>
           
           <div className="d-flex flex-column">
-            <strong>UNIVERSIDADE FEDERAL DO CEARÁ - CAMPUS DE RUSSAS</strong>
+            <strong>{t("Universidade Federal do Ceará")} - {t("Campus de Russas")}</strong>
             Rua Felipe Santiago - Nº 411, Cidade Universitária, Russas - CE, 62900-000 <br />
             {t("Telefone")}: (88) 3411-9218 <br />
             E-mail: russas@ufc.br

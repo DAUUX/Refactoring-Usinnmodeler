@@ -12,8 +12,10 @@ import ProgressIndicator from "../ProgressIndicator/ProgressIndicator";
 import DataColection from "../DataColection/DataColection";
 import PresentationUnity from "../PresentationUnity/PresentationUnity";
 import PresentationUnityAcessible from "../PresentationUnityAcessible/PresentationUnityAcessible";
+import { useTranslation } from 'react-i18next';
 
 export default function Sidebar() {
+  const { t } = useTranslation();
   const onDragStart = (event, nodeType) => {
     event.dataTransfer.setData('application/reactflow', nodeType);
     event.dataTransfer.effectAllowed = 'move';
@@ -29,7 +31,7 @@ export default function Sidebar() {
           aria-controls="panel1-content"
           id="panel1-header"
         >
-          <Typography color={"#13528E"}>Elementos de navegação</Typography>
+          <Typography color={"#13528E"}>{t("Elementos de Navegação")}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Grid container spacing={2} alignItems="center" justifyContent="space-between">
@@ -37,7 +39,7 @@ export default function Sidebar() {
               <OpenPoint />
             </Grid>
             <Grid item>
-              <Typography variant='body2' >Ponto de abertura</Typography>
+              <Typography variant='body2' >{t("Ponto de Abertura")}</Typography>
             </Grid>
           </Grid>
           <Grid container spacing={2} mt={1} alignItems="center" justifyContent="space-between">
@@ -45,7 +47,7 @@ export default function Sidebar() {
               <ClosePoint />
             </Grid>
             <Grid item>
-              <Typography variant='body2' >Ponto de encerramento</Typography>
+              <Typography variant='body2' >{t("Ponto de Fechamento")}</Typography>
             </Grid>
           </Grid>
           <Grid container spacing={2} mt={1} alignItems="center" justifyContent="space-between">
@@ -53,7 +55,7 @@ export default function Sidebar() {
               <PresentationUnity />
             </Grid>
             <Grid item>
-              <Typography variant='body2' >Unidade de Apresentação</Typography>
+              <Typography variant='body2' >{t("Unidade de apresentação")}</Typography>
             </Grid>
           </Grid>
         </AccordionDetails>
@@ -64,7 +66,7 @@ export default function Sidebar() {
           aria-controls="panel1-content"
           id="panel1-header"
         >
-          <Typography color={"#13528E"}>Elementos de interação</Typography>
+          <Typography color={"#13528E"}>{t("Elementos de Interação")}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Grid container spacing={2} alignItems="center" mb={2} justifyContent="space-between" >
@@ -72,7 +74,7 @@ export default function Sidebar() {
               <SistemProcess />
             </Grid>
             <Grid item>
-              <Typography variant='body2' >Processo do sistema</Typography>
+              <Typography variant='body2' >{t("Processo do Sistema")}</Typography>
             </Grid>
           </Grid>
           <Grid container spacing={2} alignItems="center"  justifyContent="space-between">
@@ -80,7 +82,7 @@ export default function Sidebar() {
               <UserAction />
             </Grid>
             <Grid item>
-              <Typography variant='body2' >Ação do Usuário</Typography>
+              <Typography variant='body2' >{t("Ação do Usuário")}</Typography>
             </Grid>
           </Grid>
         </AccordionDetails>
@@ -91,7 +93,7 @@ export default function Sidebar() {
           aria-controls="panel1-content"
           id="panel1-header"
         >
-          <Typography color={"#13528E"}>Elementos de usabilidade</Typography>
+          <Typography color={"#13528E"}>{t("Elementos de Usabilidade")}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Grid container spacing={2} alignItems="center" mb={2} justifyContent="space-between">
@@ -99,7 +101,7 @@ export default function Sidebar() {
               <PresentationUnityAcessible />
             </Grid>
             <Grid item>
-              <Typography variant='body2' >Unidade de Apresentação</Typography>
+              <Typography variant='body2' >{t("Unidade de apresentação")}</Typography>
             </Grid>
           </Grid>
           <Grid container spacing={2} alignItems="center" mb={2} justifyContent="space-between">
@@ -107,7 +109,7 @@ export default function Sidebar() {
               <DataColection />
             </Grid>
             <Grid item>
-              <Typography variant='body2' >Coleção de dados</Typography>
+              <Typography variant='body2' >{t("Coleção de dados")}</Typography>
             </Grid>
           </Grid>
           <Grid container spacing={2} alignItems="center" mb={2} justifyContent="space-between">
@@ -115,7 +117,7 @@ export default function Sidebar() {
               <AlertContent />
             </Grid>
             <Grid item>
-              <Typography variant='body2' >Conteúdo de Alerta</Typography>
+              <Typography variant='body2' >{t("Conteúdo de Alerta")}</Typography>
             </Grid>
           </Grid>
           <Grid container spacing={2} alignItems="center" mb={2} justifyContent="space-between">
@@ -123,7 +125,7 @@ export default function Sidebar() {
               <ObrigatoryUserAction />
             </Grid>
             <Grid item>
-              <Typography variant='body2' >Ação do Usuário Obrigatória</Typography>
+              <Typography variant='body2' >{t("Ação do Usuário (Obrigatória)")}</Typography>
             </Grid>
           </Grid>
           <Grid container spacing={2} alignItems="center" justifyContent="space-between">
@@ -131,7 +133,7 @@ export default function Sidebar() {
               <ProgressIndicator />
             </Grid>
             <Grid item>
-              <Typography variant='body2' >Indicador de progresso</Typography>
+              <Typography variant='body2' >{t("Indicador de Progresso")}</Typography>
             </Grid>
           </Grid>
         </AccordionDetails>
