@@ -2,6 +2,7 @@ import './style.scss';
 import { useState } from "react";
 import i18n from '../../i18n';
 import { useTranslation } from 'react-i18next';
+import languageIcon from '../../assets/icons/language.png';
 
 function ButtonLanguage() {
     const { t } = useTranslation();
@@ -31,7 +32,7 @@ function ButtonLanguage() {
                     onClick={() => setIsOpen(!isOpen)}
                 >
                     <div id="profileImgButtonLanguage" className="text-uppercase mx-1">
-                        <img className="img-fluid" src={"./images/icons/language.png"} alt="" />
+                        <img className="img-fluid" src={languageIcon} alt="Ícone de idioma" />
                     </div>
                     <span className="mx-1 mt-1">{t("Mudar idioma")}</span>
                     <div className='mt-2'>

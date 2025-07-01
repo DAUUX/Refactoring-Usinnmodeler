@@ -296,11 +296,11 @@ function UpdateProfile() {
                     </div>
                 </div>
             </div>
-
+                                <ButtonLanguage />
             <div id="loadingOverlay" className={`${loadingOverlay ? 'open' : ''}`}>
                 <Spinner className="spinner-border spinner-border text-light" isLoading={loadingOverlay} />
             </div>
-        <ButtonLanguage />
+        
         </main>
     )
 
