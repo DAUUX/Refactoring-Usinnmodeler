@@ -117,7 +117,8 @@ function ShareDiagramModal(props) {
             const messages = {
                 "subject": t("Link de diagrama compartilhado"),
                 "body": t("Você recebeu um convite para editar o diagrama de"),
-                "link": t("Link do diagrama:")
+                "link": t("Link do diagrama:"),
+                "openLink": t("Abrir link")
               }
             
             await api.post(`share/${props.diagram_id}/inviteLink`, {link, usersInvited, messages});

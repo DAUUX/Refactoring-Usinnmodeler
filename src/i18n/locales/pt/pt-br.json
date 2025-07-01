@@ -282,6 +282,7 @@
         "Alerta de notificação ou confirmação": "Alerta de notificação ou confirmação",
         "Representa um alerta que o sistema pode emitir durante a interação do usuário com sistema, devido a determinadas condições. Não irá interromper a interação nem requer uma resposta do usuário.": "Representa um alerta que o sistema pode emitir durante a interação do usuário com sistema, devido a determinadas condições. Não irá interromper a interação nem requer uma resposta do usuário.",
         "Progresso no sistema com indicador de progresso": "Progresso no sistema com indicador de progresso",
-        "Representa um processamento interno do sistema após uma solicitação do usuário. Após sua conclusão, o sistema deve fornecer feedback ao usuário.": "Representa um processamento interno do sistema após uma solicitação do usuário. Após sua conclusão, o sistema deve fornecer feedback ao usuário."
+        "Representa um processamento interno do sistema após uma solicitação do usuário. Após sua conclusão, o sistema deve fornecer feedback ao usuário.": "Representa um processamento interno do sistema após uma solicitação do usuário. Após sua conclusão, o sistema deve fornecer feedback ao usuário.",
+        "Abrir link": "Abrir link"
     }
 }
