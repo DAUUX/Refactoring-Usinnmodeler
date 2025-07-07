@@ -127,7 +127,17 @@ function ShareDiagramModal(props) {
             const existing_collaborators = collaborators.data.collaborators.map(collaborator => collaborator.collaborator_id);
             user_ids = user_ids.filter(id => !existing_collaborators.includes(id));
 
-            await api.post('notification', {user_id: user_ids, diagram_id: props.diagram_id, diagram_name: name, type: 1, message: `"${collaborator_name}" compartilhou o diagrama: "${name}". Cheque seu e-mail!`})
+            await api.post('notification', {
+                user_id: user_ids,
+                diagram_id: props.diagram_id,
+                diagram_name: name,
+                type: 1,
+                message_key: 'notification.diagram.shared',
+                message_variables: {
+                    collaborator_name,
+                    name
+                }
+            });
             await socket.emit('send_notification', user_ids);
             
             Toast(t, 'success', 'Diagrama compartilhado com sucesso!', "share");
@@ -201,11 +211,32 @@ function ShareDiagramModal(props) {
 
             if(updation === "StopShare"){
                 await api.delete(`/collaboration/${props.diagram_id}/${user_id}`);
-                await api.post('notification', {user_id: user_id, diagram_id: props.diagram_id, diagram_name: name, type: 1, message: `"${collaborator_name}" parou de compartilhar o diagrama: "${name}"`})     
+                await api.post('notification', {
+                    user_id,
+                    diagram_id: props.diagram_id,
+                    diagram_name: name,
+                    type: 1,
+                    message_key: 'notification.diagram.permission.removed',
+                    message_variables: {
+                    collaborator_name,
+                    name
+                    }
+                });
                 await socket.emit('send_notification', user_id);                  
             } else {
                 await api.put(`/collaboration/${props.diagram_id}/${user_id}`, {updation});
-                await api.post('notification', {user_id: user_id, diagram_id: props.diagram_id, diagram_name: name, type: 1, message: `"${collaborator_name}" deu permissão de ${updation === '1' ? 'leitor' : 'editor'} no: "${name}"`})   
+                await api.post('notification', {
+                    user_id,
+                    diagram_id: props.diagram_id,
+                    diagram_name: name,
+                    type: 1,
+                    message_key: 'notification.diagram.permission.changed',
+                    message_variables: {
+                    collaborator_name,
+                    name,
+                    permission: updation === '1' ? 'leitor' : 'editor'
+                    }
+                });
                 await socket.emit('send_notification', user_id);
             }       
             getAllCollaborations();  

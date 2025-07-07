@@ -24,8 +24,17 @@ const ShareRoute = (props) => {
 
             if(res.data.existingCollaboration === null){
                 const name = JSON.parse(localStorage.getItem('user')).name
-                await api.post('notification', {user_id: diagram.user_id, diagram_id: diagram.id, diagram_name: diagram.name, type: 1, message: `"${name}" se tornou um colaborado do diagrama: "${diagram.name}"`})
-
+                await api.post('notification', {
+                        user_id: diagram.user_id,
+                        diagram_id: diagram.id,
+                        diagram_name: diagram.name,
+                        type: 1,
+                        message_key: 'notification.diagram.collaboration',
+                        message_variables: {
+                            collaborator_name: name,
+                            diagram_name: diagram.name,
+                        }
+                    });
                 if (socket?.connected) {
                     await socket.emit('send_notification', diagram.user_id, diagram.id);
                 } else {
@@ -57,7 +66,7 @@ const ShareRoute = (props) => {
             } else {
                 const timeout = setTimeout(() => {
                     if (!socket.connected) {
-                        Toast('error', 'Falha na conexão ou servidor!', "errorWifi");
+                        Toast(t,'error', 'Falha na conexão ou servidor!', "errorWifi");
                         navigate('/login')
                     }
                 }, 2000);

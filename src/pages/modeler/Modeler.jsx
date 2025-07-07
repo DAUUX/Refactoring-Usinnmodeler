@@ -122,7 +122,19 @@ function Modeler(props) {
             user_ids.push(user_id);
             const filtered_user_ids = user_ids.filter(id => id !== my_id);
             
-            await api.post('notification', {user_id: filtered_user_ids, diagram_id: id, diagram_name: name, type: 2, message: `"${collaborator_name}" editou o ${owner ? 'diagrama compartilhado com você' : 'seu diagrama'}: "${name}"`})
+            await api.post('notification', {
+                user_id: filtered_user_ids,
+                diagram_id: id,
+                diagram_name: name,
+                type: 2,
+                message_key: owner
+                    ? 'notification.diagram.edited.shared'
+                    : 'notification.diagram.edited.owned',
+                message_variables: {
+                    collaborator_name,
+                    name
+                }
+            });
             await socket.emit('send_notification', filtered_user_ids);
 
             Toast(t, 'success', 'Diagrama salvo com sucesso!', "checkCircle");
@@ -155,7 +167,18 @@ function Modeler(props) {
             if(!owner && nameAntes !== name){
                 const collaborator_name = JSON.parse(localStorage.getItem('user')).name;
                 
-                await api.post('notification', {user_id: user_id, diagram_id: id, diagram_name: name, type: 2, message: `"${collaborator_name}" alterou o nome do seu diagrama: "${nameAntes}" para "${name}"`})
+                await api.post('notification', {
+                    user_id,
+                    diagram_id: id,
+                    diagram_name: name,
+                    type: 2,
+                    message_key: 'notification.diagram.renamed.owned',
+                    message_variables: {
+                        collaborator_name,
+                        old_name: nameAntes,
+                        new_name: name
+                    }
+                });
                 await socket.emit('send_notification', user_id);
             }else if(owner && nameAntes !== name){
 
@@ -167,7 +190,18 @@ function Modeler(props) {
                     user_ids.push(user_id);
                     const filtered_user_ids = user_ids.filter(id => id !== my_id);
 
-                await api.post('notification', {user_id: filtered_user_ids, diagram_id: id, diagram_name: name, type: 2, message: `"${collaborator_name}" alterou o nome do diagrama compartilhado: "${nameAntes}" para "${name}"`})
+                await api.post('notification', {
+                    user_id: filtered_user_ids,
+                    diagram_id: id,
+                    diagram_name: name,
+                    type: 2,
+                    message_key: 'notification.diagram.renamed.shared',
+                    message_variables: {
+                        collaborator_name,
+                        old_name: nameAntes,
+                        new_name: name
+                    }
+                });
                 await socket.emit('send_notification', filtered_user_ids);
             }
 

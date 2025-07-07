@@ -78,7 +78,16 @@ const NotificationItem = ({ item, onDelete, onModal }) => {
         {item.type === 4 && <i className="bi bi-box-arrow-left"></i>}
       </span>
 
-      <p className="w-100 text-break m-0 ps-2 pe-3">{item.message}</p>
+      <p className="w-100 text-break m-0 ps-2 pe-3">
+        {item.message_key
+          ? t(item.message_key, {
+              ...item.message_variables,
+              translated_permission: item.message_variables?.permission
+                ? t(`notification.diagram.permission.labels.${item.message_variables.permission}`)
+                : ''
+            })
+          : item.message}
+      </p>
 
       <div className={`d-flex ${isHovered ? 'visible' : 'invisible'}`}>
         <button className="btn btn-default p-0 text-white" aria-label={item.read === 0 ? t('marcar como lida') : t('marcar como não lida')} onClick={() => handleRead(item.id, item.read)}>

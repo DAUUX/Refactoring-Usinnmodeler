@@ -55,7 +55,20 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
                     user_ids.push(user_id);
                     const filtered_user_ids = user_ids.filter(id => id !== my_id);
                     
-                    await api.post('notification', {user_id: filtered_user_ids, diagram_id: diagram_id, diagram_name: formik.values.name, type: 2, message: `"${collaborator_name}" alterou o nome do ${owner ? 'diagrama compartilhado com você' : 'seu diagrama'}: "${name}" para "${formik.values.name}"`})
+                    await api.post('notification', {
+                        user_id: filtered_user_ids,
+                        diagram_id,
+                        diagram_name: formik.values.name,
+                        type: 2,
+                        message_key: owner
+                            ? 'notification.diagram.renamed.shared'
+                            : 'notification.diagram.renamed.owned',
+                        message_variables: {
+                            collaborator_name,
+                            old_name: name,
+                            new_name: formik.values.name
+                        }
+                    });
                     await socket.emit('send_notification', filtered_user_ids);
                 }
                 
