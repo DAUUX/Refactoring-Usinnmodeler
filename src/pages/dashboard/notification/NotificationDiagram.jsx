@@ -39,7 +39,7 @@ const NotificationItem = ({ item, onDelete, onModal }) => {
     } else if (diffInMinutes >= 1) {
       return `${diffInMinutes}m`;
     } else {
-      return `agora`;
+      return t(`agora`);
     }
   };
 

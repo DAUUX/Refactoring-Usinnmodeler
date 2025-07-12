@@ -85,7 +85,7 @@ function Notifications({ iconColor }) {
     } else if (diffInMinutes >= 1) {
       return `${diffInMinutes}m`;
     } else {
-      return `agora`;
+      return t(`agora`);
     }
   };
 

@@ -104,7 +104,7 @@ function Modelos_documentos({ refresh, forceRefresh, onlyFavorited="false" }) {
 
                   <DiagramCard
                   id={diagram.id}
-                  name={diagram.name}
+                  name={t(diagram.name)}
                   favorited_data={diagram.favorite}
                   oculto_data={diagram.oculto_data}
                   diagram_data={diagram.diagram_data}

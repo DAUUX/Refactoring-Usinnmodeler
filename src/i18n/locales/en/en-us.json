@@ -284,6 +284,9 @@
         "Progresso no sistema com indicador de progresso": "System progress with progress indicator",
         "Representa um processamento interno do sistema após uma solicitação do usuário. Após sua conclusão, o sistema deve fornecer feedback ao usuário.": "Represents an internal system processing after a user request. After completion, the system must provide feedback to the user.",
         "Abrir link": "Open link",
+        "agora": "Now",
+        "Listar com Exclusão": "List with Exclusion",
+        "Listar com Filtro": "List with Filter",
         "notification": {
             "diagram": {
                 "deleted": {
