@@ -78,14 +78,24 @@ const NotificationItem = ({ item, onDelete, onModal }) => {
         {item.type === 4 && <i className="bi bi-box-arrow-left"></i>}
       </span>
 
-      <p className="w-100 text-break m-0 ps-2 pe-3">
+     <p className="w-100 text-break m-0 ps-2 pe-3">
         {item.message_key
-          ? t(item.message_key, {
-              ...item.message_variables,
-              translated_permission: item.message_variables?.permission
-                ? t(`notification.diagram.permission.labels.${item.message_variables.permission}`)
-                : ''
-            })
+          ? (() => {
+              let vars = {};
+              try {
+                vars = typeof item.message_variables === 'string'
+                  ? JSON.parse(item.message_variables)
+                  : item.message_variables;
+
+                if (vars?.permission) {
+                  vars.translated_permission = t(`notification.diagram.permission.labels.${vars.permission}`);
+                }
+              } catch (e) {
+                console.error("Erro ao parsear message_variables:", e);
+              }
+
+              return t(item.message_key, vars);
+            })()
           : item.message}
       </p>
 
