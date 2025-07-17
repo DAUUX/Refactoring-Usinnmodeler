@@ -15,6 +15,7 @@ import Thiago from "../../assets/img/Thiago.jpeg";
 import Vandeilson from "../../assets/img/Vandeilson.jpeg";
 import Victor from "../../assets/img/Victor.jpeg";
 import Wilkinis from "../../assets/img/Wilkinis.jpeg";
+import Mayronn from "../../assets/img/Mayronn.jpg";
 
 import styles from "./style.module.scss";
 import { useTranslation } from 'react-i18next';
@@ -121,6 +122,11 @@ const membros = [
     nome: "Mateus Eugênio Andrade",
     funcao: "Desenvolvimento",
     imagem: Mateus_Andrade,
+  },
+  {
+    nome: "Mayronn Gomes Viana",
+    funcao: "Desenvolvimento",
+    imagem: Mayronn,
   },
   {
     nome: "Milene Cavalcante",
