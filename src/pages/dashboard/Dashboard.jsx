@@ -9,6 +9,7 @@ import ChangePassword from "../change_password/ChangePassword";
 import Inicio from "./inicio/Inicio";
 import Notification from "./notification"
 import NotificationDiagram from "./notification/NotificationDiagram.jsx"
+import ButtonLanguage from "../../components/ButtonLanguage/index.jsx";
 
 function Dashboard() {
 
@@ -40,7 +41,8 @@ function Dashboard() {
             >
                 <i className={`bi bi-${menuOpen ? 'arrow-left' : 'arrow-right'}`}></i>
             </button>
-
+            
+            <ButtonLanguage />
         </main>
     )
 

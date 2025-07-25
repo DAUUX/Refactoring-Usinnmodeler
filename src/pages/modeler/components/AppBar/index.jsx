@@ -26,7 +26,8 @@ import agrupar from '../../../../assets/icons/toolbar-agrupar-icon.svg'
 import desagrupar from '../../../../assets/icons/toolbar-desagrupar-icon.svg'
 import QuestionIcon from './QuestionIcon';
 import ShareDiagramModal from '../../../../components/ShareDiagramModal';
-import Notifications from "../../../../components/Notifications"
+import Notifications from "../../../../components/Notifications";
+import { useTranslation } from 'react-i18next';
 
 
 const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload, handleCopy, handleRecort, handlePaste, deselectAll, selectAll, oculteManipulationIconsForReader, isOwner, diagram_id}) => {
@@ -34,6 +35,8 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState('Novo Diagrama');
   const [shareModalId] = useState('ShareDiagramModal');
+    
+  const { t } = useTranslation();
   
   const navigate = useNavigate()
 
@@ -130,7 +133,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
               onClick={() => navigate('/dashboard/documentos')}
               style={{ cursor: 'pointer'  }}
               tabIndex="0"
-            >{"Documentos > Meus documentos"}</p>
+            >{t("Documentos") + " > " + t("Meus documentos")}</p>
           </div>
         </div>
         <div className=" justify-content-end" id="modelerNavbarToggle">
@@ -138,7 +141,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
                 <span>
                     {diagram_id && isOwner &&
                         <button data-bs-target={`#${shareModalId}`} className="btn btn-light btn-sm order-last text-primary me-4" title="Compartilhar" onClick={openSharedModal}>
-                            Compartilhar <i className="bi bi-share-fill fs-7"></i>
+                            {t("Compartilhar")} <i className="bi bi-share-fill fs-7"></i>
                         </button>
                     }
                 </span>
@@ -165,7 +168,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
                   />
                   
                 <div className="tooltip" style={{textAlign: 'center',left:"55px" }}>
-                <p className='m-0'>Salvar</p>
+                <p className='m-0'>{t("Salvar")}</p>
                 <p className='tooltip-small'>Ctrl + S</p>
                 </div>
             </div>
@@ -176,7 +179,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
                 alt="Exportar este diagrama" 
                 style={{ width: '20px', height: '20px', marginRight: '1em', marginBottom:'1px' }}     
               />
-              <p className='' style={{ color: 'black', marginBottom:'0px' }}>Exportar diagrama</p>
+              <p className='' style={{ color: 'black', marginBottom:'0px' }}>{t("Exportar diagrama")}</p>
             </div>
 
             <div tabIndex="0" className="icon-container d-flex align-items-center ps-3 pe-1" onClick={() => handleUndo()} style={{cursor: 'pointer'}}>
@@ -186,7 +189,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
                 style={{ width: '24px', height: '24px', marginRight: '1em',padding:'1px' }} 
                 
               />
-              <div className="tooltip" style={{textAlign: 'center'}}>Desfazer <br/> <p className='tooltip-small'>Ctrl + Z</p></div>
+              <div className="tooltip" style={{textAlign: 'center'}}>{t("Desfazer")} <br/> <p className='tooltip-small'>Ctrl + Z</p></div>
             </div>
 
 
@@ -197,7 +200,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
                 style={{ width: '24px', height: '24px', marginRight: '1em',padding:'1px' }} 
                 
               />
-              <div className="tooltip" style={{textAlign: 'center'}}>Refazer  <br/> <p className='tooltip-small'>Ctrl + Shift + Z</p></div>
+              <div className="tooltip" style={{textAlign: 'center'}}>{t("Refazer")}  <br/> <p className='tooltip-small'>Ctrl + Shift + Z</p></div>
             </div>
 
             <div tabIndex="0" className="icon-container d-flex align-items-center ps-3 pe-1" onClick={() => deselectAll()} style={{cursor: 'pointer'}} >
@@ -207,7 +210,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
                   style={{ width: '24px', height: '24px', marginRight: '1em',padding:'1px' }} 
                   
                 />
-                <div className="tooltip" style={{textAlign: 'center', left:"25px"}}>Desmarcar Tudo</div>
+                <div className="tooltip" style={{textAlign: 'center', left:"25px"}}>{t("Desmarcar Tudo")}</div>
             </div>
 
             <div tabIndex="0" className="icon-container d-flex align-items-center ps-3 pe-1" onClick={() => selectAll()} style={{cursor: 'pointer'}}>
@@ -217,7 +220,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
                   style={{ width: '24px', height: '24px', marginRight: '1em',padding:'1px' }} 
                   
                 />
-                <div className="tooltip" style={{textAlign: 'center', left:"25px"}}>Marcar Tudo</div>
+                <div className="tooltip" style={{textAlign: 'center', left:"25px"}}>{t("Marcar Tudo")}</div>
             </div>
 
             <div tabIndex="0" className="icon-container d-flex align-items-center ps-3 pe-1" onClick={() => handleDelete()} style={{cursor: 'pointer'}}>
@@ -227,7 +230,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
                   style={{ width: '24px', height: '24px', marginRight: '1em',padding:'1px' }} 
                   
                 />
-                <div className="tooltip" style={{textAlign: 'center', left:"25px"}}>Excluir<br /><p className='tooltip-small'>Delete</p></div>
+                <div className="tooltip" style={{textAlign: 'center', left:"25px"}}>{t("Excluir")}<br /><p className='tooltip-small'>Delete</p></div>
             </div>
 
             <div tabIndex="0" className="icon-container d-flex align-items-center ps-3 pe-1 " onClick={() => handleRecort()} style={{cursor: 'pointer'}}>
@@ -237,7 +240,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
                     style={{ width: '24px', height: '24px', marginRight: '1em',padding:'1px' }} 
                     
                   />
-                <div className="tooltip" style={{textAlign: 'center'}}>Cortar<br /><p className='tooltip-small'>Ctrl + X</p></div>
+                <div className="tooltip" style={{textAlign: 'center'}}>{t("Cortar")}<br /><p className='tooltip-small'>Ctrl + X</p></div>
             </div>
 
 
@@ -248,7 +251,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
                       style={{ width: '27px', height: '27px', marginRight: '1em' }} 
                       
               />
-              <div className="tooltip" style={{textAlign: 'center'}}>Copiar<br /><p className='tooltip-small'>Ctrl + C</p></div>
+              <div className="tooltip" style={{textAlign: 'center'}}>{t("Copiar")}<br /><p className='tooltip-small'>Ctrl + C</p></div>
             </div>
 
             <div tabIndex="0" className="icon-container d-flex align-items-center ps-4 pe-4" onClick={() => handlePaste()} style={{cursor: 'pointer'}}>
@@ -258,7 +261,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
                         style={{ width: '27px', height: '27px', marginBottom:'1px' }} 
                         
                 />
-              <div className="tooltip " style={{textAlign: 'center'}}>Colar<br /><p className='tooltip-small'>Ctrl + V</p></div>
+              <div className="tooltip " style={{textAlign: 'center'}}>{t("Colar")}<br /><p className='tooltip-small'>Ctrl + V</p></div>
             </div>
 
             <div tabIndex="0" className="icon-container d-flex align-items-center ps-3 pe-1" onClick={() => fitView({ duration: 300 })} style={{cursor: 'pointer'}}>
@@ -268,7 +271,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
                         style={{ width: '20px', height: '20px', marginRight: '1em', marginBottom:'1px' }} 
                         
                 />
-              <div className="tooltip " style={{textAlign: 'center'}}>Ajustar visão<br /></div>
+              <div className="tooltip " style={{textAlign: 'center'}}>{t("Ajustar visão")}<br /></div>
             </div>
 
             <div tabIndex="0" className="icon-container d-flex align-items-center ps-3 pe-1" onClick={() => zoomIn({ duration: 300 })} style={{cursor: 'pointer'}}>
@@ -278,7 +281,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
                         style={{ width: '20px', height: '20px', marginRight: '1em', marginBottom:'1px' }} 
                         
                 />
-              <div className="tooltip " style={{textAlign: 'center'}}>Ampliar<br /></div>
+              <div className="tooltip " style={{textAlign: 'center'}}>{t("Ampliar")}<br /></div>
             </div>
 
             <div tabIndex="0" className="icon-container d-flex align-items-center ps-3 pe-1" onClick={() => zoomOut({ duration: 300 })} style={{cursor: 'pointer'}}>
@@ -288,7 +291,7 @@ const Navbar = ({name,  onSave, handleUndo, handleRedo, handleDelete, onDownload
                         style={{ width: '20px', height: '20px', marginRight: '1em', marginBottom:'1px' }} 
                         
                 />
-              <div className="tooltip " style={{textAlign: 'center'}}>Diminuir zoom<br /></div>
+              <div className="tooltip " style={{textAlign: 'center'}}>{t("Diminuir zoom")}<br /></div>
             </div>
 
               <QuestionIcon/>

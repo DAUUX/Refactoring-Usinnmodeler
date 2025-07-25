@@ -7,9 +7,10 @@ import {avatarOptions } from '../../Consts';
 import { Modal } from "bootstrap";
 import ConfirmRemoveLoginModal from "../ConfirmDeleteAccountModal";
 import RemoveLoginModal from "../DeleteAccountModal";
+import { useTranslation } from 'react-i18next';
 
 function UserProfile(props) {
-
+    const { t } = useTranslation();
     const [user, setUser] = useState({name: ''});
     const navigate   = useNavigate();
 
@@ -30,9 +31,12 @@ function UserProfile(props) {
 
 
         } catch (error) {
-            
-            Toast('error', error, "errorCircle");
-            
+            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
+                Toast(t, 'error', "Falha na conexão ao servidor", "errorServer");
+            }
+            else{
+                Toast(t, 'error', error, "errorCircle");
+            }
         }
         
     }
@@ -68,10 +72,10 @@ function UserProfile(props) {
                 </button>  
 
             <ul className="dropdown-menu dropdown-menu-lg-end" aria-labelledby="dropdownMenuButton">
-                <li><Link className="dropdown-item d-flex align-items-center" to="/dashboard/atualizarperfil"> Atualizar Perfil </Link></li>
-                <li><Link className="dropdown-item d-flex align-items-center" to="/dashboard/atualizarsenha"> Redefinir Senha </Link></li>
-                <li><button className="dropdown-item" onClick={callRemoveLoginModal}> Excluir Perfil </button></li>
-                <li><button className="dropdown-item" onClick={logout}> Sair </button> </li>
+                <li><Link className="dropdown-item d-flex align-items-center" to="/dashboard/atualizarperfil"> {t("Atualizar Perfil")} </Link></li>
+                <li><Link className="dropdown-item d-flex align-items-center" to="/dashboard/atualizarsenha"> {t("Redefinir Senha")} </Link></li>
+                <li><button className="dropdown-item" onClick={callRemoveLoginModal}> {t("Excluir Perfil")} </button></li>
+                <li><button className="dropdown-item" onClick={logout}> {t("Sair")} </button> </li>
             </ul>
 
             <RemoveLoginModal id={"RemoveLoginModal"} onConfirmLoginRemoved={()=>{callConfirmRemoveLoginModal()}}/>

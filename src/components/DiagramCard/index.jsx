@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import './style.scss';
 import api from "../../services/api";
 import FavoriteDiagram from "../../components/FavoriteDiagram";
+import { useTranslation } from 'react-i18next';
 
 function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram, onRemoveDiagram, onRenameDiagram, favorited, onDiagramFavorited}) {
+    const { t } = useTranslation();
     const [, setSvgContent] = useState(null);
     const [imgSrc, setImgSrc] = useState(null);
 
@@ -40,7 +42,7 @@ function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram,
             <div className="card-header  d-flex pe-0">
                 <div className='overflow-hidden'>
                     <span className="fw-bold">{name}</span><br />
-                    <span>Modificado {elapsedTime(lastModified) > 0 ? `há ${elapsedTime(lastModified)} dias` : "hoje"}</span>
+                    <span>{t("Modificado")} {elapsedTime(lastModified) > 0 ? `${t("há")} ${elapsedTime(lastModified)} ${t("dias")}` : t("hoje")}</span>
                 </div>
 
                 <div className="dropdown ms-auto d-flex ps-3 outline-white">  
@@ -54,19 +56,19 @@ function DiagramCard({id, name, lastModified, thumbnail, userId, onShareDiagram,
                         
                     <ul className="dropdown-menu outline-black">
                         <li>
-                            <button className="dropdown-item" onClick={(e)=> {e.stopPropagation(); e.preventDefault(); onRenameDiagram(id)}}> <i className="bi bi-pencil"></i> Renomear</button>
+                            <button className="dropdown-item" onClick={(e)=> {e.stopPropagation(); e.preventDefault(); onRenameDiagram(id)}}> <i className="bi bi-pencil"></i> {t("Renomear")}</button>
                         </li>
 
                         {
                             userId === JSON.parse(localStorage.getItem('user')).id && (
                                 <li>
-                                    <button className="dropdown-item" onClick={(e)=> {e.stopPropagation(); e.preventDefault(); onShareDiagram(id)}}> <i className="bi bi-share-fill"></i> Compartilhar</button>
+                                    <button className="dropdown-item" onClick={(e)=> {e.stopPropagation(); e.preventDefault(); onShareDiagram(id)}}> <i className="bi bi-share-fill"></i> {t("Compartilhar")}</button>
                                 </li>
                             )
                         }
 
                         <li>
-                            <button className="dropdown-item" onClick={(e)=> {e.stopPropagation(); e.preventDefault(); onRemoveDiagram(id)}}> <i className="bi bi-trash3-fill"></i> Excluir</button>
+                            <button className="dropdown-item" onClick={(e)=> {e.stopPropagation(); e.preventDefault(); onRemoveDiagram(id)}}> <i className="bi bi-trash3-fill"></i> {t("Excluir")}</button>
                         </li>
                     </ul>
 

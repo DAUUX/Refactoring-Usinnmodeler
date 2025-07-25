@@ -8,10 +8,12 @@ import unsucessFeedback from "./unsucessFeedback.png"
 import sucessFeedback from "./sucessFeedback.png";
 import query from "./query.png";
 import cancel from "./cancel.png";
+import { useTranslation } from 'react-i18next';
 
 function TypeNavigations({ close, anchor, edges, setUltimaseta }) {
     const open = Boolean(anchor);
     const id = open ? 'simple-popover' : undefined;
+    const { t } = useTranslation();
 
     const onSelect = (typeEdge) => {
         setUltimaseta(typeEdge); 
@@ -29,7 +31,7 @@ function TypeNavigations({ close, anchor, edges, setUltimaseta }) {
                         src={transition}
                     />
                 </Card>
-                <span style={{ marginLeft: '1px', marginRight: '10px', fontSize: 12 }}>Transição do Usuário</span>
+                <span style={{ marginLeft: '1px', marginRight: '10px', fontSize: 12 }}>{t("Transição do Usuário")}</span>
             </Grid>
         ,
         'navigation': 
@@ -42,7 +44,7 @@ function TypeNavigations({ close, anchor, edges, setUltimaseta }) {
                         src={navigation}
                     />
                 </Card>
-                <span style={{ marginLeft: '1px', marginRight: '10px', fontSize: 12 }}>Navegação</span>
+                <span style={{ marginLeft: '1px', marginRight: '10px', fontSize: 12 }}>{t("Navegação")}</span>
             </Grid>, 
         'sucess-feedback': 
             <Grid container justifyContent="space-between" alignItems="center" onClick={() => onSelect("sucess-feedback")}>
@@ -54,7 +56,7 @@ function TypeNavigations({ close, anchor, edges, setUltimaseta }) {
                         src={sucessFeedback}
                     />
                 </Card>
-                <span style={{ marginLeft: '1px', marginRight: '10px', fontSize: 12 }}>Feedback do Sucesso</span>
+                <span style={{ marginLeft: '1px', marginRight: '10px', fontSize: 12 }}>{t("Feedback do Sucesso")}</span>
             </Grid>, 
         'unsucess-feedback': 
             <Grid container justifyContent="space-between" alignItems="center" onClick={() => onSelect("unsucess-feedback")}>
@@ -66,7 +68,7 @@ function TypeNavigations({ close, anchor, edges, setUltimaseta }) {
                         src={unsucessFeedback}
                     />
                 </Card>
-                <span style={{ marginLeft: '1px', marginRight: '10px', fontSize: 12 }}>Feedback do Insucesso</span>
+                <span style={{ marginLeft: '1px', marginRight: '10px', fontSize: 12 }}>{t("Feedback do Insucesso")}</span>
             </Grid>, 
         'cancel-transition': 
             <Grid container justifyContent="space-between" alignItems="center" onClick={() => onSelect("cancel-transition")}>
@@ -78,7 +80,7 @@ function TypeNavigations({ close, anchor, edges, setUltimaseta }) {
                         src={cancel}
                     />
                 </Card>
-                <span style={{ marginLeft: '1px', marginRight: '10px', fontSize: 12 }}>Transição de Cancelamento</span>
+                <span style={{ marginLeft: '1px', marginRight: '10px', fontSize: 12 }}>{t("Transição de Cancelamento")}</span>
             </Grid>, 
         'query-data': 
             <Grid container justifyContent="space-between" alignItems="center" onClick={() => onSelect("query-data")}>
@@ -90,7 +92,7 @@ function TypeNavigations({ close, anchor, edges, setUltimaseta }) {
                         src={query}
                     />
                 </Card>
-                <span style={{ marginLeft: '1px', marginRight: '10px', fontSize: 12 }} >Query de dados</span>
+                <span style={{ marginLeft: '1px', marginRight: '10px', fontSize: 12 }} >{t("Query de dados")}</span>
             </Grid> 
     }
 

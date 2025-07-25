@@ -6,9 +6,11 @@ import * as Yup from 'yup';
 import api from "../../services/api";
 import { Modal } from "bootstrap";
 import './style.scss';
+import { useTranslation } from 'react-i18next';
 
 
 function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
+    const { t } = useTranslation();
     const [loading, setLoading] = useState(false);
     const modalRef = useRef(null);
     const [showPassword, setShowPassword] = useState(false);
@@ -23,19 +25,22 @@ function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
             password: ''
         },
         validationSchema: Yup.object({
-            password: Yup.string().min(8, 'Senha deve ter no mínimo 8 caracteres').required('Senha é obrigatória'),
+            password: Yup.string().min(8, t('Senha deve ter no mínimo 8 caracteres')).required(t('Senha é obrigatória')),
         }),
         onSubmit: async (values, { setSubmitting }) => {
             setLoading(true);
             try {
                 await api.post('user/check-password', values);
-                Toast('success', 'Senha confirmada!', "checkCircle");
+                Toast(t, 'success', 'Senha confirmada!', "checkCircle");
                 onConfirmLoginRemoved();
                 closeModal(); // Fechar Modal
             } catch (error) {
-
-                Toast('error', error, "errorCircle");
-
+                if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
+                    Toast(t, 'error', "Falha na conexão ao servidor", "errorServer");
+                }
+                else{
+                    Toast(t, 'error', error, "errorCircle");
+                }
             }
             setLoading(false);
             setSubmitting(false);
@@ -75,7 +80,7 @@ function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h2 className="modal-title h5" id="RemoveLoginModal">Excluir Perfil</h2>
+                        <h5 className="modal-title" id="RemoveLoginModal">{t("Excluir Perfil")}</h5>
                         <button type="button" className="btn-close p-0" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form noValidate="" onSubmit={formik.handleSubmit}>
@@ -88,7 +93,7 @@ function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
                                 onBlur={formik.handleBlur}
                                 value={formik.values.password}
                                 className={`form-control ${formik.touched.password && formik.errors.password ? 'is-invalid' : ''}`}
-                                placeholder="Insira sua senha"
+                                placeholder={t("Insira sua senha")}
                                 type={showPassword ? "text" : "password"}
                                 name="password"
                                 autoComplete={!showPassword && "new-password webauthn"}
@@ -106,7 +111,7 @@ function RemoveLoginModal({ id, onConfirmLoginRemoved }) {
                         </div>
                         <div className="modal-footer">
                             <button type="submit" className="btn btn-danger" disabled={formik.isSubmitting}>
-                                {loading && <Spinner className="spinner-border spinner-border-sm me-2" />} Excluir Perfil
+                                {loading && <Spinner className="spinner-border spinner-border-sm me-2" />} {t("Excluir Perfil")}
                             </button>
                         </div>
                     </form>

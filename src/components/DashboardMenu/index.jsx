@@ -2,13 +2,13 @@ import './style.scss'
 import usinnModeler from "../../assets/icons/logo-usinn-white.png";
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
-// import { Toast } from '../Toast';
 import api from '../../services/api';
-// import { slugify } from '../../Helpers';
 import { useEffect, useState } from 'react';
 import { useSocket } from '../../services/SocketContext';
+import { useTranslation } from 'react-i18next';
 
 function DashboardMenu({menuOpen, setMenuOpen, onCreateDiagram}) {
+    const { t } = useTranslation();
     const socket = useSocket()
 
     const navigate   = useNavigate();
@@ -57,16 +57,16 @@ function DashboardMenu({menuOpen, setMenuOpen, onCreateDiagram}) {
 
     const menuItems = [
         {
-            name: 'Início',
+            name: t('Início'),
             path: '',
             icon: 'bi-house'
         },
         {
-            name: 'Documentos',
+            name: t('Documentos'),
             path: '/documentos',
             icon: 'bi-file-earmark'
         },{
-            name: 'Notificações',
+            name: t('Notificações'),
             path: '/notification',
             icon: 'bi-bell'
         }
@@ -77,34 +77,8 @@ function DashboardMenu({menuOpen, setMenuOpen, onCreateDiagram}) {
     let { pathname } = useLocation()
 
     async function createNewDiagram(e) {
-
         e.preventDefault();
-        // return
         navigate('/modeler');
-        // onCreateDiagram(true);
-        // const data = {name: 'Novo diagrama', diagram_data: '', diagram_svg: ''};
-
-        // try {
-        
-        //     const res = await api.post('diagrams', data);
-
-        //     const {id, name} = res.data;
-
-        //     history.push(`/modeler/${id}/${slugify(name)}`);
-        
-        // } catch (error) {
-        
-        //     if(error == "TypeError: Cannot read properties of undefined (reading 'status')"){
-        //         Toast('error', "Falha na conexão ao servidor", "errorServer");
-        //     }
-        //     else{
-        //         Toast('error', error, "errorCircle");
-        //     }
-        
-        // }
-
-        // onCreateDiagram(false);
-
     } 
 
     useEffect(() => {
@@ -120,7 +94,7 @@ function DashboardMenu({menuOpen, setMenuOpen, onCreateDiagram}) {
             </div>
 
             <div className="w-100 px-3 mb-3">
-                <button id="btn-new" onClick={createNewDiagram} className="btn btn-lg w-100 btn-light text-primary mt-4"> <i className="bi bi-plus-lg me-2"></i> NOVO </button>
+                <button id="btn-new" onClick={createNewDiagram} className="btn btn-lg w-100 btn-light text-primary mt-4"> <i className="bi bi-plus-lg me-2"></i> {t("NOVO")} </button>
             </div>
 
             <ul className="nav flex-column w-100">
@@ -140,7 +114,7 @@ function DashboardMenu({menuOpen, setMenuOpen, onCreateDiagram}) {
                 }          
             </ul>
 
-            <Link to="/#Tutorial" target="_blank" className="text-white d-block fw-bold text-decoration-none mt-auto mb-4"> Assista ao tutorial</Link>
+            <Link to="/#Tutorial" target="_blank" className="text-white d-block fw-bold text-decoration-none mt-auto mb-4"> {t("Assista ao tutorial")}</Link>
 
         </aside>
     )

@@ -6,6 +6,7 @@ import { Handle, Position } from 'reactflow';
 import './text-updater-node.css';
 import TypeNavigations from '../TypeNavigations';
 import { useModeler } from "../../../../context/modelerContext";
+import { useTranslation } from 'react-i18next';
 
 
 function DataColection({ data, id, selected }) {
@@ -16,6 +17,7 @@ function DataColection({ data, id, selected }) {
   
   const [ultimaseta, setUltimaseta] = React.useState("query-data"); // Estado elevado
   const { setCurrentEdge } = useModeler(); // Supondo que useModeler esteja disponível
+  const { t } = useTranslation();
 
   // Atualizar o nome no estado global do nó
   useEffect(() => {
@@ -125,7 +127,7 @@ function DataColection({ data, id, selected }) {
             size="small"
             fullWidth
             multiline
-            placeholder="Coleção de dados"
+            placeholder={t("Coleção de dados")}
             sx={{ 
               fontSize: 12, 
               textAlign: 'center', 
@@ -158,7 +160,7 @@ function DataColection({ data, id, selected }) {
                 onChange={(e) => handleFieldChange(index, e)}
                 variant="outlined"
                 size="small"
-                placeholder="Dados"
+                placeholder={t("Dados")}
                 multiline
                 sx={{ 
                   width: '100%',

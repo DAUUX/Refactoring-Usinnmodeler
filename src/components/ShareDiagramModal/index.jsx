@@ -4,10 +4,12 @@ import { Toast } from "../Toast";
 import api from "../../services/api";
 import AddUsersToInvite from "../AddUsersToInvite";
 import { avatarOptions } from '../../Consts';
+import { useTranslation } from 'react-i18next';
 import { useSocket } from "../../services/SocketContext";
 
 function ShareDiagramModal(props) {
-    const socket = useSocket()
+    const socket = useSocket();
+    const { t } = useTranslation();
 
     const [loading, setLoading]         = useState(false);
     const [readerLink, setReaderLink]   = useState('');
@@ -93,7 +95,7 @@ function ShareDiagramModal(props) {
     async function inviteLink() {        
         let usersInvited = users.filter(item => item.email.trim() !== '');
         if(usersInvited.length <= 0){
-            return Toast('error', "Preencha o campo email", "errorCircle")
+            return Toast(t, 'error', "Preencha o campo email", "errorCircle")
         }
         setLoading(true);
         const link = {
@@ -111,24 +113,45 @@ function ShareDiagramModal(props) {
             params.append('emails', usersInvited.map(user => user.email));     
             const response = await api.get(`user/idForEmail?${params.toString()}`);
             let user_ids = response.data.filter(id => id !== collaborator_id);
+
+            const messages = {
+                "subject": t("Link de diagrama compartilhado"),
+                "body": t("Você recebeu um convite para editar o diagrama de"),
+                "link": t("Link do diagrama:"),
+                "openLink": t("Abrir link")
+              }
             
-            await api.post(`share/${props.diagram_id}/inviteLink`, {link, usersInvited});
+            await api.post(`share/${props.diagram_id}/inviteLink`, {link, usersInvited, messages});
             
             const collaborators = await api.get(`collaboration/${props.diagram_id}`)
             const existing_collaborators = collaborators.data.collaborators.map(collaborator => collaborator.collaborator_id);
             user_ids = user_ids.filter(id => !existing_collaborators.includes(id));
 
-            await api.post('notification', {user_id: user_ids, diagram_id: props.diagram_id, diagram_name: name, type: 1, message: `"${collaborator_name}" compartilhou o diagrama: "${name}". Cheque seu e-mail!`})
+            await api.post('notification', {
+                user_id: user_ids,
+                diagram_id: props.diagram_id,
+                diagram_name: name,
+                type: 1,
+                message_key: 'notification.diagram.shared',
+                message_variables: {
+                    collaborator_name,
+                    name
+                }
+            });
             await socket.emit('send_notification', user_ids);
             
-            Toast('success', 'Diagrama compartilhado com sucesso!', "share");
+            Toast(t, 'success', 'Diagrama compartilhado com sucesso!', "share");
             setUsers([]);
             setComponentes([0]);
             setWasInvited(!wasInvited);
         } catch (error) {
-
-            Toast('error', error, "aviso");
-      
+        
+            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
+                Toast(t, 'error', "Falha na conexão ao servidor", "errorServer");
+            }
+            else{
+                Toast(t, 'error', error, "aviso");
+            }       
         }
                 
         setLoading(false);
@@ -150,9 +173,14 @@ function ShareDiagramModal(props) {
             
         
         } catch (error) {
-
-            Toast('error', error, "errorCircle");
-
+        
+            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
+                Toast(t, 'error', "Falha na conexão ao servidor", "errorServer");
+            }
+            else{
+                Toast(t, 'error', error, "errorCircle");
+            }
+        
         }
 
         setLoading(false);
@@ -166,7 +194,12 @@ function ShareDiagramModal(props) {
             const res = await api.get(`/collaboration/${diagram_id}/getAllCollaborationWithName`);
             setCollaborators(res.data.usersInviteds); 
         } catch(error) {
-            Toast('error', error, "errorCircle");      
+            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
+                Toast(t, 'error', "Falha na conexão ao servidor", "errorServer");
+            }
+            else{
+                Toast(t, 'error', error, "errorCircle");
+            }
         }
     }
 
@@ -178,18 +211,42 @@ function ShareDiagramModal(props) {
 
             if(updation === "StopShare"){
                 await api.delete(`/collaboration/${props.diagram_id}/${user_id}`);
-                await api.post('notification', {user_id: user_id, diagram_id: props.diagram_id, diagram_name: name, type: 1, message: `"${collaborator_name}" parou de compartilhar o diagrama: "${name}"`})     
+                await api.post('notification', {
+                    user_id,
+                    diagram_id: props.diagram_id,
+                    diagram_name: name,
+                    type: 1,
+                    message_key: 'notification.diagram.permission.removed',
+                    message_variables: {
+                    collaborator_name,
+                    name
+                    }
+                });
                 await socket.emit('send_notification', user_id);                  
             } else {
                 await api.put(`/collaboration/${props.diagram_id}/${user_id}`, {updation});
-                await api.post('notification', {user_id: user_id, diagram_id: props.diagram_id, diagram_name: name, type: 1, message: `"${collaborator_name}" deu permissão de ${updation === '1' ? 'leitor' : 'editor'} no: "${name}"`})   
+                await api.post('notification', {
+                    user_id,
+                    diagram_id: props.diagram_id,
+                    diagram_name: name,
+                    type: 1,
+                    message_key: 'notification.diagram.permission.changed',
+                    message_variables: {
+                    collaborator_name,
+                    name,
+                    permission: updation === '1' ? 'leitor' : 'editor'
+                    }
+                });
                 await socket.emit('send_notification', user_id);
             }       
             getAllCollaborations();  
         } catch(error) {
-
-            Toast('error', error, "errorCircle");
-            
+            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
+                Toast(t, 'error', "Falha na conexão ao servidor", "errorServer");
+            }
+            else{
+                Toast(t, 'error', error, "errorCircle");
+            }
         }
     }
 
@@ -218,11 +275,11 @@ function ShareDiagramModal(props) {
             <div className="modal-dialog modal-lg modal-dialog-centered text-dark">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h3 className="modal-title h4" id="ShareDiagramModalLabel">Compartilhar diagrama</h3>
+                        <h4 className="modal-title" id="ShareDiagramModalLabel">{t('Compartilhar diagrama')} </h4>
                         <button id="closeModal" type="button" className="btn-close p-0" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div className="modal-body p-2 p-sm-4" id="modal-compartilhar">
-                        <input type="hidden" id="link" className="form-control px-2" disabled value={!loading ? readerLink : 'Carregando...'} />    
+                        <input type="hidden" id="link" className="form-control px-2" disabled value={!loading ? readerLink : t("Carregando")+'...'} />    
                         
                         {componentes.map((id) => (
                             <AddUsersToInvite key={id} addUser={addUser} id={id} visibleButton={componentes.length > 1} onDelete={removerComponente} wasInvited={wasInvited}/> 
@@ -233,7 +290,7 @@ function ShareDiagramModal(props) {
                         </div>
                         {(collaborators.length > 0) && 
                         <div >
-                            <h5>Compartilhado com</h5>
+                            <h5>{t('Compartilhado com')}</h5>
                             <br/>
                             {collaborators.map((collaborator, index) => (                                
                                 <div className="row mb-3" key={index}>  
@@ -245,24 +302,24 @@ function ShareDiagramModal(props) {
                                     </div>
                                     <div className="col">
                                         <select className="form-select" onChange={(e)=>{updatePermission(collaborator.id, e.target.value)}}>
-                                                <option value="" hidden>
-                                                    {collaborator.permission === 1 ? 
-                                                        <option value={1}>Leitor</option> : 
-                                                        <option value={2}>Editor</option>
-                                                    }
-                                                </option>
-                                                <option value={1}>Leitor</option>
-                                                <option value={2}>Editor</option>  
-                                            <option value={"StopShare"}>Parar compartilhamento</option>
+                                            {collaborator.permission === 1 ? 
+                                                <option value={1}>{t('Leitor')}</option> : 
+                                                <option value={2}>{t('Editor')}</option>
+                                            }
+                                            {collaborator.permission === 1 ? 
+                                                <option value={2}>{t('Editor')}</option> : 
+                                                <option value={1}>{t('Leitor')}</option>
+                                            }
+                                            <option value={"StopShare"}>{t('Parar compartilhamento')}</option>
                                         </select>
                                     </div>
                                 </div>
                             ))}
                         </div>}
                     </div>
-                    <div className="modal-footer d-flex justify-content-between outline-black">
-                        <button disabled={loading} className="btn text-primary border-dark px-4" type="button" onClick={copy}> {!copied? 'Copiar link' : 'Copiado'}  </button>
-                        <button disabled={loading} className="btn bg-primary text-white px-4 px-sm-5" type="button" onClick={inviteLink}> Enviar </button>                       
+                    <div className="modal-footer d-flex justify-content-between">
+                        <button title={t('Copiar link')} disabled={loading} className="btn text-primary border-dark px-4" type="button" onClick={copy}> {!copied? t('Copiar link') : t('Copiado')}  </button>
+                        <button title={t('Enviar')} disabled={loading} className="btn bg-primary text-white px-4 px-sm-5" type="button" onClick={inviteLink}> {t('Enviar')} </button>                       
                     </div>
                 </div>
             </div>

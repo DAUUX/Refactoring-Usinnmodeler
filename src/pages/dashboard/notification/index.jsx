@@ -7,11 +7,13 @@ import { Toast } from "../../../components/Toast";
 import './style.scss'
 import { Link } from "react-router-dom";
 import Spinner from "../../../components/Spinner";
+import { useTranslation } from 'react-i18next';
 
 export default function Notification() {
+  const { t } = useTranslation();
 
   useEffect(() => {
-    document.title = 'Notificações - USINN Modeler';
+    document.title = t("Notificações") + ' - USINN Modeler';
   },[]);
 
   const [nameDiagrams, setNameDiagrams] = useState([]);
@@ -58,7 +60,7 @@ export default function Notification() {
       setNameDiagrams(res.data);
     } catch (error) {
 
-      Toast('error', error, "errorCircle");
+      Toast(t, 'error', error, "errorCircle");
       
     }
     setLoading(false)
@@ -69,7 +71,7 @@ export default function Notification() {
       <nav className="navbar navbar-expand-lg bg-white p-3 px-1 px-sm-3 justify-content-between">
         <div className="container-fluid">
           <div className="mb-0 h4">
-            <h1 className="h4 m-0">Notificações</h1>
+            <h1 className="h4 m-0">{t("Notificações")}</h1>
           </div>
           <div className="d-flex align-items-center">
             <UserProfile />
@@ -97,7 +99,7 @@ export default function Notification() {
               <Spinner className="spinner-border me-2" isLoading={loading}  />
             </div> 
             :
-            <p className="h4 text-center mt-5">Não há notificações</p>
+            <p className="h4 text-center mt-5">{t("Não há notificações")}</p>
         )}
       </div>
     </div>

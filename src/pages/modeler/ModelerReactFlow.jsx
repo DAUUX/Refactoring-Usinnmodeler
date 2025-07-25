@@ -39,11 +39,13 @@ import { Toast } from '../../components/Toast';
 import useHistory from '../../hooks/useHistory';
 import useKeyBindings from '../../hooks/useKeyBindings';
 import { useSocket } from "../../services/SocketContext";
+import { useTranslation } from 'react-i18next';
 
 const getId = () => `id-${uuidv4()}`;
 
 const ModelerReactFlow = () => {
-  const socket = useSocket()
+  const socket = useSocket();
+  const { t } = useTranslation();
 
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
@@ -87,7 +89,7 @@ const ModelerReactFlow = () => {
       const collaboratorPermission = diagram.data.permission;
       collaboratorPermission === 1 ? setOculteManipulationIcons(true) : setOculteManipulationIcons(false);
     } catch (error) {
-      Toast('error', 'Você não tem permissão para acessar o diagrama', 'aviso')
+      Toast(t, 'error', 'Você não tem permissão para acessar o diagrama', 'aviso')
       navigate('/dashboard')
     }   
     
@@ -131,7 +133,7 @@ const ModelerReactFlow = () => {
   
           setEdges(graph.edges); // Define as arestas diretamente
         } catch (error) {
-          Toast("error", error, "errorCircle");
+          Toast(t, "error", error, "errorCircle");
         }
       };
   
@@ -244,7 +246,7 @@ const ModelerReactFlow = () => {
 
   const onConnect = useCallback(
     (connection) => {
-      const edge = { ...connection, type: currentEdge, reconnectable: 'target', label: "Clique para editar", labelPosition: {x: null, y: null} };
+      const edge = { ...connection, type: currentEdge, reconnectable: 'target', label: t("Clique para editar"), labelPosition: {x: null, y: null} };
 
       addEdge(edge)
       setCurrentEdge("");
@@ -563,26 +565,53 @@ const ModelerReactFlow = () => {
 
   const notificationUpdate = async (nomeAtual) => {
     try {
+      const resDiagram = await api.get(`diagrams/${id}`);
+      const { user_id } = resDiagram.data;
 
-      const resDiagram = await api.get(`diagrams/${id}`);  
-      const {user_id} = resDiagram.data;
-
-      const my_id = JSON.parse(localStorage.getItem('user')).id
+      const my_id = JSON.parse(localStorage.getItem('user')).id;
       const collaborator_name = JSON.parse(localStorage.getItem('user')).name;
 
-      const resCollab = await api.get(`collaboration/${id}`)
+      const resCollab = await api.get(`collaboration/${id}`);
       const user_ids = resCollab.data.collaborators.map(collaborator => collaborator.collaborator_id);
       user_ids.push(user_id);
       const filtered_user_ids = user_ids.filter(id => id !== my_id);
-      
-      nomeAtual !== nameDiagram && await api.post('notification', {user_id: filtered_user_ids, diagram_id: diagramId, diagram_name: nomeAtual, type: 2, message: `"${collaborator_name}" alterou o nome do ${isOwner ? 'diagrama compartilhado com você' : 'seu diagrama'}: "${nameDiagram}" para "${nomeAtual}"`})
-      await api.post('notification', {user_id: filtered_user_ids, diagram_id: id, diagram_name: nameDiagram, type: 2, message: `"${collaborator_name}" editou o ${isOwner ? 'diagrama compartilhado com você' : 'seu diagrama'}: "${nameDiagram}"`})
-      await socket.emit('send_notification', filtered_user_ids);
 
+      if (nomeAtual !== nameDiagram) {
+        await api.post('notification', {
+          user_id: filtered_user_ids,
+          diagram_id: diagramId,
+          diagram_name: nomeAtual,
+          type: 2,
+          message_key: isOwner
+            ? 'notification.diagram.renamed.shared'
+            : 'notification.diagram.renamed.owned',
+          message_variables: {
+            collaborator_name,
+            old_name: nameDiagram,
+            new_name: nomeAtual
+          }
+        });
+      }
+
+      await api.post('notification', {
+        user_id: filtered_user_ids,
+        diagram_id: id,
+        diagram_name: nameDiagram,
+        type: 2,
+        message_key: isOwner
+          ? 'notification.diagram.edited.shared'
+          : 'notification.diagram.edited.owned',
+        message_variables: {
+          collaborator_name,
+          name: nameDiagram
+        }
+      });
+
+      await socket.emit('send_notification', filtered_user_ids);
     } catch (error) {
-      Toast('error', error, "errorCircle")
+      Toast(t, 'error', error, "errorCircle");
     }
-  }
+  };
 
   const onSave = async (name) => {
     try {
@@ -594,7 +623,7 @@ const ModelerReactFlow = () => {
           edges
         })
         notificationUpdate(name)
-        Toast('success', 'Diagrama editado com sucesso.', "checkCircle")
+        Toast(t, 'success', 'Diagrama editado com sucesso.', "checkCircle")
       }else {
           const diagram = await api.post('diagrams', {
           name,
@@ -602,12 +631,12 @@ const ModelerReactFlow = () => {
           edges
         })
         setDiagramId(diagram.data.message.id)
-        Toast('success', 'Diagrama criado com sucesso.', "checkCircle")
+        Toast(t, 'success', 'Diagrama criado com sucesso.', "checkCircle")
         navigate(`/modeler/${diagram.data.message.id}`)
       }
 
     } catch (error) {
-      Toast('error', error, "errorCircle")
+      Toast(t, 'error', error, "errorCircle")
     }
   }
 
@@ -688,7 +717,7 @@ const ModelerReactFlow = () => {
                 color: 'black',
                 padding: '10px 20px',
               }}>
-              Desagrupar
+              {t("Desagrupar")}
             </Button>
           </Popover>
         </>

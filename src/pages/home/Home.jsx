@@ -9,15 +9,18 @@ import NomeUsinn from "../../assets/icons/Logo_USINN_Positiva.png";
 import Funcap from "../../assets/icons/funcap.svg";
 import LogoUFC from "../../assets/icons/logoUFC.svg";
 import Logotipo from "../../assets/icons/logotipo.svg";
+import { useTranslation } from 'react-i18next';
+import ButtonLanguage from "../../components/ButtonLanguage";
 
 import Slides from "./Slides";
 import BasicCard from "./BasicCard";
 import { useEffect, useState } from "react";
 
 export default function Home() {
+  const { t } = useTranslation();
 
-  const [title, setTitle] = useState(' EXPERIÊNCIA COMPLETA')
-  const [hambOpen, setHmabOpen] = useState(false)
+  const [title, setTitle] = useState(' EXPERIÊNCIA COMPLETA');
+  const [hambOpen, setHmabOpen] = useState(false);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -28,7 +31,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    document.title = 'Home - USINN Modeler';
+    document.title = t("Página inicial") + ' - USINN Modeler';
     const hash = window.location.hash;
     
     if (hash) {
@@ -74,7 +77,7 @@ export default function Home() {
                   aria-label="ir para seção, saiba mais sobre o usinn"
                   role="menuitem"
                 >
-                  Sobre o USINN
+                  {t('Sobre o USINN')}
                 </a>
               </li>
               <li className="nav-item" role="none">
@@ -84,7 +87,7 @@ export default function Home() {
                   aria-label="ir para seção por que adotar o usinn"
                   role="menuitem"
                 >
-                  Por que adotar
+                  {t('Por que adotar')}
                 </a>
               </li>
               <li className="nav-item" role="none">
@@ -94,7 +97,7 @@ export default function Home() {
                   aria-label="ir para seção tutorial"
                   role="menuitem"
                 >
-                  Tutorial
+                  {t('Tutorial')}
                 </a>
               </li>
               <li className="nav-item" role="none">
@@ -104,7 +107,7 @@ export default function Home() {
                   aria-label="ir para seção conheça o nosso time"
                   role="menuitem"
                 >
-                  Nosso time
+                   {t('Nosso time')}
                 </a>
               </li>
             </ul>
@@ -116,7 +119,7 @@ export default function Home() {
                   aria-label="ir para página de cadastro"
                   role="menuitem"
                 >
-                  Cadastro
+                  {t('Cadastro')}
                 </Link>
               </li>
               <li role="none">
@@ -126,7 +129,7 @@ export default function Home() {
                   aria-label="ir para página de login"
                   role="menuitem"
                 >
-                  Login
+                  {t('Login')}
                 </Link>
               </li>
             </ul>
@@ -137,14 +140,21 @@ export default function Home() {
       <main>
         <section className="bg-primary text-white d-flex flex-column justify-content-center align-items-center vh-100" aria-labelledby="region1">
             <h1 id="region1" className="text-center">
-              {title}
+              {t(title)}
             </h1>
 
             <p className="my-4 text-center h2">
-              Modele a interação e a navegação de sistemas interativos <br />
-              com foco na usabilidade.
+              {t('Modele a interação e a navegação de sistemas interativos')} <br />
+              {t('com foco na usabilidade.')}
             </p>
-            
+
+            <Link
+              to="/login"
+              className={`${styles.btn} btn btn-light text-black rounded-pill`}
+              aria-label="ir para página de login do usinn"
+            >
+              {t('COMECE A MODELAR')}
+            </Link>
         </section>
 
         <section id="SobreUSINN" aria-labelledby="region2">
@@ -155,7 +165,7 @@ export default function Home() {
 
             <div className="text-center text-md-start px-1 py-5 p-sm-5 col-auto col-lg-6">
               <h1 id="region2" className="text-primary pb-2 h2 fw-bolder">
-                Sobre o USINN
+              {t('Sobre o USINN')}
               </h1>
 
               <p className="fw-lighter h5 pb-2">
@@ -163,8 +173,7 @@ export default function Home() {
               </p>
 
               <p className="fs-5 m-0">
-                É um modelo de interação e navegação orientado à usabilidade que
-                visa a melhoria da qualidade de uso de sistemas interativos.
+                {t('É um modelo de interação e navegação orientado à usabilidade que visa a melhoria da qualidade de uso de sistemas interativos.')}
               </p>
             </div>
           </div>
@@ -172,23 +181,23 @@ export default function Home() {
           <div className="row gap-5 p-3 p-sm-5 m-0">
             <BasicCard
               imagem={Navigation}
-              titulo={"Modela a interação"}
+              titulo={ t("Modela a interação")}
               paragrafo={
-                "Descreve o comportamento entre o usuário e o sistema computacional."
+                t("Descreve o comportamento entre o usuário e o sistema computacional.")
               }
             />
             <BasicCard
               imagem={Interation}
-              titulo={"Modela a navegação"}
+              titulo={t("Modela a navegação")}
               paragrafo={
-                "Compreende nós de navegação e fluxos de navegação entre os nós."
+                t("Compreende nós de navegação e fluxos de navegação entre os nós.")
               }
             />
             <BasicCard
               imagem={USability}
-              titulo={"Foco na usabilidade"}
+              titulo={t("Foco na usabilidade")}
               paragrafo={
-                "Representa mecanismos de usabilidade que impactam na interação."
+                t("Representa mecanismos de usabilidade que impactam na interação.")
               }
             />
           </div>
@@ -198,7 +207,7 @@ export default function Home() {
           <div id="Caracteristicas" className="d-flex justify-content-center pb-5">
             <img src={Document} alt="" />
             <p id="region3" className="text-primary pt-3 ps-2 fw-bolder d-inline">
-              Confira a tese que iniciou o <abbr title="USability-oriented INteraction and Navigation Model">USINN</abbr>
+            {t("Confira a tese que iniciou o")} <abbr title="USability-oriented INteraction and Navigation Model">USINN</abbr>
             </p>
           </div>
 
@@ -207,7 +216,7 @@ export default function Home() {
               <h1
                 className={`${styles.CirculoDeFundo} m-0 ms-sm-5 text-center text-sm-start fw-bolder display-5`}
               >
-                Por que <br /> adotar o <br /> USINN?
+                {t("Por que")} <br /> {t("adotar o")} <br /> USINN?
               </h1>
             </div>
 
@@ -215,39 +224,39 @@ export default function Home() {
               <ul className={`${styles.CheckList} row gy-2 ps-4 ps-sm-0`}>
                 <li>
                   <p>
-                    <b>Projeta sistemas voltados ao usuário</b>
-                    <br />- sua maneira de interagir e navegar o sistema
+                    <b>{t("Projeta sistemas voltados ao usuário")}</b>
+                    <br />- {t("sua maneira de interagir e navegar o sistema")}
                   </p>
                 </li>
                 <li>
                   <p>
-                    <b>Antecipa aspectos de usabilidade </b>na <br />
-                    etapa de análise e projeto
+                    <b>{t("Antecipa aspectos de usabilidade")} </b> <br />
+                    {t("na etapa de análise e projeto")}
                   </p>
                 </li>
                 <li>
                   <p>
-                    Auxilia a compreender as <br />
-                    <b>consequências de decisões de design</b> <br />
-                    para a experiência do usuário
+                    {t("Auxilia a compreender as")}<br />
+                    <b>{t("consequências de decisões de design")}</b> <br />
+                    {t("para a experiência do usuário")}
                   </p>
                 </li>
                 <li>
                   <p>
-                    <b>Aumenta a qualidade de uso</b> dos <br />
-                    produtos de software
+                    <b>{t("Aumenta a qualidade de uso")}</b> <br />
+                    {t("dos produtos de software")}
                   </p>
                 </li>
                 <li>
                   <p>
-                    <b>Integra a usabilidade</b> no <br />
-                    desenvolvimento de software
+                    <b>{t("Integra a usabilidade")}</b> <br />
+                    {t("no desenvolvimento de software")}
                   </p>
                 </li>
                 <li>
                   <p>
-                    <b>Reduz o retrabalho </b>com correções de <br />
-                    problemas de usabilidade
+                    <b>{t("Reduz o retrabalho")} </b>{t("com correções de")} <br />
+                    {t("problemas de usabilidade")}
                   </p>
                 </li>
               </ul>
@@ -262,7 +271,7 @@ export default function Home() {
         >
           <div className="col-lg-5 col-lg-4 align-content-center pb-3 pb-lg-0 px-5">
             <h1 id="region4" className="text-center">
-              TUTORIAL
+            {t("TUTORIAL")}
             </h1>
             <div className="w-auto px-5 px-lg-0 py-3 p-lg-3 pb-lg-0 text-center">
               <img src={NomeUsinn} alt="" className="w-100" style={{maxWidth: "200px"}} />
@@ -283,10 +292,10 @@ export default function Home() {
         <section id="NossoTime" aria-labelledby="region5">
           <div className="text-center">
             <h1 id="region5" className="text-primary mt-5">
-              Conheça nosso TIME
+            {t("Conheça nosso TIME")}
             </h1>
             <p className="fs-5">
-              Somos alunos e professora da <abbr title="Universidade Federal do Ceará">UFC</abbr> - Campus de Russas.
+            {t("Somos alunos e professora da")} <abbr title={t("Universidade Federal do Ceará")}>UFC</abbr> - {t("Campus de Russas")}.
             </p>
           </div>
 
@@ -301,7 +310,7 @@ export default function Home() {
               id="region6"
               className="bg-primary my-5 text-white fs-2 px-4 py-2 rounded-pill d-inline"
             >
-              Parceiros
+              {t("Parceiros")}
             </h1>
           </div>
 
@@ -324,8 +333,7 @@ export default function Home() {
       <footer className="bg-primary text-white row px-2 py-4 p-sm-5 m-0">
         <div className="col-sm-auto col-md-7 fs-5">
           <p>
-            USINN foi criado por <b>Anna Beatriz</b> ❤️ e continua seus estudos
-            como projeto de pesquisa e desenvolvimento tecnológico na UFC -
+          {t("USINN foi criado por")} <b>Anna Beatriz</b> ❤️ {t("e continua seus estudos como projeto de pesquisa e desenvolvimento tecnológico na UFC")} -
             Campus de Russas.
           </p>
 
@@ -343,18 +351,19 @@ export default function Home() {
 
         <address className="col-sm-auto col-md-5">
           <div className="d-flex flex-column pb-3">
-            <strong className="fs-5">Contato</strong>
+            <strong className="fs-5">{t("Contato")}</strong>
             <span>beatriz.marques@ufc.br</span>
           </div>
           
           <div className="d-flex flex-column">
-            <strong>UNIVERSIDADE FEDERAL DO CEARÁ - CAMPUS DE RUSSAS</strong>
+            <strong>{t("Universidade Federal do Ceará")} - {t("Campus de Russas")}</strong>
             Rua Felipe Santiago - Nº 411, Cidade Universitária, Russas - CE, 62900-000 <br />
-            Telefone: (88) 3411-9218 <br />
+            {t("Telefone")}: (88) 3411-9218 <br />
             E-mail: russas@ufc.br
           </div>
         </address>
       </footer>
+      <ButtonLanguage />
     </>
   );
 }

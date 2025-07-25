@@ -7,8 +7,10 @@ import Star from "../../assets/icons/star.svg";
 import api from '../../services/api';
 import { Toast } from '../Toast';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 function DiagramCard({id, name, oculto_data, favorited_data,  description, thumbnail, onRemoveDiagram, diagram_data = "",refresh}) {
+    const { t } = useTranslation();
 
     const navigate   = useNavigate();
 
@@ -34,14 +36,14 @@ function DiagramCard({id, name, oculto_data, favorited_data,  description, thumb
                 dados: { [id]: { favorited: newFavorite==="true" ? "true" : "false", oculto: oculto==="true" ? "true" : "false" } }
             });
             if (newFavorite === "true"){
-                Toast("success", "Diagrama adicionado aos meus favoritos", "checkCircle");
+                Toast(t, "success", "Diagrama adicionado aos meus favoritos", "checkCircle");
             }else{
-                Toast("success", "Diagrama removido aos meus favoritos", "checkCircle");
+                Toast(t, "success", "Diagrama removido aos meus favoritos","errorCircle");
             }
             setFavorited(newFavorite);
             refresh()
         } catch (error) {
-            Toast('error', "Erro ao Favoritar");
+            Toast(t, 'error', "Erro ao Favoritar");
             console.error("Erro ao atualizar favorito:", error);
         }
         
@@ -63,9 +65,9 @@ function DiagramCard({id, name, oculto_data, favorited_data,  description, thumb
             });
     
             // Exibe a mensagem de sucesso após a atualização
-            Toast("success", "Diagrama oculto.", "checkCircle");
+            Toast(t, "success", "Diagrama oculto.", "checkCircle");
         } catch (error) {
-            Toast("error", "Erro ao ocultar.", "error");
+            Toast(t, "error", "Erro ao ocultar.", "errorCircle");
         }
     };
     
@@ -79,7 +81,7 @@ function DiagramCard({id, name, oculto_data, favorited_data,  description, thumb
             navigate(`/modeler/${id}`);
             } catch (error) {
                 console.log(error)
-                Toast('error',error);
+                Toast(t, 'error', error, "errorCircle");
             }
     }
     

@@ -7,13 +7,15 @@ import { Modal } from "bootstrap";
 import ShareDiagramModal from "../../../components/ShareDiagramModal";
 import RemoveDiagramModal from "../../../components/RemoveDiagramModal";
 import RenameDiagramModal from "../../../components/RenameDiagramModal";
+import { useTranslation } from 'react-i18next';
 import Modelos_documentos from "../inicio/Modelos_documentos";
 import './style.scss'
 
 function FavoritedDocuments() {
+    const { t } = useTranslation();
 
     useEffect(() => {
-        document.title = 'Meus favoritos - USINN Modeler';
+        document.title = t("Meus favoritos") + ' - USINN Modeler';
     },[]);
 
     let [diagrams, setDiagrams] = useState([]);
@@ -34,9 +36,12 @@ function FavoritedDocuments() {
             const res = await api.get(`diagrams/favorited`);
             setDiagrams(res.data.diagrams);
         } catch(error){
-
-            Toast('error', error, "aviso");
-            
+            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
+                Toast(t, 'error', "Falha na conexão ao servidor", "errorServer");
+            }
+            else{
+                Toast(t, 'error', error, "aviso");
+            }
         }
         setLoading(false);
     }
@@ -116,7 +121,7 @@ function FavoritedDocuments() {
 
                 {
                     diagrams.length === 0 && !loading && !resultcardModels &&(
-                        <h4 className="text-center mt-5">Ainda não há diagramas favoritados</h4>
+                        <h4 className="text-center mt-5">{t("Ainda não há diagramas favoritados")}</h4>
                     )
                 }
                 

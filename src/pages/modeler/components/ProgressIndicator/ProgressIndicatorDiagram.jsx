@@ -5,6 +5,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import './text-updater-node.css';
 import TypeNavigations from '../TypeNavigations';
 import { useModeler } from "../../../../context/modelerContext";
+import { useTranslation } from 'react-i18next';
 
 function ProgressIndicatorDiagram({ data, selected }) {
 
@@ -14,6 +15,7 @@ function ProgressIndicatorDiagram({ data, selected }) {
   
   const [ultimaseta, setUltimaseta] = React.useState("sucess-feedback"); // Estado elevado
   const { setCurrentEdge } = useModeler(); // Supondo que useModeler esteja disponível
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!!data.name.trim()) {
@@ -59,7 +61,7 @@ function ProgressIndicatorDiagram({ data, selected }) {
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
-      if(name.length === 0) setName('Indicador de Progresso')
+      if(name.length === 0) setName(t('Indicador de Progresso'))
     }
   };
 
@@ -93,7 +95,7 @@ function ProgressIndicatorDiagram({ data, selected }) {
             ref={textareaRef}
             id="text-input-user-action-diagram" 
             spellCheck="false" 
-            placeholder="Indicador de Progresso" 
+            placeholder={t("Indicador de Progresso")} 
             onChange={onChange} 
             name="text" 
             className="nodrag" 

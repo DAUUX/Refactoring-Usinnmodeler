@@ -7,17 +7,18 @@ import { faKey } from "@fortawesome/free-solid-svg-icons";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import "./style.scss";
-
+import { useTranslation } from 'react-i18next';
 import usinnModeler from "../../assets/icons/usinn-logo-horiz.png";
 
 export default function AlterPassword(props) {
+  const { t } = useTranslation()
 
   const [showPassword1, setShowPassword1] = useState(false);
 
   const [showPassword2, setShowPassword2] = useState(false);
 
   useEffect(() => {
-    document.title = 'Alterar Senha - USINN Modeler';
+    document.title = t("Alterar Senha")+' - USINN Modeler';
   },[]);
 
   const navigate = useNavigate();
@@ -29,8 +30,8 @@ export default function AlterPassword(props) {
       confirmarSenha: "",
     },
     validationSchema: Yup.object({
-      novaSenha: Yup.string().min(8, "A senha deve ter pelo menos 8 caracteres").required("Nova senha é obrigatória"),
-      confirmarSenha: Yup.string().oneOf([Yup.ref("novaSenha"), null], "As senhas devem coincidir").required("Confirmação de senha é obrigatória"),
+      novaSenha: Yup.string().min(8, t("A senha deve ter pelo menos 8 caracteres")).required(t("Nova senha é obrigatória")),
+      confirmarSenha: Yup.string().oneOf([Yup.ref("novaSenha"), null], t("As senhas devem coincidir")).required(t("Confirmação de senha é obrigatória")),
     }),
     validateOnChange: true, // Esta linha ativa a validação à medida que o usuário digita
     
@@ -38,11 +39,14 @@ export default function AlterPassword(props) {
       try {
         await api.post('reset-password', { token, password: values.novaSenha });
         navigate('/login');
-        Toast('success', 'Senha alterada com sucesso!', "key");
+        Toast(t, 'success', 'Senha alterada com sucesso!', "key");
       } catch (error) {
-
-        Toast('error', error, "aviso");
-      
+        if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
+          Toast(t, 'error', "Falha na conexão ao servidor", "errorServer");
+        }
+        else{
+            Toast(t, 'error', error, "aviso");
+        }
       }
     },
   });
@@ -56,9 +60,9 @@ export default function AlterPassword(props) {
       <div className="h-75 d-flex flex-column justify-content-center mt-5 col-12 col-md-8 col-lg-4">      
         <div className="text-center">
           <FontAwesomeIcon icon={faKey} className="mb-2 mb-sm-5 p-3 bg-white rounded-circle" size="3x" color="#007BFF" />
-          <h1 id="region" className="h2 fw-bold">Defina a nova senha</h1>
+          <h1 id="region" className="h2 fw-bold"> {t("Defina a nova senha")}</h1>
           <p className="mb-4">
-            Sua nova senha deve ser diferente das usadas anteriormente.
+            {t("Sua nova senha deve ser diferente das usadas anteriormente.")}
           </p>
         </div>
 
@@ -71,7 +75,7 @@ export default function AlterPassword(props) {
               value={formik.values.novaSenha}
               className={`form-control ${formik.touched.novaSenha && formik.errors.novaSenha ? "is-invalid" : ""}`}
               type={showPassword1 ? "text" : "password"}
-              placeholder="Nova senha"
+              placeholder={t("Nova senha")}
               name="novaSenha"
               aria-label="campo nova senha"
             />
@@ -88,7 +92,7 @@ export default function AlterPassword(props) {
               value={formik.values.confirmarSenha}
               className={`form-control ${formik.touched.confirmarSenha && formik.errors.confirmarSenha ? "is-invalid" : "" }`}
               type={showPassword2 ? "text" : "password"}
-              placeholder="Confirme a nova senha"
+              placeholder={t("Confirme a nova senha")}
               name="confirmarSenha"
               aria-label="campo confirma nova senha"
             />
@@ -99,13 +103,13 @@ export default function AlterPassword(props) {
 
           <div className="col-12 d-grid mt-2">
             <button className="btn btn-primary btn-lg" type="submit">
-              Alterar Senha
+              {t("Alterar Senha")}
             </button>
           </div>
           
         </form>
         <div className="col-12 text-center pt-5">
-          <Link className="text-reset text-decoration-none fw-bold h5" to="/login" > <i className="bi bi-arrow-left"></i> Voltar para login</Link>
+          <Link className="text-reset text-decoration-none fw-bold h5" to="/login" > <i className="bi bi-arrow-left"></i> {t("Voltar para login")}</Link>
         </div>
       </div>
     </main>

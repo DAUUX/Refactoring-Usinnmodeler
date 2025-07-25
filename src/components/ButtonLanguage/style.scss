@@ -1,0 +1,23 @@
+@import "../../assets//styles/variables";
+
+.language-button {
+    background-color: #ffffff;
+    border-color: #000000;
+    border-radius: 50px;
+  }  
+
+#profileImgButtonLanguage {
+    text-align: center;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0);
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.dropdown-item{
+    &:hover, &:focus{
+        background-color: $primary !important;
+        color: #ffffff !important;  
+    }
+}

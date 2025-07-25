@@ -7,6 +7,7 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import TypeNavigations from '../TypeNavigations';
 import { useModeler } from "../../../../context/modelerContext";
+import { useTranslation } from 'react-i18next';
 
 
 function ObrigatoryUserActionDiagram({ data, selected }) {
@@ -19,6 +20,7 @@ function ObrigatoryUserActionDiagram({ data, selected }) {
   
   const [ultimaseta, setUltimaseta] = React.useState("navigation"); // Estado elevado
   const { setCurrentEdge } = useModeler(); // Supondo que useModeler esteja disponível
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!!data.name.trim()) {
@@ -60,7 +62,7 @@ function ObrigatoryUserActionDiagram({ data, selected }) {
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
-      if(name.length === 0) setName('Ação do usuário')
+      if(name.length === 0) setName(t('Ação do Usuário'))
     }
   };
 
@@ -92,7 +94,7 @@ function ObrigatoryUserActionDiagram({ data, selected }) {
             ref={textareaRef}
             id="text-input-user-action-diagram" 
             spellCheck="false" 
-            placeholder="Ação do Usuário" 
+            placeholder={t("Ação do Usuário")} 
             onChange={onChange} 
             name="text" 
             className="nodrag" 

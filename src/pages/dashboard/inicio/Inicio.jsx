@@ -8,12 +8,14 @@ import api from "../../../services/api";
 import './style.scss'
 import Notifications from "../../../components/Notifications"
 import { useEffect } from "react";
+import { useTranslation } from 'react-i18next';
 
 function Inicio(){
 
     useEffect(() => {
-        document.title = 'Início - USINN Modeler';
+        document.title = t("Início") + ' - USINN Modeler';
     },[]);
+    const { t } = useTranslation();
 
     const { resultcardRecentes, cardRecentes } = Documents_inicio();
 
@@ -30,7 +32,7 @@ function Inicio(){
     const Data = JSON.parse(localStorage.getItem('user'));
     async function clearRemovedDiagrams() {
         await api.delete("/user/preferences")
-        Toast("success", "Diagramas Recuperados com sucesso.", "checkCircle");
+        Toast(t, "success", "Diagramas Recuperados com sucesso.", "checkCircle");
         forceRefresh(); 
     }
 
@@ -49,21 +51,21 @@ function Inicio(){
         </nav>
 
         <main className="container-fluid pt-0 pt-md-2">
-            <h1 className="visually-hidden">Página inicial</h1>
+            <h1 className="visually-hidden">{t("Página inicial")}</h1>
             <div className="h4 text-center text-break">
-                <b>Seja bem-vindo(a), {Data.name}!</b>
+                <b>{t("Seja bem-vindo(a)")}, {Data.name}!</b>
             </div>
             {resultcardModels && (
                 <div className="px-md-0 mt-5 resultcardModels">
                     <div className="d-flex justify-content-between">
-                        <h2 className="ps-4 h3">Modelos de Diagrama</h2>
+                        <h2 className="ps-4 h3">{t("Modelos de Diagramas")}</h2>
                         <div className="pe-4">
                             <button className="options-dropdown pe-1" aria-label="abrir e fechar opções para templates" onClick={()=>toggleModalOptions()}>
                                 <i className="bi bi-three-dots fs-1"></i>
                                 {modalOptions && (
                                 <div className="d-flex dropdown-models">
                                     <span onClick={()=>clearRemovedDiagrams()+toggleModalOptions()} onMouseLeave={()=>toggleModalOptions()}  className="">
-                                        Desfazer ocultação
+                                        {t("Desfazer ocultação")}
                                     </span>
                                 </div>
                             )}
@@ -79,14 +81,14 @@ function Inicio(){
             {resultcardRecentes && (
                 <div className="px-md-0 mt-5 resultcardModels">
                     <div className="d-flex justify-content-between">
-                        <h2 className="ps-4 h3">Documentos recentes</h2>
+                        <h2 className="ps-4 h3">{t("Documentos recentes")}</h2>
                         {!resultcardModels && (                        <div className="pe-4">
                                 <button className="options-dropdown pe-1" onClick={()=>toggleModalOptions()}>
                                     <i className="bi bi-three-dots fs-1"></i>
                                     {modalOptions && (
                                     <div className="d-flex dropdown-models">
                                         <span onClick={()=>clearRemovedDiagrams()+toggleModalOptions()} onMouseLeave={()=>toggleModalOptions()}  className="">
-                                            Desfazer ocultação
+                                            {t("Desfazer ocultação")}
                                         </span>
                                     </div>
                                 )}
@@ -104,14 +106,14 @@ function Inicio(){
         {!resultcardModels && !resultcardRecentes &&(
             <div className="px-md-3 mt-5 resultcardModels">
                     <div className="d-flex justify-content-between">
-                    <h2 className="ps-4 h3">Modelos de Diagrama</h2>
+                    <h2 className="ps-4 h3">{t("Modelos de Diagrama")}</h2>
                     <div className="pe-4">
                         <button className="options-dropdown pe-1" onClick={()=>toggleModalOptions()}>
                             <i className="bi bi-three-dots fs-1"></i>
                             {modalOptions && (
                             <div className="d-flex dropdown-models">
                                 <span onClick={()=>clearRemovedDiagrams()+toggleModalOptions()} onMouseLeave={()=>toggleModalOptions()}  className="">
-                                    Desfazer ocultação
+                                    {t("Desfazer ocultação")}
                                 </span>
                             </div>
                         )}

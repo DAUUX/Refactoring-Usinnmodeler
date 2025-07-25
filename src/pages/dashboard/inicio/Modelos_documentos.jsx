@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import DiagramCard from "../../../components/DiagramCardModel";
 import { Toast } from "../../../components/Toast";
 import api from "../../../services/api";
+import { useTranslation } from 'react-i18next';
 
 function Modelos_documentos({ refresh, forceRefresh, onlyFavorited="false" }) {
+  const { t } = useTranslation();
   let [diagrams, setDiagrams] = useState([]);
 
   async function getDiagrams() {
@@ -56,7 +58,7 @@ function Modelos_documentos({ refresh, forceRefresh, onlyFavorited="false" }) {
     setDiagrams(filteredDiagrams);
   } catch (error) {
     // Exibe uma mensagem de erro
-    Toast('error', error);
+    Toast(t, 'error', error, "errorCircle");
   }
 }
 
@@ -82,39 +84,23 @@ function Modelos_documentos({ refresh, forceRefresh, onlyFavorited="false" }) {
       <div className="row">
 
         {diagrams.length > 0  && (
-          <div
-            className="cols-diagram"
-            style={{
-              minWidth: "100%"
-            }}
-          >
+          <div className="row">
             {diagrams.slice(0, 4).map((diagram) => (
-              <>
-              {!(diagram.oculto_data === "true") &&
-                (
-              <div
-                key={diagram.id}
-                className="col-12 col-md-4 col-lg-3 mb-3 row-components"
-                style={{
-                  minWidth: "25.5%"
-                }}
-              >
-
+              diagram.oculto_data !== "true" && (
+                <div key={diagram.id} className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
                   <DiagramCard
-                  id={diagram.id}
-                  name={diagram.name}
-                  favorited_data={diagram.favorite}
-                  oculto_data={diagram.oculto_data}
-                  diagram_data={diagram.diagram_data}
-                  thumbnail={diagram.diagram_svg}
-                  onRemoveDiagram={(id) => callRemoveDiagramModal(id)}
-                  setDiagrams={setDiagrams}
-                  refresh={forceRefresh}
-                />
-
-              </div>
-              )}
-              </>
+                    id={diagram.id}
+                    name={t(diagram.name)}
+                    favorited_data={diagram.favorite}
+                    oculto_data={diagram.oculto_data}
+                    diagram_data={diagram.diagram_data}
+                    thumbnail={diagram.diagram_svg}
+                    onRemoveDiagram={(id) => callRemoveDiagramModal(id)}
+                    setDiagrams={setDiagrams}
+                    refresh={forceRefresh}
+                  />
+                </div>
+              )
             ))}
           </div>
         )}

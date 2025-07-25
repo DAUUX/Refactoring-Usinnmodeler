@@ -5,16 +5,17 @@ import Spinner from "../Spinner";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { Modal } from "bootstrap";
+import { useTranslation } from 'react-i18next';
 import { useSocket } from "../../services/SocketContext";
 
 function Rename({id, diagram_id, onDiagramRenamed}) {
-    const socket = useSocket()
+    const { t } = useTranslation();
+    const socket = useSocket();
 
     useEffect(()=>{
         document.getElementById(id).addEventListener('show.bs.modal', event => {
             formik.resetForm()
         });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
     const modalRef = useRef(null); 
@@ -27,9 +28,9 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
    
 		validationSchema: Yup.object({
 			name: Yup.string()
-				.min(3, 'O nome deve ter no mínimo 3 caracteres')
-				.max(100, 'O nome deve ter no máximo 100 caracteres')
-				.required('Nome é obrigatório')
+				.min(3, t('O nome deve ter no mínimo 3 caracteres'))
+				.max(255, t('O nome deve ter no máximo 100 caracteres'))
+				.required(t('Nome é obrigatório'))
 		}),
    
 		onSubmit: async values => {
@@ -40,7 +41,7 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
                 const {user_id, name} = res.data
             
                 await api.put(`diagrams/rename/${diagram_id}`, values);
-                Toast('success', 'Diagrama renomeado com sucesso!', "checkCircle");
+                Toast(t, 'success', 'Diagrama renomeado com sucesso!', "checkCircle");
                 
                 document.getElementById(id).click();
 
@@ -54,7 +55,20 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
                     user_ids.push(user_id);
                     const filtered_user_ids = user_ids.filter(id => id !== my_id);
                     
-                    await api.post('notification', {user_id: filtered_user_ids, diagram_id: diagram_id, diagram_name: formik.values.name, type: 2, message: `"${collaborator_name}" alterou o nome do ${owner ? 'diagrama compartilhado com você' : 'seu diagrama'}: "${name}" para "${formik.values.name}"`})
+                    await api.post('notification', {
+                        user_id: filtered_user_ids,
+                        diagram_id,
+                        diagram_name: formik.values.name,
+                        type: 2,
+                        message_key: owner
+                            ? 'notification.diagram.renamed.shared'
+                            : 'notification.diagram.renamed.owned',
+                        message_variables: {
+                            collaborator_name,
+                            old_name: name,
+                            new_name: formik.values.name
+                        }
+                    });
                     await socket.emit('send_notification', filtered_user_ids);
                 }
                 
@@ -66,8 +80,13 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
                 onDiagramRenamed()
             
             } catch (error) {
-
-                Toast('error', error, "errorCircle");
+            
+                if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
+                    Toast(t, 'error', "Falha na conexão ao servidor", "errorServer");
+                }
+                else{
+                    Toast(t, 'error', error, "errorCircle");
+                }
             
             }
    
@@ -80,7 +99,7 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title" id="RenameDiagramModalLabel">Renomear diagrama</h5>
+                        <h5 className="modal-title" id="RenameDiagramModalLabel">{t('Renomear diagrama')}</h5>
                         <button id="closeModal" type="button" className="btn-close p-0 " data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form noValidate="" onSubmit={formik.handleSubmit}>
@@ -94,7 +113,7 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
                                 className="form-control" 
                                 type="text" 
                                 name="name" 
-                                placeholder="Novo nome"
+                                placeholder={t('Novo nome')}
                                 autoComplete="name"
                                 aria-label="campo do novo nome para o diagrama"
                             />
@@ -103,7 +122,7 @@ function Rename({id, diagram_id, onDiagramRenamed}) {
                         </div>
                         <div className="modal-footer">
                             <button type="submit" className="btn btn-primary" disabled={formik.isSubmitting}>
-                                <Spinner className="spinner-border spinner-border-sm me-2" isLoading={formik.isSubmitting}  /> Salvar
+                                <Spinner className="spinner-border spinner-border-sm me-2" isLoading={formik.isSubmitting}  /> {t('Salvar')}
                             </button>
                         </div>
                     </form>

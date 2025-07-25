@@ -8,11 +8,14 @@ import './style.scss'
 import { useNavigate, useParams } from "react-router-dom";
 import Spinner from "../../../components/Spinner";
 import { Modal } from 'bootstrap';
+import { useTranslation } from 'react-i18next';
 
 const NotificationItem = ({ item, onDelete, onModal }) => {
   const [isHovered, setIsHovered] = useState(false);
   const socket = useSocket();
   const containerRef = useRef(null);
+
+  const { t } = useTranslation();
 
   const calcTemp = (date) => {
     const adjustedDate = new Date(new Date(date).getTime() - 3 * 60 * 60 * 1000);
@@ -36,7 +39,7 @@ const NotificationItem = ({ item, onDelete, onModal }) => {
     } else if (diffInMinutes >= 1) {
       return `${diffInMinutes}m`;
     } else {
-      return `agora`;
+      return t(`agora`);
     }
   };
 
@@ -48,7 +51,7 @@ const NotificationItem = ({ item, onDelete, onModal }) => {
       await socket.emit('update_notification', user_id);
     } catch (error) {
 
-      Toast('error', error, "errorCircle");
+      Toast(t, 'error', error, "errorCircle");
       
     }
   }
@@ -75,10 +78,29 @@ const NotificationItem = ({ item, onDelete, onModal }) => {
         {item.type === 4 && <i className="bi bi-box-arrow-left"></i>}
       </span>
 
-      <p className="w-100 text-break m-0 ps-2 pe-3">{item.message}</p>
+     <p className="w-100 text-break m-0 ps-2 pe-3">
+        {item.message_key
+          ? (() => {
+              let vars = {};
+              try {
+                vars = typeof item.message_variables === 'string'
+                  ? JSON.parse(item.message_variables)
+                  : item.message_variables;
+
+                if (vars?.permission) {
+                  vars.translated_permission = t(`notification.diagram.permission.labels.${vars.permission}`);
+                }
+              } catch (e) {
+                console.error("Erro ao parsear message_variables:", e);
+              }
+
+              return t(item.message_key, vars);
+            })()
+          : item.message}
+      </p>
 
       <div className={`d-flex ${isHovered ? 'visible' : 'invisible'}`}>
-        <button className="btn btn-default p-0 text-white" aria-label={item.read === 0 ? 'marcar como lida' : 'marcar como não lida'} onClick={() => handleRead(item.id, item.read)}>
+        <button className="btn btn-default p-0 text-white" aria-label={item.read === 0 ? t('marcar como lida') : t('marcar como não lida')} onClick={() => handleRead(item.id, item.read)}>
           <i className={`bi ${item.read === 0 ? 'bi-envelope-open' : 'bi bi-envelope'}`}></i>
         </button>
         <button
@@ -99,6 +121,8 @@ export default function Notification() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
   const [selectedNotificationId, setSelectedNotificationId] = useState(null);
+
+  const { t } = useTranslation();
 
   const socket = useSocket();
   const audioRef = useRef(new Audio(SoundNotification));
@@ -123,11 +147,11 @@ export default function Notification() {
         prevNotifications.filter((notification) => notification.id !== id)
       );
 
-      Toast('success', "A notificação foi excluída com sucesso!", "delete");
+      Toast(t, 'success', "A notificação foi excluída com sucesso!", "delete");
 
     } catch (error) {
 
-      Toast('error', "Ocorreu um erro ao deletar a notificação! Tente novamente", "errorCircle");
+      Toast(t, 'error', "Ocorreu um erro ao deletar a notificação! Tente novamente", "errorCircle");
       
     }
   };
@@ -176,7 +200,7 @@ export default function Notification() {
       if(error === "Nenhuma notificação encontrada"){
         navigate('/dashboard/notification')
       }else {
-        Toast('error', error, "errorCircle");
+        Toast(t, 'error', error, "errorCircle");
       }
     }
     setLoading(false)
@@ -198,7 +222,7 @@ export default function Notification() {
       <nav className="navbar navbar-expand-lg bg-white p-3 pe-1 justify-content-between">
         <div className="container-fluid">
           <div className="mb-0 h4">
-            <h1 className="h4 m-0">Notificações</h1>
+            <h1 className="h4 m-0">{t("Notificações")}</h1>
           </div>
           <div className="d-flex align-items-center">
             <UserProfile />
@@ -208,9 +232,9 @@ export default function Notification() {
       <div id="notification" className="px-2 px-sm-4 my-4" aria-live="polite">
 
         <div className="btn-group rounded-0 rounded-top rounded-lg overflow-hidden" role="group">
-          <button className={`btn teste fs-6 px-2 rounded-0 ${filter === 'all' && 'bg-primary text-white active'}`} onClick={() => setFilter("all")}>Todas as notificações</button>
-          <button className={`btn teste fs-6 px-2 rounded-0 ${filter === 'read' && 'bg-primary text-white active'}`} onClick={() => setFilter("read")}>Notificações lidas</button>
-          <button className={`btn teste fs-6 px-2 rounded-0 ${filter === 'unread' && 'bg-primary text-white active'}`} onClick={() => setFilter("unread")}>Notificações não lidas</button>
+          <button className={`btn teste fs-6 px-2 rounded-0 ${filter === 'all' && 'bg-primary text-white active'}`} onClick={() => setFilter("all")}>{t("Todas as notificações")}</button>
+          <button className={`btn teste fs-6 px-2 rounded-0 ${filter === 'read' && 'bg-primary text-white active'}`} onClick={() => setFilter("read")}>{t("Notificações lidas")}</button>
+          <button className={`btn teste fs-6 px-2 rounded-0 ${filter === 'unread' && 'bg-primary text-white active'}`} onClick={() => setFilter("unread")}>{t("Notificações não lidas")}</button>
         </div>
 
         {filteredNotifications.length > 0 ? (
@@ -229,16 +253,16 @@ export default function Notification() {
                 <div className="modal-content">
                   <div className="modal-body text-center px-4 pb-4">
                     <i className="bi bi-exclamation-triangle-fill mb-5 mt-3" style={{ fontSize: "60px" }}></i>
-                    <h2 className="mb-5 h4">A notificação selecionada será excluída!</h2>
+                    <h2 className="mb-5 h4">{t("A notificação selecionada será excluída!")}</h2>
                     <div className="d-flex justify-content-around">
-                      <button className="btn btn-light text-primary border border-black px-4 px-sm-5" disabled={loading} data-bs-dismiss="modal">Cancelar</button>
+                      <button className="btn btn-light text-primary border border-black px-4 px-sm-5" disabled={loading} data-bs-dismiss="modal">{t("Cancelar")}</button>
                       <button
                         className="btn btn-primary px-4 px-sm-5"
                         onClick={() => handleDelete(selectedNotificationId)}
                         disabled={loading}
                         data-bs-dismiss="modal"
                       >
-                        Confirmar
+                        {t("Confirmar")}
                       </button>
                     </div>
                   </div>
@@ -253,7 +277,7 @@ export default function Notification() {
             </div>
           ) : (
             <h1 className="h3 border border-black text-center py-5 bg-white rounded-bottom rounded-end rounded-lg">
-              {filter === 'read' ? 'Não há notificações lidas' : 'Todas as notificações foram lidas'}
+              {filter === 'read' ? t('Não há notificações lidas') : t('Todas as notificações foram lidas')}
             </h1>
           )
         )}

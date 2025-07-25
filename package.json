@@ -9,6 +9,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
+    "@popperjs/core": "^2.11.8",
     "@mui/icons-material": "^6.4.4",
     "@mui/material": "^6.4.4",
     "@splidejs/react-splide": "^0.7.12",
@@ -19,11 +20,13 @@
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "formik": "^2.4.6",
+    "i18next": "^23.16.8",
     "html-to-image": "^1.11.12",
     "moment": "^2.30.1",
     "punycode": "^2.3.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-i18next": "^15.1.4",
     "react-icons": "^5.4.0",
     "react-input-mask": "^2.0.4",
     "react-router-dom": "^7.1.5",
@@ -65,8 +68,9 @@
   "devDependencies": {
     "gh-pages": "^6.3.0",
     "nth-check": "^2.1.1",
-    "postcss": "^8.5.2",
-    "sass": "^1.84.0"
+    "postcss": "^8.4.47",
+    "sass": "^1.79.3",
+    "typescript": "^4.9.5"
   },
   "overrides": {
     "nth-check": "$nth-check",

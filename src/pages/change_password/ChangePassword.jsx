@@ -9,14 +9,15 @@ import api from "../../services/api";
 import { Toast } from '../../components/Toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faKey } from '@fortawesome/free-solid-svg-icons';
-
+import { useTranslation } from 'react-i18next';
 import PasswordConfirmation from "../../components/PasswordConfirmationModal";
 import Notifications from "../../components/Notifications";
 
 function ChangePassword() {
+    const { t } = useTranslation();
 
     useEffect(() => {
-        document.title = 'Atualizar Senha - USINN Modeler';
+        document.title = t("Atualizar Senha") + ' - USINN Modeler';
     },[]);
 
     const navigate = useNavigate();
@@ -37,10 +38,10 @@ function ChangePassword() {
 		},
    
 		validationSchema: Yup.object({
-			password: Yup.string().min(8, 'Senha deve ter no mínimo 8 caracteres').required('Senha é obrigatória'),
+			password: Yup.string().min(8, t("A senha deve ter pelo menos 8 caracteres")).required(t("Nova senha é obrigatória")),
             confirmPassword: Yup.string()
-            .oneOf([Yup.ref('password'), null], 'As senhas precisam ser iguais') // Garante que confirmPassword seja igual a password
-            .required('Confirmação de senha é obrigatória'),
+            .oneOf([Yup.ref('password'), null], t("As senhas devem coincidir")) // Garante que confirmPassword seja igual a password
+            .required(t("Confirmação de senha é obrigatória")),
 		}),
    
         onSubmit: async values => {
@@ -62,12 +63,15 @@ function ChangePassword() {
         try {
             setLoadingOverlay(true);
             await api.put('user/change-password', passwordValues); // Envio da solicitação com os valores do formulario de senha
-            Toast('success', 'Os dados foram atualizados com sucesso!', "key");
+            Toast(t, 'success', 'Os dados foram atualizados com sucesso!', "key");
             logoutUser()
         } catch (error) {
-
-            Toast('error', error, "aviso");
-            
+            if(error === "TypeError: Cannot read properties of undefined (reading 'status')"){
+                Toast(t, 'error', "Falha na conexão ao servidor", "errorServer");
+            }
+            else{
+                Toast(t, 'error', error, "aviso");
+            }
         } finally {
             setLoadingOverlay(false); // Fecha a tela de carregamento
             setPasswordValues(null); // Limpa os valores para seguranca
@@ -83,7 +87,7 @@ function ChangePassword() {
             <nav className="navbar navbar-expand-lg bg-white p-3 px-1 px-sm-3 justify-content-between w-100">{/* Perfil user */}
                 <div className="container-fluid">
                     <div className="mb-0 h4">
-                        <h1 className="h4 m-0">Atualizar Senha</h1>
+                        <h1 className="h4 m-0">{t("Atualizar Senha")}</h1>
                     </div>
                     <div className="d-flex align-items-center gap-2 ms-auto">
                         <Notifications/>
@@ -113,7 +117,7 @@ function ChangePassword() {
                                     className={`form-control ${formik.touched.password && formik.errors.password ? 'is-invalid' : '' }`}
                                     type={showPassword1 ? "text" : "password"}
                                     name="password" 
-                                    placeholder="Senha*"
+                                    placeholder={t("Senha")+'*'}
                                     aria-label="campo da nova senha"
                                 />
 
@@ -131,7 +135,7 @@ function ChangePassword() {
                                     className={`form-control ${formik.touched.confirmPassword && formik.errors.confirmPassword ? 'is-invalid' : '' }`}
                                     type={showPassword2 ? "text" : "password"}
                                     name="confirmPassword" 
-                                    placeholder="Confirmar Senha*"
+                                    placeholder={t("Confirmar Senha")+'*'}
                                     aria-label="campo para confirmar nova senha"
                                 />
                                 <i onClick={() => setShowPassword2(!showPassword2)} className={`bi bi-${showPassword2 ? 'eye-fill': 'eye-slash-fill'} icon ${formik.touched.confirmPassword && formik.errors.confirmPassword ? 'icon-active': ''}`}/>
@@ -142,12 +146,12 @@ function ChangePassword() {
                             <div className="d-flex justify-content-center gap-5 px-0">
                                 
                                 <div className="text-center mt-2 outline-black">
-                                    <Link className="text-decoration-none btn text-primary fw-bold px-4 px-sm-5 border-dark" to="/dashboard" >Cancelar</Link>
+                                    <Link className="text-decoration-none btn text-primary fw-bold px-4 px-sm-5 border-dark" to="/dashboard" >{t("Cancelar")}</Link>
                                 </div>
                                 
                                 <div className="mt-2">
                                     <button className="btn btn-primary px-4 px-sm-5" type="submit">
-                                        Confirmar
+                                    {t("Confirmar")}
                                     </button>
                                 </div>
                             </div>                    

@@ -1,8 +1,10 @@
 import { Link, useLocation } from "react-router-dom"; 
 import "./style.scss";
 import logoUsinn from "../../assets/icons/usinn-logo-min.png";
+import { useTranslation } from 'react-i18next';
 
-function NavBar() {
+function NavBar() {  
+	const { t } = useTranslation();
   const { pathname } = useLocation();
 	//Pega a primeira parte da url, para identificar o módulo atual
 	const path = pathname.split('/')[1];

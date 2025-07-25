@@ -15,13 +15,17 @@ import Thiago from "../../assets/img/Thiago.jpeg";
 import Vandeilson from "../../assets/img/Vandeilson.jpeg";
 import Victor from "../../assets/img/Victor.jpeg";
 import Wilkinis from "../../assets/img/Wilkinis.jpeg";
+import Mayronn from "../../assets/img/Mayronn.jpg";
 
 import styles from "./style.module.scss";
+import { useTranslation } from 'react-i18next';
 
 import "@splidejs/react-splide/css";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 
 export default function Slides() {
+  const { t } = useTranslation();
+
   return (
     <Splide
       aria-label="Membros do projeto"
@@ -55,7 +59,7 @@ export default function Slides() {
           <img className={styles.member} src={membro.imagem} alt="" />
           <div className="text-center">
             <h2 className="fs-4 fw-bolder" aria-label={`nome: ${membro.nome}`}>{membro.nome}</h2>
-            <p className="fs-5" aria-label={`${membro.nome} tem a função de ${membro.funcao}`}>{membro.funcao}</p>
+            <p className="fs-5" aria-label={`${membro.nome} tem a função de ${membro.funcao}`}>{t(`${membro.funcao}`)}</p>
           </div>
         </SplideSlide>
       ))}
@@ -91,7 +95,7 @@ const membros = [
   },
   {
     nome: "Dhioleno da Silva",
-    funcao: "Requisito e Desenvolvimento",
+    funcao: "Requisitos e Desenvolvimento",
     imagem: Dhioleno,
   },
   {
@@ -120,6 +124,11 @@ const membros = [
     imagem: Mateus_Andrade,
   },
   {
+    nome: "Mayronn Gomes Viana",
+    funcao: "Desenvolvimento",
+    imagem: Mayronn,
+  },
+  {
     nome: "Milene Cavalcante",
     funcao: "Requisitos e Design",
     imagem: Milene,
@@ -131,7 +140,7 @@ const membros = [
   },
   {
     nome: "Natália Lidia Coelho",
-    funcao: "Desenvolvilmento",
+    funcao: "Desenvolvimento",
     imagem: Natalia,
   },
   {

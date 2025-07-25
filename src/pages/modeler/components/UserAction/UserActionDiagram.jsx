@@ -6,6 +6,7 @@ import './text-updater-node.css';
 import TypeNavigations from '../TypeNavigations';
 
 import { useModeler } from "../../../../context/modelerContext";
+import { useTranslation } from 'react-i18next';
 
 
 function UserActionDiagram({ data, selected }) {
@@ -18,6 +19,7 @@ function UserActionDiagram({ data, selected }) {
   const [, setMinDimensions] = useState({ minWidth: 180, minHeight: 60 });
   const [ultimaseta, setUltimaseta] = React.useState("navigation"); // Estado elevado
   const { setCurrentEdge } = useModeler(); // Supondo que useModeler esteja disponível
+  const { t } = useTranslation();
 
 
   useEffect(() => {
@@ -60,7 +62,7 @@ function UserActionDiagram({ data, selected }) {
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
-      if(name.length === 0) setName('Ação do usuário')
+      if(name.length === 0) setName(t('Ação do Usuário'))
     }
   };
   
@@ -76,7 +78,7 @@ function UserActionDiagram({ data, selected }) {
           ref={textareaRef}
           id="text-input-user-action-diagram" 
           spellCheck="false" 
-          placeholder="Ação do Usuário" 
+          placeholder={t('Ação do Usuário')}
           onChange={onChange} 
           name="text" 
           className="nodrag" 
